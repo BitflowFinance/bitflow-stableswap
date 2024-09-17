@@ -7,12 +7,13 @@
 (define-constant ERR_ADMIN_NOT_IN_LIST (err u2003))
 (define-constant ERR_CANNOT_REMOVE_CONTRACT_DEPLOYER (err u2004))
 (define-constant ERR_STAKING_DISABLED (err u6001))
-(define-constant ERR_TOKEN_TRANSFER_FAILED (err u6002))
-(define-constant ERR_INVALID_CYCLE_LENGTH (err u6003))
-(define-constant ERR_CYCLES_STAKED_OVERFLOW (err u6004))
-(define-constant ERR_CYCLES_TO_UNSTAKE_OVERFLOW (err u6005))
-(define-constant ERR_NO_USER_DATA (err u6006))
-(define-constant ERR_NO_LP_TO_UNSTAKE (err u6007))
+(define-constant ERR_EARLY_UNSTAKE_DISABLED (err u6002))
+(define-constant ERR_TOKEN_TRANSFER_FAILED (err u6003))
+(define-constant ERR_INVALID_CYCLE_LENGTH (err u6004))
+(define-constant ERR_CYCLES_STAKED_OVERFLOW (err u6005))
+(define-constant ERR_CYCLES_TO_UNSTAKE_OVERFLOW (err u6006))
+(define-constant ERR_NO_USER_DATA (err u6007))
+(define-constant ERR_NO_LP_TO_UNSTAKE (err u6008))
 
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
@@ -27,6 +28,8 @@
 (define-constant DEPLOYMENT_HEIGHT burn-block-height)
 (define-constant CYCLE_LENGTH u144)
 
+(define-constant BPS u10000)
+
 (define-data-var admins (list 5 principal) (list tx-sender))
 (define-data-var admin-helper principal tx-sender)
 
@@ -34,6 +37,10 @@
 (define-data-var helper-list (list 12000 uint) (list ))
 
 (define-data-var staking-status bool true)
+(define-data-var early-unstake-status bool true)
+
+(define-data-var early-unstake-fee-address principal tx-sender)
+(define-data-var early-unstake-fee uint u50)
 
 (define-data-var total-lp-staked uint u0)
 
@@ -84,6 +91,18 @@
 
 (define-read-only (get-staking-status)
   (ok (var-get staking-status))
+)
+
+(define-read-only (get-early-unstake-status)
+  (ok (var-get early-unstake-status))
+)
+
+(define-read-only (get-early-unstake-fee-address)
+  (ok (var-get early-unstake-fee-address))
+)
+
+(define-read-only (get-early-unstake-fee)
+  (ok (var-get early-unstake-fee))
 )
 
 (define-read-only (get-total-lp-staked)
@@ -140,6 +159,45 @@
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
       (var-set staking-status status)
       (print {action: "set-staking-status", caller: caller, data: {status: status}})
+      (ok true)
+    )
+  )
+)
+
+(define-public (set-early-unstake-status (status bool))
+  (let (
+    (caller tx-sender)
+  )
+    (begin
+      (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (var-set early-unstake-status status)
+      (print {action: "set-early-unstake-status", caller: caller, data: {status: status}})
+      (ok true)
+    )
+  )
+)
+
+(define-public (set-early-unstake-fee-address (address principal))
+  (let (
+    (caller tx-sender)
+  )
+    (begin
+      (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (var-set early-unstake-fee-address address)
+      (print {action: "set-early-unstake-fee-address", caller: caller, data: {address: address}})
+      (ok true)
+    )
+  )
+)
+
+(define-public (set-early-unstake-fee (fee uint))
+  (let (
+    (caller tx-sender)
+  )
+    (begin
+      (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (var-set early-unstake-fee fee)
+      (print {action: "set-early-unstake-fee", caller: caller, data: {fee: fee}})
       (ok true)
     )
   )
@@ -247,6 +305,50 @@
   )
 )
 
+(define-public (early-unstake-lp-tokens)
+  (let (
+    (current-cycle (get-current-cycle))
+    (current-user-data (unwrap! (map-get? user-data tx-sender) ERR_NO_USER_DATA))
+    (user-cycles-staked (get cycles-staked current-user-data))
+    (unstake-data (fold fold-early-unstake-per-cycle user-cycles-staked {current-cycle: current-cycle, lp-to-unstake: u0, cycles-to-unstake: user-cycles-staked}))
+    (lp-to-unstake-total (get lp-staked current-user-data))
+    (lp-to-unstake-fees (/ (* lp-to-unstake-total (var-get early-unstake-fee)) BPS))
+    (lp-to-unstake-user (- lp-to-unstake-total lp-to-unstake-fees))
+    (updated-total-lp-staked (- (var-get total-lp-staked) lp-to-unstake-total))
+    (caller tx-sender)
+  )
+    (begin
+      (asserts! (is-eq (var-get early-unstake-status) true) ERR_EARLY_UNSTAKE_DISABLED)
+      (asserts! (> lp-to-unstake-total u0) ERR_NO_LP_TO_UNSTAKE)
+      (try! (as-contract (transfer-lp-token lp-to-unstake-user tx-sender caller)))
+      (if (> lp-to-unstake-fees u0)
+        (try! (as-contract (transfer-lp-token lp-to-unstake-fees tx-sender (var-get early-unstake-fee-address))))
+        false
+      )
+      (var-set total-lp-staked updated-total-lp-staked)
+      (map-set user-data caller (merge 
+        current-user-data
+        {cycles-to-unstake: (list ), lp-staked: u0}
+      ))
+      (map-delete user-data-at-cycle {user: caller, cycle: (+ (len user-cycles-staked) u1)})
+      (print {
+        action: "early-unstake-lp-tokens",
+        caller: caller,
+        data: {
+          current-cycle: current-cycle,
+          total-lp-staked: updated-total-lp-staked,
+          lp-to-unstake-total: lp-to-unstake-total,
+          lp-to-unstake-fees: lp-to-unstake-fees,
+          lp-to-unstake-user: lp-to-unstake-user,
+          cycles-to-unstake: user-cycles-staked,
+          user-lp-staked: u0
+        }
+      })
+      (ok lp-to-unstake-user)
+    )
+  )
+)
+
 (define-private (admin-not-removeable (admin principal))
   (not (is-eq admin (var-get admin-helper)))
 )
@@ -321,6 +423,30 @@
           {lp-to-unstake: u0}
         ))
         {lp-to-unstake: (+ user-lp-to-unstake lp-to-unstake-static), cycles-to-unstake: filtered-cycles-to-unstake}
+      )
+      static-data
+    )
+  )
+)
+
+(define-private (fold-early-unstake-per-cycle (cycle uint) (static-data {current-cycle: uint, lp-to-unstake: uint, cycles-to-unstake: (list 12000 uint)})) 
+  (let (
+    (current-cycle-static (get current-cycle static-data))
+    (lp-to-unstake-static (get lp-to-unstake static-data))
+    (cycles-to-unstake-static (get cycles-to-unstake static-data))
+    (user-cycle-data (default-to {lp-staked: u0, lp-to-unstake: u0} (map-get? user-data-at-cycle {user: tx-sender, cycle: cycle})))
+    (cycle-lp-data (map-get? lp-staked-at-cycle cycle))
+    (user-lp-staked (get lp-staked user-cycle-data))
+    (caller tx-sender)
+  )
+    (if (> user-lp-staked u0)
+      (begin
+        (map-delete user-data-at-cycle {user: caller, cycle: cycle})
+        (if (is-some cycle-lp-data)
+          (map-set lp-staked-at-cycle cycle (- (default-to u0 cycle-lp-data) user-lp-staked))
+          false
+        )
+        {current-cycle: current-cycle-static, lp-to-unstake: (+ user-lp-staked lp-to-unstake-static), cycles-to-unstake: cycles-to-unstake-static}
       )
       static-data
     )
