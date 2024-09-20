@@ -438,6 +438,7 @@
     (y-protocol-fee uint) (y-provider-fee uint)
     (liquidity-fee uint)
     (amplification-coefficient uint)
+    (convergence-threshold uint)
     (fee-address principal) (uri (string-utf8 256)) (status bool)
   )
   (let (
@@ -466,7 +467,7 @@
       (asserts! (is-eq x-balance-scaled y-balance-scaled) ERR_UNEQUAL_POOL_BALANCES)
       (asserts! (> total-shares MINIMUM_SHARES) ERR_MINIMUM_LP_AMOUNT)
       (asserts! (> (len uri) u0) ERR_INVALID_POOL_URI)
-      (try! (as-contract (contract-call? pool-trait create-pool x-token-contract y-token-contract fee-address amplification-coefficient new-pool-id name symbol uri status)))
+      (try! (as-contract (contract-call? pool-trait create-pool x-token-contract y-token-contract fee-address amplification-coefficient convergence-threshold new-pool-id name symbol uri status)))
       (try! (as-contract (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee)))
       (try! (as-contract (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee)))
       (try! (as-contract (contract-call? pool-trait set-liquidity-fee liquidity-fee)))
@@ -499,7 +500,8 @@
           pool-status: status,
           creation-height: burn-block-height,
           fee-address: fee-address,
-          amplification-coefficient: amplification-coefficient
+          amplification-coefficient: amplification-coefficient,
+          convergence-threshold: convergence-threshold
         }
       })
       (ok true)
