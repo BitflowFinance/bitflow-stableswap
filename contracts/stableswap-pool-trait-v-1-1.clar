@@ -4,16 +4,16 @@
 
 (define-trait stableswap-pool-trait
   (
-    (get-name () (response (string-ascii 256) uint))
-    (get-symbol () (response (string-ascii 256) uint))
+    (get-name () (response (string-ascii 32) uint))
+    (get-symbol () (response (string-ascii 32) uint))
     (get-decimals () (response uint uint))
     (get-token-uri () (response (optional (string-utf8 256)) uint))
     (get-total-supply () (response uint uint))
     (get-balance (principal) (response uint uint))
     (get-pool () (response {
       pool-id: uint,
-      pool-name: (string-ascii 256),
-      pool-symbol: (string-ascii 256),
+      pool-name: (string-ascii 32),
+      pool-symbol: (string-ascii 32),
       pool-uri: (string-utf8 256),
       pool-created: bool,
       creation-height: uint,
@@ -48,6 +48,6 @@
     (pool-transfer (<sip-010-trait> uint principal) (response bool uint))
     (pool-mint (uint principal) (response bool uint))
     (pool-burn (uint principal) (response bool uint))
-    (create-pool (principal principal principal uint uint uint (string-ascii 256) (string-ascii 256) (string-utf8 256) bool) (response bool uint))
+    (create-pool (principal principal principal uint uint uint (string-ascii 32) (string-ascii 32) (string-utf8 256) bool) (response bool uint))
   )
 )
