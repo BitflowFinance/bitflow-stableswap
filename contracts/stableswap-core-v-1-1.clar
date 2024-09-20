@@ -17,6 +17,7 @@
 (define-constant ERR_INVALID_POOL (err u3005))
 (define-constant ERR_INVALID_POOL_URI (err u3006))
 (define-constant ERR_INVALID_POOL_SYMBOL (err u3007))
+(define-constant ERR_INVALID_POOL_NAME (err u3008))
 (define-constant ERR_INVALID_TOKEN_SYMBOL (err u3009))
 (define-constant ERR_MATCHING_TOKEN_CONTRACTS (err u3010))
 (define-constant ERR_INVALID_X_TOKEN (err u3011))
@@ -47,8 +48,8 @@
 
 (define-map pools uint {
   id: uint,
-  name: (string-ascii 256),
-  symbol: (string-ascii 256),
+  name: (string-ascii 32),
+  symbol: (string-ascii 32),
   pool-contract: principal
 })
 
@@ -475,7 +476,7 @@
     (pool-contract (contract-of pool-trait))
     (new-pool-id (+ (var-get last-pool-id) u1))
     (symbol (unwrap! (create-symbol x-token-trait y-token-trait) ERR_INVALID_POOL_SYMBOL))
-    (name (concat symbol "-LP"))
+    (name (unwrap! (as-max-len? (concat symbol "-LP") u32) ERR_INVALID_POOL_NAME))
     (x-token-contract (contract-of x-token-trait))
     (y-token-contract (contract-of y-token-trait))
     (pool-balances-scaled (scale-up-amounts x-amount y-amount x-token-trait y-token-trait))
@@ -496,6 +497,8 @@
       (asserts! (is-eq x-balance-scaled y-balance-scaled) ERR_UNEQUAL_POOL_BALANCES)
       (asserts! (> total-shares MINIMUM_SHARES) ERR_MINIMUM_LP_AMOUNT)
       (asserts! (> (len uri) u0) ERR_INVALID_POOL_URI)
+      (asserts! (> (len symbol) u0) ERR_INVALID_POOL_SYMBOL)
+      (asserts! (> (len name) u0) ERR_INVALID_POOL_NAME)
       (asserts! (<= (+ x-protocol-fee x-provider-fee) BPS_1) ERR_INVALID_FEE)
       (asserts! (<= (+ y-protocol-fee y-provider-fee) BPS_1) ERR_INVALID_FEE)
       (asserts! (<= liquidity-fee BPS_1) ERR_INVALID_FEE)
@@ -949,10 +952,10 @@
 
 (define-private (create-symbol (x-token-trait <sip-010-trait>) (y-token-trait <sip-010-trait>))
   (let (
-    (x-symbol (unwrap! (contract-call? x-token-trait get-symbol) ERR_INVALID_TOKEN_SYMBOL))
-    (y-symbol (unwrap! (contract-call? y-token-trait get-symbol) ERR_INVALID_TOKEN_SYMBOL))
+    (x-symbol (unwrap-panic (contract-call? x-token-trait get-symbol)))
+    (y-symbol (unwrap-panic (contract-call? y-token-trait get-symbol)))
   )
-    (ok (concat x-symbol (concat "-" y-symbol)))
+    (as-max-len? (concat x-symbol (concat "-" y-symbol)) u32)
   )
 )
 
