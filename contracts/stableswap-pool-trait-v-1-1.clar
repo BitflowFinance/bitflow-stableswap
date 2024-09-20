@@ -48,6 +48,6 @@
     (pool-transfer (<sip-010-trait> uint principal) (response bool uint))
     (pool-mint (uint principal) (response bool uint))
     (pool-burn (uint principal) (response bool uint))
-    (create-pool (principal principal principal uint uint (string-ascii 256) (string-ascii 256) (string-utf8 256) bool) (response bool uint))
+    (create-pool (principal principal principal uint uint uint (string-ascii 256) (string-ascii 256) (string-utf8 256) bool) (response bool uint))
   )
 )
