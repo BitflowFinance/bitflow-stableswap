@@ -15,8 +15,6 @@
 
 (define-constant CORE_ADDRESS .stableswap-core-v-1-1)
 
-(define-constant BPS u10000)
-
 (define-data-var pool-id uint u0)
 (define-data-var pool-name (string-ascii 32) "")
 (define-data-var pool-symbol (string-ascii 32) "")
