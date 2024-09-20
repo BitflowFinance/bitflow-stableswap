@@ -847,7 +847,7 @@
     (asserts! (is-some admin-to-remove-in-list) ERR_ADMIN_NOT_IN_LIST)
     (asserts! (not (is-eq admin CONTRACT_DEPLOYER)) ERR_CANNOT_REMOVE_CONTRACT_DEPLOYER)
     (var-set admin-helper admin)
-    (var-set admins (filter admin-not-removeable admins-list))
+    (var-set admins (filter admin-not-removable admins-list))
     (print {action: "remove-admin", caller: caller, data: {admin: admin}})
     (ok true)
   )
@@ -902,7 +902,7 @@
   (ok (map set-convergence-threshold pool-traits thresholds))
 )
 
-(define-private (admin-not-removeable (admin principal))
+(define-private (admin-not-removable (admin principal))
   (not (is-eq admin (var-get admin-helper)))
 )
 
