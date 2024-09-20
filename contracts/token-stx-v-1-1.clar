@@ -2,6 +2,8 @@
 
 (impl-trait .sip-010-trait-ft-standard-v-1-1.sip-010-trait)
 
+(define-constant ERR_NOT_AUTHORIZED_SIP_010 (err u4))
+(define-constant ERR_INVALID_PRINCIPAL_SIP_010 (err u5))
 (define-constant ERR_NOT_AUTHORIZED (err u1001))
 (define-constant ERR_INVALID_AMOUNT (err u1002))
 (define-constant ERR_INVALID_PRINCIPAL (err u1003))
@@ -76,10 +78,9 @@
     (caller tx-sender)
   )
     (begin
-      (asserts! (is-eq caller sender) ERR_NOT_AUTHORIZED)
-      (asserts! (is-standard sender) ERR_INVALID_PRINCIPAL)
-      (asserts! (is-standard recipient) ERR_INVALID_PRINCIPAL)
-      (asserts! (> amount u0) ERR_INVALID_AMOUNT)
+      (asserts! (is-eq caller sender) ERR_NOT_AUTHORIZED_SIP_010)
+      (asserts! (is-standard sender) ERR_INVALID_PRINCIPAL_SIP_010)
+      (asserts! (is-standard recipient) ERR_INVALID_PRINCIPAL_SIP_010)
       (try! (stx-transfer? amount sender recipient))
       (match memo to-print (print to-print) 0x)
       (print {
