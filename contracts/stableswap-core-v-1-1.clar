@@ -379,6 +379,31 @@
   )
 )
 
+(define-public (set-liquidity-fee (pool-trait <stableswap-pool-trait>) (fee uint))
+  (let (
+    (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (caller tx-sender)
+  )
+    (begin
+      (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
+      (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
+      (try! (as-contract (contract-call? pool-trait set-liquidity-fee fee)))
+      (print {
+        action: "set-liquidity-fee",
+        caller: caller,
+        data: {
+          pool-id: (get pool-id pool-data),
+          pool-name: (get pool-name pool-data),
+          pool-contract: (contract-of pool-trait),
+          fee: fee
+        }
+      })
+      (ok true)
+    )
+  )
+)
+
 (define-public (set-amplification-coefficient (pool-trait <stableswap-pool-trait>) (coefficient uint))
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
@@ -888,6 +913,13 @@
     (protocol-fees (list 120 uint)) (provider-fees (list 120 uint))
   )
   (ok (map set-y-fees pool-traits protocol-fees provider-fees))
+)
+
+(define-public (set-liquidity-fee-multi
+    (pool-traits (list 120 <stableswap-pool-trait>))
+    (fees (list 120 uint))
+  )
+  (ok (map set-liquidity-fee pool-traits fees))
 )
 
 (define-public (set-amplification-coefficient-multi
