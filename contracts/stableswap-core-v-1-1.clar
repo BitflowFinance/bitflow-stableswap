@@ -26,6 +26,7 @@
 (define-constant ERR_MINIMUM_LP_AMOUNT (err u3015))
 (define-constant ERR_UNEQUAL_POOL_BALANCES (err u3016))
 (define-constant ERR_MINIMUM_D_VALUE (err u3017))
+(define-constant ERR_INVALID_FEE (err u3018))
 
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
@@ -336,6 +337,7 @@
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
+      (asserts! (<= (+ protocol-fee provider-fee) BPS_1) ERR_INVALID_FEE)
       (try! (as-contract (contract-call? pool-trait set-x-fees protocol-fee provider-fee)))
       (print {
         action: "set-x-fees",
@@ -362,6 +364,7 @@
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
+      (asserts! (<= (+ protocol-fee provider-fee) BPS_1) ERR_INVALID_FEE)
       (try! (as-contract (contract-call? pool-trait set-y-fees protocol-fee provider-fee)))
       (print {
         action: "set-y-fees",
@@ -388,6 +391,7 @@
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
+      (asserts! (<= fee BPS_1) ERR_INVALID_FEE)
       (try! (as-contract (contract-call? pool-trait set-liquidity-fee fee)))
       (print {
         action: "set-liquidity-fee",
@@ -492,6 +496,9 @@
       (asserts! (is-eq x-balance-scaled y-balance-scaled) ERR_UNEQUAL_POOL_BALANCES)
       (asserts! (> total-shares MINIMUM_SHARES) ERR_MINIMUM_LP_AMOUNT)
       (asserts! (> (len uri) u0) ERR_INVALID_POOL_URI)
+      (asserts! (<= (+ x-protocol-fee x-provider-fee) BPS_1) ERR_INVALID_FEE)
+      (asserts! (<= (+ y-protocol-fee y-provider-fee) BPS_1) ERR_INVALID_FEE)
+      (asserts! (<= liquidity-fee BPS_1) ERR_INVALID_FEE)
       (try! (as-contract (contract-call? pool-trait create-pool x-token-contract y-token-contract fee-address amplification-coefficient convergence-threshold new-pool-id name symbol uri status)))
       (try! (as-contract (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee)))
       (try! (as-contract (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee)))
