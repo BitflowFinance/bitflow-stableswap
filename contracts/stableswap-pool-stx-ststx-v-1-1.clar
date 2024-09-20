@@ -1,7 +1,6 @@
 ;; stableswap-pool-stx-ststx-v-1-1
 
 (impl-trait .stableswap-pool-trait-v-1-1.stableswap-pool-trait)
-(impl-trait .sip-010-trait-ft-standard-v-1-1.sip-010-trait)
 (use-trait sip-010-trait .sip-010-trait-ft-standard-v-1-1.sip-010-trait)
 
 (define-fungible-token pool-token)
