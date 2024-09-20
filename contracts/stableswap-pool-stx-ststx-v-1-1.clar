@@ -1,10 +1,13 @@
 ;; stableswap-pool-stx-ststx-v-1-1
 
 (impl-trait .stableswap-pool-trait-v-1-1.stableswap-pool-trait)
+(impl-trait .sip-010-trait-ft-standard-v-1-1.sip-010-trait)
 (use-trait sip-010-trait .sip-010-trait-ft-standard-v-1-1.sip-010-trait)
 
 (define-fungible-token pool-token)
 
+(define-constant ERR_NOT_AUTHORIZED_SIP_010 (err u4))
+(define-constant ERR_INVALID_PRINCIPAL_SIP_010 (err u5))
 (define-constant ERR_NOT_AUTHORIZED (err u1001))
 (define-constant ERR_INVALID_AMOUNT (err u1002))
 (define-constant ERR_INVALID_PRINCIPAL (err u1003))
@@ -16,8 +19,8 @@
 (define-constant BPS u10000)
 
 (define-data-var pool-id uint u0)
-(define-data-var pool-name (string-ascii 256) "")
-(define-data-var pool-symbol (string-ascii 256) "")
+(define-data-var pool-name (string-ascii 32) "")
+(define-data-var pool-symbol (string-ascii 32) "")
 (define-data-var pool-uri (string-utf8 256) u"")
 
 (define-data-var pool-created bool false)
@@ -220,10 +223,9 @@
     (caller tx-sender)
   )
     (begin
-      (asserts! (is-eq caller sender) ERR_NOT_AUTHORIZED)
-      (asserts! (is-standard sender) ERR_INVALID_PRINCIPAL)
-      (asserts! (is-standard recipient) ERR_INVALID_PRINCIPAL)
-      (asserts! (> amount u0) ERR_INVALID_AMOUNT)
+      (asserts! (is-eq caller sender) ERR_NOT_AUTHORIZED_SIP_010)
+      (asserts! (is-standard sender) ERR_INVALID_PRINCIPAL_SIP_010)
+      (asserts! (is-standard recipient) ERR_INVALID_PRINCIPAL_SIP_010)
       (try! (ft-transfer? pool-token amount sender recipient))
       (match memo to-print (print to-print) 0x)
       (print {
@@ -294,7 +296,7 @@
     (coefficient uint)
     (threshold uint)
     (id uint)
-    (name (string-ascii 256)) (symbol (string-ascii 256))
+    (name (string-ascii 32)) (symbol (string-ascii 32))
     (uri (string-utf8 256))
     (status bool)
   )
