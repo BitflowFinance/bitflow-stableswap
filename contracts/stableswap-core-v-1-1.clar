@@ -79,6 +79,7 @@
   )
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (x-token (get x-token pool-data))
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
@@ -100,7 +101,6 @@
     (updated-y-balance (get y-amount (scale-down-amounts u0 updated-y-balance-scaled x-token-trait y-token-trait)))
     (dy (- y-balance updated-y-balance))
   )
-    (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
     (asserts! (is-eq (get pool-status pool-data) true) ERR_POOL_DISABLED)
     (asserts! (is-eq (contract-of x-token-trait) x-token) ERR_INVALID_X_TOKEN)
     (asserts! (is-eq (contract-of y-token-trait) y-token) ERR_INVALID_Y_TOKEN)
@@ -116,6 +116,7 @@
   )
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (x-token (get x-token pool-data))
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
@@ -137,7 +138,6 @@
     (updated-x-balance (get x-amount (scale-down-amounts updated-x-balance-scaled u0 x-token-trait y-token-trait)))
     (dx (- x-balance updated-x-balance))
   )
-    (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
     (asserts! (is-eq (get pool-status pool-data) true) ERR_POOL_DISABLED)
     (asserts! (is-eq (contract-of x-token-trait) x-token) ERR_INVALID_X_TOKEN)
     (asserts! (is-eq (contract-of y-token-trait) y-token) ERR_INVALID_Y_TOKEN)
@@ -153,6 +153,7 @@
   )
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (x-token (get x-token pool-data))
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
@@ -198,7 +199,6 @@
     (updated-y-balance-post-fee (get y-amount updated-pool-balances-post-fee))
     (dlp (/ (* total-shares (- updated-d d-a)) d-a))
   )
-    (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
     (asserts! (is-eq (get pool-status pool-data) true) ERR_POOL_DISABLED)
     (asserts! (is-eq (contract-of x-token-trait) x-token) ERR_INVALID_X_TOKEN)
     (asserts! (is-eq (contract-of y-token-trait) y-token) ERR_INVALID_Y_TOKEN)
@@ -254,11 +254,11 @@
 (define-public (set-pool-uri (pool-trait <stableswap-pool-trait>) (uri (string-utf8 256)))
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (caller tx-sender)
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       (asserts! (> (len uri) u0) ERR_INVALID_POOL_URI)
       (try! (as-contract (contract-call? pool-trait set-pool-uri uri)))
@@ -280,11 +280,11 @@
 (define-public (set-pool-status (pool-trait <stableswap-pool-trait>) (status bool))
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (caller tx-sender)
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       (try! (as-contract (contract-call? pool-trait set-pool-status status)))
       (print {
@@ -305,11 +305,11 @@
 (define-public (set-fee-address (pool-trait <stableswap-pool-trait>) (address principal))
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (caller tx-sender)
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       (asserts! (is-standard address) ERR_INVALID_PRINCIPAL)
       (try! (as-contract (contract-call? pool-trait set-fee-address address)))
@@ -331,11 +331,11 @@
 (define-public (set-x-fees (pool-trait <stableswap-pool-trait>) (protocol-fee uint) (provider-fee uint))
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (caller tx-sender)
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       (asserts! (<= (+ protocol-fee provider-fee) MATH_NUM_10000) ERR_INVALID_FEE)
       (try! (as-contract (contract-call? pool-trait set-x-fees protocol-fee provider-fee)))
@@ -358,11 +358,11 @@
 (define-public (set-y-fees (pool-trait <stableswap-pool-trait>) (protocol-fee uint) (provider-fee uint))
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (caller tx-sender)
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       (asserts! (<= (+ protocol-fee provider-fee) MATH_NUM_10000) ERR_INVALID_FEE)
       (try! (as-contract (contract-call? pool-trait set-y-fees protocol-fee provider-fee)))
@@ -385,11 +385,11 @@
 (define-public (set-liquidity-fee (pool-trait <stableswap-pool-trait>) (fee uint))
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (caller tx-sender)
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       (asserts! (<= fee MATH_NUM_10000) ERR_INVALID_FEE)
       (try! (as-contract (contract-call? pool-trait set-liquidity-fee fee)))
@@ -411,11 +411,11 @@
 (define-public (set-amplification-coefficient (pool-trait <stableswap-pool-trait>) (coefficient uint))
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (caller tx-sender)
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       (try! (as-contract (contract-call? pool-trait set-amplification-coefficient coefficient)))
       (print {
@@ -436,11 +436,11 @@
 (define-public (set-convergence-threshold (pool-trait <stableswap-pool-trait>) (threshold uint))
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (caller tx-sender)
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       (try! (as-contract (contract-call? pool-trait set-convergence-threshold threshold)))
       (print {
@@ -550,6 +550,7 @@
   )
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (pool-contract (contract-of pool-trait))
     (fee-address (get fee-address pool-data))
     (x-token (get x-token pool-data))
@@ -582,7 +583,6 @@
     (caller tx-sender)
   )
     (begin
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-status pool-data) true) ERR_POOL_DISABLED)
       (asserts! (is-eq (contract-of x-token-trait) x-token) ERR_INVALID_X_TOKEN)
       (asserts! (is-eq (contract-of y-token-trait) y-token) ERR_INVALID_Y_TOKEN)
@@ -624,6 +624,7 @@
   )
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (pool-contract (contract-of pool-trait))
     (fee-address (get fee-address pool-data))
     (x-token (get x-token pool-data))
@@ -656,7 +657,6 @@
     (caller tx-sender)
   )
     (begin
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-status pool-data) true) ERR_POOL_DISABLED)
       (asserts! (is-eq (contract-of x-token-trait) x-token) ERR_INVALID_X_TOKEN)
       (asserts! (is-eq (contract-of y-token-trait) y-token) ERR_INVALID_Y_TOKEN)
@@ -699,6 +699,7 @@
   )
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (pool-contract (contract-of pool-trait))
     (fee-address (get fee-address pool-data))
     (x-token (get x-token pool-data))
@@ -748,7 +749,6 @@
     (caller tx-sender)
   )
     (begin
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-status pool-data) true) ERR_POOL_DISABLED)
       (asserts! (is-eq (contract-of x-token-trait) x-token) ERR_INVALID_X_TOKEN)
       (asserts! (is-eq (contract-of y-token-trait) y-token) ERR_INVALID_Y_TOKEN)
@@ -803,6 +803,7 @@
   )
   (let (
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
     (x-token (get x-token pool-data))
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
@@ -821,7 +822,6 @@
     (caller tx-sender)
   )
     (begin
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (contract-of x-token-trait) x-token) ERR_INVALID_X_TOKEN)
       (asserts! (is-eq (contract-of y-token-trait) y-token) ERR_INVALID_Y_TOKEN)
       (asserts! (> amount u0) ERR_INVALID_AMOUNT)
