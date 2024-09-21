@@ -18,7 +18,6 @@
 (define-constant ERR_INVALID_POOL_URI (err u3006))
 (define-constant ERR_INVALID_POOL_SYMBOL (err u3007))
 (define-constant ERR_INVALID_POOL_NAME (err u3008))
-(define-constant ERR_INVALID_TOKEN_SYMBOL (err u3009))
 (define-constant ERR_MATCHING_TOKEN_CONTRACTS (err u3010))
 (define-constant ERR_INVALID_X_TOKEN (err u3011))
 (define-constant ERR_INVALID_Y_TOKEN (err u3012))
@@ -476,7 +475,7 @@
     (pool-contract (contract-of pool-trait))
     (new-pool-id (+ (var-get last-pool-id) u1))
     (symbol (unwrap! (create-symbol x-token-trait y-token-trait) ERR_INVALID_POOL_SYMBOL))
-    (name (unwrap! (as-max-len? (concat symbol "-LP") u32) ERR_INVALID_POOL_NAME))
+    (name (concat symbol "-LP"))
     (x-token-contract (contract-of x-token-trait))
     (y-token-contract (contract-of y-token-trait))
     (pool-balances-scaled (scale-up-amounts x-amount y-amount x-token-trait y-token-trait))
@@ -952,8 +951,20 @@
   (let (
     (x-symbol (unwrap-panic (contract-call? x-token-trait get-symbol)))
     (y-symbol (unwrap-panic (contract-call? y-token-trait get-symbol)))
+    (x-truncated 
+      (if (> (len x-symbol) u14)
+        (unwrap-panic (slice? x-symbol u0 u14))
+        x-symbol
+      )
+    )
+    (y-truncated
+      (if (> (len y-symbol) u14)
+        (unwrap-panic (slice? y-symbol u0 u14))
+        y-symbol
+      )
+    )
   )
-    (as-max-len? (concat x-symbol (concat "-" y-symbol)) u32)
+    (as-max-len? (concat x-truncated (concat "-" y-truncated)) u29)
   )
 )
 
