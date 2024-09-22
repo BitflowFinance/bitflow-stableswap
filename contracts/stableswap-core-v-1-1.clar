@@ -247,6 +247,7 @@
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (> amount u0) ERR_INVALID_AMOUNT)
       (var-set minimum-total-shares amount)
       (print {action: "set-minimum-total-shares", caller: caller, data: {amount: amount}})
       (ok true)
@@ -830,7 +831,7 @@
   )
 )
 
-(define-public (remove-liquidity
+(define-public (withdraw-liquidity
     (pool-trait <stableswap-pool-trait>)
     (x-token-trait <sip-010-trait>) (y-token-trait <sip-010-trait>)
     (amount uint) (min-x-amount uint) (min-y-amount uint)
@@ -873,7 +874,7 @@
       (try! (as-contract (contract-call? pool-trait update-pool-balances updated-x-balance updated-y-balance updated-d)))
       (try! (as-contract (contract-call? pool-trait pool-burn amount caller)))
       (print {
-        action: "remove-liquidity",
+        action: "withdraw-liquidity",
         caller: caller,
         data: {
           pool-id: (get pool-id pool-data),
