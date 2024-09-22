@@ -67,12 +67,21 @@
   (ok (var-get last-pool-id))
 )
 
-(define-read-only (get-public-pool-creation)
-  (ok (var-get public-pool-creation))
-)
 
 (define-read-only (get-pool-by-id (id uint))
   (ok (map-get? pools id))
+)
+
+(define-read-only (get-minimum-total-shares)
+  (ok (var-get minimum-total-shares))
+)
+
+(define-read-only (get-minimum-burnt-shares)
+  (ok (var-get minimum-burnt-shares))
+)
+
+(define-read-only (get-public-pool-creation)
+  (ok (var-get public-pool-creation))
 )
 
 (define-public (get-dy
