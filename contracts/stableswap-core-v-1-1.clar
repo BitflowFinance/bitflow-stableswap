@@ -796,7 +796,7 @@
   )
 )
 
-(define-public (withdraw-liquidity
+(define-public (remove-liquidity
     (pool-trait <stableswap-pool-trait>)
     (x-token-trait <sip-010-trait>) (y-token-trait <sip-010-trait>)
     (amount uint) (min-x-amount uint) (min-y-amount uint)
@@ -839,7 +839,7 @@
       (try! (as-contract (contract-call? pool-trait update-pool-balances updated-x-balance updated-y-balance updated-d)))
       (try! (as-contract (contract-call? pool-trait pool-burn amount caller)))
       (print {
-        action: "withdraw-liquidity",
+        action: "remove-liquidity",
         caller: caller,
         data: {
           pool-id: (get pool-id pool-data),
