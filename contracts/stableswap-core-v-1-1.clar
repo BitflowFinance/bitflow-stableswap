@@ -799,7 +799,7 @@
       (asserts! (is-eq (get pool-status pool-data) true) ERR_POOL_DISABLED)
       (asserts! (is-eq (contract-of x-token-trait) x-token) ERR_INVALID_X_TOKEN)
       (asserts! (is-eq (contract-of y-token-trait) y-token) ERR_INVALID_Y_TOKEN)
-      (asserts! (or (> updated-x-amount u0) (> updated-y-amount u0)) ERR_INVALID_AMOUNT)
+      (asserts! (> (+ x-amount y-amount) u0) ERR_INVALID_AMOUNT)
       (asserts! (> min-dlp u0) ERR_INVALID_AMOUNT)
       (asserts! (>= dlp min-dlp) ERR_MINIMUM_LP_AMOUNT)
       (if (> updated-x-amount u0)
