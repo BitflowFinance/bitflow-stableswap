@@ -545,7 +545,7 @@
       (asserts! (<= (+ x-protocol-fee x-provider-fee) BPS) ERR_INVALID_FEE)
       (asserts! (<= (+ y-protocol-fee y-provider-fee) BPS) ERR_INVALID_FEE)
       (asserts! (<= liquidity-fee BPS) ERR_INVALID_FEE)
-      (try! (as-contract (contract-call? pool-trait create-pool x-token-contract y-token-contract fee-address amplification-coefficient convergence-threshold new-pool-id name symbol uri status)))
+      (try! (as-contract (contract-call? pool-trait create-pool x-token-contract y-token-contract fee-address contract-caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status)))
       (try! (as-contract (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee)))
       (try! (as-contract (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee)))
       (try! (as-contract (contract-call? pool-trait set-liquidity-fee liquidity-fee)))
