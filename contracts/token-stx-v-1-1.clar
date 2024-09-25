@@ -14,86 +14,86 @@
 (define-data-var contract-owner principal tx-sender)
 
 (define-read-only (get-name)
-  (ok "Stacks")
+	(ok "Stacks")
 )
 
 (define-read-only (get-symbol)
-  (ok "STX")
+	(ok "STX")
 )
 
 (define-read-only (get-decimals)
-  (ok u6)
+	(ok u6)
 )
 
 (define-read-only (get-total-supply)
-  (ok stx-liquid-supply)
+	(ok stx-liquid-supply)
 )
 
 (define-read-only (get-balance (address principal))
-  (ok (stx-get-balance address))
+	(ok (stx-get-balance address))
 )
 
 (define-read-only (get-token-uri)
-  (ok (some (var-get token-uri)))
+	(ok (some (var-get token-uri)))
 )
 
 (define-read-only (get-contract-owner)
-  (ok (var-get contract-owner))
+	(ok (var-get contract-owner))
 )
 
 (define-public (set-token-uri (uri (string-utf8 256)))
-  (let (
-    (caller tx-sender)
-  )
-    (begin
-      (asserts! (is-eq caller (var-get contract-owner)) ERR_NOT_AUTHORIZED)
-      (asserts! (> (len uri) u0) ERR_INVALID_TOKEN_URI)
-      (var-set token-uri uri)
-      (print {action: "set-token-uri", caller: caller, data: {uri: uri}})
-      (ok true)
-    )
-  )
+	(let (
+		(caller tx-sender)
+	)
+		(begin
+			(asserts! (is-eq caller (var-get contract-owner)) ERR_NOT_AUTHORIZED)
+			(asserts! (> (len uri) u0) ERR_INVALID_TOKEN_URI)
+			(var-set token-uri uri)
+			(print {action: "set-token-uri", caller: caller, data: {uri: uri}})
+			(ok true)
+		)
+	)
 )
 
 (define-public (set-contract-owner (address principal))
-  (let (
-    (caller tx-sender)
-  )
-    (begin
-      (asserts! (is-eq caller (var-get contract-owner)) ERR_NOT_AUTHORIZED)
-      (asserts! (is-standard address) ERR_INVALID_PRINCIPAL)
-      (var-set contract-owner address)
-      (print {action: "set-contract-owner", caller: caller, data: {address: address}})
-      (ok true)
-    )
-  )
+	(let (
+		(caller tx-sender)
+	)
+		(begin
+			(asserts! (is-eq caller (var-get contract-owner)) ERR_NOT_AUTHORIZED)
+			(asserts! (is-standard address) ERR_INVALID_PRINCIPAL)
+			(var-set contract-owner address)
+			(print {action: "set-contract-owner", caller: caller, data: {address: address}})
+			(ok true)
+		)
+	)
 )
 
 (define-public (transfer 
-    (amount uint)
-    (sender principal) (recipient principal)
-    (memo (optional (buff 34)))
-  )
-  (let (
-    (caller tx-sender)
-  )
-    (begin
-      (asserts! (is-eq caller sender) ERR_NOT_AUTHORIZED_SIP_010)
-      (asserts! (is-standard sender) ERR_INVALID_PRINCIPAL_SIP_010)
-      (asserts! (is-standard recipient) ERR_INVALID_PRINCIPAL_SIP_010)
-      (try! (stx-transfer? amount sender recipient))
-      (match memo to-print (print to-print) 0x)
-      (print {
-        action: "transfer",
-        caller: caller,
-        data: {
-          sender: sender,
-          recipient: recipient,
-          amount: amount,
-          memo: memo
-        }
-      })
-      (ok true)
-    )
-  )
+		(amount uint)
+		(sender principal) (recipient principal)
+		(memo (optional (buff 34)))
+	)
+	(let (
+		(caller tx-sender)
+	)
+		(begin
+			(asserts! (is-eq caller sender) ERR_NOT_AUTHORIZED_SIP_010)
+			(asserts! (is-standard sender) ERR_INVALID_PRINCIPAL_SIP_010)
+			(asserts! (is-standard recipient) ERR_INVALID_PRINCIPAL_SIP_010)
+			(try! (stx-transfer? amount sender recipient))
+			(match memo to-print (print to-print) 0x)
+			(print {
+				action: "transfer",
+				caller: caller,
+				data: {
+					sender: sender,
+					recipient: recipient,
+					amount: amount,
+					memo: memo
+				}
+			})
+			(ok true)
+		)
+	)
 )
