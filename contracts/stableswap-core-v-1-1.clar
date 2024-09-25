@@ -221,13 +221,13 @@
 
 (define-read-only (get-x (y-amount uint) (y-bal uint) (x-bal uint) (amp uint) (threshold uint))
   (let (
-    (amp-scaled (* amp NUM_OF_TOKENS))
+    (an (* amp NUM_OF_TOKENS))
     (updated-y-balance (+ y-bal y-amount))
-    (current-d (get-d x-bal y-bal amp-scaled threshold))
+    (current-d (get-d x-bal y-bal amp threshold))
     (c-a current-d)
     (c-b (/ (* c-a current-d) (* NUM_OF_TOKENS updated-y-balance)))
-    (c-c (/ (* c-b current-d) (* amp-scaled NUM_OF_TOKENS)))
-    (b (+ updated-y-balance (/ current-d amp-scaled)))
+    (c-c (/ (* c-b current-d) (* an NUM_OF_TOKENS)))
+    (b (+ updated-y-balance (/ current-d an)))
   )
     (get converged (fold fold-x-for-loop index-list {x: current-d, c: c-c, b: b, d: current-d, threshold: threshold, converged: u0}))
   )
@@ -235,20 +235,20 @@
 
 (define-read-only (get-y (x-amount uint) (x-bal uint) (y-bal uint) (amp uint) (threshold uint))
   (let (
-    (amp-scaled (* amp NUM_OF_TOKENS))
+    (an (* amp NUM_OF_TOKENS))
     (updated-x-balance (+ x-bal x-amount))
-    (current-d (get-d x-bal y-bal amp-scaled threshold))
+    (current-d (get-d x-bal y-bal amp threshold))
     (c-a current-d)
     (c-b (/ (* c-a current-d) (* NUM_OF_TOKENS updated-x-balance)))
-    (c-c (/ (* c-b current-d) (* amp-scaled NUM_OF_TOKENS)))
-    (b (+ updated-x-balance (/ current-d amp-scaled)))
+    (c-c (/ (* c-b current-d) (* an NUM_OF_TOKENS)))
+    (b (+ updated-x-balance (/ current-d an)))
   )
     (get converged (fold fold-y-for-loop index-list {y: current-d, c: c-c, b: b, d: current-d, threshold: threshold, converged: u0}))
   )
 )
 
 (define-read-only (get-d (x-bal uint) (y-bal uint) (amp uint) (threshold uint))
-  (get converged (fold fold-d-for-loop index-list {x-bal: x-bal, y-bal: y-bal, d: (+ x-bal y-bal), amp: (* amp NUM_OF_TOKENS), threshold: threshold, converged: u0}))
+  (get converged (fold fold-d-for-loop index-list {x-bal: x-bal, y-bal: y-bal, d: (+ x-bal y-bal), an: (* amp NUM_OF_TOKENS), threshold: threshold, converged: u0}))
 )
 
 (define-public (set-minimum-total-shares (amount uint))
@@ -1077,31 +1077,31 @@
   )
 )
 
-(define-private (fold-d-for-loop (n uint) (static-data {x-bal: uint, y-bal: uint, d: uint, amp: uint, threshold: uint, converged: uint})) 
+(define-private (fold-d-for-loop (n uint) (static-data {x-bal: uint, y-bal: uint, d: uint, an: uint, threshold: uint, converged: uint})) 
   (let (
     (current-x-balance (get x-bal static-data))
     (current-y-balance (get y-bal static-data))
     (current-s (+ current-x-balance current-y-balance))
     (current-d-partial (get d static-data))
     (current-d (get d static-data))
-    (current-amp (get amp static-data))
+    (current-an (get an static-data))
     (current-threshold (get threshold static-data))
     (current-converged (get converged static-data))
     (new-d-partial-x (/ (* current-d current-d-partial) (* NUM_OF_TOKENS current-x-balance)))
     (new-d-partial (/ (* current-d new-d-partial-x) (* NUM_OF_TOKENS current-y-balance)))
-    (new-numerator (* (+ (* current-amp current-s) (* NUM_OF_TOKENS new-d-partial)) current-d))
-    (new-denominator (+ (* (- current-amp u1) current-d) (* (+ NUM_OF_TOKENS u1) new-d-partial)))
+    (new-numerator (* (+ (* current-an current-s) (* NUM_OF_TOKENS new-d-partial)) current-d))
+    (new-denominator (+ (* (- current-an u1) current-d) (* (+ NUM_OF_TOKENS u1) new-d-partial)))
     (new-d (/ new-numerator new-denominator))         
   )
     (if (is-eq current-converged u0)
       (if (> new-d current-d)
         (if (<= (- new-d current-d) current-threshold)
-          {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, amp: current-amp, threshold: current-threshold, converged: new-d}
-          {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, amp: current-amp, threshold: current-threshold, converged: u0}
+          {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: new-d}
+          {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: u0}
         )
         (if (<= (- current-d new-d) current-threshold)
-          {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, amp: current-amp, threshold: current-threshold, converged: new-d}
-          {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, amp: current-amp, threshold: current-threshold, converged: u0}
+          {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: new-d}
+          {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: u0}
         )
       )
       static-data
