@@ -102,7 +102,7 @@
 
 (define-public (set-pool-uri (uri (string-utf8 256)))
   (let (
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
@@ -114,7 +114,7 @@
 
 (define-public (set-pool-status (status bool))
   (let (
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
@@ -126,7 +126,7 @@
 
 (define-public (set-fee-address (address principal))
   (let (
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
@@ -138,7 +138,7 @@
 
 (define-public (set-x-fees (protocol-fee uint) (provider-fee uint))
   (let (
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
@@ -151,7 +151,7 @@
 
 (define-public (set-y-fees (protocol-fee uint) (provider-fee uint))
   (let (
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
@@ -164,7 +164,7 @@
 
 (define-public (set-liquidity-fee (fee uint))
   (let (
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
@@ -176,7 +176,7 @@
 
 (define-public (set-amplification-coefficient (coefficient uint))
   (let (
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
@@ -188,7 +188,7 @@
 
 (define-public (set-convergence-threshold (threshold uint))
   (let (
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
@@ -200,7 +200,7 @@
 
 (define-public (update-pool-balances (x-bal uint) (y-bal uint) (d-val uint))
   (let (
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
@@ -245,7 +245,7 @@
 (define-public (pool-transfer (token-trait <sip-010-trait>) (amount uint) (recipient principal))
   (let (
     (token-contract (contract-of token-trait))
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
@@ -261,7 +261,7 @@
 
 (define-public (pool-mint (amount uint) (address principal))
   (let (
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
@@ -276,7 +276,7 @@
 
 (define-public (pool-burn (amount uint) (address principal))
   (let (
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
@@ -300,7 +300,7 @@
     (status bool)
   )
   (let (
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
