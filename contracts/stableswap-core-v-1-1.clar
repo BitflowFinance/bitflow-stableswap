@@ -301,7 +301,7 @@
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       (asserts! (> (len uri) u0) ERR_INVALID_POOL_URI)
-      (try! (as-contract (contract-call? pool-trait set-pool-uri uri)))
+      (try! (contract-call? pool-trait set-pool-uri uri))
       (print {
         action: "set-pool-uri",
         caller: caller,
@@ -326,7 +326,7 @@
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
-      (try! (as-contract (contract-call? pool-trait set-pool-status status)))
+      (try! (contract-call? pool-trait set-pool-status status))
       (print {
         action: "set-pool-status",
         caller: caller,
@@ -352,7 +352,7 @@
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       (asserts! (is-standard address) ERR_INVALID_PRINCIPAL)
-      (try! (as-contract (contract-call? pool-trait set-fee-address address)))
+      (try! (contract-call? pool-trait set-fee-address address))
       (print {
         action: "set-fee-address",
         caller: caller,
@@ -378,7 +378,7 @@
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       (asserts! (<= (+ protocol-fee provider-fee) BPS) ERR_INVALID_FEE)
-      (try! (as-contract (contract-call? pool-trait set-x-fees protocol-fee provider-fee)))
+      (try! (contract-call? pool-trait set-x-fees protocol-fee provider-fee))
       (print {
         action: "set-x-fees",
         caller: caller,
@@ -405,7 +405,7 @@
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       (asserts! (<= (+ protocol-fee provider-fee) BPS) ERR_INVALID_FEE)
-      (try! (as-contract (contract-call? pool-trait set-y-fees protocol-fee provider-fee)))
+      (try! (contract-call? pool-trait set-y-fees protocol-fee provider-fee))
       (print {
         action: "set-y-fees",
         caller: caller,
@@ -432,7 +432,7 @@
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       (asserts! (<= fee BPS) ERR_INVALID_FEE)
-      (try! (as-contract (contract-call? pool-trait set-liquidity-fee fee)))
+      (try! (contract-call? pool-trait set-liquidity-fee fee))
       (print {
         action: "set-liquidity-fee",
         caller: caller,
@@ -457,7 +457,7 @@
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
-      (try! (as-contract (contract-call? pool-trait set-amplification-coefficient coefficient)))
+      (try! (contract-call? pool-trait set-amplification-coefficient coefficient))
       (print {
         action: "set-amplification-coefficient",
         caller: caller,
@@ -482,7 +482,7 @@
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
-      (try! (as-contract (contract-call? pool-trait set-convergence-threshold threshold)))
+      (try! (contract-call? pool-trait set-convergence-threshold threshold))
       (print {
         action: "set-convergence-threshold",
         caller: caller,
@@ -545,17 +545,17 @@
       (asserts! (<= (+ x-protocol-fee x-provider-fee) BPS) ERR_INVALID_FEE)
       (asserts! (<= (+ y-protocol-fee y-provider-fee) BPS) ERR_INVALID_FEE)
       (asserts! (<= liquidity-fee BPS) ERR_INVALID_FEE)
-      (try! (as-contract (contract-call? pool-trait create-pool x-token-contract y-token-contract fee-address contract-caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status)))
-      (try! (as-contract (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee)))
-      (try! (as-contract (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee)))
-      (try! (as-contract (contract-call? pool-trait set-liquidity-fee liquidity-fee)))
+      (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract fee-address contract-caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))
+      (try! (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee))
+      (try! (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee))
+      (try! (contract-call? pool-trait set-liquidity-fee liquidity-fee))
       (var-set last-pool-id new-pool-id)
       (map-set pools new-pool-id {id: new-pool-id, name: name, symbol: symbol, pool-contract: pool-contract})
       (try! (contract-call? x-token-trait transfer x-amount caller pool-contract none))
       (try! (contract-call? y-token-trait transfer y-amount caller pool-contract none))
-      (try! (as-contract (contract-call? pool-trait update-pool-balances x-amount y-amount total-shares)))
-      (try! (as-contract (contract-call? pool-trait pool-mint (- total-shares burn-amount) caller)))
-      (try! (as-contract (contract-call? pool-trait pool-mint burn-amount pool-contract)))
+      (try! (contract-call? pool-trait update-pool-balances x-amount y-amount total-shares))
+      (try! (contract-call? pool-trait pool-mint (- total-shares burn-amount) caller))
+      (try! (contract-call? pool-trait pool-mint burn-amount pool-contract))
       (print {
         action: "create-pool",
         caller: caller,
@@ -635,12 +635,12 @@
       (asserts! (> min-dy u0) ERR_INVALID_AMOUNT)
       (asserts! (>= dy min-dy) ERR_MINIMUM_Y_AMOUNT)
       (try! (contract-call? x-token-trait transfer updated-dx caller pool-contract none))
-      (try! (as-contract (contract-call? pool-trait pool-transfer y-token-trait dy caller)))
+      (try! (contract-call? pool-trait pool-transfer y-token-trait dy caller))
       (if (> x-amount-fees-protocol u0)
         (try! (contract-call? x-token-trait transfer x-amount-fees-protocol caller fee-address none))
         false
       )
-      (try! (as-contract (contract-call? pool-trait update-pool-balances (+ x-balance updated-dx) updated-y-balance updated-d)))
+      (try! (contract-call? pool-trait update-pool-balances (+ x-balance updated-dx) updated-y-balance updated-d))
       (print {
         action: "swap-x-for-y",
         caller: caller,
@@ -709,12 +709,12 @@
       (asserts! (> min-dx u0) ERR_INVALID_AMOUNT)
       (asserts! (>= dx min-dx) ERR_MINIMUM_X_AMOUNT)
       (try! (contract-call? y-token-trait transfer updated-dy caller pool-contract none))
-      (try! (as-contract (contract-call? pool-trait pool-transfer x-token-trait dx caller)))
+      (try! (contract-call? pool-trait pool-transfer x-token-trait dx caller))
       (if (> y-amount-fees-protocol u0)
         (try! (contract-call? y-token-trait transfer y-amount-fees-protocol caller fee-address none))
         false
       )
-      (try! (as-contract (contract-call? pool-trait update-pool-balances updated-x-balance (+ y-balance updated-dy) updated-d)))
+      (try! (contract-call? pool-trait update-pool-balances updated-x-balance (+ y-balance updated-dy) updated-d))
       (print {
         action: "swap-y-for-x",
         caller: caller,
@@ -817,8 +817,8 @@
         (try! (contract-call? y-token-trait transfer y-amount-fees-liquidity caller fee-address none))
         false
       )
-      (try! (as-contract (contract-call? pool-trait update-pool-balances updated-x-balance-post-fee updated-y-balance-post-fee updated-d)))
-      (try! (as-contract (contract-call? pool-trait pool-mint dlp caller)))
+      (try! (contract-call? pool-trait update-pool-balances updated-x-balance-post-fee updated-y-balance-post-fee updated-d))
+      (try! (contract-call? pool-trait pool-mint dlp caller))
       (print {
         action: "add-liquidity",
         caller: caller,
@@ -874,15 +874,15 @@
       (asserts! (>= x-amount min-x-amount) ERR_MINIMUM_X_AMOUNT)
       (asserts! (>= y-amount min-y-amount) ERR_MINIMUM_Y_AMOUNT)
       (if (> x-amount u0)
-        (try! (as-contract (contract-call? pool-trait pool-transfer x-token-trait x-amount caller)))
+        (try! (contract-call? pool-trait pool-transfer x-token-trait x-amount caller))
         false
       )
       (if (> y-amount u0)
-        (try! (as-contract (contract-call? pool-trait pool-transfer y-token-trait y-amount caller)))
+        (try! (contract-call? pool-trait pool-transfer y-token-trait y-amount caller))
         false
       )
-      (try! (as-contract (contract-call? pool-trait update-pool-balances updated-x-balance updated-y-balance updated-d)))
-      (try! (as-contract (contract-call? pool-trait pool-burn amount caller)))
+      (try! (contract-call? pool-trait update-pool-balances updated-x-balance updated-y-balance updated-d))
+      (try! (contract-call? pool-trait pool-burn amount caller))
       (print {
         action: "withdraw-liquidity",
         caller: caller,
