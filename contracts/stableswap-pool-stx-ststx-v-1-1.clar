@@ -12,8 +12,10 @@
 (define-constant ERR_INVALID_PRINCIPAL (err u1003))
 (define-constant ERR_POOL_NOT_CREATED (err u3002))
 (define-constant ERR_POOL_DISABLED (err u3003))
+(define-constant ERR_NOT_POOL_CONTRACT_DEPLOYER (err u3020))
 
 (define-constant CORE_ADDRESS .stableswap-core-v-1-1)
+(define-constant CONTRACT_DEPLOYER tx-sender)
 
 (define-data-var pool-id uint u0)
 (define-data-var pool-name (string-ascii 32) "")
@@ -289,7 +291,7 @@
 
 (define-public (create-pool
     (x-token-contract principal) (y-token-contract principal)
-    (fee-addr principal)
+    (fee-addr principal) (core-caller principal)
     (coefficient uint)
     (threshold uint)
     (id uint)
@@ -302,6 +304,7 @@
   )
     (begin
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
+      (asserts! (is-eq core-caller CONTRACT_DEPLOYER) ERR_NOT_POOL_CONTRACT_DEPLOYER)
       (var-set pool-id id)
       (var-set pool-name name)
       (var-set pool-symbol symbol)
