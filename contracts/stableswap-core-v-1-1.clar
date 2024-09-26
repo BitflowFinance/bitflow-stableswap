@@ -686,7 +686,7 @@
       ;; Assert that pool is not created
       (asserts! (is-eq (get pool-created pool-data) false) ERR_POOL_ALREADY_CREATED)
 
-      ;; Asssert thatn x-token-contract and y-token-contract are not matching
+      ;; Assert that x-token-contract and y-token-contract are not matching
       (asserts! (not (is-eq x-token-contract y-token-contract)) ERR_MATCHING_TOKEN_CONTRACTS)
 
       ;; Assert that addresses are standard principals
@@ -1194,7 +1194,7 @@
     (admins-list (var-get admins))
     (caller tx-sender)
   )
-    ;; Assert caller is an exisiting admin and new admin is not in admins-list
+    ;; Assert caller is an existing admin and new admin is not in admins-list
     (asserts! (is-some (index-of admins-list caller)) ERR_NOT_AUTHORIZED)
     (asserts! (is-none (index-of admins-list admin)) ERR_ALREADY_ADMIN)
     
@@ -1213,7 +1213,7 @@
     (admins-list (var-get admins))
     (caller tx-sender)
   )
-    ;; Assert caller is an exisiting admin and admin to remove is in admins-list
+    ;; Assert caller is an existing admin and admin to remove is in admins-list
     (asserts! (is-some (index-of admins-list caller)) ERR_NOT_AUTHORIZED)
     (asserts! (is-some (index-of admins-list admin)) ERR_ADMIN_NOT_IN_LIST)
 
