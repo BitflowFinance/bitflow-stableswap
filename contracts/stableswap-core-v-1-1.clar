@@ -703,7 +703,7 @@
       ;; Assert that total shares minted meets minimum total shares required
       (asserts! (>= total-shares (var-get minimum-total-shares)) ERR_MINIMUM_LP_AMOUNT)
 
-      ;; Asseert that burn amount meets minimum shares required to burn
+      ;; Assert that burn amount meets minimum shares required to burn
       (asserts! (>= burn-amount min-burnt-shares) ERR_MINIMUM_BURN_AMOUNT)
       
       ;; Assert that total shares is greater than or equal to 0 after subtracting burn amount
