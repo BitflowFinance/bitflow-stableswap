@@ -9,7 +9,7 @@
 (define-constant ERR_NOT_AUTHORIZED (err u1001))
 (define-constant ERR_INVALID_AMOUNT (err u1002))
 (define-constant ERR_INVALID_PRINCIPAL (err u1003))
-(define-constant ERR_INVALID_TOKEN_URI (err u3008))
+(define-constant ERR_INVALID_TOKEN_URI (err u3020))
 
 ;; Uri for this token 
 (define-data-var token-uri (string-utf8 256) u"")
