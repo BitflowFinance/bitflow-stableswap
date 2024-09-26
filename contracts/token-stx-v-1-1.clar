@@ -32,7 +32,7 @@
   (ok u6)
 )
 
-;; SIP 010 function to get total supply
+;; SIP 010 function to get total token supply
 (define-read-only (get-total-supply)
   (ok stx-liquid-supply)
 )
