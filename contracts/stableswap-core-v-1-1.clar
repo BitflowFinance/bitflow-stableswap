@@ -31,7 +31,7 @@
 (define-constant ERR_INVALID_FEE (err u3018))
 (define-constant ERR_MINIMUM_BURN_AMOUNT (err u3019))
 
-;; Contract deployer
+;; Contract deployer address
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
 ;; Number of tokens per pair
