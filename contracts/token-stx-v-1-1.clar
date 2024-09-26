@@ -6,10 +6,10 @@
 ;; Error constants
 (define-constant ERR_NOT_AUTHORIZED_SIP_010 (err u4))
 (define-constant ERR_INVALID_PRINCIPAL_SIP_010 (err u5))
-(define-constant ERR_NOT_AUTHORIZED (err u1001))
-(define-constant ERR_INVALID_AMOUNT (err u1002))
-(define-constant ERR_INVALID_PRINCIPAL (err u1003))
-(define-constant ERR_INVALID_TOKEN_URI (err u3020))
+(define-constant ERR_NOT_AUTHORIZED (err u5001))
+(define-constant ERR_INVALID_AMOUNT (err u5002))
+(define-constant ERR_INVALID_PRINCIPAL (err u5003))
+(define-constant ERR_INVALID_TOKEN_URI (err u5004))
 
 ;; Uri for this token 
 (define-data-var token-uri (string-utf8 256) u"")
