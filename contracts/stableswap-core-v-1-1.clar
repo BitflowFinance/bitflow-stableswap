@@ -30,6 +30,7 @@
 (define-constant ERR_MINIMUM_D_VALUE (err u1023))
 (define-constant ERR_INVALID_FEE (err u1024))
 (define-constant ERR_MINIMUM_BURN_AMOUNT (err u1025))
+(define-constant ERR_INVALID_MIN_BURNT_SHARES (err u1026))
 
 ;; Contract deployer address
 (define-constant CONTRACT_DEPLOYER tx-sender)
@@ -54,10 +55,10 @@
 (define-data-var last-pool-id uint u0)
 
 ;; Minimum shares required to mint when creating a pool
-(define-data-var minimum-total-shares uint u1000000)
+(define-data-var minimum-total-shares uint u10000)
 
 ;; Minimum shares required to burn when creating a pool
-(define-data-var minimum-burnt-shares uint u1)
+(define-data-var minimum-burnt-shares uint u1000)
 
 ;; Data var used to enable or disable pool creation by anyone
 (define-data-var public-pool-creation bool false)
@@ -315,40 +316,32 @@
   (get converged (fold fold-d-for-loop index-list {x-bal: x-bal, y-bal: y-bal, d: (+ x-bal y-bal), an: (* amp NUM_OF_TOKENS), threshold: threshold, converged: u0}))
 )
 
-;; Set minimum shares required to mint when creating a pool
-(define-public (set-minimum-total-shares (amount uint))
+;; Set minimum shares required to mint and burn when creating a pool
+(define-public (set-minimum-shares (min-total uint) (min-burnt uint))
   (let (
     (caller tx-sender)
   )
     (begin
-      ;; Assert caller is an admin and amount is greater than 0
+      ;; Assert caller is an admin and amounts are greater than 0
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
-      (asserts! (> amount u0) ERR_INVALID_AMOUNT)
-
-      ;; Set minimum-total-shares to amount
-      (var-set minimum-total-shares amount)
-
-      ;; Print function data and return true
-      (print {action: "set-minimum-total-shares", caller: caller, data: {amount: amount}})
-      (ok true)
-    )
-  )
-)
-
-;; Set minimum shares required to burn when creating a pool
-(define-public (set-minimum-burnt-shares (amount uint))
-  (let (
-    (caller tx-sender)
-  )
-    (begin
-      ;; Assert caller is an admin
-      (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (and (> min-total u0) (> min-burnt u0)) ERR_INVALID_AMOUNT)
       
-      ;; Set minimum-burn-shares to amount
-      (var-set minimum-burnt-shares amount)
+      ;; Assert that min-total is greater than min-burnt
+      (asserts! (> min-total min-burnt) ERR_INVALID_MIN_BURNT_SHARES)
+
+      ;; Update minimum-total-shares and minimum-burnt-shares
+      (var-set minimum-total-shares min-total)
+      (var-set minimum-burnt-shares min-burnt)
 
       ;; Print function data and return true
-      (print {action: "set-minimum-burnt-shares", caller: caller, data: {amount: amount}})
+      (print {
+        action: "set-minimum-shares",
+        caller: caller,
+        data: {
+          min-total: min-total,
+          min-burnt: min-burnt
+        }
+      })
       (ok true)
     )
   )
