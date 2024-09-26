@@ -15,7 +15,7 @@
 (define-constant ERR_INVALID_PRINCIPAL (err u1003))
 (define-constant ERR_POOL_NOT_CREATED (err u3002))
 (define-constant ERR_POOL_DISABLED (err u3003))
-(define-constant ERR_NOT_POOL_CONTRACT_DEPLOYER (err u3020))
+(define-constant ERR_NOT_POOL_CONTRACT_DEPLOYER (err u3019))
 
 ;; Stableswap Core address and contract deployer address
 (define-constant CORE_ADDRESS .stableswap-core-v-1-1)
