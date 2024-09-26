@@ -10,12 +10,12 @@
 ;; Error constants
 (define-constant ERR_NOT_AUTHORIZED_SIP_010 (err u4))
 (define-constant ERR_INVALID_PRINCIPAL_SIP_010 (err u5))
-(define-constant ERR_NOT_AUTHORIZED (err u1001))
-(define-constant ERR_INVALID_AMOUNT (err u1002))
-(define-constant ERR_INVALID_PRINCIPAL (err u1003))
-(define-constant ERR_POOL_NOT_CREATED (err u3002))
-(define-constant ERR_POOL_DISABLED (err u3003))
-(define-constant ERR_NOT_POOL_CONTRACT_DEPLOYER (err u3019))
+(define-constant ERR_NOT_AUTHORIZED (err u3001))
+(define-constant ERR_INVALID_AMOUNT (err u3002))
+(define-constant ERR_INVALID_PRINCIPAL (err u3003))
+(define-constant ERR_POOL_NOT_CREATED (err u3004))
+(define-constant ERR_POOL_DISABLED (err u3005))
+(define-constant ERR_NOT_POOL_CONTRACT_DEPLOYER (err u3006))
 
 ;; Stableswap Core address and contract deployer address
 (define-constant CORE_ADDRESS .stableswap-core-v-1-1)
