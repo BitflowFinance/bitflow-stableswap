@@ -17,27 +17,27 @@
 ;; Contract owner defined as a var
 (define-data-var contract-owner principal tx-sender)
 
-;; SIP-010 function to get token name
+;; SIP 010 function to get token name
 (define-read-only (get-name)
   (ok "Stacks")
 )
 
-;; SIP-010 function to get token symbol
+;; SIP 010 function to get token symbol
 (define-read-only (get-symbol)
   (ok "STX")
 )
 
-;; SIP-010 function to get token decimals
+;; SIP 010 function to get token decimals
 (define-read-only (get-decimals)
   (ok u6)
 )
 
-;; SIP-010 function to get total supply
+;; SIP 010 function to get total supply
 (define-read-only (get-total-supply)
   (ok stx-liquid-supply)
 )
 
-;; SIP-010 function to get balance for an address
+;; SIP 010 function to get balance for an address
 (define-read-only (get-balance (address principal))
   (ok (stx-get-balance address))
 )
@@ -85,7 +85,7 @@
   )
 )
 
-;; SIP-010 transfer function that transfers native STX tokens
+;; SIP 010 transfer function that transfers native STX tokens
 (define-public (transfer 
     (amount uint)
     (sender principal) (recipient principal)
