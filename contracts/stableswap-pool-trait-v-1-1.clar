@@ -1,7 +1,9 @@
 ;; stableswap-pool-trait-v-1-1
 
+;; Use SIP 010 trait
 (use-trait sip-010-trait .sip-010-trait-ft-standard-v-1-1.sip-010-trait)
 
+;; Define pool trait for Stableswap Core
 (define-trait stableswap-pool-trait
   (
     (get-name () (response (string-ascii 32) uint))
