@@ -37,7 +37,7 @@
   (ok stx-liquid-supply)
 )
 
-;; SIP 010 function to get balance for an address
+;; SIP 010 function to get token balance for an address
 (define-read-only (get-balance (address principal))
   (ok (stx-get-balance address))
 )
