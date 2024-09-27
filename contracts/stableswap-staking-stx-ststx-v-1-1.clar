@@ -352,24 +352,15 @@
 )
 
 (define-private (filter-cycles-list (value uint)) 
-  (if (<= value (var-get helper-value)) 
-    true
-    false
-  )
+  (<= value (var-get helper-value))
 )
 
 (define-private (filter-next-cycles-list (value uint)) 
-  (if (is-some (index-of (var-get helper-list) value))
-    false
-    true
-  )
+  (not (is-some (index-of (var-get helper-list) value)))
 )
 
 (define-private (filter-unstaked-cycles-list (value uint)) 
-  (if (is-eq value (var-get helper-value)) 
-    false
-    true
-  )
+  (not (is-eq value (var-get helper-value)))
 )
 
 (define-private (map-filtered-cycles-list (value uint)) 
