@@ -14,6 +14,7 @@
 (define-constant ERR_CYCLES_TO_UNSTAKE_OVERFLOW (err u4012))
 (define-constant ERR_NO_USER_DATA (err u4013))
 (define-constant ERR_NO_LP_TO_UNSTAKE (err u4014))
+(define-constant ERR_INVALID_FEE (err u4015))
 
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
@@ -28,7 +29,7 @@
 (define-constant DEPLOYMENT_HEIGHT burn-block-height)
 (define-constant CYCLE_LENGTH u144)
 
-(define-constant MATH_NUM_10000 u10000)
+(define-constant BPS u10000)
 
 (define-data-var admins (list 5 principal) (list tx-sender))
 (define-data-var admin-helper principal tx-sender)
@@ -194,6 +195,7 @@
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (< fee BPS) ERR_INVALID_FEE)
       (var-set early-unstake-fee fee)
       (print {action: "set-early-unstake-fee", caller: caller, data: {fee: fee}})
       (ok true)
@@ -310,7 +312,7 @@
     (user-cycles-staked (get cycles-staked current-user-data))
     (unstake-data (fold fold-early-unstake-per-cycle user-cycles-staked {current-cycle: current-cycle, lp-to-unstake: u0, cycles-to-unstake: user-cycles-staked}))
     (lp-to-unstake-total (get lp-staked current-user-data))
-    (lp-to-unstake-fees (/ (* lp-to-unstake-total (var-get early-unstake-fee)) MATH_NUM_10000))
+    (lp-to-unstake-fees (/ (* lp-to-unstake-total (var-get early-unstake-fee)) BPS))
     (lp-to-unstake-user (- lp-to-unstake-total lp-to-unstake-fees))
     (updated-total-lp-staked (- (var-get total-lp-staked) lp-to-unstake-total))
     (caller tx-sender)
