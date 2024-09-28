@@ -9,13 +9,15 @@
 (define-constant ERR_CLAIMING_DISABLED (err u2007))
 (define-constant ERR_INVALID_CYCLE (err u2008))
 (define-constant ERR_TOKEN_TRANSFER_FAILED (err u2009))
-(define-constant ERR_REWARDS_ALREADY_CLAIMED (err u2010))
-(define-constant ERR_REWARDS_NOT_EXPIRED (err u2011))
-(define-constant ERR_REWARDS_OVERFLOW (err u2012))
-(define-constant ERR_NO_CYCLE_DATA (err u2013))
-(define-constant ERR_NO_EXTERNAL_USER_DATA (err u2014))
-(define-constant ERR_NO_EXTERNAL_CYCLE_DATA (err u2015))
-(define-constant ERR_NO_REWARDS_TO_CLAIM (err u2016))
+(define-constant ERR_CANNOT_GET_TOKEN_BALANCE (err u2010))
+(define-constant ERR_INSUFFICIENT_TOKEN_BALANCE (err u2011))
+(define-constant ERR_REWARDS_ALREADY_CLAIMED (err u2012))
+(define-constant ERR_REWARDS_NOT_EXPIRED (err u2013))
+(define-constant ERR_REWARDS_OVERFLOW (err u2014))
+(define-constant ERR_NO_CYCLE_DATA (err u2015))
+(define-constant ERR_NO_EXTERNAL_USER_DATA (err u2016))
+(define-constant ERR_NO_EXTERNAL_CYCLE_DATA (err u2017))
+(define-constant ERR_NO_REWARDS_TO_CLAIM (err u2018))
 
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
@@ -162,12 +164,14 @@
   (let (
     (current-cycle (get-current-cycle))
     (current-cycle-data (default-to {total-rewards: u0, claimed-rewards: u0, unclaimed-rewards: u0} (map-get? cycle-data cycle)))
+    (contract-balance (try! (get-contract-token-balance)))
     (updated-total-unclaimed-rewards (+ (- (var-get total-unclaimed-rewards) (get unclaimed-rewards current-cycle-data)) amount))
     (caller tx-sender)
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
       (asserts! (> cycle current-cycle) ERR_INVALID_CYCLE)
+      (asserts! (<= updated-total-unclaimed-rewards contract-balance) ERR_INSUFFICIENT_TOKEN_BALANCE)
       (map-set cycle-data cycle {total-rewards: amount, claimed-rewards: u0, unclaimed-rewards: amount})
       (var-set total-unclaimed-rewards updated-total-unclaimed-rewards)
       (print {
@@ -214,11 +218,13 @@
 
 (define-public (withdraw-rewards (amount uint) (recipient principal))
   (let (
+    (contract-balance (try! (get-contract-token-balance)))
     (caller tx-sender)
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
       (asserts! (> amount u0) ERR_INVALID_AMOUNT)
+      (asserts! (>= (- contract-balance amount) (var-get total-unclaimed-rewards)) ERR_INSUFFICIENT_TOKEN_BALANCE)
       (try! (as-contract (transfer-rewards-token amount tx-sender recipient)))
       (print {
         action: "withdraw-rewards",
@@ -299,6 +305,16 @@
     (call-a (unwrap! (contract-call?
                      'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1 transfer
                      amount sender recipient none) ERR_TOKEN_TRANSFER_FAILED))
+  )
+    (ok call-a)
+  )
+)
+
+(define-private (get-contract-token-balance)
+  (let (
+    (call-a (unwrap! (contract-call?
+                     'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1 get-balance
+                     (as-contract tx-sender)) ERR_CANNOT_GET_TOKEN_BALANCE))
   )
     (ok call-a)
   )
