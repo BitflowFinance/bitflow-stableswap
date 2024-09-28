@@ -334,7 +334,6 @@
         current-user-data
         {cycles-to-unstake: (list ), lp-staked: u0}
       ))
-      (map-delete user-data-at-cycle {user: caller, cycle: (+ (len user-cycles-staked) u1)})
       (print {
         action: "early-unstake-lp-tokens",
         caller: caller,
@@ -435,7 +434,7 @@
     (user-lp-staked (get lp-staked user-cycle-data))
     (caller tx-sender)
   )
-    (if (> user-lp-staked u0)
+    (if (and (> user-lp-staked u0) (> cycle current-cycle-static))
       (begin
         (map-delete user-data-at-cycle {user: caller, cycle: cycle})
         (if (is-some cycle-lp-data)
