@@ -245,7 +245,7 @@
   )
 )
 
-;; SIP 010 transfer function that transfers native STX tokens
+;; SIP 010 transfer function that transfers pool token
 (define-public (transfer
     (amount uint)
     (sender principal) (recipient principal)
