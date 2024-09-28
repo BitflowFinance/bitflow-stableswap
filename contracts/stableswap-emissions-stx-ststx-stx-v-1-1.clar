@@ -13,11 +13,12 @@
 (define-constant ERR_INSUFFICIENT_TOKEN_BALANCE (err u2011))
 (define-constant ERR_REWARDS_ALREADY_CLAIMED (err u2012))
 (define-constant ERR_REWARDS_NOT_EXPIRED (err u2013))
-(define-constant ERR_REWARDS_OVERFLOW (err u2014))
-(define-constant ERR_NO_CYCLE_DATA (err u2015))
-(define-constant ERR_NO_EXTERNAL_USER_DATA (err u2016))
-(define-constant ERR_NO_EXTERNAL_CYCLE_DATA (err u2017))
-(define-constant ERR_NO_REWARDS_TO_CLAIM (err u2018))
+(define-constant ERR_REWARDS_EXPIRED (err u2014))
+(define-constant ERR_REWARDS_OVERFLOW (err u2015))
+(define-constant ERR_NO_CYCLE_DATA (err u2016))
+(define-constant ERR_NO_EXTERNAL_USER_DATA (err u2017))
+(define-constant ERR_NO_EXTERNAL_CYCLE_DATA (err u2018))
+(define-constant ERR_NO_REWARDS_TO_CLAIM (err u2019))
 
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
@@ -88,6 +89,7 @@
 
 (define-read-only (get-user-rewards-at-cycle (user principal) (cycle uint))
   (let (   
+    (current-cycle (get-current-cycle))
     (current-cycle-data (unwrap! (map-get? cycle-data cycle) ERR_NO_CYCLE_DATA))
     (cycle-unclaimed-rewards (get unclaimed-rewards current-cycle-data))
     (user-data (default-to {claimed: false} (map-get? user-data-at-cycle {user: user, cycle: cycle})))
@@ -98,7 +100,8 @@
     (user-rewards (/ (* (get total-rewards current-cycle-data) user-lp-staked) cycle-lp-staked))
   )
     (asserts! (is-eq (var-get claim-status) true) ERR_CLAIMING_DISABLED)
-    (asserts! (< cycle (get-current-cycle)) ERR_INVALID_CYCLE)
+    (asserts! (< cycle current-cycle) ERR_INVALID_CYCLE)
+    (asserts! (<= (- current-cycle cycle) (var-get rewards-expiration)) ERR_REWARDS_EXPIRED)
     (asserts! (and (> cycle-unclaimed-rewards u0) (> user-rewards u0)) ERR_NO_REWARDS_TO_CLAIM)
     (asserts! (not (get claimed user-data)) ERR_REWARDS_ALREADY_CLAIMED)
     (asserts! (<= user-rewards cycle-unclaimed-rewards) ERR_REWARDS_OVERFLOW)
@@ -256,6 +259,7 @@
     (begin
       (asserts! (is-eq (var-get claim-status) true) ERR_CLAIMING_DISABLED)
       (asserts! (< cycle current-cycle) ERR_INVALID_CYCLE)
+      (asserts! (<= (- current-cycle cycle) (var-get rewards-expiration)) ERR_REWARDS_EXPIRED)
       (asserts! (and (> cycle-unclaimed-rewards u0) (> user-rewards u0)) ERR_NO_REWARDS_TO_CLAIM)
       (asserts! (not (get claimed user-data)) ERR_REWARDS_ALREADY_CLAIMED)
       (asserts! (<= user-rewards cycle-unclaimed-rewards) ERR_REWARDS_OVERFLOW)
