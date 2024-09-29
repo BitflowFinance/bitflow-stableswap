@@ -20,11 +20,14 @@
 (define-constant ERR_NO_EXTERNAL_USER_DATA (err u2018))
 (define-constant ERR_NO_EXTERNAL_CYCLE_DATA (err u2019))
 (define-constant ERR_NO_REWARDS_TO_CLAIM (err u2020))
+(define-constant ERR_MINIMUM_REWARDS_EXPIRATION (err u2021))
 
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
 (define-constant DEPLOYMENT_HEIGHT burn-block-height)
 (define-constant CYCLE_LENGTH u144)
+
+(define-constant MIN_REWARDS_EXPIRATION u7)
 
 (define-data-var admins (list 5 principal) (list tx-sender))
 (define-data-var admin-helper principal tx-sender)
@@ -157,6 +160,7 @@
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (>= expiration MIN_REWARDS_EXPIRATION) ERR_MINIMUM_REWARDS_EXPIRATION)
       (var-set rewards-expiration expiration)
       (print {action: "set-rewards-expiration", caller: caller, data: {expiration: expiration}})
       (ok true)
