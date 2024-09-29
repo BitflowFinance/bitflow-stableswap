@@ -17,6 +17,7 @@
 (define-constant ERR_NO_LP_TO_UNSTAKE (err u4015))
 (define-constant ERR_NO_EARLY_LP_TO_UNSTAKE (err u4016))
 (define-constant ERR_INVALID_FEE (err u4017))
+(define-constant ERR_HEIGHT_NOT_AFTER_DEPLOYMENT (err u4018))
 
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
@@ -69,7 +70,10 @@
 )
 
 (define-read-only (get-cycle-from-height (height uint)) 
-  (/ (- height DEPLOYMENT_HEIGHT) CYCLE_LENGTH)
+  (begin
+    (asserts! (> height DEPLOYMENT_HEIGHT) ERR_HEIGHT_NOT_AFTER_DEPLOYMENT)
+    (ok (/ (- height DEPLOYMENT_HEIGHT) CYCLE_LENGTH))
+  )
 )
 
 (define-read-only (get-starting-height-from-cycle (cycle uint)) 
