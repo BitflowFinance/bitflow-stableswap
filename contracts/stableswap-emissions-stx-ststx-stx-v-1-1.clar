@@ -313,7 +313,7 @@
 (define-private (transfer-rewards-token (amount uint) (sender principal) (recipient principal))
   (let (
     (call-a (unwrap! (contract-call?
-                     'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1 transfer
+                     .token-stx-v-1-1 transfer
                      amount sender recipient none) ERR_TOKEN_TRANSFER_FAILED))
   )
     (ok call-a)
@@ -323,7 +323,7 @@
 (define-private (get-contract-token-balance)
   (let (
     (call-a (unwrap! (contract-call?
-                     'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1 get-balance
+                     .token-stx-v-1-1 get-balance
                      (as-contract tx-sender)) ERR_CANNOT_GET_TOKEN_BALANCE))
   )
     (ok call-a)
@@ -333,7 +333,7 @@
 (define-private (get-external-user-data (user principal) (cycle uint))
   (let (
     (call-a (unwrap! (contract-call?
-                     'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-staking-stx-ststx-v-1-1 get-user-at-cycle
+                     .stableswap-staking-stx-ststx-v-1-1 get-user-at-cycle
                      user cycle) ERR_NO_EXTERNAL_USER_DATA))
   )
     (ok call-a)
@@ -343,7 +343,7 @@
 (define-private (get-external-cycle-data (cycle uint))
   (let (
     (call-a (unwrap! (contract-call?
-                     'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-staking-stx-ststx-v-1-1 get-lp-staked-at-cycle
+                     .stableswap-staking-stx-ststx-v-1-1 get-lp-staked-at-cycle
                      cycle) ERR_NO_EXTERNAL_CYCLE_DATA))
   )
     (ok call-a)
