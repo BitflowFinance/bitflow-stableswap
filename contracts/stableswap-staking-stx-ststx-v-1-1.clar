@@ -17,7 +17,7 @@
 (define-constant ERR_NO_LP_TO_UNSTAKE (err u4015))
 (define-constant ERR_NO_EARLY_LP_TO_UNSTAKE (err u4016))
 (define-constant ERR_INVALID_FEE (err u4017))
-(define-constant ERR_HEIGHT_NOT_AFTER_DEPLOYMENT (err u4018))
+(define-constant ERR_HEIGHT_BEFORE_DEPLOYMENT (err u4018))
 
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
@@ -71,7 +71,7 @@
 
 (define-read-only (get-cycle-from-height (height uint)) 
   (begin
-    (asserts! (> height DEPLOYMENT_HEIGHT) ERR_HEIGHT_NOT_AFTER_DEPLOYMENT)
+    (asserts! (>= height DEPLOYMENT_HEIGHT) ERR_HEIGHT_BEFORE_DEPLOYMENT)
     (ok (/ (- height DEPLOYMENT_HEIGHT) CYCLE_LENGTH))
   )
 )
@@ -284,8 +284,9 @@
     (helper-value-current-cycle (var-set helper-value current-cycle))
     (current-user-data (unwrap! (map-get? user-data caller) ERR_NO_USER_DATA))
     (user-cycles-to-unstake (get cycles-to-unstake current-user-data))
+    (filtered-user-cycles-to-unstake (filter filter-values-lte-helper-value user-cycles-to-unstake))
     (user-lp-staked (get lp-staked current-user-data))
-    (unstake-data (fold fold-cycles-to-unstakeable-cycles user-cycles-to-unstake {lp-to-unstake: u0, cycles-to-unstake: user-cycles-to-unstake}))
+    (unstake-data (fold fold-cycles-to-unstakeable-cycles filtered-user-cycles-to-unstake {lp-to-unstake: u0, cycles-to-unstake: filtered-user-cycles-to-unstake}))
     (lp-to-unstake (get lp-to-unstake unstake-data))
     (updated-user-lp-staked (- user-lp-staked lp-to-unstake))
     (updated-total-lp-staked (- (var-get total-lp-staked) lp-to-unstake))
