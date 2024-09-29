@@ -248,17 +248,17 @@
 
 (define-public (claim-rewards (cycle uint))
   (let (
+    (caller tx-sender)
     (current-cycle (get-current-cycle))
     (target-cycle-data (unwrap! (map-get? cycle-data cycle) ERR_NO_CYCLE_DATA))
     (cycle-unclaimed-rewards (get unclaimed-rewards target-cycle-data))
-    (user-claimed-at-target-cycle (default-to false (map-get? user-claimed-at-cycle {user: tx-sender, cycle: cycle})))
-    (user-data-external (try! (get-external-user-data tx-sender cycle)))
+    (user-claimed-at-target-cycle (default-to false (map-get? user-claimed-at-cycle {user: caller, cycle: cycle})))
+    (user-data-external (try! (get-external-user-data caller cycle)))
     (cycle-data-external (try! (get-external-cycle-data cycle)))
     (user-lp-staked (unwrap! (get lp-staked user-data-external) ERR_NO_EXTERNAL_USER_DATA))
     (cycle-lp-staked (unwrap! cycle-data-external ERR_NO_EXTERNAL_CYCLE_DATA))
     (user-rewards (/ (* (get total-rewards target-cycle-data) user-lp-staked) cycle-lp-staked))
     (updated-total-unclaimed-rewards (- (var-get total-unclaimed-rewards) user-rewards))
-    (caller tx-sender)
   )
     (begin
       (asserts! (is-eq (var-get claim-status) true) ERR_CLAIMING_DISABLED)
