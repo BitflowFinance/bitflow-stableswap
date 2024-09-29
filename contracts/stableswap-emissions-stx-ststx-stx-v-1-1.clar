@@ -21,6 +21,7 @@
 (define-constant ERR_NO_EXTERNAL_CYCLE_DATA (err u2019))
 (define-constant ERR_NO_REWARDS_TO_CLAIM (err u2020))
 (define-constant ERR_MINIMUM_REWARDS_EXPIRATION (err u2021))
+(define-constant ERR_HEIGHT_BEFORE_DEPLOYMENT (err u2022))
 
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
@@ -54,7 +55,10 @@
 )
 
 (define-read-only (get-cycle-from-height (height uint)) 
-  (/ (- height DEPLOYMENT_HEIGHT) CYCLE_LENGTH)
+  (begin
+    (asserts! (>= height DEPLOYMENT_HEIGHT) ERR_HEIGHT_BEFORE_DEPLOYMENT)
+    (ok (/ (- height DEPLOYMENT_HEIGHT) CYCLE_LENGTH))
+  )
 )
 
 (define-read-only (get-starting-height-from-cycle (cycle uint)) 
