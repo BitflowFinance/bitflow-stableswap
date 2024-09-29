@@ -452,7 +452,7 @@
 (define-private (transfer-lp-token (amount uint) (sender principal) (recipient principal))
   (let (
     (call-a (unwrap! (contract-call?
-                     'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1 transfer
+                     .stableswap-pool-stx-ststx-v-1-1 transfer
                      amount sender recipient none) ERR_TOKEN_TRANSFER_FAILED))
   )
     (ok call-a)
