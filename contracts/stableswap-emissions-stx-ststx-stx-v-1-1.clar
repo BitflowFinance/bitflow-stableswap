@@ -94,14 +94,14 @@
 (define-read-only (get-user-rewards-at-cycle (user principal) (cycle uint))
   (let (   
     (current-cycle (get-current-cycle))
-    (current-cycle-data (unwrap! (map-get? cycle-data cycle) ERR_NO_CYCLE_DATA))
-    (cycle-unclaimed-rewards (get unclaimed-rewards current-cycle-data))
+    (target-cycle-data (unwrap! (map-get? cycle-data cycle) ERR_NO_CYCLE_DATA))
+    (cycle-unclaimed-rewards (get unclaimed-rewards target-cycle-data))
     (user-data (default-to {claimed: false} (map-get? user-data-at-cycle {user: user, cycle: cycle})))
     (user-data-external (try! (get-external-user-data user cycle)))
     (cycle-data-external (try! (get-external-cycle-data cycle)))
     (user-lp-staked (unwrap-panic (get lp-staked user-data-external)))
     (cycle-lp-staked (unwrap-panic cycle-data-external))
-    (user-rewards (/ (* (get total-rewards current-cycle-data) user-lp-staked) cycle-lp-staked))
+    (user-rewards (/ (* (get total-rewards target-cycle-data) user-lp-staked) cycle-lp-staked))
   )
     (asserts! (is-eq (var-get claim-status) true) ERR_CLAIMING_DISABLED)
     (asserts! (< cycle current-cycle) ERR_INVALID_CYCLE)
@@ -171,9 +171,9 @@
 (define-public (set-rewards (cycle uint) (amount uint))
   (let (
     (current-cycle (get-current-cycle))
-    (current-cycle-data (default-to {total-rewards: u0, claimed-rewards: u0, unclaimed-rewards: u0} (map-get? cycle-data cycle)))
+    (target-cycle-data (default-to {total-rewards: u0, claimed-rewards: u0, unclaimed-rewards: u0} (map-get? cycle-data cycle)))
     (contract-balance (try! (get-contract-token-balance)))
-    (updated-total-unclaimed-rewards (+ (- (var-get total-unclaimed-rewards) (get unclaimed-rewards current-cycle-data)) amount))
+    (updated-total-unclaimed-rewards (+ (- (var-get total-unclaimed-rewards) (get unclaimed-rewards target-cycle-data)) amount))
     (caller tx-sender)
   )
     (begin
@@ -200,15 +200,15 @@
 (define-public (clear-expired-rewards (cycle uint))
   (let (
     (current-cycle (get-current-cycle))
-    (current-cycle-data (unwrap! (map-get? cycle-data cycle) ERR_NO_CYCLE_DATA))
-    (updated-total-unclaimed-rewards (- (var-get total-unclaimed-rewards) (get unclaimed-rewards current-cycle-data)))
+    (target-cycle-data (unwrap! (map-get? cycle-data cycle) ERR_NO_CYCLE_DATA))
+    (updated-total-unclaimed-rewards (- (var-get total-unclaimed-rewards) (get unclaimed-rewards target-cycle-data)))
     (caller tx-sender)
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
       (asserts! (< cycle current-cycle) ERR_INVALID_CYCLE)
       (asserts! (>= (- current-cycle cycle) (var-get rewards-expiration)) ERR_REWARDS_NOT_EXPIRED)
-      (map-set cycle-data cycle (merge current-cycle-data {unclaimed-rewards: u0}))
+      (map-set cycle-data cycle (merge target-cycle-data {unclaimed-rewards: u0}))
       (var-set total-unclaimed-rewards updated-total-unclaimed-rewards)
       (print {
         action: "clear-expired-rewards",
@@ -251,14 +251,14 @@
 (define-public (claim-rewards (cycle uint))
   (let (
     (current-cycle (get-current-cycle))
-    (current-cycle-data (unwrap! (map-get? cycle-data cycle) ERR_NO_CYCLE_DATA))
-    (cycle-unclaimed-rewards (get unclaimed-rewards current-cycle-data))
+    (target-cycle-data (unwrap! (map-get? cycle-data cycle) ERR_NO_CYCLE_DATA))
+    (cycle-unclaimed-rewards (get unclaimed-rewards target-cycle-data))
     (user-data (default-to {claimed: false} (map-get? user-data-at-cycle {user: tx-sender, cycle: cycle})))
     (user-data-external (try! (get-external-user-data tx-sender cycle)))
     (cycle-data-external (try! (get-external-cycle-data cycle)))
     (user-lp-staked (unwrap! (get lp-staked user-data-external) ERR_NO_EXTERNAL_USER_DATA))
     (cycle-lp-staked (unwrap! cycle-data-external ERR_NO_EXTERNAL_CYCLE_DATA))
-    (user-rewards (/ (* (get total-rewards current-cycle-data) user-lp-staked) cycle-lp-staked))
+    (user-rewards (/ (* (get total-rewards target-cycle-data) user-lp-staked) cycle-lp-staked))
     (updated-total-unclaimed-rewards (- (var-get total-unclaimed-rewards) user-rewards))
     (caller tx-sender)
   )
@@ -271,9 +271,9 @@
       (asserts! (<= user-rewards cycle-unclaimed-rewards) ERR_REWARDS_OVERFLOW)
       (try! (as-contract (transfer-rewards-token user-rewards tx-sender caller)))
       (map-set user-data-at-cycle {user: caller, cycle: cycle} (merge user-data {claimed: true}))
-      (map-set cycle-data cycle (merge current-cycle-data {
-        claimed-rewards: (+ (get claimed-rewards current-cycle-data) user-rewards),
-        unclaimed-rewards: (- (get unclaimed-rewards current-cycle-data) user-rewards)
+      (map-set cycle-data cycle (merge target-cycle-data {
+        claimed-rewards: (+ (get claimed-rewards target-cycle-data) user-rewards),
+        unclaimed-rewards: (- (get unclaimed-rewards target-cycle-data) user-rewards)
       }))
       (var-set total-unclaimed-rewards updated-total-unclaimed-rewards)
       (print {
