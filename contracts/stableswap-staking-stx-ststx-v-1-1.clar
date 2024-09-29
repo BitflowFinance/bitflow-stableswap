@@ -208,7 +208,8 @@
 
 (define-public (stake-lp-tokens (amount uint) (cycles uint))
   (let (
-    (current-user-data (map-get? user-data tx-sender))
+    (caller tx-sender)
+    (current-user-data (map-get? user-data caller))
     (user-cycles-staked (default-to (list ) (get cycles-staked current-user-data)))
     (user-cycles-to-unstake (default-to (list ) (get cycles-to-unstake current-user-data)))
     (helper-value-for-filter (var-set helper-value cycles))
@@ -218,9 +219,10 @@
     (next-cycles (map sum-with-helper-value filtered-cycles-list))
     (helper-list-for-filter (var-set helper-list user-cycles-staked))
     (filtered-next-cycles-list (filter filter-out-values-contained-in-helper-list next-cycles))
-    (cycle-to-unstake (+ u1 (+ current-cycle cycles)))
+    (cycle-to-unstake (+ u1 current-cycle cycles))
+    (user-data-at-unstaking-cycle (map-get? user-data-at-cycle {user: caller, cycle: cycle-to-unstake}))
     (updated-total-lp-staked (+ (var-get total-lp-staked) amount))
-    (caller tx-sender)
+    (updated-user-lp-staked (+ (default-to u0 (get lp-staked current-user-data)) amount))
   )
     (begin
       (asserts! (is-eq (var-get staking-status) true) ERR_STAKING_DISABLED)
@@ -236,7 +238,7 @@
             user-cycles-to-unstake
             (unwrap! (as-max-len? (concat user-cycles-to-unstake (list cycle-to-unstake)) u12000) ERR_CYCLES_TO_UNSTAKE_OVERFLOW)
           ),
-          lp-staked: (+ amount (default-to u0 (get lp-staked current-user-data)))
+          lp-staked: updated-user-lp-staked
         })
         (map-set user-data caller {
           cycles-staked: next-cycles,
@@ -244,10 +246,10 @@
           lp-staked: amount
         })
       )
-      (if (is-some (map-get? user-data-at-cycle {user: caller, cycle: cycle-to-unstake}))
+      (if (is-some user-data-at-unstaking-cycle)
         (map-set user-data-at-cycle {user: caller, cycle: cycle-to-unstake} (merge 
-          (default-to {lp-staked: u0, lp-to-unstake: u0} (map-get? user-data-at-cycle {user: caller, cycle: cycle-to-unstake}))
-          {lp-to-unstake: (+ amount (default-to u0 (get lp-to-unstake (map-get? user-data-at-cycle {user: caller, cycle: cycle-to-unstake}))))}
+          (default-to {lp-staked: u0, lp-to-unstake: u0} user-data-at-unstaking-cycle)
+          {lp-to-unstake: (+ amount (default-to u0 (get lp-to-unstake user-data-at-unstaking-cycle)))}
         ))
         (map-set user-data-at-cycle {user: caller, cycle: cycle-to-unstake} { 
           lp-staked: u0,
@@ -263,7 +265,7 @@
           amount: amount,
           cycles: cycles,
           cycle-to-unstake: cycle-to-unstake,
-          user-lp-staked: (+ amount (default-to u0 (get lp-staked current-user-data)))
+          user-lp-staked: updated-user-lp-staked
         }
       })
       (ok {amount: amount, cycles: cycles})
