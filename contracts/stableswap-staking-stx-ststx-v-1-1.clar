@@ -10,14 +10,16 @@
 (define-constant ERR_STAKING_DISABLED (err u4008))
 (define-constant ERR_EARLY_UNSTAKE_DISABLED (err u4009))
 (define-constant ERR_TOKEN_TRANSFER_FAILED (err u4010))
-(define-constant ERR_INVALID_CYCLE_LENGTH (err u4011))
-(define-constant ERR_CYCLES_STAKED_OVERFLOW (err u4012))
-(define-constant ERR_CYCLES_TO_UNSTAKE_OVERFLOW (err u4013))
-(define-constant ERR_NO_USER_DATA (err u4014))
-(define-constant ERR_NO_LP_TO_UNSTAKE (err u4015))
-(define-constant ERR_NO_EARLY_LP_TO_UNSTAKE (err u4016))
-(define-constant ERR_INVALID_FEE (err u4017))
-(define-constant ERR_HEIGHT_BEFORE_DEPLOYMENT (err u4018))
+(define-constant ERR_INVALID_STAKING_DURATION (err u4011))
+(define-constant ERR_INVALID_MIN_STAKING_DURATION (err u4012))
+(define-constant ERR_INVALID_MAX_STAKING_DURATION (err u4013))
+(define-constant ERR_CYCLES_STAKED_OVERFLOW (err u4014))
+(define-constant ERR_CYCLES_TO_UNSTAKE_OVERFLOW (err u4015))
+(define-constant ERR_NO_USER_DATA (err u4016))
+(define-constant ERR_NO_LP_TO_UNSTAKE (err u4017))
+(define-constant ERR_NO_EARLY_LP_TO_UNSTAKE (err u4018))
+(define-constant ERR_INVALID_FEE (err u4019))
+(define-constant ERR_HEIGHT_BEFORE_DEPLOYMENT (err u4020))
 
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
@@ -45,6 +47,9 @@
 
 (define-data-var early-unstake-fee-address principal tx-sender)
 (define-data-var early-unstake-fee uint u50)
+
+(define-data-var minimum-staking-duration uint u1)
+(define-data-var maximum-staking-duration uint u120)
 
 (define-data-var total-lp-staked uint u0)
 
@@ -110,6 +115,14 @@
 
 (define-read-only (get-early-unstake-fee)
   (ok (var-get early-unstake-fee))
+)
+
+(define-read-only (get-minimum-staking-duration)
+  (ok (var-get minimum-staking-duration))
+)
+
+(define-read-only (get-maximum-staking-duration)
+  (ok (var-get maximum-staking-duration))
 )
 
 (define-read-only (get-total-lp-staked)
@@ -210,6 +223,29 @@
   )
 )
 
+(define-public (set-staking-duration (min-duration uint) (max-duration uint))
+  (let (
+    (caller tx-sender)
+  )
+    (begin
+      (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (and (> min-duration u0) (<= min-duration max-duration)) ERR_INVALID_MIN_STAKING_DURATION)
+      (asserts! (and (< max-duration u121) (>= max-duration min-duration)) ERR_INVALID_MAX_STAKING_DURATION)
+      (var-set minimum-staking-duration min-duration)
+      (var-set maximum-staking-duration max-duration)
+      (print {
+        action: "set-staking-duration",
+        caller: caller,
+        data: {
+          min-duration: min-duration,
+          max-duration: max-duration
+        }
+      })
+      (ok true)
+    )
+  )
+)
+
 (define-public (stake-lp-tokens (amount uint) (cycles uint))
   (let (
     (caller tx-sender)
@@ -231,7 +267,7 @@
     (begin
       (asserts! (is-eq (var-get staking-status) true) ERR_STAKING_DISABLED)
       (asserts! (> amount u0) ERR_INVALID_AMOUNT)
-      (asserts! (and (> cycles u0) (< cycles u121)) ERR_INVALID_CYCLE_LENGTH)
+      (asserts! (and (>= cycles (var-get minimum-staking-duration)) (<= cycles (var-get maximum-staking-duration))) ERR_INVALID_STAKING_DURATION)
       (try! (transfer-lp-token amount caller (as-contract tx-sender)))
       (fold fold-user-data-per-cycle next-cycles {amount: amount, cycles-staked: user-cycles-staked})
       (var-set total-lp-staked updated-total-lp-staked)
