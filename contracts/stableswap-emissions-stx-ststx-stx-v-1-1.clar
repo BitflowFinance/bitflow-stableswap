@@ -209,7 +209,7 @@
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
       (asserts! (< cycle current-cycle) ERR_INVALID_CYCLE)
-      (asserts! (>= (- current-cycle cycle) (var-get rewards-expiration)) ERR_REWARDS_NOT_EXPIRED)
+      (asserts! (> (- current-cycle cycle) (var-get rewards-expiration)) ERR_REWARDS_NOT_EXPIRED)
       (map-set cycle-data cycle (merge target-cycle-data {unclaimed-rewards: u0}))
       (var-set total-unclaimed-rewards updated-total-unclaimed-rewards)
       (print {
