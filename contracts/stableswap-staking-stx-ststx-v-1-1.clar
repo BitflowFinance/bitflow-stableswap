@@ -445,11 +445,7 @@
   (let (
     (caller tx-sender)
     (lp-to-unstake-static (get lp-to-unstake static-data))
-    (user-cycle-data (match (map-get? user-data-at-cycle {user: caller, cycle: cycle}) 
-      unwrapped-value
-        unwrapped-value
-      {lp-staked: u0, lp-to-unstake: u0}
-    ))
+    (user-cycle-data (default-to {lp-staked: u0, lp-to-unstake: u0} (map-get? user-data-at-cycle {user: caller, cycle: cycle})))
     (user-lp-to-unstake (get lp-to-unstake user-cycle-data))
     (helper-value-for-filter (var-set helper-value cycle))
     (filtered-cycles-to-unstake (filter filter-out-values-eq-to-helper-value (get cycles-to-unstake static-data)))
