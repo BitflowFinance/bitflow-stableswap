@@ -450,7 +450,7 @@
     (helper-value-for-filter (var-set helper-value cycle))
     (filtered-cycles-to-unstake (filter filter-out-values-eq-to-helper-value (get cycles-to-unstake static-data)))
   )
-    (if (and (> user-lp-to-unstake u0) (<= cycle (get-current-cycle)))
+    (if (> user-lp-to-unstake u0)
       (begin 
         (map-set user-data-at-cycle {user: caller, cycle: cycle} (merge 
           user-cycle-data
