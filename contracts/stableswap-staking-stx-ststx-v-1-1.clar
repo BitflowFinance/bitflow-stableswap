@@ -230,7 +230,7 @@
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
       (asserts! (and (> min-duration u0) (<= min-duration max-duration)) ERR_INVALID_MIN_STAKING_DURATION)
-      (asserts! (and (< max-duration u121) (>= max-duration min-duration)) ERR_INVALID_MAX_STAKING_DURATION)
+      (asserts! (< max-duration u121) ERR_INVALID_MAX_STAKING_DURATION)
       (var-set minimum-staking-duration min-duration)
       (var-set maximum-staking-duration max-duration)
       (print {
