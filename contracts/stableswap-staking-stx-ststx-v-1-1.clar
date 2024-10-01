@@ -16,10 +16,9 @@
 (define-constant ERR_CYCLES_STAKED_OVERFLOW (err u4014))
 (define-constant ERR_CYCLES_TO_UNSTAKE_OVERFLOW (err u4015))
 (define-constant ERR_NO_USER_DATA (err u4016))
-(define-constant ERR_NO_LP_TO_UNSTAKE (err u4017))
-(define-constant ERR_NO_EARLY_LP_TO_UNSTAKE (err u4018))
-(define-constant ERR_INVALID_FEE (err u4019))
-(define-constant ERR_HEIGHT_BEFORE_DEPLOYMENT (err u4020))
+(define-constant ERR_NO_EARLY_LP_TO_UNSTAKE (err u4017))
+(define-constant ERR_INVALID_FEE (err u4018))
+(define-constant ERR_HEIGHT_BEFORE_DEPLOYMENT (err u4019))
 
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
@@ -328,13 +327,16 @@
     (updated-total-lp-staked (- (var-get total-lp-staked) lp-to-unstake))
   )
     (begin
-      (asserts! (> lp-to-unstake u0) ERR_NO_LP_TO_UNSTAKE)
-      (try! (as-contract (transfer-lp-token lp-to-unstake tx-sender caller)))
-      (var-set total-lp-staked updated-total-lp-staked)
-      (map-set user-data caller (merge
-        current-user-data
-        {lp-staked: updated-user-lp-staked, cycles-to-unstake: (get cycles-to-unstake unstake-data)}
-      ))
+      (if (> lp-to-unstake u0)
+        (begin
+          (try! (as-contract (transfer-lp-token lp-to-unstake tx-sender caller)))
+          (var-set total-lp-staked updated-total-lp-staked)
+          (map-set user-data caller (merge
+            current-user-data
+            {lp-staked: updated-user-lp-staked, cycles-to-unstake: (get cycles-to-unstake unstake-data)}
+          )))
+        false
+      )
       (print {
         action: "unstake-lp-tokens",
         caller: caller,
@@ -354,7 +356,7 @@
 (define-public (early-unstake-lp-tokens)
   (let (
     (caller tx-sender)
-    (unstake-matured-user-lp (unstake-lp-tokens))
+    (unstake-matured-user-lp (try! (unstake-lp-tokens)))
     (current-cycle (get-current-cycle))
     (current-user-data (unwrap! (map-get? user-data caller) ERR_NO_USER_DATA))
     (user-cycles-staked (get cycles-staked current-user-data))
