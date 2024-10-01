@@ -713,7 +713,7 @@
       (asserts! (< liquidity-fee BPS) ERR_INVALID_FEE)
 
       ;; Create pool and set fees
-      (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract fee-address contract-caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))
+      (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract fee-address caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))
       (try! (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee))
       (try! (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee))
       (try! (contract-call? pool-trait set-liquidity-fee liquidity-fee))
