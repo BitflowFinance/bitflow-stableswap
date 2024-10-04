@@ -58,9 +58,12 @@
     (caller tx-sender)
   )
     (begin
+      ;; Assert that caller is contract-owner and uri length is greater than 0
       (asserts! (is-eq caller (var-get contract-owner)) ERR_NOT_AUTHORIZED)
       (asserts! (> (len uri) u0) ERR_INVALID_TOKEN_URI)
       (var-set token-uri uri)
+
+      ;; Print function data and return true
       (print {action: "set-token-uri", caller: caller, data: {uri: uri}})
       (ok true)
     )
