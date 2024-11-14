@@ -21,6 +21,7 @@
       creation-height: uint,
       pool-status: bool,
       core-address: principal,
+      midpoint-manager: principal,
       fee-address: principal,
       x-token: principal,
       y-token: principal,
@@ -28,6 +29,7 @@
       x-balance: uint,
       y-balance: uint,
       d: uint,
+      midpoint: uint,
       total-shares: uint,
       x-protocol-fee: uint,
       x-provider-fee: uint,
@@ -39,7 +41,9 @@
     } uint))
     (set-pool-uri ((string-utf8 256)) (response bool uint))
     (set-pool-status (bool) (response bool uint))
+    (set-midpoint-manager (principal) (response bool uint))
     (set-fee-address (principal) (response bool uint))
+    (set-midpoint (uint) (response bool uint))
     (set-x-fees (uint uint) (response bool uint))
     (set-y-fees (uint uint) (response bool uint))
     (set-liquidity-fee (uint) (response bool uint))
@@ -50,6 +54,6 @@
     (pool-transfer (<sip-010-trait> uint principal) (response bool uint))
     (pool-mint (uint principal) (response bool uint))
     (pool-burn (uint principal) (response bool uint))
-    (create-pool (principal principal principal principal uint uint uint (string-ascii 32) (string-ascii 32) (string-utf8 256) bool) (response bool uint))
+    (create-pool (principal principal principal principal principal uint uint uint (string-ascii 32) (string-ascii 32) (string-utf8 256) bool) (response bool uint))
   )
 )
