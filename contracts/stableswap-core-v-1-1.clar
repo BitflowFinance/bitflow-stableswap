@@ -31,6 +31,7 @@
 (define-constant ERR_INVALID_FEE (err u1024))
 (define-constant ERR_MINIMUM_BURN_AMOUNT (err u1025))
 (define-constant ERR_INVALID_MIN_BURNT_SHARES (err u1026))
+(define-constant ERR_INVALID_MIDPOINT (err u1027))
 
 ;; Contract deployer address
 (define-constant CONTRACT_DEPLOYER tx-sender)
@@ -43,6 +44,9 @@
 
 ;; Maximum BPS
 (define-constant BPS u10000)
+
+;; BPS for midpoint calculations
+(define-constant MIDPOINT_BPS u1000000)
 
 ;; Index loop for using Newton-Raphson method to converge square root that goes up to u384
 (define-constant index-list (list u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11 u12 u13 u14 u15 u16 u17 u18 u19 u20 u21 u22 u23 u24 u25 u26 u27 u28 u29 u30 u31 u32 u33 u34 u35 u36 u37 u38 u39 u40 u41 u42 u43 u44 u45 u46 u47 u48 u49 u50 u51 u52 u53 u54 u55 u56 u57 u58 u59 u60 u61 u62 u63 u64 u65 u66 u67 u68 u69 u70 u71 u72 u73 u74 u75 u76 u77 u78 u79 u80 u81 u82 u83 u84 u85 u86 u87 u88 u89 u90 u91 u92 u93 u94 u95 u96 u97 u98 u99 u100 u101 u102 u103 u104 u105 u106 u107 u108 u109 u110 u111 u112 u113 u114 u115 u116 u117 u118 u119 u120 u121 u122 u123 u124 u125 u126 u127 u128 u129 u130 u131 u132 u133 u134 u135 u136 u137 u138 u139 u140 u141 u142 u143 u144 u145 u146 u147 u148 u149 u150 u151 u152 u153 u154 u155 u156 u157 u158 u159 u160 u161 u162 u163 u164 u165 u166 u167 u168 u169 u170 u171 u172 u173 u174 u175 u176 u177 u178 u179 u180 u181 u182 u183 u184 u185 u186 u187 u188 u189 u190 u191 u192 u193 u194 u195 u196 u197 u198 u199 u200 u201 u202 u203 u204 u205 u206 u207 u208 u209 u210 u211 u212 u213 u214 u215 u216 u217 u218 u219 u220 u221 u222 u223 u224 u225 u226 u227 u228 u229 u230 u231 u232 u233 u234 u235 u236 u237 u238 u239 u240 u241 u242 u243 u244 u245 u246 u247 u248 u249 u250 u251 u252 u253 u254 u255 u256 u257 u258 u259 u260 u261 u262 u263 u264 u265 u266 u267 u268 u269 u270 u271 u272 u273 u274 u275 u276 u277 u278 u279 u280 u281 u282 u283 u284 u285 u286 u287 u288 u289 u290 u291 u292 u293 u294 u295 u296 u297 u298 u299 u300 u301 u302 u303 u304 u305 u306 u307 u308 u309 u310 u311 u312 u313 u314 u315 u316 u317 u318 u319 u320 u321 u322 u323 u324 u325 u326 u327 u328 u329 u330 u331 u332 u333 u334 u335 u336 u337 u338 u339 u340 u341 u342 u343 u344 u345 u346 u347 u348 u349 u350 u351 u352 u353 u354 u355 u356 u357 u358 u359 u360 u361 u362 u363 u364 u365 u366 u367 u368 u369 u370 u371 u372 u373 u374 u375 u376 u377 u378 u379 u380 u381 u382 u383 u384))
@@ -120,6 +124,7 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
+    (midpoint (get midpoint pool-data))
     (protocol-fee (get x-protocol-fee pool-data))
     (provider-fee (get x-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -135,8 +140,11 @@
     (x-amount-fees-provider-scaled (/ (* x-amount-scaled provider-fee) BPS))
     (x-amount-fees-total-scaled (+ x-amount-fees-protocol-scaled x-amount-fees-provider-scaled))
     (dx-scaled (- x-amount-scaled x-amount-fees-total-scaled))
-    (updated-y-balance-scaled (get-y dx-scaled x-balance-scaled y-balance-scaled amplification-coefficient convergence-threshold))
-    
+
+    ;; Calculate updated pool balances using midpoint
+    (x-balance-midpoint-scaled (/ (* x-balance-scaled MIDPOINT_BPS) midpoint))
+    (updated-y-balance-scaled (get-y dx-scaled x-balance-midpoint-scaled y-balance-scaled amplification-coefficient convergence-threshold))
+
     ;; Scale down to precise amounts for y and dy
     (updated-y-balance (get y-amount (scale-down-amounts u0 updated-y-balance-scaled x-token-trait y-token-trait)))
     (dy (- y-balance updated-y-balance))
@@ -168,11 +176,12 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
+    (midpoint (get midpoint pool-data))
     (protocol-fee (get y-protocol-fee pool-data))
     (provider-fee (get y-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
     (amplification-coefficient (get amplification-coefficient pool-data))
-    
+
     ;; Scale up pool balances and swap amounts to perform AMM calculations with get-x
     (pool-balances-scaled (scale-up-amounts x-balance y-balance x-token-trait y-token-trait))
     (x-balance-scaled (get x-amount pool-balances-scaled))
@@ -183,7 +192,10 @@
     (y-amount-fees-provider-scaled (/ (* y-amount-scaled provider-fee) BPS))
     (y-amount-fees-total-scaled (+ y-amount-fees-protocol-scaled y-amount-fees-provider-scaled))
     (dy-scaled (- y-amount-scaled y-amount-fees-total-scaled))
-    (updated-x-balance-scaled (get-x dy-scaled y-balance-scaled x-balance-scaled amplification-coefficient convergence-threshold))
+    
+    ;; Calculate updated pool balances using midpoint
+    (y-balance-midpoint-scaled (/ (* y-balance-scaled midpoint) MIDPOINT_BPS))
+    (updated-x-balance-scaled (get-x dy-scaled y-balance-midpoint-scaled x-balance-scaled amplification-coefficient convergence-threshold))
     
     ;; Scale down to precise amounts for x and dx
     (updated-x-balance (get x-amount (scale-down-amounts updated-x-balance-scaled u0 x-token-trait y-token-trait)))
@@ -433,6 +445,41 @@
   )
 )
 
+;; Set midpoint manager for a pool
+(define-public (set-midpoint-manager (pool-trait <stableswap-pool-trait>) (manager principal))
+  (let (
+    ;; Gather all pool data
+    (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (caller tx-sender)
+  )
+    (begin
+      ;; Assert caller is an admin and pool is created and valid
+      (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
+      (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
+      
+      ;; Assert that address is standard principal
+      (asserts! (is-standard manager) ERR_INVALID_PRINCIPAL)
+      
+      ;; Set midpoint manager for pool
+      (try! (contract-call? pool-trait set-midpoint-manager manager))
+      
+      ;; Print function data and return true
+      (print {
+        action: "set-midpoint-manager",
+        caller: caller,
+        data: {
+          pool-id: (get pool-id pool-data),
+          pool-name: (get pool-name pool-data),
+          pool-contract: (contract-of pool-trait),
+          manager: manager
+        }
+      })
+      (ok true)
+    )
+  )
+)
+
 ;; Set fee address for a pool
 (define-public (set-fee-address (pool-trait <stableswap-pool-trait>) (address principal))
   (let (
@@ -468,6 +515,42 @@
   )
 )
 
+;; Set midpoint for a pool
+(define-public (set-midpoint (pool-trait <stableswap-pool-trait>) (midpoint uint))
+  (let (
+    ;; Gather all pool data and check if pool is valid
+    (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (midpoint-manager (get midpoint-manager pool-data))
+    (caller tx-sender)
+  )
+    (begin
+      ;; Assert caller is an admin or midpoint manager and pool is created and valid
+      (asserts! (or (is-some (index-of (var-get admins) caller)) (is-eq midpoint-manager caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
+      (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
+
+      ;; Assert that midpoint is greater than or equal to MIDPOINT_BPS
+      (asserts! (>= midpoint MIDPOINT_BPS) ERR_INVALID_MIDPOINT)
+
+      ;; Set midpoint for pool
+      (try! (contract-call? pool-trait set-midpoint midpoint))
+      
+      ;; Print function data and return true
+      (print {
+        action: "set-midpoint",
+        caller: caller,
+        data: {
+          pool-id: (get pool-id pool-data),
+          pool-name: (get pool-name pool-data),
+          pool-contract: (contract-of pool-trait),
+          midpoint: midpoint
+        }
+      })
+      (ok true)
+    )
+  )
+)
+
 ;; Set x fees for a pool
 (define-public (set-x-fees (pool-trait <stableswap-pool-trait>) (protocol-fee uint) (provider-fee uint))
   (let (
@@ -484,7 +567,7 @@
       ;; Assert protocol-fee and provider-fee is less than maximum BPS
       (asserts! (< (+ protocol-fee provider-fee) BPS) ERR_INVALID_FEE)
       
-      ;; Assert protocol-fee and provider-fee is less than maximum BPS
+      ;; Set x fees for pool
       (try! (contract-call? pool-trait set-x-fees protocol-fee provider-fee))
       
       ;; Print function data and return true
@@ -644,13 +727,14 @@
     (pool-trait <stableswap-pool-trait>)
     (x-token-trait <sip-010-trait>) (y-token-trait <sip-010-trait>)
     (x-amount uint) (y-amount uint)
-    (burn-amount uint)
+    (burn-amount uint) (midpoint uint)
     (x-protocol-fee uint) (x-provider-fee uint)
     (y-protocol-fee uint) (y-provider-fee uint)
     (liquidity-fee uint)
     (amplification-coefficient uint)
     (convergence-threshold uint)
-    (fee-address principal) (uri (string-utf8 256)) (status bool)
+    (midpoint-manager principal) (fee-address principal)
+    (uri (string-utf8 256)) (status bool)
   )
   (let (
     ;; Gather all pool data and pool contract
@@ -685,6 +769,7 @@
       ;; Assert that addresses are standard principals
       (asserts! (is-standard x-token-contract) ERR_INVALID_PRINCIPAL)
       (asserts! (is-standard y-token-contract) ERR_INVALID_PRINCIPAL)
+      (asserts! (is-standard midpoint-manager) ERR_INVALID_PRINCIPAL)
       (asserts! (is-standard fee-address) ERR_INVALID_PRINCIPAL)
       
       ;; Assert that x and y amount is greater than 0
@@ -707,13 +792,17 @@
       (asserts! (> (len symbol) u0) ERR_INVALID_POOL_SYMBOL)
       (asserts! (> (len name) u0) ERR_INVALID_POOL_NAME)
 
+      ;; Assert that midpoint is greater than or equal to MIDPOINT_BPS
+      (asserts! (>= midpoint MIDPOINT_BPS) ERR_INVALID_MIDPOINT)
+
       ;; Assert that fees are less than maximum BPS
       (asserts! (< (+ x-protocol-fee x-provider-fee) BPS) ERR_INVALID_FEE)
       (asserts! (< (+ y-protocol-fee y-provider-fee) BPS) ERR_INVALID_FEE)
       (asserts! (< liquidity-fee BPS) ERR_INVALID_FEE)
 
-      ;; Create pool and set fees
-      (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract fee-address caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))
+      ;; Create pool, set midpoint, and set fees
+      (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract midpoint-manager fee-address caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))
+      (try! (contract-call? pool-trait set-midpoint midpoint))
       (try! (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee))
       (try! (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee))
       (try! (contract-call? pool-trait set-liquidity-fee liquidity-fee))
@@ -753,11 +842,13 @@
           x-amount: x-amount,
           y-amount: y-amount,
           burn-amount: burn-amount,
+          midpoint: midpoint,
           total-shares: total-shares,
           pool-symbol: symbol,
           pool-uri: uri,
           pool-status: status,
           creation-height: burn-block-height,
+          midpoint-manager: midpoint-manager,
           fee-address: fee-address,
           amplification-coefficient: amplification-coefficient,
           convergence-threshold: convergence-threshold
@@ -784,6 +875,7 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
+    (midpoint (get midpoint pool-data))
     (protocol-fee (get x-protocol-fee pool-data))
     (provider-fee (get x-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -800,8 +892,11 @@
     (x-amount-fees-total-scaled (+ x-amount-fees-protocol-scaled x-amount-fees-provider-scaled))
     (dx-scaled (- x-amount-scaled x-amount-fees-total-scaled))
     (updated-x-balance-scaled (+ x-balance-scaled dx-scaled x-amount-fees-provider-scaled))
-    (updated-y-balance-scaled (get-y dx-scaled x-balance-scaled y-balance-scaled amplification-coefficient convergence-threshold))
     
+    ;; Calculate updated pool balances using midpoint
+    (x-balance-midpoint-scaled (/ (* x-balance-scaled MIDPOINT_BPS) midpoint))
+    (updated-y-balance-scaled (get-y dx-scaled x-balance-midpoint-scaled y-balance-scaled amplification-coefficient convergence-threshold))
+
     ;; Scale down to precise amounts for y and dy, as well as x-amount-fees-protocol and x-amount-fees-provider
     (updated-y-balance (get y-amount (scale-down-amounts u0 updated-y-balance-scaled x-token-trait y-token-trait)))
     (dy (- y-balance updated-y-balance))
@@ -854,6 +949,7 @@
           x-amount: x-amount,
           x-amount-fees-protocol: x-amount-fees-protocol,
           x-amount-fees-provider: x-amount-fees-provider,
+          midpoint: midpoint,
           dy: dy,
           min-dy: min-dy
         }
@@ -879,11 +975,12 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
+    (midpoint (get midpoint pool-data))
     (protocol-fee (get y-protocol-fee pool-data))
     (provider-fee (get y-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
     (amplification-coefficient (get amplification-coefficient pool-data))
-    
+
     ;; Scale up pool balances and swap amounts to perform AMM calculations with get-x
     (pool-balances-scaled (scale-up-amounts x-balance y-balance x-token-trait y-token-trait))
     (x-balance-scaled (get x-amount pool-balances-scaled))
@@ -895,8 +992,11 @@
     (y-amount-fees-total-scaled (+ y-amount-fees-protocol-scaled y-amount-fees-provider-scaled))
     (dy-scaled (- y-amount-scaled y-amount-fees-total-scaled))
     (updated-y-balance-scaled (+ y-balance-scaled dy-scaled y-amount-fees-provider-scaled))
-    (updated-x-balance-scaled (get-x dy-scaled y-balance-scaled x-balance-scaled amplification-coefficient convergence-threshold))
     
+    ;; Calculate updated pool balances using midpoint
+    (y-balance-midpoint-scaled (/ (* y-balance-scaled midpoint) MIDPOINT_BPS))
+    (updated-x-balance-scaled (get-x dy-scaled y-balance-midpoint-scaled x-balance-scaled amplification-coefficient convergence-threshold))
+
     ;; Scale down to precise amounts for x and dx, as well as y-amount-fees-protocol and y-amount-fees-provider
     (updated-x-balance (get x-amount (scale-down-amounts updated-x-balance-scaled u0 x-token-trait y-token-trait)))
     (dx (- x-balance updated-x-balance))
@@ -949,6 +1049,7 @@
           y-amount: y-amount,
           y-amount-fees-protocol: y-amount-fees-protocol,
           y-amount-fees-provider: y-amount-fees-provider,
+          midpoint: midpoint,
           dx: dx,
           min-dx: min-dx
         }
