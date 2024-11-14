@@ -32,6 +32,8 @@
 
 (define-data-var pool-status bool false)
 
+(define-data-var midpoint-manager principal tx-sender)
+
 (define-data-var fee-address principal tx-sender)
 
 (define-data-var x-token principal tx-sender)
@@ -41,6 +43,8 @@
 (define-data-var y-balance uint u0)
 
 (define-data-var d uint u0)
+
+(define-data-var midpoint uint u0)
 
 (define-data-var x-protocol-fee uint u0)
 (define-data-var x-provider-fee uint u0)
@@ -94,6 +98,7 @@
     creation-height: (var-get creation-height),
     pool-status: (var-get pool-status),
     core-address: CORE_ADDRESS,
+    midpoint-manager: (var-get midpoint-manager),
     fee-address: (var-get fee-address),
     x-token: (var-get x-token),
     y-token: (var-get y-token),
@@ -101,6 +106,7 @@
     x-balance: (var-get x-balance),
     y-balance: (var-get y-balance),
     d: (var-get d),
+    midpoint: (var-get midpoint),
     total-shares: (ft-get-supply pool-token),
     x-protocol-fee: (var-get x-protocol-fee),
     x-provider-fee: (var-get x-provider-fee),
@@ -140,6 +146,20 @@
   )
 )
 
+;; Set midpoint manager via Stableswap Core
+(define-public (set-midpoint-manager (manager principal))
+  (let (
+    (caller contract-caller)
+  )
+    (begin
+      ;; Assert that caller is core address before setting var
+      (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
+      (var-set midpoint-manager manager)
+      (ok true)
+    )
+  )
+)
+
 ;; Set fee address via Stableswap Core
 (define-public (set-fee-address (address principal))
   (let (
@@ -149,6 +169,20 @@
       ;; Assert that caller is core address before setting var
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
       (var-set fee-address address)
+      (ok true)
+    )
+  )
+)
+
+;; Set midpoint via Stableswap Core
+(define-public (set-midpoint (value uint))
+  (let (
+    (caller contract-caller)
+  )
+    (begin
+      ;; Assert that caller is core address before setting var
+      (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
+      (var-set midpoint value)
       (ok true)
     )
   )
@@ -356,7 +390,7 @@
 ;; Create pool using this pool contract via Stableswap Core
 (define-public (create-pool
     (x-token-contract principal) (y-token-contract principal)
-    (fee-addr principal) (core-caller principal)
+    (midpoint-mgr principal) (fee-addr principal) (core-caller principal)
     (coefficient uint)
     (threshold uint)
     (id uint)
@@ -380,6 +414,7 @@
       (var-set pool-status status)
       (var-set x-token x-token-contract)
       (var-set y-token y-token-contract)
+      (var-set midpoint-manager midpoint-mgr)
       (var-set fee-address fee-addr)
       (var-set amplification-coefficient coefficient)
       (var-set convergence-threshold threshold)
