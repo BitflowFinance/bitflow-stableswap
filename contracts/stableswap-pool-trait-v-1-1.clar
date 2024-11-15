@@ -30,6 +30,7 @@
       y-balance: uint,
       d: uint,
       midpoint: uint,
+      midpoint-factor: uint,
       total-shares: uint,
       x-protocol-fee: uint,
       x-provider-fee: uint,
@@ -44,6 +45,7 @@
     (set-midpoint-manager (principal) (response bool uint))
     (set-fee-address (principal) (response bool uint))
     (set-midpoint (uint) (response bool uint))
+    (set-midpoint-factor (uint) (response bool uint))
     (set-x-fees (uint uint) (response bool uint))
     (set-y-fees (uint uint) (response bool uint))
     (set-liquidity-fee (uint) (response bool uint))
