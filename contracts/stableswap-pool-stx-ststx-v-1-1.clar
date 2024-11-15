@@ -45,6 +45,7 @@
 (define-data-var d uint u0)
 
 (define-data-var midpoint uint u0)
+(define-data-var midpoint-factor uint u0)
 
 (define-data-var x-protocol-fee uint u0)
 (define-data-var x-provider-fee uint u0)
@@ -107,6 +108,7 @@
     y-balance: (var-get y-balance),
     d: (var-get d),
     midpoint: (var-get midpoint),
+    midpoint-factor: (var-get midpoint-factor),
     total-shares: (ft-get-supply pool-token),
     x-protocol-fee: (var-get x-protocol-fee),
     x-provider-fee: (var-get x-provider-fee),
@@ -183,6 +185,20 @@
       ;; Assert that caller is core address before setting var
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
       (var-set midpoint value)
+      (ok true)
+    )
+  )
+)
+
+;; Set midpoint factor via Stableswap Core
+(define-public (set-midpoint-factor (factor uint))
+  (let (
+    (caller contract-caller)
+  )
+    (begin
+      ;; Assert that caller is core address before setting var
+      (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
+      (var-set midpoint-factor factor)
       (ok true)
     )
   )
