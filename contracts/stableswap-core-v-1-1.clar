@@ -997,6 +997,7 @@
           x-amount-fees-protocol: x-amount-fees-protocol,
           x-amount-fees-provider: x-amount-fees-provider,
           midpoint: midpoint,
+          midpoint-factor: midpoint-factor,
           dy: dy,
           min-dy: min-dy
         }
@@ -1098,6 +1099,7 @@
           y-amount-fees-protocol: y-amount-fees-protocol,
           y-amount-fees-provider: y-amount-fees-provider,
           midpoint: midpoint,
+          midpoint-factor: midpoint-factor,
           dx: dx,
           min-dx: min-dx
         }
