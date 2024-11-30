@@ -31,7 +31,7 @@
 (define-constant ERR_INVALID_FEE (err u1024))
 (define-constant ERR_MINIMUM_BURN_AMOUNT (err u1025))
 (define-constant ERR_INVALID_MIN_BURNT_SHARES (err u1026))
-(define-constant ERR_INVALID_MIDPOINT (err u1027))
+(define-constant ERR_MIDPOINT_FACTOR_EXCEEDS_MIDPOINT (err u1027))
 (define-constant ERR_INVALID_MIDPOINT_FACTOR (err u1028))
 
 ;; Contract deployer address
@@ -531,7 +531,7 @@
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
 
       ;; Assert that midpoint is greater than or equal to midpoint-factor
-      (asserts! (>= midpoint midpoint-factor) ERR_INVALID_MIDPOINT)
+      (asserts! (>= midpoint midpoint-factor) ERR_MIDPOINT_FACTOR_EXCEEDS_MIDPOINT)
 
       ;; Set midpoint for pool
       (try! (contract-call? pool-trait set-midpoint midpoint))
@@ -571,7 +571,7 @@
       (asserts! (> factor u0) ERR_INVALID_MIDPOINT_FACTOR)
 
       ;; Assert that midpoint is greater than or equal to factor
-      (asserts! (>= midpoint factor) ERR_INVALID_MIDPOINT)
+      (asserts! (>= midpoint factor) ERR_MIDPOINT_FACTOR_EXCEEDS_MIDPOINT)
 
       ;; Set midpoint factor for pool
       (try! (contract-call? pool-trait set-midpoint-factor factor))
@@ -837,7 +837,7 @@
       (asserts! (> midpoint-factor u0) ERR_INVALID_MIDPOINT_FACTOR)
 
       ;; Assert that midpoint is greater than or equal to midpoint-factor
-      (asserts! (>= midpoint midpoint-factor) ERR_INVALID_MIDPOINT)
+      (asserts! (>= midpoint midpoint-factor) ERR_MIDPOINT_FACTOR_EXCEEDS_MIDPOINT)
 
       ;; Assert that fees are less than maximum BPS
       (asserts! (< (+ x-protocol-fee x-provider-fee) BPS) ERR_INVALID_FEE)
