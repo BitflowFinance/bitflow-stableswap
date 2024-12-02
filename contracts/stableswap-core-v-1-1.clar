@@ -769,7 +769,7 @@
     (liquidity-fee uint)
     (amplification-coefficient uint)
     (convergence-threshold uint)
-    (midpoint-manager principal) (fee-address principal)
+    (fee-address principal)
     (uri (string-utf8 256)) (status bool)
   )
   (let (
@@ -805,7 +805,6 @@
       ;; Assert that addresses are standard principals
       (asserts! (is-standard x-token-contract) ERR_INVALID_PRINCIPAL)
       (asserts! (is-standard y-token-contract) ERR_INVALID_PRINCIPAL)
-      (asserts! (is-standard midpoint-manager) ERR_INVALID_PRINCIPAL)
       (asserts! (is-standard fee-address) ERR_INVALID_PRINCIPAL)
       
       ;; Assert that x and y amount is greater than 0
@@ -838,7 +837,7 @@
       (asserts! (< liquidity-fee BPS) ERR_INVALID_FEE)
 
       ;; Create pool, set midpoint, set midpoint-factor, and set fees
-      (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract midpoint-manager fee-address caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))
+      (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract CONTRACT_DEPLOYER fee-address caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))
       (try! (contract-call? pool-trait set-midpoint midpoint))
       (try! (contract-call? pool-trait set-midpoint-factor midpoint-factor))
       (try! (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee))
@@ -887,7 +886,7 @@
           pool-uri: uri,
           pool-status: status,
           creation-height: burn-block-height,
-          midpoint-manager: midpoint-manager,
+          midpoint-manager: CONTRACT_DEPLOYER,
           fee-address: fee-address,
           amplification-coefficient: amplification-coefficient,
           convergence-threshold: convergence-threshold
