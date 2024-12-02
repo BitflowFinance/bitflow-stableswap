@@ -31,7 +31,7 @@
 (define-constant ERR_INVALID_FEE (err u1024))
 (define-constant ERR_MINIMUM_BURN_AMOUNT (err u1025))
 (define-constant ERR_INVALID_MIN_BURNT_SHARES (err u1026))
-(define-constant ERR_MIDPOINT_FACTOR_EXCEEDS_MIDPOINT (err u1027))
+(define-constant ERR_INVALID_MIDPOINT (err u1027))
 (define-constant ERR_INVALID_MIDPOINT_FACTOR (err u1028))
 
 ;; Contract deployer address
@@ -521,7 +521,6 @@
     ;; Gather all pool data and check if pool is valid
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
     (midpoint-manager (get midpoint-manager pool-data))
-    (midpoint-factor (get midpoint-factor pool-data))
     (caller tx-sender)
   )
     (begin
@@ -530,8 +529,8 @@
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
 
-      ;; Assert that midpoint is greater than or equal to midpoint-factor
-      (asserts! (>= midpoint midpoint-factor) ERR_MIDPOINT_FACTOR_EXCEEDS_MIDPOINT)
+      ;; Assert that midpoint is greater than 0
+      (asserts! (> midpoint u0) ERR_INVALID_MIDPOINT)
 
       ;; Set midpoint for pool
       (try! (contract-call? pool-trait set-midpoint midpoint))
@@ -558,7 +557,6 @@
     ;; Gather all pool data and check if pool is valid
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
     (midpoint-manager (get midpoint-manager pool-data))
-    (midpoint (get midpoint pool-data))
     (caller tx-sender)
   )
     (begin
@@ -569,9 +567,6 @@
 
       ;; Assert that factor is greater than 0
       (asserts! (> factor u0) ERR_INVALID_MIDPOINT_FACTOR)
-
-      ;; Assert that midpoint is greater than or equal to factor
-      (asserts! (>= midpoint factor) ERR_MIDPOINT_FACTOR_EXCEEDS_MIDPOINT)
 
       ;; Set midpoint factor for pool
       (try! (contract-call? pool-trait set-midpoint-factor factor))
@@ -833,11 +828,9 @@
       (asserts! (> (len symbol) u0) ERR_INVALID_POOL_SYMBOL)
       (asserts! (> (len name) u0) ERR_INVALID_POOL_NAME)
 
-      ;; Assert that midpoint-factor is greater than 0
+      ;; Assert that midpoint and midpoint-factor are greater than 0
+      (asserts! (> midpoint u0) ERR_INVALID_MIDPOINT)
       (asserts! (> midpoint-factor u0) ERR_INVALID_MIDPOINT_FACTOR)
-
-      ;; Assert that midpoint is greater than or equal to midpoint-factor
-      (asserts! (>= midpoint midpoint-factor) ERR_MIDPOINT_FACTOR_EXCEEDS_MIDPOINT)
 
       ;; Assert that fees are less than maximum BPS
       (asserts! (< (+ x-protocol-fee x-provider-fee) BPS) ERR_INVALID_FEE)
