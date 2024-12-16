@@ -229,7 +229,7 @@
 (define-public (withdraw-rewards (amount uint) (recipient principal))
   (let (
     (contract-balance (try! (get-contract-token-balance)))
-    (caller tx-sender)
+    (caller contract-caller)
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
