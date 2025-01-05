@@ -1,7 +1,7 @@
-;; stableswap-emissions-stx-ststx-stx-v-1-1
+;; stableswap-emissions-stx-ststx-stx-v-1-2
 
 ;; Implement Stableswap emissions trait
-(impl-trait .stableswap-emissions-trait-v-1-1.stableswap-emissions-trait)
+(impl-trait .stableswap-emissions-trait-v-1-2.stableswap-emissions-trait)
 
 (define-constant ERR_NOT_AUTHORIZED (err u2001))
 (define-constant ERR_INVALID_AMOUNT (err u2002))
