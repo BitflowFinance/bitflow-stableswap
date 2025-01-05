@@ -1,5 +1,8 @@
 ;; stableswap-staking-stx-ststx-v-1-1
 
+;; Implement Stableswap staking trait
+(impl-trait .stableswap-staking-trait-v-1-1.stableswap-staking-trait)
+
 (define-constant ERR_NOT_AUTHORIZED (err u4001))
 (define-constant ERR_INVALID_AMOUNT (err u4002))
 (define-constant ERR_INVALID_PRINCIPAL (err u4003))
@@ -70,7 +73,7 @@
 )
 
 (define-read-only (get-current-cycle) 
-  (/ (- burn-block-height DEPLOYMENT_HEIGHT) CYCLE_LENGTH)
+  (ok (/ (- burn-block-height DEPLOYMENT_HEIGHT) CYCLE_LENGTH))
 )
 
 (define-read-only (get-cycle-from-height (height uint)) 
@@ -253,7 +256,7 @@
     (user-cycles-to-unstake (default-to (list ) (get cycles-to-unstake current-user-data)))
     (helper-value-for-filter (var-set helper-value cycles))
     (filtered-cycles-list (filter filter-values-lte-helper-value CYCLES_LIST))
-    (current-cycle (get-current-cycle))
+    (current-cycle (do-get-current-cycle))
     (helper-value-for-map (var-set helper-value current-cycle))
     (next-cycles (map sum-with-helper-value filtered-cycles-list))
     (helper-list-for-filter (var-set helper-list user-cycles-staked))
@@ -315,13 +318,13 @@
 (define-public (unstake-lp-tokens)
   (let (
     (caller tx-sender)
-    (current-cycle (get-current-cycle))
+    (current-cycle (do-get-current-cycle))
     (helper-value-current-cycle (var-set helper-value current-cycle))
     (current-user-data (unwrap! (map-get? user-data caller) ERR_NO_USER_DATA))
     (user-cycles-to-unstake (get cycles-to-unstake current-user-data))
     (filtered-user-cycles-to-unstake (filter filter-values-lte-helper-value user-cycles-to-unstake))
     (user-lp-staked (get lp-staked current-user-data))
-    (unstake-data (fold fold-cycles-to-unstakeable-cycles filtered-user-cycles-to-unstake {lp-to-unstake: u0, cycles-to-unstake: filtered-user-cycles-to-unstake}))
+    (unstake-data (fold fold-cycles-to-unstakeable-cycles filtered-user-cycles-to-unstake {lp-to-unstake: u0, cycles-to-unstake: user-cycles-to-unstake}))
     (lp-to-unstake (get lp-to-unstake unstake-data))
     (updated-user-lp-staked (- user-lp-staked lp-to-unstake))
     (updated-total-lp-staked (- (var-get total-lp-staked) lp-to-unstake))
@@ -357,7 +360,7 @@
   (let (
     (caller tx-sender)
     (unstake-matured-user-lp (try! (unstake-lp-tokens)))
-    (current-cycle (get-current-cycle))
+    (current-cycle (do-get-current-cycle))
     (current-user-data (unwrap! (map-get? user-data caller) ERR_NO_USER_DATA))
     (user-cycles-staked (get cycles-staked current-user-data))
     (unstake-data (fold fold-early-unstake-per-cycle user-cycles-staked {current-cycle: current-cycle, lp-to-unstake: u0}))
@@ -400,6 +403,10 @@
 
 (define-private (admin-not-removable (admin principal))
   (not (is-eq admin (var-get admin-helper)))
+)
+
+(define-private (do-get-current-cycle) 
+  (/ (- burn-block-height DEPLOYMENT_HEIGHT) CYCLE_LENGTH)
 )
 
 (define-private (filter-values-lte-helper-value (value uint)) 
