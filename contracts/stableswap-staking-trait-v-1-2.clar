@@ -1,4 +1,4 @@
-;; stableswap-staking-trait-v-1-1
+;; stableswap-staking-trait-v-1-2
 
 ;; Define staking trait for Stableswap Core
 (define-trait stableswap-staking-trait
