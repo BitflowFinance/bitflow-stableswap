@@ -7,8 +7,6 @@
     (get-current-cycle () (response uint uint))
     (get-cycle-from-height (uint) (response uint uint))
     (get-starting-height-from-cycle (uint) (response uint bool))
-    (get-admins () (response (list 5 principal) (list 5 principal)))
-    (get-admin-helper () (response principal principal))
     (get-claim-status () (response bool uint))
     (get-total-unclaimed-rewards () (response uint uint))
     (get-rewards-expiration () (response uint uint))
