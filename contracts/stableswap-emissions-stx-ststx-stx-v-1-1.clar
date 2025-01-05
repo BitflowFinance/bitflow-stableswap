@@ -1,5 +1,8 @@
 ;; stableswap-emissions-stx-ststx-stx-v-1-1
 
+;; Implement Stableswap emissions trait
+(impl-trait .stableswap-emissions-trait-v-1-1.stableswap-emissions-trait)
+
 (define-constant ERR_NOT_AUTHORIZED (err u2001))
 (define-constant ERR_INVALID_AMOUNT (err u2002))
 (define-constant ERR_INVALID_PRINCIPAL (err u2003))
@@ -51,7 +54,7 @@
 )
 
 (define-read-only (get-current-cycle) 
-  (/ (- burn-block-height DEPLOYMENT_HEIGHT) CYCLE_LENGTH)
+  (ok (/ (- burn-block-height DEPLOYMENT_HEIGHT) CYCLE_LENGTH))
 )
 
 (define-read-only (get-cycle-from-height (height uint)) 
@@ -95,7 +98,7 @@
 
 (define-read-only (get-user-rewards-at-cycle (user principal) (cycle uint))
   (let (   
-    (current-cycle (get-current-cycle))
+    (current-cycle (do-get-current-cycle))
     (target-cycle-data (unwrap! (map-get? cycle-data cycle) ERR_NO_CYCLE_DATA))
     (cycle-unclaimed-rewards (get unclaimed-rewards target-cycle-data))
     (user-claimed-at-target-cycle (default-to false (map-get? user-claimed-at-cycle {user: user, cycle: cycle})))
@@ -172,7 +175,7 @@
 
 (define-public (set-rewards (cycle uint) (amount uint))
   (let (
-    (current-cycle (get-current-cycle))
+    (current-cycle (do-get-current-cycle))
     (target-cycle-data (default-to {total-rewards: u0, claimed-rewards: u0, unclaimed-rewards: u0} (map-get? cycle-data cycle)))
     (contract-balance (try! (get-contract-token-balance)))
     (updated-total-unclaimed-rewards (+ (- (var-get total-unclaimed-rewards) (get unclaimed-rewards target-cycle-data)) amount))
@@ -201,7 +204,7 @@
 
 (define-public (clear-expired-rewards (cycle uint))
   (let (
-    (current-cycle (get-current-cycle))
+    (current-cycle (do-get-current-cycle))
     (target-cycle-data (unwrap! (map-get? cycle-data cycle) ERR_NO_CYCLE_DATA))
     (updated-total-unclaimed-rewards (- (var-get total-unclaimed-rewards) (get unclaimed-rewards target-cycle-data)))
     (caller tx-sender)
@@ -253,7 +256,7 @@
 (define-public (claim-rewards (cycle uint))
   (let (
     (caller tx-sender)
-    (current-cycle (get-current-cycle))
+    (current-cycle (do-get-current-cycle))
     (target-cycle-data (unwrap! (map-get? cycle-data cycle) ERR_NO_CYCLE_DATA))
     (cycle-unclaimed-rewards (get unclaimed-rewards target-cycle-data))
     (user-claimed-at-target-cycle (default-to false (map-get? user-claimed-at-cycle {user: caller, cycle: cycle})))
@@ -310,6 +313,10 @@
 
 (define-private (admin-not-removable (admin principal))
   (not (is-eq admin (var-get admin-helper)))
+)
+
+(define-private (do-get-current-cycle) 
+  (/ (- burn-block-height DEPLOYMENT_HEIGHT) CYCLE_LENGTH)
 )
 
 (define-private (transfer-rewards-token (amount uint) (sender principal) (recipient principal))
