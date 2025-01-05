@@ -1,7 +1,7 @@
-;; stableswap-staking-stx-ststx-v-1-1
+;; stableswap-staking-stx-ststx-v-1-2
 
 ;; Implement Stableswap staking trait
-(impl-trait .stableswap-staking-trait-v-1-1.stableswap-staking-trait)
+(impl-trait .stableswap-staking-trait-v-1-2.stableswap-staking-trait)
 
 (define-constant ERR_NOT_AUTHORIZED (err u4001))
 (define-constant ERR_INVALID_AMOUNT (err u4002))
