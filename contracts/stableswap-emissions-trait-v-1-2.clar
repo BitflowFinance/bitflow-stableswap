@@ -1,4 +1,4 @@
-;; stableswap-emissions-trait-v-1-1
+;; stableswap-emissions-trait-v-1-2
 
 ;; Define emissions trait for Stableswap Core
 (define-trait stableswap-emissions-trait
