@@ -31,6 +31,7 @@
       d: uint,
       midpoint: uint,
       midpoint-factor: uint,
+      midpoint-reversed: bool,
       total-shares: uint,
       x-protocol-fee: uint,
       x-provider-fee: uint,
@@ -46,6 +47,7 @@
     (set-fee-address (principal) (response bool uint))
     (set-midpoint (uint) (response bool uint))
     (set-midpoint-factor (uint) (response bool uint))
+    (set-midpoint-reversed (bool) (response bool uint))
     (set-x-fees (uint uint) (response bool uint))
     (set-y-fees (uint uint) (response bool uint))
     (set-liquidity-fee (uint) (response bool uint))
