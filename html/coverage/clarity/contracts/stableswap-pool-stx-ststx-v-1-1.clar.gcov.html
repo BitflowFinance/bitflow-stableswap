@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2025-02-24 07:58:21</td>
+            <td class="headerValue">2025-02-24 08:04:31</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">18</td>
@@ -153,34 +153,34 @@
 <a name="91"><span class="lineNum">      91 </span>            : </a>
 <a name="92"><span class="lineNum">      92 </span>            : ;; Get all pool data</a>
 <a name="93"><span class="lineNum">      93 </span>            : (define-read-only (get-pool)</a>
-<a name="94"><span class="lineNum">      94 </span><span class="lineCov">        141 :   (ok {</span></a>
-<a name="95"><span class="lineNum">      95 </span><span class="lineCov">        141 :     pool-id: (var-get pool-id),</span></a>
-<a name="96"><span class="lineNum">      96 </span><span class="lineCov">        141 :     pool-name: (var-get pool-name),</span></a>
-<a name="97"><span class="lineNum">      97 </span><span class="lineCov">        141 :     pool-symbol: (var-get pool-symbol),</span></a>
-<a name="98"><span class="lineNum">      98 </span><span class="lineCov">        141 :     pool-uri: (var-get pool-uri),</span></a>
-<a name="99"><span class="lineNum">      99 </span><span class="lineCov">        141 :     pool-created: (var-get pool-created),</span></a>
-<a name="100"><span class="lineNum">     100 </span><span class="lineCov">        141 :     creation-height: (var-get creation-height),</span></a>
-<a name="101"><span class="lineNum">     101 </span><span class="lineCov">        141 :     pool-status: (var-get pool-status),</span></a>
-<a name="102"><span class="lineNum">     102 </span><span class="lineCov">        141 :     core-address: CORE_ADDRESS,</span></a>
-<a name="103"><span class="lineNum">     103 </span><span class="lineCov">        141 :     midpoint-manager: (var-get midpoint-manager),</span></a>
-<a name="104"><span class="lineNum">     104 </span><span class="lineCov">        141 :     fee-address: (var-get fee-address),</span></a>
-<a name="105"><span class="lineNum">     105 </span><span class="lineCov">        141 :     x-token: (var-get x-token),</span></a>
-<a name="106"><span class="lineNum">     106 </span><span class="lineCov">        141 :     y-token: (var-get y-token),</span></a>
-<a name="107"><span class="lineNum">     107 </span><span class="lineCov">        141 :     pool-token: (as-contract tx-sender),</span></a>
-<a name="108"><span class="lineNum">     108 </span><span class="lineCov">        141 :     x-balance: (var-get x-balance),</span></a>
-<a name="109"><span class="lineNum">     109 </span><span class="lineCov">        141 :     y-balance: (var-get y-balance),</span></a>
-<a name="110"><span class="lineNum">     110 </span><span class="lineCov">        141 :     d: (var-get d),</span></a>
-<a name="111"><span class="lineNum">     111 </span><span class="lineCov">        141 :     midpoint: (var-get midpoint),</span></a>
-<a name="112"><span class="lineNum">     112 </span><span class="lineCov">        141 :     midpoint-factor: (var-get midpoint-factor),</span></a>
-<a name="113"><span class="lineNum">     113 </span><span class="lineCov">        141 :     midpoint-reversed: (var-get midpoint-reversed),</span></a>
-<a name="114"><span class="lineNum">     114 </span><span class="lineCov">        141 :     total-shares: (ft-get-supply pool-token),</span></a>
-<a name="115"><span class="lineNum">     115 </span><span class="lineCov">        141 :     x-protocol-fee: (var-get x-protocol-fee),</span></a>
-<a name="116"><span class="lineNum">     116 </span><span class="lineCov">        141 :     x-provider-fee: (var-get x-provider-fee),</span></a>
-<a name="117"><span class="lineNum">     117 </span><span class="lineCov">        141 :     y-protocol-fee: (var-get y-protocol-fee),</span></a>
-<a name="118"><span class="lineNum">     118 </span><span class="lineCov">        141 :     y-provider-fee: (var-get y-provider-fee),</span></a>
-<a name="119"><span class="lineNum">     119 </span><span class="lineCov">        141 :     liquidity-fee: (var-get liquidity-fee),</span></a>
-<a name="120"><span class="lineNum">     120 </span><span class="lineCov">        141 :     amplification-coefficient: (var-get amplification-coefficient),</span></a>
-<a name="121"><span class="lineNum">     121 </span><span class="lineCov">        141 :     convergence-threshold: (var-get convergence-threshold)</span></a>
+<a name="94"><span class="lineNum">      94 </span><span class="lineCov">        164 :   (ok {</span></a>
+<a name="95"><span class="lineNum">      95 </span><span class="lineCov">        164 :     pool-id: (var-get pool-id),</span></a>
+<a name="96"><span class="lineNum">      96 </span><span class="lineCov">        164 :     pool-name: (var-get pool-name),</span></a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineCov">        164 :     pool-symbol: (var-get pool-symbol),</span></a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">        164 :     pool-uri: (var-get pool-uri),</span></a>
+<a name="99"><span class="lineNum">      99 </span><span class="lineCov">        164 :     pool-created: (var-get pool-created),</span></a>
+<a name="100"><span class="lineNum">     100 </span><span class="lineCov">        164 :     creation-height: (var-get creation-height),</span></a>
+<a name="101"><span class="lineNum">     101 </span><span class="lineCov">        164 :     pool-status: (var-get pool-status),</span></a>
+<a name="102"><span class="lineNum">     102 </span><span class="lineCov">        164 :     core-address: CORE_ADDRESS,</span></a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">        164 :     midpoint-manager: (var-get midpoint-manager),</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">        164 :     fee-address: (var-get fee-address),</span></a>
+<a name="105"><span class="lineNum">     105 </span><span class="lineCov">        164 :     x-token: (var-get x-token),</span></a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">        164 :     y-token: (var-get y-token),</span></a>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">        164 :     pool-token: (as-contract tx-sender),</span></a>
+<a name="108"><span class="lineNum">     108 </span><span class="lineCov">        164 :     x-balance: (var-get x-balance),</span></a>
+<a name="109"><span class="lineNum">     109 </span><span class="lineCov">        164 :     y-balance: (var-get y-balance),</span></a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">        164 :     d: (var-get d),</span></a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">        164 :     midpoint: (var-get midpoint),</span></a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineCov">        164 :     midpoint-factor: (var-get midpoint-factor),</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">        164 :     midpoint-reversed: (var-get midpoint-reversed),</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">        164 :     total-shares: (ft-get-supply pool-token),</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">        164 :     x-protocol-fee: (var-get x-protocol-fee),</span></a>
+<a name="116"><span class="lineNum">     116 </span><span class="lineCov">        164 :     x-provider-fee: (var-get x-provider-fee),</span></a>
+<a name="117"><span class="lineNum">     117 </span><span class="lineCov">        164 :     y-protocol-fee: (var-get y-protocol-fee),</span></a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineCov">        164 :     y-provider-fee: (var-get y-provider-fee),</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">        164 :     liquidity-fee: (var-get liquidity-fee),</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">        164 :     amplification-coefficient: (var-get amplification-coefficient),</span></a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">        164 :     convergence-threshold: (var-get convergence-threshold)</span></a>
 <a name="122"><span class="lineNum">     122 </span>            :   })</a>
 <a name="123"><span class="lineNum">     123 </span>            : )</a>
 <a name="124"><span class="lineNum">     124 </span>            : </a>
@@ -356,19 +356,19 @@
 <a name="294"><span class="lineNum">     294 </span>            : </a>
 <a name="295"><span class="lineNum">     295 </span>            : ;; Update pool balances and d value via Stableswap Core</a>
 <a name="296"><span class="lineNum">     296 </span>            : (define-public (update-pool-balances (x-bal uint) (y-bal uint) (d-val uint))</a>
-<a name="297"><span class="lineNum">     297 </span><span class="lineCov">         72 :   (let (</span></a>
-<a name="298"><span class="lineNum">     298 </span><span class="lineCov">         72 :     (caller contract-caller)</span></a>
+<a name="297"><span class="lineNum">     297 </span><span class="lineCov">         79 :   (let (</span></a>
+<a name="298"><span class="lineNum">     298 </span><span class="lineCov">         79 :     (caller contract-caller)</span></a>
 <a name="299"><span class="lineNum">     299 </span>            :   )</a>
-<a name="300"><span class="lineNum">     300 </span><span class="lineCov">         72 :     (begin</span></a>
+<a name="300"><span class="lineNum">     300 </span><span class="lineCov">         79 :     (begin</span></a>
 <a name="301"><span class="lineNum">     301 </span>            :       ;; Assert that caller is core address before setting vars</a>
-<a name="302"><span class="lineNum">     302 </span><span class="lineCov">         72 :       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)</span></a>
-<a name="303"><span class="lineNum">     303 </span><span class="lineCov">         72 :       (var-set x-balance x-bal)</span></a>
-<a name="304"><span class="lineNum">     304 </span><span class="lineCov">         72 :       (var-set y-balance y-bal)</span></a>
-<a name="305"><span class="lineNum">     305 </span><span class="lineCov">         72 :       (var-set d d-val)</span></a>
+<a name="302"><span class="lineNum">     302 </span><span class="lineCov">         79 :       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)</span></a>
+<a name="303"><span class="lineNum">     303 </span><span class="lineCov">         79 :       (var-set x-balance x-bal)</span></a>
+<a name="304"><span class="lineNum">     304 </span><span class="lineCov">         79 :       (var-set y-balance y-bal)</span></a>
+<a name="305"><span class="lineNum">     305 </span><span class="lineCov">         79 :       (var-set d d-val)</span></a>
 <a name="306"><span class="lineNum">     306 </span>            : </a>
 <a name="307"><span class="lineNum">     307 </span>            :       ;; Print function data and return true</a>
-<a name="308"><span class="lineNum">     308 </span><span class="lineCov">         72 :       (print {action: &quot;update-pool-balances&quot;, data: {x-balance: x-bal, y-balance: y-bal, d: d-val}})</span></a>
-<a name="309"><span class="lineNum">     309 </span><span class="lineCov">         72 :       (ok true)</span></a>
+<a name="308"><span class="lineNum">     308 </span><span class="lineCov">         79 :       (print {action: &quot;update-pool-balances&quot;, data: {x-balance: x-bal, y-balance: y-bal, d: d-val}})</span></a>
+<a name="309"><span class="lineNum">     309 </span><span class="lineCov">         79 :       (ok true)</span></a>
 <a name="310"><span class="lineNum">     310 </span>            :     )</a>
 <a name="311"><span class="lineNum">     311 </span>            :   )</a>
 <a name="312"><span class="lineNum">     312 </span>            : )</a>
@@ -437,23 +437,23 @@
 <a name="375"><span class="lineNum">     375 </span>            : </a>
 <a name="376"><span class="lineNum">     376 </span>            : ;; Mint pool token to an address via Stableswap Core</a>
 <a name="377"><span class="lineNum">     377 </span>            : (define-public (pool-mint (amount uint) (address principal))</a>
-<a name="378"><span class="lineNum">     378 </span><span class="lineCov">         27 :   (let (</span></a>
-<a name="379"><span class="lineNum">     379 </span><span class="lineCov">         27 :     (caller contract-caller)</span></a>
+<a name="378"><span class="lineNum">     378 </span><span class="lineCov">         34 :   (let (</span></a>
+<a name="379"><span class="lineNum">     379 </span><span class="lineCov">         34 :     (caller contract-caller)</span></a>
 <a name="380"><span class="lineNum">     380 </span>            :   )</a>
-<a name="381"><span class="lineNum">     381 </span><span class="lineCov">         27 :     (begin</span></a>
+<a name="381"><span class="lineNum">     381 </span><span class="lineCov">         34 :     (begin</span></a>
 <a name="382"><span class="lineNum">     382 </span>            :       ;; Assert that caller is core address before minting tokens</a>
-<a name="383"><span class="lineNum">     383 </span><span class="lineCov">         27 :       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)</span></a>
+<a name="383"><span class="lineNum">     383 </span><span class="lineCov">         34 :       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)</span></a>
 <a name="384"><span class="lineNum">     384 </span>            : </a>
 <a name="385"><span class="lineNum">     385 </span>            :       ;; Assert that address is standard principal and amount is greater than 0</a>
-<a name="386"><span class="lineNum">     386 </span><span class="lineCov">         27 :       (asserts! (is-standard address) ERR_INVALID_PRINCIPAL)</span></a>
-<a name="387"><span class="lineNum">     387 </span><span class="lineCov">         27 :       (asserts! (&gt; amount u0) ERR_INVALID_AMOUNT)</span></a>
+<a name="386"><span class="lineNum">     386 </span><span class="lineCov">         34 :       (asserts! (is-standard address) ERR_INVALID_PRINCIPAL)</span></a>
+<a name="387"><span class="lineNum">     387 </span><span class="lineCov">         34 :       (asserts! (&gt; amount u0) ERR_INVALID_AMOUNT)</span></a>
 <a name="388"><span class="lineNum">     388 </span>            : </a>
 <a name="389"><span class="lineNum">     389 </span>            :       ;; Try to mint amount pool tokens to address</a>
-<a name="390"><span class="lineNum">     390 </span><span class="lineCov">         27 :       (try! (ft-mint? pool-token amount address))</span></a>
+<a name="390"><span class="lineNum">     390 </span><span class="lineCov">         34 :       (try! (ft-mint? pool-token amount address))</span></a>
 <a name="391"><span class="lineNum">     391 </span>            :       </a>
 <a name="392"><span class="lineNum">     392 </span>            :       ;; Print function data and return true</a>
-<a name="393"><span class="lineNum">     393 </span><span class="lineCov">         27 :       (print {action: &quot;pool-mint&quot;, data: {amount: amount, address: address}})</span></a>
-<a name="394"><span class="lineNum">     394 </span><span class="lineCov">         27 :       (ok true)</span></a>
+<a name="393"><span class="lineNum">     393 </span><span class="lineCov">         34 :       (print {action: &quot;pool-mint&quot;, data: {amount: amount, address: address}})</span></a>
+<a name="394"><span class="lineNum">     394 </span><span class="lineCov">         34 :       (ok true)</span></a>
 <a name="395"><span class="lineNum">     395 </span>            :     )</a>
 <a name="396"><span class="lineNum">     396 </span>            :   )</a>
 <a name="397"><span class="lineNum">     397 </span>            : )</a>

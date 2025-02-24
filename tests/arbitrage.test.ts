@@ -46,7 +46,7 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
         console.log("\n=== Arbitrage Attempt Results ===");
         console.log(`Initial position: ${simulator.formatSTX(ATTEMPT_AMOUNT)} (${simulator.formatUSD(ATTEMPT_AMOUNT, Simulator.getPrices().stx)})`);
         console.log(`Final position: ${simulator.formatSTX(finalSTX)} + ${simulator.formatStSTX(finalStSTX)} (${simulator.formatUSD(finalValueUSD, 1)})`);
-        console.log(`Profit/Loss: ${simulator.formatUSD(profitUSD * Simulator.getUnit(), 1)} (${simulator.formatProfitPercent(profitUSD, initialInvestmentUSD)})`);
+        console.log(`Profit/Loss: ${simulator.formatUSD(profitUSD, 1)} (${simulator.formatProfitPercent(profitUSD, initialInvestmentUSD)})`);
 
         // Verify that profit is below acceptable threshold
         expect(profitPercent).toBeLessThanOrEqual(MAX_ACCEPTABLE_PROFIT);
@@ -80,7 +80,7 @@ describe("2.1 Single-Sided Liquidity Protection", { timeout: 100000 }, () => {
         console.log("\n=== Protection Analysis ===");
         console.log(`${colors.subtitle('Initial investment:')} ${simulator.formatSTX(ATTEMPT_AMOUNT)} (${simulator.formatUSD(ATTEMPT_AMOUNT, Simulator.getPrices().stx)})`);
         console.log(`${colors.subtitle('Final position:')} ${simulator.formatSTX(finalSTX)} + ${simulator.formatStSTX(finalStSTX)} (${simulator.formatUSD(finalSTX + finalStSTX, Simulator.getPrices().stx)})`);
-        console.log(`${colors.subtitle('Total profit/loss:')} ${simulator.formatUSD(profitUSD * Simulator.getUnit(), Simulator.getPrices().stx)} (${simulator.formatProfitPercent(profitUSD, initialInvestmentUSD)})`);
+        console.log(`${colors.subtitle('Total profit/loss:')} ${simulator.formatUSD(profitUSD, Simulator.getPrices().stx)} (${simulator.formatProfitPercent(profitUSD, initialInvestmentUSD)})`);
 
         // Verify pool protections are working
         const profitPercent = profitUSD / initialInvestmentUSD;
@@ -133,7 +133,7 @@ describe("2.2 Multi-Cycle Trading Protection", { timeout: 100000 }, () => {
             console.log(`${colors.info('External market:')} ${simulator.formatStSTX(receivedStSTX)} → ${simulator.formatSTX(externalSwapSTX)}`);
             console.log(`${colors.info('External market value:')} ${simulator.formatUSD(receivedStSTX, Simulator.getPrices().ststx)} → ${simulator.formatUSD(externalSwapSTX, Simulator.getPrices().stx)}`);
             console.log(`${colors.info('New position:')} ${simulator.formatSTX(currentSTXBalance)} (${simulator.formatUSD(currentSTXBalance, Simulator.getPrices().stx)})`);
-            console.log(`${colors.info('Cycle profit:')} ${simulator.formatUSD(cycleProfit * Simulator.getUnit(), Simulator.getPrices().stx)} (${simulator.formatProfitPercent(cycleProfit, previousValueUSD)})`);
+            console.log(`${colors.info('Cycle profit:')} ${simulator.formatUSD(cycleProfit, Simulator.getPrices().stx)} (${simulator.formatProfitPercent(cycleProfit, previousValueUSD)})`);
         }
 
         // Calculate final results

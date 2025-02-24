@@ -31,18 +31,18 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">777</td>
+            <td class="headerCovTableEntry">834</td>
             <td class="headerCovTableEntry">893</td>
-            <td class="headerCovTableEntryMed">87.0 %</td>
+            <td class="headerCovTableEntryHi">93.4 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2025-02-24 07:58:21</td>
+            <td class="headerValue">2025-02-24 08:04:31</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">41</td>
+            <td class="headerCovTableEntry">42</td>
             <td class="headerCovTableEntry">50</td>
-            <td class="headerCovTableEntryMed">82.0 %</td>
+            <td class="headerCovTableEntryMed">84.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -288,82 +288,82 @@
 <a name="226"><span class="lineNum">     226 </span>            :     (x-token-trait &lt;sip-010-trait&gt;) (y-token-trait &lt;sip-010-trait&gt;)</a>
 <a name="227"><span class="lineNum">     227 </span>            :     (x-amount uint) (y-amount uint)</a>
 <a name="228"><span class="lineNum">     228 </span>            :   )</a>
-<a name="229"><span class="lineNum">     229 </span><span class="lineNoCov">          0 :   (let (</span></a>
+<a name="229"><span class="lineNum">     229 </span><span class="lineCov">         16 :   (let (</span></a>
 <a name="230"><span class="lineNum">     230 </span>            :     ;; Gather all pool data and check if pool is valid</a>
-<a name="231"><span class="lineNum">     231 </span><span class="lineNoCov">          0 :     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))</span></a>
-<a name="232"><span class="lineNum">     232 </span><span class="lineNoCov">          0 :     (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))</span></a>
-<a name="233"><span class="lineNum">     233 </span><span class="lineNoCov">          0 :     (x-token (get x-token pool-data))</span></a>
-<a name="234"><span class="lineNum">     234 </span><span class="lineNoCov">          0 :     (y-token (get y-token pool-data))</span></a>
-<a name="235"><span class="lineNum">     235 </span><span class="lineNoCov">          0 :     (x-balance (get x-balance pool-data))</span></a>
-<a name="236"><span class="lineNum">     236 </span><span class="lineNoCov">          0 :     (y-balance (get y-balance pool-data))</span></a>
-<a name="237"><span class="lineNum">     237 </span><span class="lineNoCov">          0 :     (midpoint (get midpoint pool-data))</span></a>
-<a name="238"><span class="lineNum">     238 </span><span class="lineNoCov">          0 :     (midpoint-factor (get midpoint-factor pool-data))</span></a>
-<a name="239"><span class="lineNum">     239 </span><span class="lineNoCov">          0 :     (midpoint-reversed (get midpoint-reversed pool-data))</span></a>
-<a name="240"><span class="lineNum">     240 </span><span class="lineNoCov">          0 :     (total-shares (get total-shares pool-data))</span></a>
-<a name="241"><span class="lineNum">     241 </span><span class="lineNoCov">          0 :     (liquidity-fee (get liquidity-fee pool-data))</span></a>
-<a name="242"><span class="lineNum">     242 </span><span class="lineNoCov">          0 :     (convergence-threshold (get convergence-threshold pool-data))</span></a>
-<a name="243"><span class="lineNum">     243 </span><span class="lineNoCov">          0 :     (amplification-coefficient (get amplification-coefficient pool-data))</span></a>
-<a name="244"><span class="lineNum">     244 </span><span class="lineNoCov">          0 :     (updated-x-balance (+ x-balance x-amount))</span></a>
-<a name="245"><span class="lineNum">     245 </span><span class="lineNoCov">          0 :     (updated-y-balance (+ y-balance y-amount))</span></a>
+<a name="231"><span class="lineNum">     231 </span><span class="lineCov">         16 :     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))</span></a>
+<a name="232"><span class="lineNum">     232 </span><span class="lineCov">         16 :     (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))</span></a>
+<a name="233"><span class="lineNum">     233 </span><span class="lineCov">         16 :     (x-token (get x-token pool-data))</span></a>
+<a name="234"><span class="lineNum">     234 </span><span class="lineCov">         16 :     (y-token (get y-token pool-data))</span></a>
+<a name="235"><span class="lineNum">     235 </span><span class="lineCov">         16 :     (x-balance (get x-balance pool-data))</span></a>
+<a name="236"><span class="lineNum">     236 </span><span class="lineCov">         16 :     (y-balance (get y-balance pool-data))</span></a>
+<a name="237"><span class="lineNum">     237 </span><span class="lineCov">         16 :     (midpoint (get midpoint pool-data))</span></a>
+<a name="238"><span class="lineNum">     238 </span><span class="lineCov">         16 :     (midpoint-factor (get midpoint-factor pool-data))</span></a>
+<a name="239"><span class="lineNum">     239 </span><span class="lineCov">         16 :     (midpoint-reversed (get midpoint-reversed pool-data))</span></a>
+<a name="240"><span class="lineNum">     240 </span><span class="lineCov">         16 :     (total-shares (get total-shares pool-data))</span></a>
+<a name="241"><span class="lineNum">     241 </span><span class="lineCov">         16 :     (liquidity-fee (get liquidity-fee pool-data))</span></a>
+<a name="242"><span class="lineNum">     242 </span><span class="lineCov">         16 :     (convergence-threshold (get convergence-threshold pool-data))</span></a>
+<a name="243"><span class="lineNum">     243 </span><span class="lineCov">         16 :     (amplification-coefficient (get amplification-coefficient pool-data))</span></a>
+<a name="244"><span class="lineNum">     244 </span><span class="lineCov">         16 :     (updated-x-balance (+ x-balance x-amount))</span></a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">         16 :     (updated-y-balance (+ y-balance y-amount))</span></a>
 <a name="246"><span class="lineNum">     246 </span>            :     </a>
 <a name="247"><span class="lineNum">     247 </span>            :     ;; Scale up for AMM calculations depending on decimal places assigned to tokens</a>
-<a name="248"><span class="lineNum">     248 </span><span class="lineNoCov">          0 :     (amounts-added-scaled (scale-up-amounts x-amount y-amount x-token-trait y-token-trait))</span></a>
-<a name="249"><span class="lineNum">     249 </span><span class="lineNoCov">          0 :     (x-amount-scaled (get x-amount amounts-added-scaled))</span></a>
-<a name="250"><span class="lineNum">     250 </span><span class="lineNoCov">          0 :     (y-amount-scaled (get y-amount amounts-added-scaled))</span></a>
-<a name="251"><span class="lineNum">     251 </span><span class="lineNoCov">          0 :     (pool-balances-scaled (scale-up-amounts x-balance y-balance x-token-trait y-token-trait))</span></a>
-<a name="252"><span class="lineNum">     252 </span><span class="lineNoCov">          0 :     (x-balance-scaled (get x-amount pool-balances-scaled))</span></a>
-<a name="253"><span class="lineNum">     253 </span><span class="lineNoCov">          0 :     (y-balance-scaled (get y-amount pool-balances-scaled))</span></a>
-<a name="254"><span class="lineNum">     254 </span><span class="lineNoCov">          0 :     (updated-pool-balances-scaled (scale-up-amounts updated-x-balance updated-y-balance x-token-trait y-token-trait))</span></a>
-<a name="255"><span class="lineNum">     255 </span><span class="lineNoCov">          0 :     (updated-x-balance-scaled (get x-amount updated-pool-balances-scaled))</span></a>
-<a name="256"><span class="lineNum">     256 </span><span class="lineNoCov">          0 :     (updated-y-balance-scaled (get y-amount updated-pool-balances-scaled))</span></a>
+<a name="248"><span class="lineNum">     248 </span><span class="lineCov">         16 :     (amounts-added-scaled (scale-up-amounts x-amount y-amount x-token-trait y-token-trait))</span></a>
+<a name="249"><span class="lineNum">     249 </span><span class="lineCov">         16 :     (x-amount-scaled (get x-amount amounts-added-scaled))</span></a>
+<a name="250"><span class="lineNum">     250 </span><span class="lineCov">         16 :     (y-amount-scaled (get y-amount amounts-added-scaled))</span></a>
+<a name="251"><span class="lineNum">     251 </span><span class="lineCov">         16 :     (pool-balances-scaled (scale-up-amounts x-balance y-balance x-token-trait y-token-trait))</span></a>
+<a name="252"><span class="lineNum">     252 </span><span class="lineCov">         16 :     (x-balance-scaled (get x-amount pool-balances-scaled))</span></a>
+<a name="253"><span class="lineNum">     253 </span><span class="lineCov">         16 :     (y-balance-scaled (get y-amount pool-balances-scaled))</span></a>
+<a name="254"><span class="lineNum">     254 </span><span class="lineCov">         16 :     (updated-pool-balances-scaled (scale-up-amounts updated-x-balance updated-y-balance x-token-trait y-token-trait))</span></a>
+<a name="255"><span class="lineNum">     255 </span><span class="lineCov">         16 :     (updated-x-balance-scaled (get x-amount updated-pool-balances-scaled))</span></a>
+<a name="256"><span class="lineNum">     256 </span><span class="lineCov">         16 :     (updated-y-balance-scaled (get y-amount updated-pool-balances-scaled))</span></a>
 <a name="257"><span class="lineNum">     257 </span>            :     </a>
 <a name="258"><span class="lineNum">     258 </span>            :     ;; Calculate ideal pool balance</a>
-<a name="259"><span class="lineNum">     259 </span><span class="lineNoCov">          0 :     (d-a (get-d x-balance-scaled y-balance-scaled amplification-coefficient convergence-threshold))</span></a>
-<a name="260"><span class="lineNum">     260 </span><span class="lineNoCov">          0 :     (d-b (get-d updated-x-balance-scaled updated-y-balance-scaled amplification-coefficient convergence-threshold))</span></a>
-<a name="261"><span class="lineNum">     261 </span><span class="lineNoCov">          0 :     (ideal-x-balance-scaled (/ (* d-b x-balance-scaled) d-a))</span></a>
-<a name="262"><span class="lineNum">     262 </span><span class="lineNoCov">          0 :     (ideal-y-balance-scaled (/ (* d-b y-balance-scaled) d-a))</span></a>
-<a name="263"><span class="lineNum">     263 </span><span class="lineNoCov">          0 :     (x-difference (if (&gt; ideal-x-balance-scaled updated-x-balance-scaled) (- ideal-x-balance-scaled updated-x-balance-scaled) (- updated-x-balance-scaled ideal-x-balance-scaled)))</span></a>
-<a name="264"><span class="lineNum">     264 </span><span class="lineNoCov">          0 :     (y-difference (if (&gt; ideal-y-balance-scaled updated-y-balance-scaled) (- ideal-y-balance-scaled updated-y-balance-scaled) (- updated-y-balance-scaled ideal-y-balance-scaled)))</span></a>
+<a name="259"><span class="lineNum">     259 </span><span class="lineCov">         16 :     (d-a (get-d x-balance-scaled y-balance-scaled amplification-coefficient convergence-threshold))</span></a>
+<a name="260"><span class="lineNum">     260 </span><span class="lineCov">         16 :     (d-b (get-d updated-x-balance-scaled updated-y-balance-scaled amplification-coefficient convergence-threshold))</span></a>
+<a name="261"><span class="lineNum">     261 </span><span class="lineCov">         16 :     (ideal-x-balance-scaled (/ (* d-b x-balance-scaled) d-a))</span></a>
+<a name="262"><span class="lineNum">     262 </span><span class="lineCov">         16 :     (ideal-y-balance-scaled (/ (* d-b y-balance-scaled) d-a))</span></a>
+<a name="263"><span class="lineNum">     263 </span><span class="lineCov">         16 :     (x-difference (if (&gt; ideal-x-balance-scaled updated-x-balance-scaled) (- ideal-x-balance-scaled updated-x-balance-scaled) (- updated-x-balance-scaled ideal-x-balance-scaled)))</span></a>
+<a name="264"><span class="lineNum">     264 </span><span class="lineCov">         16 :     (y-difference (if (&gt; ideal-y-balance-scaled updated-y-balance-scaled) (- ideal-y-balance-scaled updated-y-balance-scaled) (- updated-y-balance-scaled ideal-y-balance-scaled)))</span></a>
 <a name="265"><span class="lineNum">     265 </span>            :     </a>
 <a name="266"><span class="lineNum">     266 </span>            :     ;; Calculate fees to apply if adding imbalanced liquidity</a>
-<a name="267"><span class="lineNum">     267 </span><span class="lineNoCov">          0 :     (ideal-x-amount-fee-liquidity-scaled (/ (* x-difference liquidity-fee) BPS))</span></a>
-<a name="268"><span class="lineNum">     268 </span><span class="lineNoCov">          0 :     (ideal-y-amount-fee-liquidity-scaled (/ (* y-difference liquidity-fee) BPS))</span></a>
-<a name="269"><span class="lineNum">     269 </span><span class="lineNoCov">          0 :     (x-amount-fee-liquidity-scaled (if (&gt; x-amount-scaled ideal-x-amount-fee-liquidity-scaled) ideal-x-amount-fee-liquidity-scaled x-amount-scaled))</span></a>
-<a name="270"><span class="lineNum">     270 </span><span class="lineNoCov">          0 :     (y-amount-fee-liquidity-scaled (if (&gt; y-amount-scaled ideal-y-amount-fee-liquidity-scaled) ideal-y-amount-fee-liquidity-scaled y-amount-scaled))</span></a>
-<a name="271"><span class="lineNum">     271 </span><span class="lineNoCov">          0 :     (updated-x-amount-scaled (- x-amount-scaled x-amount-fee-liquidity-scaled))</span></a>
-<a name="272"><span class="lineNum">     272 </span><span class="lineNoCov">          0 :     (updated-y-amount-scaled (- y-amount-scaled y-amount-fee-liquidity-scaled))</span></a>
-<a name="273"><span class="lineNum">     273 </span><span class="lineNoCov">          0 :     (updated-balance-y-post-fee-scaled (+ y-balance-scaled updated-y-amount-scaled))</span></a>
+<a name="267"><span class="lineNum">     267 </span><span class="lineCov">         16 :     (ideal-x-amount-fee-liquidity-scaled (/ (* x-difference liquidity-fee) BPS))</span></a>
+<a name="268"><span class="lineNum">     268 </span><span class="lineCov">         16 :     (ideal-y-amount-fee-liquidity-scaled (/ (* y-difference liquidity-fee) BPS))</span></a>
+<a name="269"><span class="lineNum">     269 </span><span class="lineCov">         16 :     (x-amount-fee-liquidity-scaled (if (&gt; x-amount-scaled ideal-x-amount-fee-liquidity-scaled) ideal-x-amount-fee-liquidity-scaled x-amount-scaled))</span></a>
+<a name="270"><span class="lineNum">     270 </span><span class="lineCov">         16 :     (y-amount-fee-liquidity-scaled (if (&gt; y-amount-scaled ideal-y-amount-fee-liquidity-scaled) ideal-y-amount-fee-liquidity-scaled y-amount-scaled))</span></a>
+<a name="271"><span class="lineNum">     271 </span><span class="lineCov">         16 :     (updated-x-amount-scaled (- x-amount-scaled x-amount-fee-liquidity-scaled))</span></a>
+<a name="272"><span class="lineNum">     272 </span><span class="lineCov">         16 :     (updated-y-amount-scaled (- y-amount-scaled y-amount-fee-liquidity-scaled))</span></a>
+<a name="273"><span class="lineNum">     273 </span><span class="lineCov">         16 :     (updated-balance-y-post-fee-scaled (+ y-balance-scaled updated-y-amount-scaled))</span></a>
 <a name="274"><span class="lineNum">     274 </span>            : </a>
 <a name="275"><span class="lineNum">     275 </span>            :     ;; Scale down for precise token balance updates</a>
-<a name="276"><span class="lineNum">     276 </span><span class="lineNoCov">          0 :     (amounts-added (scale-down-amounts updated-x-amount-scaled updated-y-amount-scaled x-token-trait y-token-trait))</span></a>
-<a name="277"><span class="lineNum">     277 </span><span class="lineNoCov">          0 :     (updated-x-amount (get x-amount amounts-added))</span></a>
-<a name="278"><span class="lineNum">     278 </span><span class="lineNoCov">          0 :     (updated-y-amount (get y-amount amounts-added))</span></a>
+<a name="276"><span class="lineNum">     276 </span><span class="lineCov">         16 :     (amounts-added (scale-down-amounts updated-x-amount-scaled updated-y-amount-scaled x-token-trait y-token-trait))</span></a>
+<a name="277"><span class="lineNum">     277 </span><span class="lineCov">         16 :     (updated-x-amount (get x-amount amounts-added))</span></a>
+<a name="278"><span class="lineNum">     278 </span><span class="lineCov">         16 :     (updated-y-amount (get y-amount amounts-added))</span></a>
 <a name="279"><span class="lineNum">     279 </span>            : </a>
 <a name="280"><span class="lineNum">     280 </span>            :     ;; Calculate midpoint discount amount</a>
-<a name="281"><span class="lineNum">     281 </span><span class="lineNoCov">          0 :     (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))</span></a>
-<a name="282"><span class="lineNum">     282 </span><span class="lineNoCov">          0 :     (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))</span></a>
-<a name="283"><span class="lineNum">     283 </span><span class="lineNoCov">          0 :     (midpoint-discount-value (- midpoint-value-b (/ (* midpoint-value-b midpoint-value-b) midpoint-value-a)))</span></a>
+<a name="281"><span class="lineNum">     281 </span><span class="lineCov">         16 :     (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))</span></a>
+<a name="282"><span class="lineNum">     282 </span><span class="lineCov">         16 :     (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))</span></a>
+<a name="283"><span class="lineNum">     283 </span><span class="lineCov">         16 :     (midpoint-discount-value (- midpoint-value-b (/ (* midpoint-value-b midpoint-value-b) midpoint-value-a)))</span></a>
 <a name="284"><span class="lineNum">     284 </span>            :     </a>
 <a name="285"><span class="lineNum">     285 </span>            :     ;; Calculate d-c using discounted x-amount</a>
-<a name="286"><span class="lineNum">     286 </span><span class="lineNoCov">          0 :     (x-amount-discount-scaled (/ (* updated-x-amount-scaled midpoint-discount-value) midpoint-value-b))</span></a>
-<a name="287"><span class="lineNum">     287 </span><span class="lineNoCov">          0 :     (x-amount-post-discount-scaled (- updated-x-amount-scaled x-amount-discount-scaled))</span></a>
-<a name="288"><span class="lineNum">     288 </span><span class="lineNoCov">          0 :     (x-balance-post-discount-scaled (+ x-balance-scaled x-amount-post-discount-scaled))</span></a>
-<a name="289"><span class="lineNum">     289 </span><span class="lineNoCov">          0 :     (d-c (get-d x-balance-post-discount-scaled updated-balance-y-post-fee-scaled amplification-coefficient convergence-threshold))</span></a>
+<a name="286"><span class="lineNum">     286 </span><span class="lineCov">         16 :     (x-amount-discount-scaled (/ (* updated-x-amount-scaled midpoint-discount-value) midpoint-value-b))</span></a>
+<a name="287"><span class="lineNum">     287 </span><span class="lineCov">         16 :     (x-amount-post-discount-scaled (- updated-x-amount-scaled x-amount-discount-scaled))</span></a>
+<a name="288"><span class="lineNum">     288 </span><span class="lineCov">         16 :     (x-balance-post-discount-scaled (+ x-balance-scaled x-amount-post-discount-scaled))</span></a>
+<a name="289"><span class="lineNum">     289 </span><span class="lineCov">         16 :     (d-c (get-d x-balance-post-discount-scaled updated-balance-y-post-fee-scaled amplification-coefficient convergence-threshold))</span></a>
 <a name="290"><span class="lineNum">     290 </span>            : </a>
 <a name="291"><span class="lineNum">     291 </span>            :     ;; Check that d-c is greater than d-a and calculate dlp</a>
-<a name="292"><span class="lineNum">     292 </span><span class="lineNoCov">          0 :     (minimum-d-check (asserts! (&gt; d-c d-a) ERR_MINIMUM_D_VALUE))</span></a>
-<a name="293"><span class="lineNum">     293 </span><span class="lineNoCov">          0 :     (dlp (/ (* total-shares (- d-c d-a)) d-a))</span></a>
+<a name="292"><span class="lineNum">     292 </span><span class="lineCov">         16 :     (minimum-d-check (asserts! (&gt; d-c d-a) ERR_MINIMUM_D_VALUE))</span></a>
+<a name="293"><span class="lineNum">     293 </span><span class="lineCov">         15 :     (dlp (/ (* total-shares (- d-c d-a)) d-a))</span></a>
 <a name="294"><span class="lineNum">     294 </span>            :   )</a>
 <a name="295"><span class="lineNum">     295 </span>            :     ;; Assert that pool-status is true and correct token traits are used</a>
-<a name="296"><span class="lineNum">     296 </span><span class="lineNoCov">          0 :     (asserts! (is-eq (get pool-status pool-data) true) ERR_POOL_DISABLED)</span></a>
-<a name="297"><span class="lineNum">     297 </span><span class="lineNoCov">          0 :     (asserts! (is-eq (contract-of x-token-trait) x-token) ERR_INVALID_X_TOKEN)</span></a>
-<a name="298"><span class="lineNum">     298 </span><span class="lineNoCov">          0 :     (asserts! (is-eq (contract-of y-token-trait) y-token) ERR_INVALID_Y_TOKEN)</span></a>
+<a name="296"><span class="lineNum">     296 </span><span class="lineCov">         15 :     (asserts! (is-eq (get pool-status pool-data) true) ERR_POOL_DISABLED)</span></a>
+<a name="297"><span class="lineNum">     297 </span><span class="lineCov">         15 :     (asserts! (is-eq (contract-of x-token-trait) x-token) ERR_INVALID_X_TOKEN)</span></a>
+<a name="298"><span class="lineNum">     298 </span><span class="lineCov">         15 :     (asserts! (is-eq (contract-of y-token-trait) y-token) ERR_INVALID_Y_TOKEN)</span></a>
 <a name="299"><span class="lineNum">     299 </span>            : </a>
 <a name="300"><span class="lineNum">     300 </span>            :     ;; Assert that x-amount + y-amount is greater than 0</a>
-<a name="301"><span class="lineNum">     301 </span><span class="lineNoCov">          0 :     (asserts! (&gt; (+ x-amount y-amount) u0) ERR_INVALID_AMOUNT)</span></a>
+<a name="301"><span class="lineNum">     301 </span><span class="lineCov">         15 :     (asserts! (&gt; (+ x-amount y-amount) u0) ERR_INVALID_AMOUNT)</span></a>
 <a name="302"><span class="lineNum">     302 </span>            :     </a>
 <a name="303"><span class="lineNum">     303 </span>            :     ;; Return number of LP tokens caller would receive</a>
-<a name="304"><span class="lineNum">     304 </span><span class="lineNoCov">          0 :     (ok dlp)</span></a>
+<a name="304"><span class="lineNum">     304 </span><span class="lineCov">         15 :     (ok dlp)</span></a>
 <a name="305"><span class="lineNum">     305 </span>            :   )</a>
 <a name="306"><span class="lineNum">     306 </span>            : )</a>
 <a name="307"><span class="lineNum">     307 </span>            : </a>
@@ -399,7 +399,7 @@
 <a name="337"><span class="lineNum">     337 </span>            : </a>
 <a name="338"><span class="lineNum">     338 </span>            : ;; Get d using fold-d-for-loop</a>
 <a name="339"><span class="lineNum">     339 </span>            : (define-read-only (get-d (x-bal uint) (y-bal uint) (amp uint) (threshold uint))</a>
-<a name="340"><span class="lineNum">     340 </span><span class="lineCov">        176 :   (get converged (fold fold-d-for-loop index-list {x-bal: x-bal, y-bal: y-bal, d: (+ x-bal y-bal), an: (* amp NUM_OF_TOKENS), threshold: threshold, converged: u0}))</span></a>
+<a name="340"><span class="lineNum">     340 </span><span class="lineCov">        252 :   (get converged (fold fold-d-for-loop index-list {x-bal: x-bal, y-bal: y-bal, d: (+ x-bal y-bal), an: (* amp NUM_OF_TOKENS), threshold: threshold, converged: u0}))</span></a>
 <a name="341"><span class="lineNum">     341 </span>            : )</a>
 <a name="342"><span class="lineNum">     342 </span>            : </a>
 <a name="343"><span class="lineNum">     343 </span>            : ;; Set minimum shares required to mint and burn when creating a pool</a>
@@ -1223,152 +1223,152 @@
 <a name="1161"><span class="lineNum">    1161 </span>            :     (x-token-trait &lt;sip-010-trait&gt;) (y-token-trait &lt;sip-010-trait&gt;)</a>
 <a name="1162"><span class="lineNum">    1162 </span>            :     (x-amount uint) (y-amount uint) (min-dlp uint)</a>
 <a name="1163"><span class="lineNum">    1163 </span>            :   )</a>
-<a name="1164"><span class="lineNum">    1164 </span><span class="lineCov">         16 :   (let (</span></a>
+<a name="1164"><span class="lineNum">    1164 </span><span class="lineCov">         23 :   (let (</span></a>
 <a name="1165"><span class="lineNum">    1165 </span>            :     ;; Gather all pool data and check if pool is valid</a>
-<a name="1166"><span class="lineNum">    1166 </span><span class="lineCov">         16 :     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))</span></a>
-<a name="1167"><span class="lineNum">    1167 </span><span class="lineCov">         16 :     (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))</span></a>
-<a name="1168"><span class="lineNum">    1168 </span><span class="lineCov">         16 :     (pool-contract (contract-of pool-trait))</span></a>
-<a name="1169"><span class="lineNum">    1169 </span><span class="lineCov">         16 :     (fee-address (get fee-address pool-data))</span></a>
-<a name="1170"><span class="lineNum">    1170 </span><span class="lineCov">         16 :     (x-token (get x-token pool-data))</span></a>
-<a name="1171"><span class="lineNum">    1171 </span><span class="lineCov">         16 :     (y-token (get y-token pool-data))</span></a>
-<a name="1172"><span class="lineNum">    1172 </span><span class="lineCov">         16 :     (x-balance (get x-balance pool-data))</span></a>
-<a name="1173"><span class="lineNum">    1173 </span><span class="lineCov">         16 :     (y-balance (get y-balance pool-data))</span></a>
-<a name="1174"><span class="lineNum">    1174 </span><span class="lineCov">         16 :     (midpoint (get midpoint pool-data))</span></a>
-<a name="1175"><span class="lineNum">    1175 </span><span class="lineCov">         16 :     (midpoint-factor (get midpoint-factor pool-data))</span></a>
-<a name="1176"><span class="lineNum">    1176 </span><span class="lineCov">         16 :     (midpoint-reversed (get midpoint-reversed pool-data))</span></a>
-<a name="1177"><span class="lineNum">    1177 </span><span class="lineCov">         16 :     (total-shares (get total-shares pool-data))</span></a>
-<a name="1178"><span class="lineNum">    1178 </span><span class="lineCov">         16 :     (liquidity-fee (get liquidity-fee pool-data))</span></a>
-<a name="1179"><span class="lineNum">    1179 </span><span class="lineCov">         16 :     (convergence-threshold (get convergence-threshold pool-data))</span></a>
-<a name="1180"><span class="lineNum">    1180 </span><span class="lineCov">         16 :     (amplification-coefficient (get amplification-coefficient pool-data))</span></a>
-<a name="1181"><span class="lineNum">    1181 </span><span class="lineCov">         16 :     (updated-x-balance (+ x-balance x-amount))</span></a>
-<a name="1182"><span class="lineNum">    1182 </span><span class="lineCov">         16 :     (updated-y-balance (+ y-balance y-amount))</span></a>
+<a name="1166"><span class="lineNum">    1166 </span><span class="lineCov">         23 :     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))</span></a>
+<a name="1167"><span class="lineNum">    1167 </span><span class="lineCov">         23 :     (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))</span></a>
+<a name="1168"><span class="lineNum">    1168 </span><span class="lineCov">         23 :     (pool-contract (contract-of pool-trait))</span></a>
+<a name="1169"><span class="lineNum">    1169 </span><span class="lineCov">         23 :     (fee-address (get fee-address pool-data))</span></a>
+<a name="1170"><span class="lineNum">    1170 </span><span class="lineCov">         23 :     (x-token (get x-token pool-data))</span></a>
+<a name="1171"><span class="lineNum">    1171 </span><span class="lineCov">         23 :     (y-token (get y-token pool-data))</span></a>
+<a name="1172"><span class="lineNum">    1172 </span><span class="lineCov">         23 :     (x-balance (get x-balance pool-data))</span></a>
+<a name="1173"><span class="lineNum">    1173 </span><span class="lineCov">         23 :     (y-balance (get y-balance pool-data))</span></a>
+<a name="1174"><span class="lineNum">    1174 </span><span class="lineCov">         23 :     (midpoint (get midpoint pool-data))</span></a>
+<a name="1175"><span class="lineNum">    1175 </span><span class="lineCov">         23 :     (midpoint-factor (get midpoint-factor pool-data))</span></a>
+<a name="1176"><span class="lineNum">    1176 </span><span class="lineCov">         23 :     (midpoint-reversed (get midpoint-reversed pool-data))</span></a>
+<a name="1177"><span class="lineNum">    1177 </span><span class="lineCov">         23 :     (total-shares (get total-shares pool-data))</span></a>
+<a name="1178"><span class="lineNum">    1178 </span><span class="lineCov">         23 :     (liquidity-fee (get liquidity-fee pool-data))</span></a>
+<a name="1179"><span class="lineNum">    1179 </span><span class="lineCov">         23 :     (convergence-threshold (get convergence-threshold pool-data))</span></a>
+<a name="1180"><span class="lineNum">    1180 </span><span class="lineCov">         23 :     (amplification-coefficient (get amplification-coefficient pool-data))</span></a>
+<a name="1181"><span class="lineNum">    1181 </span><span class="lineCov">         23 :     (updated-x-balance (+ x-balance x-amount))</span></a>
+<a name="1182"><span class="lineNum">    1182 </span><span class="lineCov">         23 :     (updated-y-balance (+ y-balance y-amount))</span></a>
 <a name="1183"><span class="lineNum">    1183 </span>            : </a>
 <a name="1184"><span class="lineNum">    1184 </span>            :     ;; Scale up for AMM calculations depending on decimal places assigned to tokens</a>
-<a name="1185"><span class="lineNum">    1185 </span><span class="lineCov">         16 :     (amounts-added-scaled (scale-up-amounts x-amount y-amount x-token-trait y-token-trait))</span></a>
-<a name="1186"><span class="lineNum">    1186 </span><span class="lineCov">         16 :     (x-amount-scaled (get x-amount amounts-added-scaled))</span></a>
-<a name="1187"><span class="lineNum">    1187 </span><span class="lineCov">         16 :     (y-amount-scaled (get y-amount amounts-added-scaled))</span></a>
-<a name="1188"><span class="lineNum">    1188 </span><span class="lineCov">         16 :     (pool-balances-scaled (scale-up-amounts x-balance y-balance x-token-trait y-token-trait))</span></a>
-<a name="1189"><span class="lineNum">    1189 </span><span class="lineCov">         16 :     (x-balance-scaled (get x-amount pool-balances-scaled))</span></a>
-<a name="1190"><span class="lineNum">    1190 </span><span class="lineCov">         16 :     (y-balance-scaled (get y-amount pool-balances-scaled))</span></a>
-<a name="1191"><span class="lineNum">    1191 </span><span class="lineCov">         16 :     (updated-pool-balances-scaled (scale-up-amounts updated-x-balance updated-y-balance x-token-trait y-token-trait))</span></a>
-<a name="1192"><span class="lineNum">    1192 </span><span class="lineCov">         16 :     (updated-x-balance-scaled (get x-amount updated-pool-balances-scaled))</span></a>
-<a name="1193"><span class="lineNum">    1193 </span><span class="lineCov">         16 :     (updated-y-balance-scaled (get y-amount updated-pool-balances-scaled))</span></a>
+<a name="1185"><span class="lineNum">    1185 </span><span class="lineCov">         23 :     (amounts-added-scaled (scale-up-amounts x-amount y-amount x-token-trait y-token-trait))</span></a>
+<a name="1186"><span class="lineNum">    1186 </span><span class="lineCov">         23 :     (x-amount-scaled (get x-amount amounts-added-scaled))</span></a>
+<a name="1187"><span class="lineNum">    1187 </span><span class="lineCov">         23 :     (y-amount-scaled (get y-amount amounts-added-scaled))</span></a>
+<a name="1188"><span class="lineNum">    1188 </span><span class="lineCov">         23 :     (pool-balances-scaled (scale-up-amounts x-balance y-balance x-token-trait y-token-trait))</span></a>
+<a name="1189"><span class="lineNum">    1189 </span><span class="lineCov">         23 :     (x-balance-scaled (get x-amount pool-balances-scaled))</span></a>
+<a name="1190"><span class="lineNum">    1190 </span><span class="lineCov">         23 :     (y-balance-scaled (get y-amount pool-balances-scaled))</span></a>
+<a name="1191"><span class="lineNum">    1191 </span><span class="lineCov">         23 :     (updated-pool-balances-scaled (scale-up-amounts updated-x-balance updated-y-balance x-token-trait y-token-trait))</span></a>
+<a name="1192"><span class="lineNum">    1192 </span><span class="lineCov">         23 :     (updated-x-balance-scaled (get x-amount updated-pool-balances-scaled))</span></a>
+<a name="1193"><span class="lineNum">    1193 </span><span class="lineCov">         23 :     (updated-y-balance-scaled (get y-amount updated-pool-balances-scaled))</span></a>
 <a name="1194"><span class="lineNum">    1194 </span>            :     </a>
 <a name="1195"><span class="lineNum">    1195 </span>            :     ;; Calculate ideal pool balance</a>
-<a name="1196"><span class="lineNum">    1196 </span><span class="lineCov">         16 :     (d-a (get-d x-balance-scaled y-balance-scaled amplification-coefficient convergence-threshold))</span></a>
-<a name="1197"><span class="lineNum">    1197 </span><span class="lineCov">         16 :     (d-b (get-d updated-x-balance-scaled updated-y-balance-scaled amplification-coefficient convergence-threshold))</span></a>
-<a name="1198"><span class="lineNum">    1198 </span><span class="lineCov">         16 :     (ideal-x-balance-scaled (/ (* d-b x-balance-scaled) d-a))</span></a>
-<a name="1199"><span class="lineNum">    1199 </span><span class="lineCov">         16 :     (ideal-y-balance-scaled (/ (* d-b y-balance-scaled) d-a))</span></a>
-<a name="1200"><span class="lineNum">    1200 </span><span class="lineCov">         16 :     (x-difference (if (&gt; ideal-x-balance-scaled updated-x-balance-scaled) (- ideal-x-balance-scaled updated-x-balance-scaled) (- updated-x-balance-scaled ideal-x-balance-scaled)))</span></a>
-<a name="1201"><span class="lineNum">    1201 </span><span class="lineCov">         16 :     (y-difference (if (&gt; ideal-y-balance-scaled updated-y-balance-scaled) (- ideal-y-balance-scaled updated-y-balance-scaled) (- updated-y-balance-scaled ideal-y-balance-scaled)))</span></a>
+<a name="1196"><span class="lineNum">    1196 </span><span class="lineCov">         23 :     (d-a (get-d x-balance-scaled y-balance-scaled amplification-coefficient convergence-threshold))</span></a>
+<a name="1197"><span class="lineNum">    1197 </span><span class="lineCov">         23 :     (d-b (get-d updated-x-balance-scaled updated-y-balance-scaled amplification-coefficient convergence-threshold))</span></a>
+<a name="1198"><span class="lineNum">    1198 </span><span class="lineCov">         23 :     (ideal-x-balance-scaled (/ (* d-b x-balance-scaled) d-a))</span></a>
+<a name="1199"><span class="lineNum">    1199 </span><span class="lineCov">         23 :     (ideal-y-balance-scaled (/ (* d-b y-balance-scaled) d-a))</span></a>
+<a name="1200"><span class="lineNum">    1200 </span><span class="lineCov">         23 :     (x-difference (if (&gt; ideal-x-balance-scaled updated-x-balance-scaled) (- ideal-x-balance-scaled updated-x-balance-scaled) (- updated-x-balance-scaled ideal-x-balance-scaled)))</span></a>
+<a name="1201"><span class="lineNum">    1201 </span><span class="lineCov">         23 :     (y-difference (if (&gt; ideal-y-balance-scaled updated-y-balance-scaled) (- ideal-y-balance-scaled updated-y-balance-scaled) (- updated-y-balance-scaled ideal-y-balance-scaled)))</span></a>
 <a name="1202"><span class="lineNum">    1202 </span>            :     </a>
 <a name="1203"><span class="lineNum">    1203 </span>            :     ;; Calculate fees to apply if adding imbalanced liquidity</a>
-<a name="1204"><span class="lineNum">    1204 </span><span class="lineCov">         16 :     (ideal-x-amount-fee-liquidity-scaled (/ (* x-difference liquidity-fee) BPS))</span></a>
-<a name="1205"><span class="lineNum">    1205 </span><span class="lineCov">         16 :     (ideal-y-amount-fee-liquidity-scaled (/ (* y-difference liquidity-fee) BPS))</span></a>
-<a name="1206"><span class="lineNum">    1206 </span><span class="lineCov">         16 :     (x-amount-fee-liquidity-scaled (if (&gt; x-amount-scaled ideal-x-amount-fee-liquidity-scaled) ideal-x-amount-fee-liquidity-scaled x-amount-scaled))</span></a>
-<a name="1207"><span class="lineNum">    1207 </span><span class="lineCov">         16 :     (y-amount-fee-liquidity-scaled (if (&gt; y-amount-scaled ideal-y-amount-fee-liquidity-scaled) ideal-y-amount-fee-liquidity-scaled y-amount-scaled))</span></a>
-<a name="1208"><span class="lineNum">    1208 </span><span class="lineCov">         16 :     (updated-x-amount-scaled (- x-amount-scaled x-amount-fee-liquidity-scaled))</span></a>
-<a name="1209"><span class="lineNum">    1209 </span><span class="lineCov">         16 :     (updated-y-amount-scaled (- y-amount-scaled y-amount-fee-liquidity-scaled))</span></a>
-<a name="1210"><span class="lineNum">    1210 </span><span class="lineCov">         16 :     (updated-balance-x-post-fee-scaled (+ x-balance-scaled updated-x-amount-scaled))</span></a>
-<a name="1211"><span class="lineNum">    1211 </span><span class="lineCov">         16 :     (updated-balance-y-post-fee-scaled (+ y-balance-scaled updated-y-amount-scaled))</span></a>
-<a name="1212"><span class="lineNum">    1212 </span><span class="lineCov">         16 :     (updated-d (get-d updated-balance-x-post-fee-scaled updated-balance-y-post-fee-scaled amplification-coefficient convergence-threshold))</span></a>
+<a name="1204"><span class="lineNum">    1204 </span><span class="lineCov">         23 :     (ideal-x-amount-fee-liquidity-scaled (/ (* x-difference liquidity-fee) BPS))</span></a>
+<a name="1205"><span class="lineNum">    1205 </span><span class="lineCov">         23 :     (ideal-y-amount-fee-liquidity-scaled (/ (* y-difference liquidity-fee) BPS))</span></a>
+<a name="1206"><span class="lineNum">    1206 </span><span class="lineCov">         23 :     (x-amount-fee-liquidity-scaled (if (&gt; x-amount-scaled ideal-x-amount-fee-liquidity-scaled) ideal-x-amount-fee-liquidity-scaled x-amount-scaled))</span></a>
+<a name="1207"><span class="lineNum">    1207 </span><span class="lineCov">         23 :     (y-amount-fee-liquidity-scaled (if (&gt; y-amount-scaled ideal-y-amount-fee-liquidity-scaled) ideal-y-amount-fee-liquidity-scaled y-amount-scaled))</span></a>
+<a name="1208"><span class="lineNum">    1208 </span><span class="lineCov">         23 :     (updated-x-amount-scaled (- x-amount-scaled x-amount-fee-liquidity-scaled))</span></a>
+<a name="1209"><span class="lineNum">    1209 </span><span class="lineCov">         23 :     (updated-y-amount-scaled (- y-amount-scaled y-amount-fee-liquidity-scaled))</span></a>
+<a name="1210"><span class="lineNum">    1210 </span><span class="lineCov">         23 :     (updated-balance-x-post-fee-scaled (+ x-balance-scaled updated-x-amount-scaled))</span></a>
+<a name="1211"><span class="lineNum">    1211 </span><span class="lineCov">         23 :     (updated-balance-y-post-fee-scaled (+ y-balance-scaled updated-y-amount-scaled))</span></a>
+<a name="1212"><span class="lineNum">    1212 </span><span class="lineCov">         23 :     (updated-d (get-d updated-balance-x-post-fee-scaled updated-balance-y-post-fee-scaled amplification-coefficient convergence-threshold))</span></a>
 <a name="1213"><span class="lineNum">    1213 </span>            :     </a>
 <a name="1214"><span class="lineNum">    1214 </span>            :     ;; Scale down for precise token balance updates and transfers</a>
-<a name="1215"><span class="lineNum">    1215 </span><span class="lineCov">         16 :     (precise-fees-liquidity (scale-down-amounts x-amount-fee-liquidity-scaled y-amount-fee-liquidity-scaled x-token-trait y-token-trait))</span></a>
-<a name="1216"><span class="lineNum">    1216 </span><span class="lineCov">         16 :     (x-amount-fees-liquidity (get x-amount precise-fees-liquidity))</span></a>
-<a name="1217"><span class="lineNum">    1217 </span><span class="lineCov">         16 :     (y-amount-fees-liquidity (get y-amount precise-fees-liquidity))</span></a>
-<a name="1218"><span class="lineNum">    1218 </span><span class="lineCov">         16 :     (amounts-added (scale-down-amounts updated-x-amount-scaled updated-y-amount-scaled x-token-trait y-token-trait))</span></a>
-<a name="1219"><span class="lineNum">    1219 </span><span class="lineCov">         16 :     (updated-x-amount (get x-amount amounts-added))</span></a>
-<a name="1220"><span class="lineNum">    1220 </span><span class="lineCov">         16 :     (updated-y-amount (get y-amount amounts-added))</span></a>
-<a name="1221"><span class="lineNum">    1221 </span><span class="lineCov">         16 :     (updated-pool-balances-post-fee (scale-down-amounts updated-balance-x-post-fee-scaled updated-balance-y-post-fee-scaled x-token-trait y-token-trait))</span></a>
-<a name="1222"><span class="lineNum">    1222 </span><span class="lineCov">         16 :     (updated-x-balance-post-fee (get x-amount updated-pool-balances-post-fee))</span></a>
-<a name="1223"><span class="lineNum">    1223 </span><span class="lineCov">         16 :     (updated-y-balance-post-fee (get y-amount updated-pool-balances-post-fee))</span></a>
+<a name="1215"><span class="lineNum">    1215 </span><span class="lineCov">         23 :     (precise-fees-liquidity (scale-down-amounts x-amount-fee-liquidity-scaled y-amount-fee-liquidity-scaled x-token-trait y-token-trait))</span></a>
+<a name="1216"><span class="lineNum">    1216 </span><span class="lineCov">         23 :     (x-amount-fees-liquidity (get x-amount precise-fees-liquidity))</span></a>
+<a name="1217"><span class="lineNum">    1217 </span><span class="lineCov">         23 :     (y-amount-fees-liquidity (get y-amount precise-fees-liquidity))</span></a>
+<a name="1218"><span class="lineNum">    1218 </span><span class="lineCov">         23 :     (amounts-added (scale-down-amounts updated-x-amount-scaled updated-y-amount-scaled x-token-trait y-token-trait))</span></a>
+<a name="1219"><span class="lineNum">    1219 </span><span class="lineCov">         23 :     (updated-x-amount (get x-amount amounts-added))</span></a>
+<a name="1220"><span class="lineNum">    1220 </span><span class="lineCov">         23 :     (updated-y-amount (get y-amount amounts-added))</span></a>
+<a name="1221"><span class="lineNum">    1221 </span><span class="lineCov">         23 :     (updated-pool-balances-post-fee (scale-down-amounts updated-balance-x-post-fee-scaled updated-balance-y-post-fee-scaled x-token-trait y-token-trait))</span></a>
+<a name="1222"><span class="lineNum">    1222 </span><span class="lineCov">         23 :     (updated-x-balance-post-fee (get x-amount updated-pool-balances-post-fee))</span></a>
+<a name="1223"><span class="lineNum">    1223 </span><span class="lineCov">         23 :     (updated-y-balance-post-fee (get y-amount updated-pool-balances-post-fee))</span></a>
 <a name="1224"><span class="lineNum">    1224 </span>            : </a>
 <a name="1225"><span class="lineNum">    1225 </span>            :     ;; Calculate midpoint discount amount</a>
-<a name="1226"><span class="lineNum">    1226 </span><span class="lineCov">         16 :     (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))</span></a>
-<a name="1227"><span class="lineNum">    1227 </span><span class="lineCov">         16 :     (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))</span></a>
-<a name="1228"><span class="lineNum">    1228 </span><span class="lineCov">         16 :     (midpoint-discount-value (- midpoint-value-b (/ (* midpoint-value-b midpoint-value-b) midpoint-value-a)))</span></a>
+<a name="1226"><span class="lineNum">    1226 </span><span class="lineCov">         23 :     (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))</span></a>
+<a name="1227"><span class="lineNum">    1227 </span><span class="lineCov">         23 :     (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))</span></a>
+<a name="1228"><span class="lineNum">    1228 </span><span class="lineCov">         23 :     (midpoint-discount-value (- midpoint-value-b (/ (* midpoint-value-b midpoint-value-b) midpoint-value-a)))</span></a>
 <a name="1229"><span class="lineNum">    1229 </span>            :     </a>
 <a name="1230"><span class="lineNum">    1230 </span>            :     ;; Calculate d-c using discounted x-amount</a>
-<a name="1231"><span class="lineNum">    1231 </span><span class="lineCov">         16 :     (x-amount-discount-scaled (/ (* updated-x-amount-scaled midpoint-discount-value) midpoint-value-b))</span></a>
-<a name="1232"><span class="lineNum">    1232 </span><span class="lineCov">         16 :     (x-amount-post-discount-scaled (- updated-x-amount-scaled x-amount-discount-scaled))</span></a>
-<a name="1233"><span class="lineNum">    1233 </span><span class="lineCov">         16 :     (x-balance-post-discount-scaled (+ x-balance-scaled x-amount-post-discount-scaled))</span></a>
-<a name="1234"><span class="lineNum">    1234 </span><span class="lineCov">         16 :     (d-c (get-d x-balance-post-discount-scaled updated-balance-y-post-fee-scaled amplification-coefficient convergence-threshold))</span></a>
+<a name="1231"><span class="lineNum">    1231 </span><span class="lineCov">         23 :     (x-amount-discount-scaled (/ (* updated-x-amount-scaled midpoint-discount-value) midpoint-value-b))</span></a>
+<a name="1232"><span class="lineNum">    1232 </span><span class="lineCov">         23 :     (x-amount-post-discount-scaled (- updated-x-amount-scaled x-amount-discount-scaled))</span></a>
+<a name="1233"><span class="lineNum">    1233 </span><span class="lineCov">         23 :     (x-balance-post-discount-scaled (+ x-balance-scaled x-amount-post-discount-scaled))</span></a>
+<a name="1234"><span class="lineNum">    1234 </span><span class="lineCov">         23 :     (d-c (get-d x-balance-post-discount-scaled updated-balance-y-post-fee-scaled amplification-coefficient convergence-threshold))</span></a>
 <a name="1235"><span class="lineNum">    1235 </span>            : </a>
 <a name="1236"><span class="lineNum">    1236 </span>            :     ;; Check that d-c is greater than d-a and calculate dlp</a>
-<a name="1237"><span class="lineNum">    1237 </span><span class="lineCov">         16 :     (minimum-d-check (asserts! (&gt; d-c d-a) ERR_MINIMUM_D_VALUE))</span></a>
-<a name="1238"><span class="lineNum">    1238 </span><span class="lineCov">         16 :     (dlp (/ (* total-shares (- d-c d-a)) d-a))</span></a>
+<a name="1237"><span class="lineNum">    1237 </span><span class="lineCov">         23 :     (minimum-d-check (asserts! (&gt; d-c d-a) ERR_MINIMUM_D_VALUE))</span></a>
+<a name="1238"><span class="lineNum">    1238 </span><span class="lineCov">         23 :     (dlp (/ (* total-shares (- d-c d-a)) d-a))</span></a>
 <a name="1239"><span class="lineNum">    1239 </span>            : </a>
-<a name="1240"><span class="lineNum">    1240 </span><span class="lineCov">         16 :     (caller tx-sender)</span></a>
+<a name="1240"><span class="lineNum">    1240 </span><span class="lineCov">         23 :     (caller tx-sender)</span></a>
 <a name="1241"><span class="lineNum">    1241 </span>            :   )</a>
-<a name="1242"><span class="lineNum">    1242 </span><span class="lineCov">         16 :     (begin</span></a>
+<a name="1242"><span class="lineNum">    1242 </span><span class="lineCov">         23 :     (begin</span></a>
 <a name="1243"><span class="lineNum">    1243 </span>            :       ;; Assert that pool-status is true and correct token traits are used</a>
-<a name="1244"><span class="lineNum">    1244 </span><span class="lineCov">         16 :       (asserts! (is-eq (get pool-status pool-data) true) ERR_POOL_DISABLED)</span></a>
-<a name="1245"><span class="lineNum">    1245 </span><span class="lineCov">         16 :       (asserts! (is-eq (contract-of x-token-trait) x-token) ERR_INVALID_X_TOKEN)</span></a>
-<a name="1246"><span class="lineNum">    1246 </span><span class="lineCov">         16 :       (asserts! (is-eq (contract-of y-token-trait) y-token) ERR_INVALID_Y_TOKEN)</span></a>
+<a name="1244"><span class="lineNum">    1244 </span><span class="lineCov">         23 :       (asserts! (is-eq (get pool-status pool-data) true) ERR_POOL_DISABLED)</span></a>
+<a name="1245"><span class="lineNum">    1245 </span><span class="lineCov">         23 :       (asserts! (is-eq (contract-of x-token-trait) x-token) ERR_INVALID_X_TOKEN)</span></a>
+<a name="1246"><span class="lineNum">    1246 </span><span class="lineCov">         23 :       (asserts! (is-eq (contract-of y-token-trait) y-token) ERR_INVALID_Y_TOKEN)</span></a>
 <a name="1247"><span class="lineNum">    1247 </span>            : </a>
 <a name="1248"><span class="lineNum">    1248 </span>            :       ;; Assert that x-amount + y-amount is greater than 0</a>
-<a name="1249"><span class="lineNum">    1249 </span><span class="lineCov">         16 :       (asserts! (&gt; (+ x-amount y-amount) u0) ERR_INVALID_AMOUNT)</span></a>
+<a name="1249"><span class="lineNum">    1249 </span><span class="lineCov">         23 :       (asserts! (&gt; (+ x-amount y-amount) u0) ERR_INVALID_AMOUNT)</span></a>
 <a name="1250"><span class="lineNum">    1250 </span>            : </a>
 <a name="1251"><span class="lineNum">    1251 </span>            :       ;; Assert that min-dlp is greater than 0 and dlp is greater than or equal to min-dlp</a>
-<a name="1252"><span class="lineNum">    1252 </span><span class="lineCov">         16 :       (asserts! (&gt; min-dlp u0) ERR_INVALID_AMOUNT)</span></a>
-<a name="1253"><span class="lineNum">    1253 </span><span class="lineCov">         16 :       (asserts! (&gt;= dlp min-dlp) ERR_MINIMUM_LP_AMOUNT)</span></a>
+<a name="1252"><span class="lineNum">    1252 </span><span class="lineCov">         23 :       (asserts! (&gt; min-dlp u0) ERR_INVALID_AMOUNT)</span></a>
+<a name="1253"><span class="lineNum">    1253 </span><span class="lineCov">         23 :       (asserts! (&gt;= dlp min-dlp) ERR_MINIMUM_LP_AMOUNT)</span></a>
 <a name="1254"><span class="lineNum">    1254 </span>            : </a>
 <a name="1255"><span class="lineNum">    1255 </span>            :       ;; Transfer updated-x-amount x tokens from caller to pool-contract</a>
-<a name="1256"><span class="lineNum">    1256 </span><span class="lineCov">         16 :       (if (&gt; updated-x-amount u0)</span></a>
-<a name="1257"><span class="lineNum">    1257 </span><span class="lineCov">         16 :         (try! (contract-call? x-token-trait transfer updated-x-amount caller pool-contract none))</span></a>
-<a name="1258"><span class="lineNum">    1258 </span><span class="lineNoCov">          0 :         false</span></a>
+<a name="1256"><span class="lineNum">    1256 </span><span class="lineCov">         23 :       (if (&gt; updated-x-amount u0)</span></a>
+<a name="1257"><span class="lineNum">    1257 </span><span class="lineCov">         22 :         (try! (contract-call? x-token-trait transfer updated-x-amount caller pool-contract none))</span></a>
+<a name="1258"><span class="lineNum">    1258 </span><span class="lineCov">          1 :         false</span></a>
 <a name="1259"><span class="lineNum">    1259 </span>            :       )</a>
 <a name="1260"><span class="lineNum">    1260 </span>            : </a>
 <a name="1261"><span class="lineNum">    1261 </span>            :       ;; Transfer updated-y-amount y tokens from caller to pool-contract</a>
-<a name="1262"><span class="lineNum">    1262 </span><span class="lineCov">         16 :       (if (&gt; updated-y-amount u0)</span></a>
-<a name="1263"><span class="lineNum">    1263 </span><span class="lineCov">          2 :         (try! (contract-call? y-token-trait transfer updated-y-amount caller pool-contract none))</span></a>
-<a name="1264"><span class="lineNum">    1264 </span><span class="lineCov">         14 :         false</span></a>
+<a name="1262"><span class="lineNum">    1262 </span><span class="lineCov">         23 :       (if (&gt; updated-y-amount u0)</span></a>
+<a name="1263"><span class="lineNum">    1263 </span><span class="lineCov">          8 :         (try! (contract-call? y-token-trait transfer updated-y-amount caller pool-contract none))</span></a>
+<a name="1264"><span class="lineNum">    1264 </span><span class="lineCov">         15 :         false</span></a>
 <a name="1265"><span class="lineNum">    1265 </span>            :       )</a>
 <a name="1266"><span class="lineNum">    1266 </span>            : </a>
 <a name="1267"><span class="lineNum">    1267 </span>            :       ;; Transfer x-amount-fees-liquidity x tokens from caller to fee-address</a>
-<a name="1268"><span class="lineNum">    1268 </span><span class="lineCov">         15 :       (if (&gt; x-amount-fees-liquidity u0)</span></a>
-<a name="1269"><span class="lineNum">    1269 </span><span class="lineCov">         15 :         (try! (contract-call? x-token-trait transfer x-amount-fees-liquidity caller fee-address none))</span></a>
-<a name="1270"><span class="lineNum">    1270 </span><span class="lineNoCov">          0 :         false</span></a>
+<a name="1268"><span class="lineNum">    1268 </span><span class="lineCov">         22 :       (if (&gt; x-amount-fees-liquidity u0)</span></a>
+<a name="1269"><span class="lineNum">    1269 </span><span class="lineCov">         21 :         (try! (contract-call? x-token-trait transfer x-amount-fees-liquidity caller fee-address none))</span></a>
+<a name="1270"><span class="lineNum">    1270 </span><span class="lineCov">          1 :         false</span></a>
 <a name="1271"><span class="lineNum">    1271 </span>            :       )</a>
 <a name="1272"><span class="lineNum">    1272 </span>            : </a>
 <a name="1273"><span class="lineNum">    1273 </span>            :       ;; Transfer y-amount-fees-liquidity y tokens from caller to fee-address</a>
-<a name="1274"><span class="lineNum">    1274 </span><span class="lineCov">         15 :       (if (&gt; y-amount-fees-liquidity u0)</span></a>
-<a name="1275"><span class="lineNum">    1275 </span><span class="lineCov">          1 :         (try! (contract-call? y-token-trait transfer y-amount-fees-liquidity caller fee-address none))</span></a>
-<a name="1276"><span class="lineNum">    1276 </span><span class="lineCov">         14 :         false</span></a>
+<a name="1274"><span class="lineNum">    1274 </span><span class="lineCov">         22 :       (if (&gt; y-amount-fees-liquidity u0)</span></a>
+<a name="1275"><span class="lineNum">    1275 </span><span class="lineCov">          7 :         (try! (contract-call? y-token-trait transfer y-amount-fees-liquidity caller fee-address none))</span></a>
+<a name="1276"><span class="lineNum">    1276 </span><span class="lineCov">         15 :         false</span></a>
 <a name="1277"><span class="lineNum">    1277 </span>            :       )</a>
 <a name="1278"><span class="lineNum">    1278 </span>            : </a>
 <a name="1279"><span class="lineNum">    1279 </span>            :       ;; Update pool balances and d value</a>
-<a name="1280"><span class="lineNum">    1280 </span><span class="lineCov">         15 :       (try! (contract-call? pool-trait update-pool-balances updated-x-balance-post-fee updated-y-balance-post-fee updated-d))</span></a>
+<a name="1280"><span class="lineNum">    1280 </span><span class="lineCov">         22 :       (try! (contract-call? pool-trait update-pool-balances updated-x-balance-post-fee updated-y-balance-post-fee updated-d))</span></a>
 <a name="1281"><span class="lineNum">    1281 </span>            :       </a>
 <a name="1282"><span class="lineNum">    1282 </span>            :       ;; Mint LP tokens to caller</a>
-<a name="1283"><span class="lineNum">    1283 </span><span class="lineCov">         15 :       (try! (contract-call? pool-trait pool-mint dlp caller))</span></a>
+<a name="1283"><span class="lineNum">    1283 </span><span class="lineCov">         22 :       (try! (contract-call? pool-trait pool-mint dlp caller))</span></a>
 <a name="1284"><span class="lineNum">    1284 </span>            : </a>
 <a name="1285"><span class="lineNum">    1285 </span>            :       ;; Print add liquidity data and return number of LP tokens caller received</a>
-<a name="1286"><span class="lineNum">    1286 </span><span class="lineCov">         15 :       (print {</span></a>
-<a name="1287"><span class="lineNum">    1287 </span><span class="lineCov">         15 :         action: &quot;add-liquidity&quot;,</span></a>
-<a name="1288"><span class="lineNum">    1288 </span><span class="lineCov">         15 :         caller: caller,</span></a>
+<a name="1286"><span class="lineNum">    1286 </span><span class="lineCov">         22 :       (print {</span></a>
+<a name="1287"><span class="lineNum">    1287 </span><span class="lineCov">         22 :         action: &quot;add-liquidity&quot;,</span></a>
+<a name="1288"><span class="lineNum">    1288 </span><span class="lineCov">         22 :         caller: caller,</span></a>
 <a name="1289"><span class="lineNum">    1289 </span><span class="lineNoCov">          0 :         data: {</span></a>
-<a name="1290"><span class="lineNum">    1290 </span><span class="lineCov">         15 :           pool-id: (get pool-id pool-data),</span></a>
-<a name="1291"><span class="lineNum">    1291 </span><span class="lineCov">         15 :           pool-name: (get pool-name pool-data),</span></a>
-<a name="1292"><span class="lineNum">    1292 </span><span class="lineCov">         15 :           pool-contract: pool-contract,</span></a>
-<a name="1293"><span class="lineNum">    1293 </span><span class="lineCov">         15 :           x-token: x-token,</span></a>
-<a name="1294"><span class="lineNum">    1294 </span><span class="lineCov">         15 :           y-token: y-token,</span></a>
-<a name="1295"><span class="lineNum">    1295 </span><span class="lineCov">         15 :           x-amount: updated-x-amount,</span></a>
-<a name="1296"><span class="lineNum">    1296 </span><span class="lineCov">         15 :           y-amount: updated-y-amount,</span></a>
-<a name="1297"><span class="lineNum">    1297 </span><span class="lineCov">         15 :           x-amount-fees-liquidity: x-amount-fees-liquidity,</span></a>
-<a name="1298"><span class="lineNum">    1298 </span><span class="lineCov">         15 :           y-amount-fees-liquidity: y-amount-fees-liquidity,</span></a>
-<a name="1299"><span class="lineNum">    1299 </span><span class="lineCov">         15 :           midpoint: midpoint,</span></a>
-<a name="1300"><span class="lineNum">    1300 </span><span class="lineCov">         15 :           midpoint-factor: midpoint-factor,</span></a>
-<a name="1301"><span class="lineNum">    1301 </span><span class="lineCov">         15 :           midpoint-reversed: midpoint-reversed,</span></a>
-<a name="1302"><span class="lineNum">    1302 </span><span class="lineCov">         15 :           midpoint-discount-value: midpoint-discount-value,</span></a>
-<a name="1303"><span class="lineNum">    1303 </span><span class="lineCov">         15 :           x-amount-discount-scaled: x-amount-discount-scaled,</span></a>
-<a name="1304"><span class="lineNum">    1304 </span><span class="lineCov">         15 :           x-amount-post-discount-scaled: x-amount-post-discount-scaled,</span></a>
-<a name="1305"><span class="lineNum">    1305 </span><span class="lineCov">         15 :           dlp: dlp,</span></a>
-<a name="1306"><span class="lineNum">    1306 </span><span class="lineCov">         15 :           min-dlp: min-dlp</span></a>
+<a name="1290"><span class="lineNum">    1290 </span><span class="lineCov">         22 :           pool-id: (get pool-id pool-data),</span></a>
+<a name="1291"><span class="lineNum">    1291 </span><span class="lineCov">         22 :           pool-name: (get pool-name pool-data),</span></a>
+<a name="1292"><span class="lineNum">    1292 </span><span class="lineCov">         22 :           pool-contract: pool-contract,</span></a>
+<a name="1293"><span class="lineNum">    1293 </span><span class="lineCov">         22 :           x-token: x-token,</span></a>
+<a name="1294"><span class="lineNum">    1294 </span><span class="lineCov">         22 :           y-token: y-token,</span></a>
+<a name="1295"><span class="lineNum">    1295 </span><span class="lineCov">         22 :           x-amount: updated-x-amount,</span></a>
+<a name="1296"><span class="lineNum">    1296 </span><span class="lineCov">         22 :           y-amount: updated-y-amount,</span></a>
+<a name="1297"><span class="lineNum">    1297 </span><span class="lineCov">         22 :           x-amount-fees-liquidity: x-amount-fees-liquidity,</span></a>
+<a name="1298"><span class="lineNum">    1298 </span><span class="lineCov">         22 :           y-amount-fees-liquidity: y-amount-fees-liquidity,</span></a>
+<a name="1299"><span class="lineNum">    1299 </span><span class="lineCov">         22 :           midpoint: midpoint,</span></a>
+<a name="1300"><span class="lineNum">    1300 </span><span class="lineCov">         22 :           midpoint-factor: midpoint-factor,</span></a>
+<a name="1301"><span class="lineNum">    1301 </span><span class="lineCov">         22 :           midpoint-reversed: midpoint-reversed,</span></a>
+<a name="1302"><span class="lineNum">    1302 </span><span class="lineCov">         22 :           midpoint-discount-value: midpoint-discount-value,</span></a>
+<a name="1303"><span class="lineNum">    1303 </span><span class="lineCov">         22 :           x-amount-discount-scaled: x-amount-discount-scaled,</span></a>
+<a name="1304"><span class="lineNum">    1304 </span><span class="lineCov">         22 :           x-amount-post-discount-scaled: x-amount-post-discount-scaled,</span></a>
+<a name="1305"><span class="lineNum">    1305 </span><span class="lineCov">         22 :           dlp: dlp,</span></a>
+<a name="1306"><span class="lineNum">    1306 </span><span class="lineCov">         22 :           min-dlp: min-dlp</span></a>
 <a name="1307"><span class="lineNum">    1307 </span>            :         }</a>
 <a name="1308"><span class="lineNum">    1308 </span>            :       })</a>
-<a name="1309"><span class="lineNum">    1309 </span><span class="lineCov">         15 :       (ok dlp)</span></a>
+<a name="1309"><span class="lineNum">    1309 </span><span class="lineCov">         22 :       (ok dlp)</span></a>
 <a name="1310"><span class="lineNum">    1310 </span>            :     )</a>
 <a name="1311"><span class="lineNum">    1311 </span>            :   )</a>
 <a name="1312"><span class="lineNum">    1312 </span>            : )</a>
@@ -1600,10 +1600,10 @@
 <a name="1538"><span class="lineNum">    1538 </span>            : </a>
 <a name="1539"><span class="lineNum">    1539 </span>            : ;; Check if a pool is valid</a>
 <a name="1540"><span class="lineNum">    1540 </span>            : (define-private (is-valid-pool (id uint) (contract principal))</a>
-<a name="1541"><span class="lineNum">    1541 </span><span class="lineCov">        107 :   (let (</span></a>
-<a name="1542"><span class="lineNum">    1542 </span><span class="lineCov">        107 :     (pool-data (unwrap! (map-get? pools id) false))</span></a>
+<a name="1541"><span class="lineNum">    1541 </span><span class="lineCov">        130 :   (let (</span></a>
+<a name="1542"><span class="lineNum">    1542 </span><span class="lineCov">        130 :     (pool-data (unwrap! (map-get? pools id) false))</span></a>
 <a name="1543"><span class="lineNum">    1543 </span>            :   )</a>
-<a name="1544"><span class="lineNum">    1544 </span><span class="lineCov">        107 :     (is-eq contract (get pool-contract pool-data))</span></a>
+<a name="1544"><span class="lineNum">    1544 </span><span class="lineCov">        130 :     (is-eq contract (get pool-contract pool-data))</span></a>
 <a name="1545"><span class="lineNum">    1545 </span>            :   )</a>
 <a name="1546"><span class="lineNum">    1546 </span>            : )</a>
 <a name="1547"><span class="lineNum">    1547 </span>            : </a>
@@ -1667,55 +1667,55 @@
 <a name="1605"><span class="lineNum">    1605 </span>            : </a>
 <a name="1606"><span class="lineNum">    1606 </span>            : ;; Helper for get-d</a>
 <a name="1607"><span class="lineNum">    1607 </span>            : (define-private (fold-d-for-loop (n uint) (static-data {x-bal: uint, y-bal: uint, d: uint, an: uint, threshold: uint, converged: uint})) </a>
-<a name="1608"><span class="lineNum">    1608 </span><span class="lineCov">      67584 :   (let (</span></a>
+<a name="1608"><span class="lineNum">    1608 </span><span class="lineCov">      96768 :   (let (</span></a>
 <a name="1609"><span class="lineNum">    1609 </span>            :     ;; Gather all data from static-data</a>
-<a name="1610"><span class="lineNum">    1610 </span><span class="lineCov">      67584 :     (current-x-balance (get x-bal static-data))</span></a>
-<a name="1611"><span class="lineNum">    1611 </span><span class="lineCov">      67584 :     (current-y-balance (get y-bal static-data))</span></a>
-<a name="1612"><span class="lineNum">    1612 </span><span class="lineCov">      67584 :     (current-s (+ current-x-balance current-y-balance))</span></a>
-<a name="1613"><span class="lineNum">    1613 </span><span class="lineCov">      67584 :     (current-d-partial (get d static-data))</span></a>
-<a name="1614"><span class="lineNum">    1614 </span><span class="lineCov">      67584 :     (current-d (get d static-data))</span></a>
-<a name="1615"><span class="lineNum">    1615 </span><span class="lineCov">      67584 :     (current-an (get an static-data))</span></a>
-<a name="1616"><span class="lineNum">    1616 </span><span class="lineCov">      67584 :     (current-threshold (get threshold static-data))</span></a>
-<a name="1617"><span class="lineNum">    1617 </span><span class="lineCov">      67584 :     (current-converged (get converged static-data))</span></a>
+<a name="1610"><span class="lineNum">    1610 </span><span class="lineCov">      96768 :     (current-x-balance (get x-bal static-data))</span></a>
+<a name="1611"><span class="lineNum">    1611 </span><span class="lineCov">      96768 :     (current-y-balance (get y-bal static-data))</span></a>
+<a name="1612"><span class="lineNum">    1612 </span><span class="lineCov">      96768 :     (current-s (+ current-x-balance current-y-balance))</span></a>
+<a name="1613"><span class="lineNum">    1613 </span><span class="lineCov">      96768 :     (current-d-partial (get d static-data))</span></a>
+<a name="1614"><span class="lineNum">    1614 </span><span class="lineCov">      96768 :     (current-d (get d static-data))</span></a>
+<a name="1615"><span class="lineNum">    1615 </span><span class="lineCov">      96768 :     (current-an (get an static-data))</span></a>
+<a name="1616"><span class="lineNum">    1616 </span><span class="lineCov">      96768 :     (current-threshold (get threshold static-data))</span></a>
+<a name="1617"><span class="lineNum">    1617 </span><span class="lineCov">      96768 :     (current-converged (get converged static-data))</span></a>
 <a name="1618"><span class="lineNum">    1618 </span>            : </a>
 <a name="1619"><span class="lineNum">    1619 </span>            :     ;; Start logic for calculating new d</a>
 <a name="1620"><span class="lineNum">    1620 </span>            :     ;; Calculate new partial d with respect to x</a>
-<a name="1621"><span class="lineNum">    1621 </span><span class="lineCov">      67584 :     (new-d-partial-x (/ (* current-d current-d-partial) (* NUM_OF_TOKENS current-x-balance)))</span></a>
+<a name="1621"><span class="lineNum">    1621 </span><span class="lineCov">      96768 :     (new-d-partial-x (/ (* current-d current-d-partial) (* NUM_OF_TOKENS current-x-balance)))</span></a>
 <a name="1622"><span class="lineNum">    1622 </span>            :     </a>
 <a name="1623"><span class="lineNum">    1623 </span>            :     ;; Calculate new partial d with respect to new x and y</a>
-<a name="1624"><span class="lineNum">    1624 </span><span class="lineCov">      67584 :     (new-d-partial (/ (* current-d new-d-partial-x) (* NUM_OF_TOKENS current-y-balance)))</span></a>
-<a name="1625"><span class="lineNum">    1625 </span><span class="lineCov">      67584 :     (new-numerator (* (+ (* current-an current-s) (* NUM_OF_TOKENS new-d-partial)) current-d))</span></a>
-<a name="1626"><span class="lineNum">    1626 </span><span class="lineCov">      67584 :     (new-denominator (+ (* (- current-an u1) current-d) (* (+ NUM_OF_TOKENS u1) new-d-partial)))</span></a>
-<a name="1627"><span class="lineNum">    1627 </span><span class="lineCov">      67584 :     (new-d (/ new-numerator new-denominator))         </span></a>
+<a name="1624"><span class="lineNum">    1624 </span><span class="lineCov">      96768 :     (new-d-partial (/ (* current-d new-d-partial-x) (* NUM_OF_TOKENS current-y-balance)))</span></a>
+<a name="1625"><span class="lineNum">    1625 </span><span class="lineCov">      96768 :     (new-numerator (* (+ (* current-an current-s) (* NUM_OF_TOKENS new-d-partial)) current-d))</span></a>
+<a name="1626"><span class="lineNum">    1626 </span><span class="lineCov">      96768 :     (new-denominator (+ (* (- current-an u1) current-d) (* (+ NUM_OF_TOKENS u1) new-d-partial)))</span></a>
+<a name="1627"><span class="lineNum">    1627 </span><span class="lineCov">      96768 :     (new-d (/ new-numerator new-denominator))         </span></a>
 <a name="1628"><span class="lineNum">    1628 </span>            :   )</a>
 <a name="1629"><span class="lineNum">    1629 </span>            :     ;; Check if converged value or new d was already found</a>
-<a name="1630"><span class="lineNum">    1630 </span><span class="lineCov">      67584 :     (if (is-eq current-converged u0)</span></a>
-<a name="1631"><span class="lineNum">    1631 </span><span class="lineCov">        375 :       (if (&gt; new-d current-d)</span></a>
+<a name="1630"><span class="lineNum">    1630 </span><span class="lineCov">      96768 :     (if (is-eq current-converged u0)</span></a>
+<a name="1631"><span class="lineNum">    1631 </span><span class="lineCov">        527 :       (if (&gt; new-d current-d)</span></a>
 <a name="1632"><span class="lineNum">    1632 </span><span class="lineNoCov">          0 :         (if (&lt;= (- new-d current-d) current-threshold)</span></a>
 <a name="1633"><span class="lineNum">    1633 </span><span class="lineNoCov">          0 :           {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: new-d}</span></a>
 <a name="1634"><span class="lineNum">    1634 </span><span class="lineNoCov">          0 :           {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: u0}</span></a>
 <a name="1635"><span class="lineNum">    1635 </span>            :         )</a>
-<a name="1636"><span class="lineNum">    1636 </span><span class="lineCov">        375 :         (if (&lt;= (- current-d new-d) current-threshold)</span></a>
-<a name="1637"><span class="lineNum">    1637 </span><span class="lineCov">        176 :           {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: new-d}</span></a>
-<a name="1638"><span class="lineNum">    1638 </span><span class="lineCov">        199 :           {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: u0}</span></a>
+<a name="1636"><span class="lineNum">    1636 </span><span class="lineCov">        527 :         (if (&lt;= (- current-d new-d) current-threshold)</span></a>
+<a name="1637"><span class="lineNum">    1637 </span><span class="lineCov">        252 :           {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: new-d}</span></a>
+<a name="1638"><span class="lineNum">    1638 </span><span class="lineCov">        275 :           {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: u0}</span></a>
 <a name="1639"><span class="lineNum">    1639 </span>            :         )</a>
 <a name="1640"><span class="lineNum">    1640 </span>            :       )</a>
-<a name="1641"><span class="lineNum">    1641 </span><span class="lineCov">      67209 :       static-data</span></a>
+<a name="1641"><span class="lineNum">    1641 </span><span class="lineCov">      96241 :       static-data</span></a>
 <a name="1642"><span class="lineNum">    1642 </span>            :     )</a>
 <a name="1643"><span class="lineNum">    1643 </span>            :   )</a>
 <a name="1644"><span class="lineNum">    1644 </span>            : )</a>
 <a name="1645"><span class="lineNum">    1645 </span>            : </a>
 <a name="1646"><span class="lineNum">    1646 </span>            : ;; Scale up token amounts to the same level of precision before performing AMM calculations</a>
 <a name="1647"><span class="lineNum">    1647 </span>            : (define-private (scale-up-amounts (x-amount uint) (y-amount uint) (x-token-trait &lt;sip-010-trait&gt;) (y-token-trait &lt;sip-010-trait&gt;))</a>
-<a name="1648"><span class="lineNum">    1648 </span><span class="lineCov">        192 :   (let (</span></a>
+<a name="1648"><span class="lineNum">    1648 </span><span class="lineCov">        261 :   (let (</span></a>
 <a name="1649"><span class="lineNum">    1649 </span>            :     ;; Get decimals for x and y tokens</a>
-<a name="1650"><span class="lineNum">    1650 </span><span class="lineCov">        192 :     (x-decimals (unwrap-panic (contract-call? x-token-trait get-decimals)))</span></a>
-<a name="1651"><span class="lineNum">    1651 </span><span class="lineCov">        192 :     (y-decimals (unwrap-panic (contract-call? y-token-trait get-decimals)))</span></a>
+<a name="1650"><span class="lineNum">    1650 </span><span class="lineCov">        261 :     (x-decimals (unwrap-panic (contract-call? x-token-trait get-decimals)))</span></a>
+<a name="1651"><span class="lineNum">    1651 </span><span class="lineCov">        261 :     (y-decimals (unwrap-panic (contract-call? y-token-trait get-decimals)))</span></a>
 <a name="1652"><span class="lineNum">    1652 </span>            : </a>
 <a name="1653"><span class="lineNum">    1653 </span>            :     ;; Scale x amount and y amounts</a>
 <a name="1654"><span class="lineNum">    1654 </span><span class="lineNoCov">          0 :     (x-amount-scaled</span></a>
-<a name="1655"><span class="lineNum">    1655 </span><span class="lineCov">        192 :       (if (is-eq x-decimals y-decimals)</span></a>
-<a name="1656"><span class="lineNum">    1656 </span><span class="lineCov">        192 :         x-amount</span></a>
+<a name="1655"><span class="lineNum">    1655 </span><span class="lineCov">        261 :       (if (is-eq x-decimals y-decimals)</span></a>
+<a name="1656"><span class="lineNum">    1656 </span><span class="lineCov">        261 :         x-amount</span></a>
 <a name="1657"><span class="lineNum">    1657 </span><span class="lineNoCov">          0 :         (if (&gt; x-decimals y-decimals)</span></a>
 <a name="1658"><span class="lineNum">    1658 </span><span class="lineNoCov">          0 :           x-amount</span></a>
 <a name="1659"><span class="lineNum">    1659 </span><span class="lineNoCov">          0 :           (* x-amount (pow u10 (- y-decimals x-decimals)))</span></a>
@@ -1723,8 +1723,8 @@
 <a name="1661"><span class="lineNum">    1661 </span>            :       )</a>
 <a name="1662"><span class="lineNum">    1662 </span>            :     )</a>
 <a name="1663"><span class="lineNum">    1663 </span><span class="lineNoCov">          0 :     (y-amount-scaled</span></a>
-<a name="1664"><span class="lineNum">    1664 </span><span class="lineCov">        192 :       (if (is-eq x-decimals y-decimals)</span></a>
-<a name="1665"><span class="lineNum">    1665 </span><span class="lineCov">        192 :         y-amount</span></a>
+<a name="1664"><span class="lineNum">    1664 </span><span class="lineCov">        261 :       (if (is-eq x-decimals y-decimals)</span></a>
+<a name="1665"><span class="lineNum">    1665 </span><span class="lineCov">        261 :         y-amount</span></a>
 <a name="1666"><span class="lineNum">    1666 </span><span class="lineNoCov">          0 :         (if (&gt; y-decimals x-decimals)</span></a>
 <a name="1667"><span class="lineNum">    1667 </span><span class="lineNoCov">          0 :           y-amount</span></a>
 <a name="1668"><span class="lineNum">    1668 </span><span class="lineNoCov">          0 :           (* y-amount (pow u10 (- x-decimals y-decimals)))</span></a>
@@ -1733,21 +1733,21 @@
 <a name="1671"><span class="lineNum">    1671 </span>            :     )</a>
 <a name="1672"><span class="lineNum">    1672 </span>            :   )</a>
 <a name="1673"><span class="lineNum">    1673 </span>            :     ;; Return scaled x and y amounts</a>
-<a name="1674"><span class="lineNum">    1674 </span><span class="lineCov">        192 :     {x-amount: x-amount-scaled, y-amount: y-amount-scaled}</span></a>
+<a name="1674"><span class="lineNum">    1674 </span><span class="lineCov">        261 :     {x-amount: x-amount-scaled, y-amount: y-amount-scaled}</span></a>
 <a name="1675"><span class="lineNum">    1675 </span>            :   )</a>
 <a name="1676"><span class="lineNum">    1676 </span>            : )</a>
 <a name="1677"><span class="lineNum">    1677 </span>            : </a>
 <a name="1678"><span class="lineNum">    1678 </span>            : ;; Scale down token amounts to their respective levels of precision before performing any transfers</a>
 <a name="1679"><span class="lineNum">    1679 </span>            : (define-private (scale-down-amounts (x-amount uint) (y-amount uint) (x-token-trait &lt;sip-010-trait&gt;) (y-token-trait &lt;sip-010-trait&gt;))</a>
-<a name="1680"><span class="lineNum">    1680 </span><span class="lineCov">        179 :   (let (</span></a>
+<a name="1680"><span class="lineNum">    1680 </span><span class="lineCov">        216 :   (let (</span></a>
 <a name="1681"><span class="lineNum">    1681 </span>            :     ;; Get decimals for x and y tokens</a>
-<a name="1682"><span class="lineNum">    1682 </span><span class="lineCov">        179 :     (x-decimals (unwrap-panic (contract-call? x-token-trait get-decimals)))</span></a>
-<a name="1683"><span class="lineNum">    1683 </span><span class="lineCov">        179 :     (y-decimals (unwrap-panic (contract-call? y-token-trait get-decimals)))</span></a>
+<a name="1682"><span class="lineNum">    1682 </span><span class="lineCov">        216 :     (x-decimals (unwrap-panic (contract-call? x-token-trait get-decimals)))</span></a>
+<a name="1683"><span class="lineNum">    1683 </span><span class="lineCov">        216 :     (y-decimals (unwrap-panic (contract-call? y-token-trait get-decimals)))</span></a>
 <a name="1684"><span class="lineNum">    1684 </span>            :     </a>
 <a name="1685"><span class="lineNum">    1685 </span>            :     ;; Scale x and y amounts</a>
 <a name="1686"><span class="lineNum">    1686 </span><span class="lineNoCov">          0 :     (x-amount-scaled</span></a>
-<a name="1687"><span class="lineNum">    1687 </span><span class="lineCov">        179 :       (if (is-eq x-decimals y-decimals)</span></a>
-<a name="1688"><span class="lineNum">    1688 </span><span class="lineCov">        179 :         x-amount</span></a>
+<a name="1687"><span class="lineNum">    1687 </span><span class="lineCov">        216 :       (if (is-eq x-decimals y-decimals)</span></a>
+<a name="1688"><span class="lineNum">    1688 </span><span class="lineCov">        216 :         x-amount</span></a>
 <a name="1689"><span class="lineNum">    1689 </span><span class="lineNoCov">          0 :         (if (&gt; x-decimals y-decimals)</span></a>
 <a name="1690"><span class="lineNum">    1690 </span><span class="lineNoCov">          0 :           x-amount</span></a>
 <a name="1691"><span class="lineNum">    1691 </span><span class="lineNoCov">          0 :           (/ x-amount (pow u10 (- y-decimals x-decimals)))</span></a>
@@ -1755,8 +1755,8 @@
 <a name="1693"><span class="lineNum">    1693 </span>            :       )</a>
 <a name="1694"><span class="lineNum">    1694 </span>            :     )</a>
 <a name="1695"><span class="lineNum">    1695 </span><span class="lineNoCov">          0 :     (y-amount-scaled</span></a>
-<a name="1696"><span class="lineNum">    1696 </span><span class="lineCov">        179 :       (if (is-eq x-decimals y-decimals)</span></a>
-<a name="1697"><span class="lineNum">    1697 </span><span class="lineCov">        179 :         y-amount</span></a>
+<a name="1696"><span class="lineNum">    1696 </span><span class="lineCov">        216 :       (if (is-eq x-decimals y-decimals)</span></a>
+<a name="1697"><span class="lineNum">    1697 </span><span class="lineCov">        216 :         y-amount</span></a>
 <a name="1698"><span class="lineNum">    1698 </span><span class="lineNoCov">          0 :         (if (&gt; y-decimals x-decimals)</span></a>
 <a name="1699"><span class="lineNum">    1699 </span><span class="lineNoCov">          0 :           y-amount</span></a>
 <a name="1700"><span class="lineNum">    1700 </span><span class="lineNoCov">          0 :           (/ y-amount (pow u10 (- x-decimals y-decimals)))</span></a>
@@ -1765,7 +1765,7 @@
 <a name="1703"><span class="lineNum">    1703 </span>            :     )</a>
 <a name="1704"><span class="lineNum">    1704 </span>            :   )</a>
 <a name="1705"><span class="lineNum">    1705 </span>            :     ;; Return scaled x and y amounts</a>
-<a name="1706"><span class="lineNum">    1706 </span><span class="lineCov">        179 :     {x-amount: x-amount-scaled, y-amount: y-amount-scaled}</span></a>
+<a name="1706"><span class="lineNum">    1706 </span><span class="lineCov">        216 :     {x-amount: x-amount-scaled, y-amount: y-amount-scaled}</span></a>
 <a name="1707"><span class="lineNum">    1707 </span>            :   )</a>
 <a name="1708"><span class="lineNum">    1708 </span>            : )</a>
 </pre>

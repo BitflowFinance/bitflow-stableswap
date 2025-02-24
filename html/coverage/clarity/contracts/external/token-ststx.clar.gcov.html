@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2025-02-24 07:58:21</td>
+            <td class="headerValue">2025-02-24 08:04:31</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">4</td>
@@ -81,7 +81,7 @@
 <a name="19"><span class="lineNum">      19 </span>            : )</a>
 <a name="20"><span class="lineNum">      20 </span>            : </a>
 <a name="21"><span class="lineNum">      21 </span>            : (define-read-only (get-decimals)</a>
-<a name="22"><span class="lineNum">      22 </span><span class="lineCov">        371 :   (ok u6)</span></a>
+<a name="22"><span class="lineNum">      22 </span><span class="lineCov">        477 :   (ok u6)</span></a>
 <a name="23"><span class="lineNum">      23 </span>            : )</a>
 <a name="24"><span class="lineNum">      24 </span>            : </a>
 <a name="25"><span class="lineNum">      25 </span>            : (define-read-only (get-balance (account principal))</a>
@@ -98,13 +98,13 @@
 <a name="36"><span class="lineNum">      36 </span>            : )</a>
 <a name="37"><span class="lineNum">      37 </span>            : </a>
 <a name="38"><span class="lineNum">      38 </span>            : (define-public (transfer (amount uint) (sender principal) (recipient principal) (memo (optional (buff 34))))</a>
-<a name="39"><span class="lineNum">      39 </span><span class="lineCov">         68 :   (begin</span></a>
-<a name="40"><span class="lineNum">      40 </span><span class="lineCov">         68 :     (asserts! (is-eq tx-sender sender) (err u1001))</span></a>
+<a name="39"><span class="lineNum">      39 </span><span class="lineCov">         80 :   (begin</span></a>
+<a name="40"><span class="lineNum">      40 </span><span class="lineCov">         80 :     (asserts! (is-eq tx-sender sender) (err u1001))</span></a>
 <a name="41"><span class="lineNum">      41 </span>            : </a>
-<a name="42"><span class="lineNum">      42 </span><span class="lineCov">         68 :     (match (ft-transfer? stSTX amount sender recipient)</span></a>
-<a name="43"><span class="lineNum">      43 </span><span class="lineCov">         67 :       response (begin</span></a>
-<a name="44"><span class="lineNum">      44 </span><span class="lineCov">         67 :         (print memo)</span></a>
-<a name="45"><span class="lineNum">      45 </span><span class="lineCov">         67 :         (ok response)</span></a>
+<a name="42"><span class="lineNum">      42 </span><span class="lineCov">         80 :     (match (ft-transfer? stSTX amount sender recipient)</span></a>
+<a name="43"><span class="lineNum">      43 </span><span class="lineCov">         79 :       response (begin</span></a>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">         79 :         (print memo)</span></a>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">         79 :         (ok response)</span></a>
 <a name="46"><span class="lineNum">      46 </span>            :       )</a>
 <a name="47"><span class="lineNum">      47 </span><span class="lineCov">          1 :       error (err error)</span></a>
 <a name="48"><span class="lineNum">      48 </span>            :     )</a>
