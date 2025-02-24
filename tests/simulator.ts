@@ -69,6 +69,7 @@ export class Simulator {
     }
 
     public static async create(): Promise<Simulator> {
+        console.log("Creating simulator");
         const simnet = await initSimnet();
         return new Simulator(simnet);
     }

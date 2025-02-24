@@ -1,5 +1,5 @@
 import { Simulator } from './simulator';
-import { describe, expect, it, beforeAll } from 'vitest';
+import { describe, expect, it, beforeAll, suite } from 'vitest';
 
 // Get simulator colors for formatting
 const colors = Simulator.getColors();
@@ -7,18 +7,19 @@ const colors = Simulator.getColors();
 // Test setup
 let simulator: Simulator;
 
-beforeAll(async () => {
-    // Create simulator
-    simulator = await Simulator.create();
+suite("Admin", { timeout: 100000 }, () => {
 
-    // First mint some stSTX tokens to deployer
-    simulator.mintStSTX(10_000_000 * Simulator.getUnit());
+    beforeAll(async () => {
+        // Create simulator
+        simulator = await Simulator.create();
 
-    // Create pool with default configuration
-    simulator.createPool();
-});
+        // First mint some stSTX tokens to deployer
+        simulator.mintStSTX(10_000_000 * Simulator.getUnit());
 
-describe("Admin Operations", () => {
+        // Create pool with default configuration
+        simulator.createPool();
+    });
+
     describe("3.0 Share Management", () => {
         it("should set and verify minimum shares", async () => {
             console.log("\n=== Minimum Shares Configuration Test ===");
@@ -218,4 +219,5 @@ describe("Admin Operations", () => {
             // We could add a getter if needed for verification
         });
     });
-}); 
+
+});
