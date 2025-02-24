@@ -31,9 +31,18 @@ export class Simulator {
     private static readonly STX_PRICE_USD = 1.00;
     private static readonly STSTX_PRICE_USD = 1.10;
 
+    public deployer: string;
+    public simnet: Simnet;
+    readonly accounts: Map<string, string>;
+    readonly wallet1: string;
+    readonly wallet2: string;
+    readonly wallet3: string;
+    readonly wallet4: string;
+    readonly UNIT = Simulator.UNIT;
+
     // Default Pool Configuration
     private static readonly DEFAULT_POOL_CONFIG = {
-        initialBalance: 10_000_000 * Simulator.UNIT, // 10M tokens
+        initialBalance: 10_000_000 * this.UNIT, // 10M tokens
         burnAmount: 1000,
         midpoint: 1100000,
         midpointFactor: 1000000,
@@ -44,27 +53,6 @@ export class Simulator {
         ampCoeff: 100,
         convergenceThreshold: 2
     } as any;
-
-    // Default Operation Parameters
-    private static readonly DEFAULT_SWAP_PARAMS = {
-        amount: 1_000 * Simulator.UNIT, // 1k tokens
-        minOutput: 1
-    } as const;
-
-    private static readonly DEFAULT_LIQUIDITY_PARAMS = {
-        stxAmount: Simulator.DEFAULT_POOL_CONFIG.initialBalance,
-        ststxAmount: 0,
-        minLpTokens: 1
-    } as const;
-
-    public deployer: string;
-    public simnet: Simnet;
-    readonly accounts: Map<string, string>;
-    readonly wallet1: string;
-    readonly wallet2: string;
-    readonly wallet3: string;
-    readonly wallet4: string;
-    readonly UNIT = Simulator.UNIT;
 
     constructor(simnet: Simnet) {
         this.simnet = simnet;
@@ -121,7 +109,7 @@ export class Simulator {
 
     // Token Operations
     public mintStSTX(
-        amount: number = Simulator.DEFAULT_POOL_CONFIG.initialBalance,
+        amount: number = 100 * this.UNIT,
         recipient: string = this.deployer
     ): void {
         const result = this.simnet.callPublicFn(
@@ -138,9 +126,9 @@ export class Simulator {
 
     // Liquidity Operations
     public addLiquidity(
-        stxAmount: number = Simulator.DEFAULT_LIQUIDITY_PARAMS.stxAmount,
-        ststxAmount: number = Simulator.DEFAULT_LIQUIDITY_PARAMS.ststxAmount,
-        minLpTokens: number = Simulator.DEFAULT_LIQUIDITY_PARAMS.minLpTokens
+        stxAmount: number = 100 * this.UNIT,
+        ststxAmount: number = 100 * this.UNIT,
+        minLpTokens: number = 1
     ): number {
         const result = this.simnet.callPublicFn(
             "stableswap-core-v-1-1",
@@ -183,8 +171,8 @@ export class Simulator {
 
     // Swap Operations
     public swapSTXForSTSTX(
-        amount: number = Simulator.DEFAULT_SWAP_PARAMS.amount,
-        minOutput: number = Simulator.DEFAULT_SWAP_PARAMS.minOutput
+        amount: number = 100 * this.UNIT,
+        minOutput: number = 1
     ): number {
         const result = this.simnet.callPublicFn(
             "stableswap-core-v-1-1",
@@ -203,8 +191,8 @@ export class Simulator {
     }
 
     public swapSTSTXForSTX(
-        amount: number = Simulator.DEFAULT_SWAP_PARAMS.amount,
-        minOutput: number = Simulator.DEFAULT_SWAP_PARAMS.minOutput
+        amount: number = 100 * this.UNIT,
+        minOutput: number = 1
     ): number {
         const result = this.simnet.callPublicFn(
             "stableswap-core-v-1-1",

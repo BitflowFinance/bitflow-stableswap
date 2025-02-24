@@ -15,7 +15,7 @@ suite("Liquidity", { timeout: 100000 }, () => {
         simulator = await Simulator.create();
 
         // First mint some stSTX tokens to deployer
-        simulator.mintStSTX(10_000_000 * unit);
+        simulator.mintStSTX(20_000_000 * unit);
 
         // Create pool with default configuration
         simulator.createPool();
@@ -46,7 +46,7 @@ suite("Liquidity", { timeout: 100000 }, () => {
         console.log(`stSTX Balance: ${simulator.formatStSTX(midState.ststxBalance)}`);
 
         // Verify balance changes
-        expect(midState.ststxBalance).toBe(initialState.ststxBalance);
+        expect(midState.stxBalance).toBeGreaterThan(initialState.stxBalance);
 
         // Withdraw liquidity
         console.log("\nWithdrawing all LP tokens");

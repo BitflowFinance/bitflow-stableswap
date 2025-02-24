@@ -15,7 +15,7 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
         simulator = await Simulator.create();
 
         // First mint some stSTX tokens to deployer
-        simulator.mintStSTX(10_000_000 * unit);
+        simulator.mintStSTX(20_000_000 * unit);
 
         // Create pool with default configuration
         simulator.createPool();
@@ -29,7 +29,7 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
     });
 
     it("should resist single-sided liquidity arbitrage", async () => {
-        const ATTEMPT_AMOUNT = 1000_000000; // 1k tokens for arbitrage attempt
+        const ATTEMPT_AMOUNT = 1000 * unit; // 1k tokens for arbitrage attempt
         const MAX_ACCEPTABLE_PROFIT = 0.001; // 0.1% maximum acceptable profit
 
         console.log("\n✨ Testing Single-Sided Liquidity Resistance ✨");
@@ -49,7 +49,7 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
 
         console.log("\n=== Arbitrage Attempt Results ===");
         console.log(`Initial position: ${simulator.formatSTX(ATTEMPT_AMOUNT)} (${simulator.formatUSD(ATTEMPT_AMOUNT, Simulator.getPrices().stx)})`);
-        console.log(`Final position: ${simulator.formatSTX(finalSTX)} + ${simulator.formatStSTX(finalStSTX)} (${simulator.formatUSD(finalValueUSD, 1)})`);
+        console.log(`Final position: ${simulator.formatSTX(finalSTX)} + ${simulator.formatStSTX(finalStSTX)} (${simulator.formatUSD(finalValueUSD)})`);
         console.log(`Profit/Loss: ${simulator.formatUSD(profitUSD, 1)} (${simulator.formatProfitPercent(profitUSD, initialInvestmentUSD)})`);
 
         // Verify that profit is below acceptable threshold
@@ -80,9 +80,9 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
         const profitUSD = finalValueUSD - initialInvestmentUSD;
 
         console.log("\n=== Protection Analysis ===");
-        console.log(`${colors.subtitle('Initial investment:')} $${initialInvestmentUSD} (${simulator.formatUSD(ATTEMPT_AMOUNT, Simulator.getPrices().stx)})`);
-        console.log(`${colors.subtitle('Final position:')} $${finalValueUSD} (${simulator.formatUSD(finalSTX + finalStSTX, Simulator.getPrices().stx)})`);
-        console.log(`${colors.subtitle('Total profit/loss:')} $${profitUSD} (${simulator.formatProfitPercent(profitUSD, initialInvestmentUSD)})`);
+        console.log(`${colors.subtitle('Initial investment:')} $${initialInvestmentUSD.toFixed(2)} (${simulator.formatUSD(ATTEMPT_AMOUNT, Simulator.getPrices().stx)})`);
+        console.log(`${colors.subtitle('Final position:')} $${finalValueUSD.toFixed(2)} (${simulator.formatUSD(finalSTX + finalStSTX, Simulator.getPrices().stx)})`);
+        console.log(`${colors.subtitle('Total profit/loss:')} $${profitUSD.toFixed(2)} (${simulator.formatProfitPercent(profitUSD, initialInvestmentUSD)})`);
 
         // Verify pool protections are working
         const profitPercent = profitUSD / initialInvestmentUSD;
@@ -133,7 +133,7 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
             console.log(`${colors.info('External market:')} ${simulator.formatStSTX(receivedStSTX)} → ${simulator.formatSTX(externalSwapSTX)}`);
             console.log(`${colors.info('External market value:')} ${simulator.formatUSD(receivedStSTX, Simulator.getPrices().ststx)} → ${simulator.formatUSD(externalSwapSTX, Simulator.getPrices().stx)}`);
             console.log(`${colors.info('New position:')} ${simulator.formatSTX(currentSTXBalance)} (${simulator.formatUSD(currentSTXBalance, Simulator.getPrices().stx)})`);
-            console.log(`${colors.info('Cycle profit:')} $${cycleProfit} (${simulator.formatProfitPercent(cycleProfit, previousValueUSD)})`);
+            console.log(`${colors.info('Cycle profit:')} $${cycleProfit.toFixed(2)} (${simulator.formatProfitPercent(cycleProfit, previousValueUSD)})`);
         }
 
         // Calculate final results
@@ -142,8 +142,8 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
 
         console.log("\n=== Protection Analysis ===");
         console.log(`${colors.subtitle('Initial investment:')} ${simulator.formatSTX(ATTEMPT_AMOUNT)} (${simulator.formatUSD(ATTEMPT_AMOUNT, Simulator.getPrices().stx)})`);
-        console.log(`${colors.subtitle('Final position:')} ${simulator.formatSTX(currentSTXBalance)} (${simulator.formatUSD(finalValueUSD, 1)})`);
-        console.log(`${colors.subtitle('Total profit/loss:')} $${totalProfit} (${simulator.formatProfitPercent(totalProfit, initialInvestmentUSD)})`);
+        console.log(`${colors.subtitle('Final position:')} ${simulator.formatSTX(currentSTXBalance)} (${simulator.formatUSD(finalValueUSD)})`);
+        console.log(`${colors.subtitle('Total profit/loss:')} $${totalProfit.toFixed(2)} (${simulator.formatProfitPercent(totalProfit, initialInvestmentUSD)})`);
         console.log(`${colors.subtitle('Total volume:')} ${simulator.formatSTX(totalVolume)} (${simulator.formatUSD(totalVolume, Simulator.getPrices().stx)})`);
         console.log(`${colors.subtitle('Profit/volume ratio:')} ${((totalProfit / (totalVolume / Simulator.getUnit())) * 100).toFixed(3)}%`);
 
@@ -206,8 +206,8 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
 
         console.log("\n=== Protection Analysis ===");
         console.log(`${colors.subtitle('Initial investment:')} ${simulator.formatSTX(ATTEMPT_AMOUNT)} (${simulator.formatUSD(ATTEMPT_AMOUNT, Simulator.getPrices().stx)})`);
-        console.log(`${colors.subtitle('Final position:')} ${simulator.formatSTX(currentSTXBalance)} (${simulator.formatUSD(finalValueUSD, 1)})`);
-        console.log(`${colors.subtitle('Total profit/loss:')} $${totalProfit} (${simulator.formatProfitPercent(totalProfit, initialInvestmentUSD)})`);
+        console.log(`${colors.subtitle('Final position:')} ${simulator.formatSTX(currentSTXBalance)} (${simulator.formatUSD(finalValueUSD)})`);
+        console.log(`${colors.subtitle('Total profit/loss:')} $${totalProfit.toFixed(2)} (${simulator.formatProfitPercent(totalProfit, initialInvestmentUSD)})`);
         console.log(`${colors.subtitle('Total volume:')} ${simulator.formatSTX(totalVolume)} (${simulator.formatUSD(totalVolume, Simulator.getPrices().stx)})`);
         console.log(`${colors.subtitle('Profit/volume ratio:')} ${((totalProfit / (totalVolume / Simulator.getUnit())) * 100).toFixed(3)}%`);
 

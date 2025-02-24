@@ -1292,7 +1292,7 @@
     "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
     "method": "mint",
     "args": [
-      "u10000000000000",
+      "u20000000000000",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
     ],
     "cost_result": {
@@ -1391,16 +1391,16 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
       "u1000000000",
-      "u0",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34411864
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34427024
       },
       "limit": {
         "write_length": 15000000,
@@ -1409,7 +1409,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -1421,7 +1421,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u907271616",
+      "u1005653476",
       "u1",
       "u1"
     ],
@@ -1453,16 +1453,16 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
       "u1000000000",
-      "u0",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34414890
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
       },
       "limit": {
         "write_length": 15000000,
@@ -1471,7 +1471,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -1483,7 +1483,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u907267142",
+      "u1005648743",
       "u1",
       "u1"
     ],
@@ -1515,16 +1515,16 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
       "u1000000000",
-      "u0",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34414890
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
       },
       "limit": {
         "write_length": 15000000,
@@ -1533,7 +1533,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -1545,7 +1545,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u907262667",
+      "u1005644008",
       "u1",
       "u1"
     ],
@@ -1576,17 +1576,17 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u952631973",
-      "u0",
+      "u1055933792",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34414890
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
       },
       "limit": {
         "write_length": 15000000,
@@ -1595,7 +1595,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -1607,7 +1607,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u864283173",
+      "u1056273811",
       "u1",
       "u1"
     ],
@@ -1638,17 +1638,17 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u907505080",
-      "u0",
+      "u1109098256",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34414890
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
       },
       "limit": {
         "write_length": 15000000,
@@ -1657,7 +1657,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -1669,7 +1669,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u823337570",
+      "u1104395888",
       "u1",
       "u1"
     ],
@@ -1700,17 +1700,17 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u864513524",
-      "u0",
+      "u1159629978",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34414890
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
       },
       "limit": {
         "write_length": 15000000,
@@ -1719,7 +1719,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -1731,7 +1731,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u784329809",
+      "u1150133901",
       "u1",
       "u1"
     ],
@@ -1762,17 +1762,17 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u823556483",
-      "u0",
+      "u1207658791",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34414890
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
       },
       "limit": {
         "write_length": 15000000,
@@ -1781,7 +1781,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -1793,7 +1793,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u747168359",
+      "u1193605395",
       "u1",
       "u1"
     ],
@@ -1825,16 +1825,16 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
       "u1000000000",
-      "u0",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34414890
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
       },
       "limit": {
         "write_length": 15000000,
@@ -1843,7 +1843,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -1855,7 +1855,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u907242322",
+      "u1005617809",
       "u1",
       "u1"
     ],
@@ -1886,17 +1886,17 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u952619972",
-      "u0",
+      "u1055920139",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34414890
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
       },
       "limit": {
         "write_length": 15000000,
@@ -1905,7 +1905,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -1917,7 +1917,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u864252902",
+      "u1056233909",
       "u1",
       "u1"
     ],
@@ -1948,17 +1948,17 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u907482212",
-      "u0",
+      "u1109070913",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34414890
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
       },
       "limit": {
         "write_length": 15000000,
@@ -1967,7 +1967,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -1979,7 +1979,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u823298360",
+      "u1104342318",
       "u1",
       "u1"
     ],
@@ -2010,17 +2010,17 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u864480850",
-      "u0",
+      "u1159588946",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34414890
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
       },
       "limit": {
         "write_length": 15000000,
@@ -2029,7 +2029,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -2041,7 +2041,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u784282577",
+      "u1150066725",
       "u1",
       "u1"
     ],
@@ -2072,17 +2072,17 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u823514984",
-      "u0",
+      "u1207604104",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34414890
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
       },
       "limit": {
         "write_length": 15000000,
@@ -2091,7 +2091,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -2103,7 +2103,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u747113955",
+      "u1193524707",
       "u1",
       "u1"
     ],
@@ -5077,7 +5077,7 @@
     "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
     "method": "mint",
     "args": [
-      "u10000000000000",
+      "u20000000000000",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
     ],
     "cost_result": {
@@ -5200,16 +5200,16 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
       "u1000000000",
-      "u0",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34411864
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34427024
       },
       "limit": {
         "write_length": 15000000,
@@ -5218,7 +5218,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -5254,7 +5254,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u907271616",
+      "u1005653476",
       "u1",
       "u1"
     ],
@@ -5315,11 +5315,11 @@
     ],
     "cost_result": {
       "total": {
-        "write_length": 2,
-        "write_count": 3,
-        "read_length": 112517,
-        "read_count": 77,
-        "runtime": 34287896
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
       },
       "limit": {
         "write_length": 15000000,
@@ -5328,7 +5328,62 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 376,
+      "memory": 1623,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should handle balanced liquidity addition",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should handle balanced liquidity addition",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1909081036",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
       "memory_limit": 100000000
     }
   },
@@ -5341,16 +5396,16 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
       "u1000000000",
-      "u0",
+      "u100000000",
       "u1"
     ],
     "cost_result": {
       "total": {
-        "write_length": 57,
-        "write_count": 7,
-        "read_length": 140501,
-        "read_count": 87,
-        "runtime": 34414890
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
       },
       "limit": {
         "write_length": 15000000,
@@ -5359,7 +5414,7 @@
         "read_count": 15000,
         "runtime": 5000000000
       },
-      "memory": 967,
+      "memory": 1623,
       "memory_limit": 100000000
     }
   },
@@ -5371,7 +5426,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u453633571",
+      "u502822086",
       "u1",
       "u1"
     ],
@@ -5402,7 +5457,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u453633571",
+      "u502822087",
       "u1",
       "u1"
     ],
@@ -5512,7 +5567,7 @@
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
       "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
-      "u1708311441",
+      "u1708303618",
       "u1",
       "u1"
     ],

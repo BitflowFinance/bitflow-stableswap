@@ -55,6 +55,11 @@ suite("Swaps", { timeout: 100000 }, () => {
             // Verify the difference is minimal
             expect(difference).toBe(0);
             console.log(`Match status: ${difference === 0 ? colors.success('EXACT') + colors.checkmark : colors.error('MISMATCHED') + colors.xmark}`);
+
+            // Swap should not return more in USD than the input USD value
+            const inputUSD = amount * Simulator.getPrices().stx;
+            const outputUSD = swapAmount * Simulator.getPrices().ststx;
+            expect(outputUSD).toBeLessThanOrEqual(inputUSD);
         }
     });
 
@@ -87,6 +92,11 @@ suite("Swaps", { timeout: 100000 }, () => {
             // Verify the difference is minimal
             expect(difference).toBe(0);
             console.log(`Match status: ${difference === 0 ? colors.success('EXACT') + colors.checkmark : colors.error('MISMATCHED') + colors.xmark}`);
+
+            // Swap should not return more in USD than the input USD value
+            const inputUSD = amount * Simulator.getPrices().ststx;
+            const outputUSD = swapAmount * Simulator.getPrices().stx;
+            expect(outputUSD).toBeLessThanOrEqual(inputUSD);
         }
     });
 
@@ -130,6 +140,11 @@ suite("Swaps", { timeout: 100000 }, () => {
         const quotePercentDiff = (quoteDiff / initialQuote) * 100;
         console.log(`\nQuote change after state change: ${simulator.formatStSTX(quoteDiff)} (${quotePercentDiff.toFixed(2)}%)`);
         console.log(`Price impact visible in quotes: ${quotePercentDiff > 0 ? colors.success('YES') + colors.checkmark : colors.error('NO') + colors.xmark}`);
+
+        // Swap should not return more in USD than the input USD value
+        const inputUSD = testAmount * Simulator.getPrices().ststx;
+        const outputUSD = actualSwap * Simulator.getPrices().stx;
+        expect(outputUSD).toBeLessThanOrEqual(inputUSD);
     });
 
     it("should handle small STX to stSTX swaps", { timeout: 100000 }, () => {
@@ -145,6 +160,11 @@ suite("Swaps", { timeout: 100000 }, () => {
         const priceImpact = Math.abs((outputAmount / amount) - 1);
         console.log(`Price Impact: ${simulator.formatProfitPercent(priceImpact, 1)}`);
         expect(priceImpact).toBeLessThan(0.2); // Less than 20% impact for small trades
+
+        // Swap should not return more in USD than the input USD value
+        const inputUSD = amount * Simulator.getPrices().stx;
+        const outputUSD = outputAmount * Simulator.getPrices().ststx;
+        expect(outputUSD).toBeLessThanOrEqual(inputUSD);
     });
 
     it("should handle medium STX to stSTX swaps", () => {
@@ -160,6 +180,11 @@ suite("Swaps", { timeout: 100000 }, () => {
         const priceImpact = Math.abs((outputAmount / amount) - 1);
         console.log(`Price Impact: ${simulator.formatProfitPercent(priceImpact, 1)}`);
         expect(priceImpact).toBeLessThan(0.15); // Less than 15% impact for medium trades
+
+        // Swap should not return more in USD than the input USD value
+        const inputUSD = amount * Simulator.getPrices().stx;
+        const outputUSD = outputAmount * Simulator.getPrices().ststx;
+        expect(outputUSD).toBeLessThanOrEqual(inputUSD);
     });
 
     it("should handle large STX to stSTX swaps", () => {
@@ -175,6 +200,11 @@ suite("Swaps", { timeout: 100000 }, () => {
         const priceImpact = Math.abs((outputAmount / amount) - 1);
         console.log(`Price Impact: ${simulator.formatProfitPercent(priceImpact, 1)}`);
         expect(priceImpact).toBeLessThan(0.1); // Less than 10% impact for large trades
+
+        // Swap should not return more in USD than the input USD value
+        const inputUSD = amount * Simulator.getPrices().stx;
+        const outputUSD = outputAmount * Simulator.getPrices().ststx;
+        expect(outputUSD).toBeLessThanOrEqual(inputUSD);
     });
 
     it("should handle reverse swaps (stSTX to STX)", () => {
@@ -194,6 +224,11 @@ suite("Swaps", { timeout: 100000 }, () => {
             expect(outputAmount).toBeGreaterThan(0);
             const priceImpact = Math.abs((outputAmount / amount) - 1);
             console.log(`Price Impact: ${simulator.formatProfitPercent(priceImpact, 1)}`);
+
+            // Swap should not return more in USD than the input USD value
+            const inputUSD = amount * Simulator.getPrices().ststx;
+            const outputUSD = outputAmount * Simulator.getPrices().stx;
+            expect(outputUSD).toBeLessThanOrEqual(inputUSD);
         }
     });
 
@@ -215,6 +250,11 @@ suite("Swaps", { timeout: 100000 }, () => {
         const slippage = Math.abs((actualAmount - quotedAmount) / quotedAmount);
         console.log(`\nSlippage: ${simulator.formatProfitPercent(slippage, 1)}`);
         expect(slippage).toBeLessThan(0.01); // Less than 1% slippage
+
+        // Swap should not return more in USD than the input USD value
+        const inputUSD = amount * Simulator.getPrices().ststx;
+        const outputUSD = actualAmount * Simulator.getPrices().stx;
+        expect(outputUSD).toBeLessThanOrEqual(inputUSD);
     });
 
     it("should maintain low-impact swaps within limits", { timeout: 100000 }, () => {
@@ -244,6 +284,11 @@ suite("Swaps", { timeout: 100000 }, () => {
         const priceRatio = outputAmount / newQuote;
         console.log(`Price impact ratio: ${priceRatio.toFixed(4)}`);
         expect(priceRatio).toBeLessThan(1.05); // Less than 1.05
+
+        // Swap should not return more in USD than the input USD value
+        const inputUSD = swapAmount * Simulator.getPrices().ststx;
+        const outputUSD = outputAmount * Simulator.getPrices().stx;
+        expect(outputUSD).toBeLessThanOrEqual(inputUSD);
     });
 
     it("should verify fee accumulation", { timeout: 100000 }, () => {
@@ -301,6 +346,11 @@ suite("Swaps", { timeout: 100000 }, () => {
         const stSTXToSTX = simulator.swapSTSTXForSTX(minAmount);
         console.log(`stSTX to STX: ${simulator.formatSTX(stSTXToSTX)}`);
         expect(stSTXToSTX).toBeGreaterThan(0);
+
+        // Swap should not return more in USD than the input USD value
+        const inputUSD = minAmount * Simulator.getPrices().ststx;
+        const outputUSD = stxToStSTX * Simulator.getPrices().stx;
+        expect(outputUSD).toBeLessThanOrEqual(inputUSD);
     });
 
     it("should handle maximum swap amounts", () => {
@@ -317,6 +367,11 @@ suite("Swaps", { timeout: 100000 }, () => {
         const stSTXToSTX = simulator.swapSTSTXForSTX(maxAmount);
         console.log(`stSTX to STX: ${simulator.formatSTX(stSTXToSTX)}`);
         expect(stSTXToSTX).toBeGreaterThan(0);
+
+        // Swap should not return more in USD than the input USD value
+        const inputUSD = maxAmount * Simulator.getPrices().ststx;
+        const outputUSD = stxToStSTX * Simulator.getPrices().stx;
+        expect(outputUSD).toBeLessThanOrEqual(inputUSD);
     });
 
     it("should maintain price stability during sequential swaps", { timeout: 100000 }, () => {
@@ -336,6 +391,11 @@ suite("Swaps", { timeout: 100000 }, () => {
             console.log(`Input: ${simulator.formatSTX(amount)}`);
             console.log(`Output: ${simulator.formatStSTX(output)}`);
             console.log(`Price Ratio: ${priceRatio.toFixed(4)}`);
+
+            // Swap should not return more in USD than the input USD value
+            const inputUSD = amount * Simulator.getPrices().ststx;
+            const outputUSD = output * Simulator.getPrices().stx;
+            expect(outputUSD).toBeLessThanOrEqual(inputUSD);
         }
 
         // Check price stability
@@ -365,6 +425,11 @@ suite("Swaps", { timeout: 100000 }, () => {
 
         // Verify the loss is within acceptable limits (due to fees)
         expect(efficiency).toBeGreaterThan(0.97); // No more than 3% loss
+
+        // Swap should not return more in USD than the input USD value
+        const inputUSD = initialAmount * Simulator.getPrices().ststx;
+        const outputUSD = finalAmount * Simulator.getPrices().stx;
+        expect(outputUSD).toBeLessThanOrEqual(inputUSD);
     });
 
 });
