@@ -20,328 +20,312 @@ suite("Admin", { timeout: 100000 }, () => {
         simulator.createPool();
     });
 
-    describe("3.0 Admin Management", () => {
-        it("should manage admins correctly", () => {
-            console.log("\n=== Admin Management Test ===");
+    it("should manage admins correctly", () => {
+        console.log("\n✨ Admin Management Test ✨");
 
-            // Get initial admins
-            const initialAdmins = simulator.getAdmins();
-            console.log(`${colors.subtitle('Initial Admins:')} ${colors.info(initialAdmins.join(', '))}`);
-            expect(initialAdmins).toContain(simulator.deployer);
+        // Get initial admins
+        const initialAdmins = simulator.getAdmins();
+        console.log(`${colors.subtitle('Initial Admins:')} ${colors.info(initialAdmins.join(', '))}`);
+        expect(initialAdmins).toContain(simulator.deployer);
 
-            // Add a new admin (wallet_1)
-            const wallet1 = simulator.getWallet1();
-            console.log(`\n${colors.subtitle('Adding Admin:')} ${colors.info(wallet1)}`);
-            const addResult = simulator.addAdmin(wallet1);
-            expect(addResult).toBe(true);
+        // Add a new admin (wallet_1)
+        const wallet1 = simulator.getWallet1();
+        console.log(`\n${colors.subtitle('Adding Admin:')} ${colors.info(wallet1)}`);
+        const addResult = simulator.addAdmin(wallet1);
+        expect(addResult).toBe(true);
 
-            // Verify admin was added
-            const adminsAfterAdd = simulator.getAdmins();
-            console.log(`${colors.subtitle('Admins After Add:')} ${colors.info(adminsAfterAdd.join(', '))}`);
-            expect(adminsAfterAdd).toContain(wallet1);
-            expect(adminsAfterAdd.length).toBe(initialAdmins.length + 1);
+        // Verify admin was added
+        const adminsAfterAdd = simulator.getAdmins();
+        console.log(`${colors.subtitle('Admins After Add:')} ${colors.info(adminsAfterAdd.join(', '))}`);
+        expect(adminsAfterAdd).toContain(wallet1);
+        expect(adminsAfterAdd.length).toBe(initialAdmins.length + 1);
 
-            // Try to add the same admin again (should fail)
-            try {
-                simulator.addAdmin(wallet1);
-                throw new Error("Should not be able to add the same admin twice");
-            } catch (error) {
-                console.log(`${colors.success('✓')} ${colors.info('Successfully prevented duplicate admin addition')}`);
-            }
+        // Try to add the same admin again (should fail)
+        try {
+            simulator.addAdmin(wallet1);
+            throw new Error("Should not be able to add the same admin twice");
+        } catch (error) {
+            console.log(`${colors.success('✓')} ${colors.info('Successfully prevented duplicate admin addition')}`);
+        }
 
-            // Try to add admin from non-admin account (should fail)
-            try {
-                simulator.addAdmin(simulator.deployer, wallet1);
-                throw new Error("Non-admin should not be able to add admins");
-            } catch (error) {
-                console.log(`${colors.success('✓')} ${colors.info('Successfully prevented unauthorized admin addition')}`);
-            }
+        // Try to add admin from non-admin account (should fail)
+        try {
+            simulator.addAdmin(simulator.deployer, wallet1);
+            throw new Error("Non-admin should not be able to add admins");
+        } catch (error) {
+            console.log(`${colors.success('✓')} ${colors.info('Successfully prevented unauthorized admin addition')}`);
+        }
 
-            // Remove the added admin
-            console.log(`\n${colors.subtitle('Removing Admin:')} ${colors.info(wallet1)}`);
-            const removeResult = simulator.removeAdmin(wallet1);
-            expect(removeResult).toBe(true);
+        // Remove the added admin
+        console.log(`\n${colors.subtitle('Removing Admin:')} ${colors.info(wallet1)}`);
+        const removeResult = simulator.removeAdmin(wallet1);
+        expect(removeResult).toBe(true);
 
-            // Verify admin was removed
-            const adminsAfterRemove = simulator.getAdmins();
-            console.log(`${colors.subtitle('Admins After Remove:')} ${colors.info(adminsAfterRemove.join(', '))}`);
-            expect(adminsAfterRemove).not.toContain(wallet1);
-            expect(adminsAfterRemove.length).toBe(initialAdmins.length);
+        // Verify admin was removed
+        const adminsAfterRemove = simulator.getAdmins();
+        console.log(`${colors.subtitle('Admins After Remove:')} ${colors.info(adminsAfterRemove.join(', '))}`);
+        expect(adminsAfterRemove).not.toContain(wallet1);
+        expect(adminsAfterRemove.length).toBe(initialAdmins.length);
 
-            // Try to remove contract deployer (should fail)
-            try {
-                simulator.removeAdmin(simulator.deployer);
-                throw new Error("Should not be able to remove contract deployer");
-            } catch (error) {
-                console.log(`${colors.success('✓')} ${colors.info('Successfully prevented contract deployer removal')}`);
-            }
+        // Try to remove contract deployer (should fail)
+        try {
+            simulator.removeAdmin(simulator.deployer);
+            throw new Error("Should not be able to remove contract deployer");
+        } catch (error) {
+            console.log(`${colors.success('✓')} ${colors.info('Successfully prevented contract deployer removal')}`);
+        }
 
-            // Try to remove non-existent admin (should fail)
-            try {
-                simulator.removeAdmin(wallet1);
-                throw new Error("Should not be able to remove non-existent admin");
-            } catch (error) {
-                console.log(`${colors.success('✓')} ${colors.info('Successfully prevented non-existent admin removal')}`);
-            }
+        // Try to remove non-existent admin (should fail)
+        try {
+            simulator.removeAdmin(wallet1);
+            throw new Error("Should not be able to remove non-existent admin");
+        } catch (error) {
+            console.log(`${colors.success('✓')} ${colors.info('Successfully prevented non-existent admin removal')}`);
+        }
 
-            // Try to remove admin from non-admin account (should fail)
-            try {
-                simulator.removeAdmin(simulator.deployer, wallet1);
-                throw new Error("Non-admin should not be able to remove admins");
-            } catch (error) {
-                console.log(`${colors.success('✓')} ${colors.info('Successfully prevented unauthorized admin removal')}`);
-            }
-        });
-
-        it("should enforce admin limit", () => {
-            console.log("\n=== Admin Limit Test ===");
-
-            // Get initial admins count
-            const initialAdmins = simulator.getAdmins();
-            console.log(`${colors.subtitle('Initial Admin Count:')} ${colors.info(initialAdmins.length.toString())}`);
-
-            // Try to add admins up to the limit
-            const maxAdmins = 5;
-            const currentCount = initialAdmins.length;
-            const additionalAdmins = maxAdmins - currentCount;
-
-            console.log(`${colors.subtitle('Adding')} ${colors.info(additionalAdmins.toString())} ${colors.subtitle('more admins...')}`);
-
-            // Generate test accounts (we'll use wallet_1 with different numbers appended)
-            const testAccounts = Array.from(simulator.accounts.values());
-
-            // Add admins up to the limit
-            for (let i = 0; i < additionalAdmins; i++) {
-                const result = simulator.addAdmin(testAccounts[i]);
-                expect(result).toBe(true);
-                console.log(`${colors.success('✓')} Added admin: ${colors.info(testAccounts[i])}`);
-            }
-
-            // Verify current admin count
-            const adminsAtLimit = simulator.getAdmins();
-            console.log(`\n${colors.subtitle('Admin Count at Limit:')} ${colors.info(adminsAtLimit.length.toString())}`);
-            expect(adminsAtLimit.length).toBe(maxAdmins);
-
-            // Try to add one more admin (should fail)
-            try {
-                simulator.addAdmin(testAccounts[additionalAdmins]);
-                throw new Error("Should not be able to exceed admin limit");
-            } catch (error) {
-                console.log(`${colors.success('✓')} ${colors.info('Successfully prevented exceeding admin limit')}`);
-            }
-
-            // Clean up by removing added admins
-            console.log('\nCleaning up added admins...');
-            for (let i = 0; i < additionalAdmins; i++) {
-                simulator.removeAdmin(testAccounts[i]);
-                console.log(`${colors.success('✓')} Removed admin: ${colors.info(testAccounts[i])}`);
-            }
-
-            // Verify cleanup
-            const finalAdmins = simulator.getAdmins();
-            console.log(`\n${colors.subtitle('Final Admin Count:')} ${colors.info(finalAdmins.length.toString())}`);
-            expect(finalAdmins.length).toBe(initialAdmins.length);
-        });
+        // Try to remove admin from non-admin account (should fail)
+        try {
+            simulator.removeAdmin(simulator.deployer, wallet1);
+            throw new Error("Non-admin should not be able to remove admins");
+        } catch (error) {
+            console.log(`${colors.success('✓')} ${colors.info('Successfully prevented unauthorized admin removal')}`);
+        }
     });
 
-    describe("3.0 Share Management", () => {
-        it("should set and verify minimum shares", async () => {
-            console.log("\n=== Minimum Shares Configuration Test ===");
+    it("should enforce admin limit", () => {
+        console.log("\n✨ Admin Limit Test ✨");
 
-            // Get initial values
-            const initialTotalShares = simulator.getMinimumTotalShares();
-            const initialBurntShares = simulator.getMinimumBurntShares();
+        // Get initial admins count
+        const initialAdmins = simulator.getAdmins();
+        console.log(`${colors.subtitle('Initial Admin Count:')} ${colors.info(initialAdmins.length.toString())}`);
 
-            console.log("Initial Configuration:");
-            console.log(`${colors.subtitle('Minimum Total Shares:')} ${colors.info(initialTotalShares.toString())}`);
-            console.log(`${colors.subtitle('Minimum Burnt Shares:')} ${colors.info(initialBurntShares.toString())}`);
+        // Try to add admins up to the limit
+        const maxAdmins = 5;
+        const currentCount = initialAdmins.length;
+        const additionalAdmins = maxAdmins - currentCount;
 
-            // Set new values
-            const newTotalShares = 2000;
-            const newBurntShares = 200;
+        console.log(`${colors.subtitle('Adding')} ${colors.info(additionalAdmins.toString())} ${colors.subtitle('more admins...')}`);
 
-            console.log("\nSetting new values:");
-            console.log(`${colors.subtitle('New Total Shares:')} ${colors.info(newTotalShares.toString())}`);
-            console.log(`${colors.subtitle('New Burnt Shares:')} ${colors.info(newBurntShares.toString())}`);
+        // Generate test accounts (we'll use wallet_1 with different numbers appended)
+        const testAccounts = Array.from(simulator.accounts.values());
 
-            simulator.setMinimumShares(newTotalShares, newBurntShares);
+        // Add admins up to the limit
+        for (let i = 0; i < additionalAdmins; i++) {
+            const result = simulator.addAdmin(testAccounts[i]);
+            expect(result).toBe(true);
+            console.log(`${colors.success('✓')} Added admin: ${colors.info(testAccounts[i])}`);
+        }
 
-            // Verify changes
-            const updatedTotalShares = simulator.getMinimumTotalShares();
-            const updatedBurntShares = simulator.getMinimumBurntShares();
+        // Verify current admin count
+        const adminsAtLimit = simulator.getAdmins();
+        console.log(`\n${colors.subtitle('Admin Count at Limit:')} ${colors.info(adminsAtLimit.length.toString())}`);
+        expect(adminsAtLimit.length).toBe(maxAdmins);
 
-            console.log("\nVerifying changes:");
-            console.log(`${colors.subtitle('Updated Total Shares:')} ${colors.info(updatedTotalShares.toString())}`);
-            console.log(`${colors.subtitle('Updated Burnt Shares:')} ${colors.info(updatedBurntShares.toString())}`);
+        // Try to add one more admin (should fail)
+        try {
+            simulator.addAdmin(testAccounts[additionalAdmins]);
+            throw new Error("Should not be able to exceed admin limit");
+        } catch (error) {
+            console.log(`${colors.success('✓')} ${colors.info('Successfully prevented exceeding admin limit')}`);
+        }
 
-            expect(updatedTotalShares).toBe(newTotalShares);
-            expect(updatedBurntShares).toBe(newBurntShares);
-        });
+        // Clean up by removing added admins
+        console.log('\nCleaning up added admins...');
+        for (let i = 0; i < additionalAdmins; i++) {
+            simulator.removeAdmin(testAccounts[i]);
+            console.log(`${colors.success('✓')} Removed admin: ${colors.info(testAccounts[i])}`);
+        }
+
+        // Verify cleanup
+        const finalAdmins = simulator.getAdmins();
+        console.log(`\n${colors.subtitle('Final Admin Count:')} ${colors.info(finalAdmins.length.toString())}`);
+        expect(finalAdmins.length).toBe(initialAdmins.length);
     });
 
-    describe("3.1 Pool Creation Control", () => {
-        it("should toggle and verify public pool creation", async () => {
-            console.log("\n=== Public Pool Creation Control Test ===");
+    it("should set and verify minimum shares", async () => {
+        console.log("\n✨ Minimum Shares Configuration Test ✨");
 
-            // Get initial state
-            const initialState = simulator.getPublicPoolCreation();
-            console.log(`${colors.subtitle('Initial State:')} ${colors.info(initialState.toString())}`);
+        // Get initial values
+        const initialTotalShares = simulator.getMinimumTotalShares();
+        const initialBurntShares = simulator.getMinimumBurntShares();
 
-            // Toggle state
-            const newState = !initialState;
-            console.log(`${colors.subtitle('Setting State To:')} ${colors.info(newState.toString())}`);
-            simulator.setPublicPoolCreation(newState);
+        console.log("Initial Configuration:");
+        console.log(`${colors.subtitle('Minimum Total Shares:')} ${colors.info(initialTotalShares.toString())}`);
+        console.log(`${colors.subtitle('Minimum Burnt Shares:')} ${colors.info(initialBurntShares.toString())}`);
 
-            // Verify change
-            const updatedState = simulator.getPublicPoolCreation();
-            console.log(`${colors.subtitle('Updated State:')} ${colors.info(updatedState.toString())}`);
+        // Set new values
+        const newTotalShares = 2000;
+        const newBurntShares = 200;
 
-            expect(updatedState).toBe(newState);
-        });
+        console.log("\nSetting new values:");
+        console.log(`${colors.subtitle('New Total Shares:')} ${colors.info(newTotalShares.toString())}`);
+        console.log(`${colors.subtitle('New Burnt Shares:')} ${colors.info(newBurntShares.toString())}`);
+
+        simulator.setMinimumShares(newTotalShares, newBurntShares);
+
+        // Verify changes
+        const updatedTotalShares = simulator.getMinimumTotalShares();
+        const updatedBurntShares = simulator.getMinimumBurntShares();
+
+        console.log("\nVerifying changes:");
+        console.log(`${colors.subtitle('Updated Total Shares:')} ${colors.info(updatedTotalShares.toString())}`);
+        console.log(`${colors.subtitle('Updated Burnt Shares:')} ${colors.info(updatedBurntShares.toString())}`);
+
+        expect(updatedTotalShares).toBe(newTotalShares);
+        expect(updatedBurntShares).toBe(newBurntShares);
     });
 
-    describe("3.2 Pool Configuration", () => {
-        it("should set and verify pool URI", async () => {
-            console.log("\n=== Pool URI Configuration Test ===");
+    it("should toggle and verify public pool creation", async () => {
+        console.log("\n✨ Public Pool Creation Control Test ✨");
 
-            const newUri = "https://example.com/pool/metadata";
-            console.log(`${colors.subtitle('Setting URI to:')} ${colors.info(newUri)}`);
+        // Get initial state
+        const initialState = simulator.getPublicPoolCreation();
+        console.log(`${colors.subtitle('Initial State:')} ${colors.info(initialState.toString())}`);
 
-            simulator.setPoolUri(newUri);
-            // Note: There's no getter for URI in the current implementation
-            // We could add a getter if needed for verification
-        });
+        // Toggle state
+        const newState = !initialState;
+        console.log(`${colors.subtitle('Setting State To:')} ${colors.info(newState.toString())}`);
+        simulator.setPublicPoolCreation(newState);
 
-        it("should set and verify pool status", async () => {
-            console.log("\n=== Pool Status Configuration Test ===");
+        // Verify change
+        const updatedState = simulator.getPublicPoolCreation();
+        console.log(`${colors.subtitle('Updated State:')} ${colors.info(updatedState.toString())}`);
 
-            // Set pool status to inactive
-            console.log(`${colors.subtitle('Setting pool to inactive')}`);
-            simulator.setPoolStatus(false);
-
-            // Set pool status back to active
-            console.log(`${colors.subtitle('Setting pool back to active')}`);
-            simulator.setPoolStatus(true);
-
-            // Note: There's no getter for pool status in the current implementation
-            // We could add a getter if needed for verification
-        });
+        expect(updatedState).toBe(newState);
     });
 
-    describe("3.3 Fee Configuration", () => {
-        it("should set and verify fee parameters", async () => {
-            console.log("\n=== Fee Configuration Test ===");
+    it("should set and verify pool URI", async () => {
+        console.log("\n✨ Pool URI Configuration Test ✨");
 
-            // Get initial state
-            const initialState = simulator.getPoolState();
-            console.log("\nInitial Fee Configuration:");
-            console.log(`${colors.subtitle('Protocol Fee:')} ${colors.info((initialState.protocolFee / 100).toString() + '%')}`);
-            console.log(`${colors.subtitle('Provider Fee:')} ${colors.info((initialState.providerFee / 100).toString() + '%')}`);
-            console.log(`${colors.subtitle('Liquidity Fee:')} ${colors.info((initialState.liquidityFee / 100).toString() + '%')}`);
+        const newUri = "https://example.com/pool/metadata";
+        console.log(`${colors.subtitle('Setting URI to:')} ${colors.info(newUri)}`);
 
-            // Set new fees
-            const newProtocolFee = 40; // 0.4%
-            const newProviderFee = 35; // 0.35%
-            const newLiquidityFee = 45; // 0.45%
-
-            console.log("\nSetting new fees:");
-            console.log(`${colors.subtitle('New Protocol Fee:')} ${colors.info((newProtocolFee / 100).toString() + '%')}`);
-            console.log(`${colors.subtitle('New Provider Fee:')} ${colors.info((newProviderFee / 100).toString() + '%')}`);
-            console.log(`${colors.subtitle('New Liquidity Fee:')} ${colors.info((newLiquidityFee / 100).toString() + '%')}`);
-
-            simulator.setXFees(newProtocolFee, newProviderFee);
-            simulator.setYFees(newProtocolFee, newProviderFee);
-            simulator.setLiquidityFee(newLiquidityFee);
-
-            // Verify changes
-            const updatedState = simulator.getPoolState();
-            console.log("\nVerifying updated fees:");
-            console.log(`${colors.subtitle('Updated Protocol Fee:')} ${colors.info((updatedState.protocolFee / 100).toString() + '%')}`);
-            console.log(`${colors.subtitle('Updated Provider Fee:')} ${colors.info((updatedState.providerFee / 100).toString() + '%')}`);
-            console.log(`${colors.subtitle('Updated Liquidity Fee:')} ${colors.info((updatedState.liquidityFee / 100).toString() + '%')}`);
-
-            expect(updatedState.protocolFee).toBe(newProtocolFee);
-            expect(updatedState.providerFee).toBe(newProviderFee);
-            expect(updatedState.liquidityFee).toBe(newLiquidityFee);
-        });
+        simulator.setPoolUri(newUri);
+        // Note: There's no getter for URI in the current implementation
+        // We could add a getter if needed for verification
     });
 
-    describe("3.4 Pool Parameters", () => {
-        it("should set and verify amplification coefficient", async () => {
-            console.log("\n=== Amplification Coefficient Test ===");
+    it("should set and verify pool status", async () => {
+        console.log("\n✨ Pool Status Configuration Test ✨");
 
-            // Get initial state
-            const initialState = simulator.getPoolState();
-            console.log(`${colors.subtitle('Initial Amplification Coefficient:')} ${colors.info(initialState.ampCoeff.toString())}`);
+        // Set pool status to inactive
+        console.log(`${colors.subtitle('Setting pool to inactive')}`);
+        simulator.setPoolStatus(false);
 
-            // Set new coefficient
-            const newCoeff = 150;
-            console.log(`${colors.subtitle('Setting New Coefficient:')} ${colors.info(newCoeff.toString())}`);
-            simulator.setAmplificationCoefficient(newCoeff);
+        // Set pool status back to active
+        console.log(`${colors.subtitle('Setting pool back to active')}`);
+        simulator.setPoolStatus(true);
 
-            // Verify change
-            const updatedState = simulator.getPoolState();
-            console.log(`${colors.subtitle('Updated Amplification Coefficient:')} ${colors.info(updatedState.ampCoeff.toString())}`);
-
-            expect(updatedState.ampCoeff).toBe(newCoeff);
-        });
-
-        it("should set and verify convergence threshold", async () => {
-            console.log("\n=== Convergence Threshold Test ===");
-
-            // Get initial state
-            const initialState = simulator.getPoolState();
-            console.log(`${colors.subtitle('Initial Convergence Threshold:')} ${colors.info(initialState.convergenceThreshold.toString())}`);
-
-            // Set new threshold
-            const newThreshold = 3;
-            console.log(`${colors.subtitle('Setting New Threshold:')} ${colors.info(newThreshold.toString())}`);
-            simulator.setConvergenceThreshold(newThreshold);
-
-            // Verify change
-            const updatedState = simulator.getPoolState();
-            console.log(`${colors.subtitle('Updated Convergence Threshold:')} ${colors.info(updatedState.convergenceThreshold.toString())}`);
-
-            expect(updatedState.convergenceThreshold).toBe(newThreshold);
-        });
+        // Note: There's no getter for pool status in the current implementation
+        // We could add a getter if needed for verification
     });
 
-    describe("3.5 Midpoint Management", () => {
-        it("should set and verify midpoint parameters", async () => {
-            console.log("\n=== Midpoint Configuration Test ===");
+    it("should set and verify fee parameters", async () => {
+        console.log("\n✨ Fee Configuration Test ✨");
 
-            // Set midpoint manager
-            const wallet1 = simulator.getWallet1();
-            console.log(`${colors.subtitle('Setting Midpoint Manager:')} ${colors.info(wallet1)}`);
-            simulator.setMidpointManager(wallet1);
+        // Get initial state
+        const initialState = simulator.getPoolState();
+        console.log("\nInitial Fee Configuration:");
+        console.log(`${colors.subtitle('Protocol Fee:')} ${colors.info((initialState.protocolFee / 100).toString() + '%')}`);
+        console.log(`${colors.subtitle('Provider Fee:')} ${colors.info((initialState.providerFee / 100).toString() + '%')}`);
+        console.log(`${colors.subtitle('Liquidity Fee:')} ${colors.info((initialState.liquidityFee / 100).toString() + '%')}`);
 
-            // Set new midpoint
-            const newMidpoint = 1100000;
-            console.log(`${colors.subtitle('Setting New Midpoint:')} ${colors.info(newMidpoint.toString())}`);
-            simulator.setMidpoint(newMidpoint);
+        // Set new fees
+        const newProtocolFee = 40; // 0.4%
+        const newProviderFee = 35; // 0.35%
+        const newLiquidityFee = 45; // 0.45%
 
-            // Set new factor
-            const newFactor = 1100000;
-            console.log(`${colors.subtitle('Setting New Factor:')} ${colors.info(newFactor.toString())}`);
-            simulator.setMidpointFactor(newFactor);
+        console.log("\nSetting new fees:");
+        console.log(`${colors.subtitle('New Protocol Fee:')} ${colors.info((newProtocolFee / 100).toString() + '%')}`);
+        console.log(`${colors.subtitle('New Provider Fee:')} ${colors.info((newProviderFee / 100).toString() + '%')}`);
+        console.log(`${colors.subtitle('New Liquidity Fee:')} ${colors.info((newLiquidityFee / 100).toString() + '%')}`);
 
-            // Toggle reversed state
-            console.log(`${colors.subtitle('Toggling Midpoint Reversed')}`);
-            simulator.setMidpointReversed(false);
-            simulator.setMidpointReversed(true);
-        });
+        simulator.setXFees(newProtocolFee, newProviderFee);
+        simulator.setYFees(newProtocolFee, newProviderFee);
+        simulator.setLiquidityFee(newLiquidityFee);
+
+        // Verify changes
+        const updatedState = simulator.getPoolState();
+        console.log("\nVerifying updated fees:");
+        console.log(`${colors.subtitle('Updated Protocol Fee:')} ${colors.info((updatedState.protocolFee / 100).toString() + '%')}`);
+        console.log(`${colors.subtitle('Updated Provider Fee:')} ${colors.info((updatedState.providerFee / 100).toString() + '%')}`);
+        console.log(`${colors.subtitle('Updated Liquidity Fee:')} ${colors.info((updatedState.liquidityFee / 100).toString() + '%')}`);
+
+        expect(updatedState.protocolFee).toBe(newProtocolFee);
+        expect(updatedState.providerFee).toBe(newProviderFee);
+        expect(updatedState.liquidityFee).toBe(newLiquidityFee);
     });
 
-    describe("3.6 Fee Address Management", () => {
-        it("should set and verify fee address", async () => {
-            console.log("\n=== Fee Address Configuration Test ===");
+    it("should set and verify amplification coefficient", async () => {
+        console.log("\n✨ Amplification Coefficient Test ✨");
 
-            const wallet1 = simulator.getWallet1();
-            console.log(`${colors.subtitle('Setting Fee Address:')} ${colors.info(wallet1)}`);
-            simulator.setFeeAddress(wallet1);
-            // Note: There's no getter for fee address in the current implementation
-            // We could add a getter if needed for verification
-        });
+        // Get initial state
+        const initialState = simulator.getPoolState();
+        console.log(`${colors.subtitle('Initial Amplification Coefficient:')} ${colors.info(initialState.ampCoeff.toString())}`);
+
+        // Set new coefficient
+        const newCoeff = 150;
+        console.log(`${colors.subtitle('Setting New Coefficient:')} ${colors.info(newCoeff.toString())}`);
+        simulator.setAmplificationCoefficient(newCoeff);
+
+        // Verify change
+        const updatedState = simulator.getPoolState();
+        console.log(`${colors.subtitle('Updated Amplification Coefficient:')} ${colors.info(updatedState.ampCoeff.toString())}`);
+
+        expect(updatedState.ampCoeff).toBe(newCoeff);
+    });
+
+    it("should set and verify convergence threshold", async () => {
+        console.log("\n✨ Convergence Threshold Test ✨");
+
+        // Get initial state
+        const initialState = simulator.getPoolState();
+        console.log(`${colors.subtitle('Initial Convergence Threshold:')} ${colors.info(initialState.convergenceThreshold.toString())}`);
+
+        // Set new threshold
+        const newThreshold = 3;
+        console.log(`${colors.subtitle('Setting New Threshold:')} ${colors.info(newThreshold.toString())}`);
+        simulator.setConvergenceThreshold(newThreshold);
+
+        // Verify change
+        const updatedState = simulator.getPoolState();
+        console.log(`${colors.subtitle('Updated Convergence Threshold:')} ${colors.info(updatedState.convergenceThreshold.toString())}`);
+
+        expect(updatedState.convergenceThreshold).toBe(newThreshold);
+    });
+
+    it("should set and verify midpoint parameters", async () => {
+        console.log("\n✨ Midpoint Configuration Test ✨");
+
+        // Set midpoint manager
+        const wallet1 = simulator.getWallet1();
+        console.log(`${colors.subtitle('Setting Midpoint Manager:')} ${colors.info(wallet1)}`);
+        simulator.setMidpointManager(wallet1);
+
+        // Set new midpoint
+        const newMidpoint = 1100000;
+        console.log(`${colors.subtitle('Setting New Midpoint:')} ${colors.info(newMidpoint.toString())}`);
+        simulator.setMidpoint(newMidpoint);
+
+        // Set new factor
+        const newFactor = 1100000;
+        console.log(`${colors.subtitle('Setting New Factor:')} ${colors.info(newFactor.toString())}`);
+        simulator.setMidpointFactor(newFactor);
+
+        // Toggle reversed state
+        console.log(`${colors.subtitle('Toggling Midpoint Reversed')}`);
+        simulator.setMidpointReversed(false);
+        simulator.setMidpointReversed(true);
+    });
+
+    it("should set and verify fee address", async () => {
+        console.log("\n✨ Fee Address Configuration Test ✨");
+
+        const wallet1 = simulator.getWallet1();
+        console.log(`${colors.subtitle('Setting Fee Address:')} ${colors.info(wallet1)}`);
+        simulator.setFeeAddress(wallet1);
+        // Note: There's no getter for fee address in the current implementation
+        // We could add a getter if needed for verification
     });
 
 });

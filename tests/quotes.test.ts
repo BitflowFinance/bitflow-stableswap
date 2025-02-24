@@ -26,9 +26,9 @@ suite("Quotes", { timeout: 100000 }, () => {
     });
 
     it("should handle small amount quotes correctly", () => {
-        console.log("\n=== Small Amount Quote Test ===");
+        console.log("\n✨ Small Amount Quote Test ✨");
         const smallAmount = 100 * unit;
-        const smallQuote = simulator.getQuoteSTXtostSTX(smallAmount);
+        const smallQuote = simulator.getQuoteSTXtoSTSTX(smallAmount);
 
         console.log(`Input: ${simulator.formatSTX(smallAmount)} (${simulator.formatUSD(smallAmount, Simulator.getPrices().stx)})`);
         console.log(`Output: ${simulator.formatStSTX(smallQuote)} (${simulator.formatUSD(smallQuote, Simulator.getPrices().ststx)})`);
@@ -43,9 +43,9 @@ suite("Quotes", { timeout: 100000 }, () => {
     });
 
     it("should handle medium amount quotes correctly", () => {
-        console.log("\n=== Medium Amount Quote Test ===");
+        console.log("\n✨ Medium Amount Quote Test ✨");
         const mediumAmount = 1_000 * unit; // 1k tokens
-        const mediumQuote = simulator.getQuoteSTXtostSTX(mediumAmount);
+        const mediumQuote = simulator.getQuoteSTXtoSTSTX(mediumAmount);
 
         console.log(`Input: ${simulator.formatSTX(mediumAmount)} (${simulator.formatUSD(mediumAmount, Simulator.getPrices().stx)})`);
         console.log(`Output: ${simulator.formatStSTX(mediumQuote)} (${simulator.formatUSD(mediumQuote, Simulator.getPrices().ststx)})`);
@@ -60,9 +60,9 @@ suite("Quotes", { timeout: 100000 }, () => {
     });
 
     it("should handle large amount quotes correctly", () => {
-        console.log("\n=== Large Amount Quote Test ===");
+        console.log("\n✨ Large Amount Quote Test ✨");
         const largeAmount = 10_000 * unit;
-        const largeQuote = simulator.getQuoteSTXtostSTX(largeAmount);
+        const largeQuote = simulator.getQuoteSTXtoSTSTX(largeAmount);
 
         console.log(`Input: ${simulator.formatSTX(largeAmount)} (${simulator.formatUSD(largeAmount, Simulator.getPrices().stx)})`);
         console.log(`Output: ${simulator.formatStSTX(largeQuote)} (${simulator.formatUSD(largeQuote, Simulator.getPrices().ststx)})`);
@@ -77,7 +77,7 @@ suite("Quotes", { timeout: 100000 }, () => {
     });
 
     it("should demonstrate increasing price impact with size", () => {
-        console.log("\n=== Price Impact Analysis ===");
+        console.log("\n✨ Price Impact Analysis ✨");
         const testAmounts = [
             { amount: 100 * unit, label: "Small" },
             { amount: 1_000 * unit, label: "Medium" },
@@ -90,7 +90,7 @@ suite("Quotes", { timeout: 100000 }, () => {
             console.log(`\n${label} Trade:`);
             console.log(`Input: ${simulator.formatSTX(amount)}`);
 
-            const quote = simulator.getQuoteSTXtostSTX(amount);
+            const quote = simulator.getQuoteSTXtoSTSTX(amount);
             const output = simulator.swapSTXForSTSTX(amount);
             const priceImpact = Math.abs((output / amount) - 1);
             impacts.push(priceImpact);
@@ -107,14 +107,14 @@ suite("Quotes", { timeout: 100000 }, () => {
     });
 
     it("should provide consistent quotes for same amount", () => {
-        console.log("\n=== Quote Consistency Test ===");
+        console.log("\n✨ Quote Consistency Test ✨");
         const testAmount = 500 * unit;
 
         console.log(`Testing amount: ${simulator.formatSTX(testAmount)}`);
 
         // Get multiple quotes for the same amount
         const quotes = Array.from({ length: 3 }, (_, i) => {
-            const quote = simulator.getQuoteSTXtostSTX(testAmount);
+            const quote = simulator.getQuoteSTXtoSTSTX(testAmount);
             console.log(`Quote ${i + 1}: ${simulator.formatStSTX(quote)}`);
             return quote;
         });
@@ -127,7 +127,7 @@ suite("Quotes", { timeout: 100000 }, () => {
     });
 
     it("should not affect pool state when getting quotes", () => {
-        console.log("\n=== Pool State Invariance Test ===");
+        console.log("\n✨ Pool State Invariance Test ✨");
 
         // Get initial pool state
         const initialState = simulator.getPoolState();
@@ -139,7 +139,7 @@ suite("Quotes", { timeout: 100000 }, () => {
         console.log("\nGetting multiple quotes...");
         const testAmounts = [100, 1000, 10000].map(a => a * unit);
         testAmounts.forEach(amount => {
-            const quote = simulator.getQuoteSTXtostSTX(amount);
+            const quote = simulator.getQuoteSTXtoSTSTX(amount);
             console.log(`Quote for ${simulator.formatSTX(amount)}: ${simulator.formatStSTX(quote)}`);
         });
 
@@ -160,7 +160,7 @@ suite("Quotes", { timeout: 100000 }, () => {
     });
 
     it("should handle stSTX to STX quotes correctly", () => {
-        console.log("\n=== stSTX to STX Quote Tests ===");
+        console.log("\n✨ stSTX to STX Quote Tests ✨");
 
         const testCases = [
             { amount: 100 * unit, label: "Small" },
@@ -215,7 +215,7 @@ suite("Quotes", { timeout: 100000 }, () => {
     });
 
     it("should handle DLP quotes correctly", () => {
-        console.log("\n=== DLP Quote Tests ===");
+        console.log("\n✨ DLP Quote Tests ✨");
 
         // Test balanced liquidity quotes
         console.log("\nBalanced Liquidity Tests:");

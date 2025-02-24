@@ -19,10 +19,13 @@ suite("Liquidity", { timeout: 100000 }, () => {
 
         // Create pool with default configuration
         simulator.createPool();
+
+        // wait 1 second
+        await new Promise(resolve => setTimeout(resolve, 1000));
     });
 
     it("should handle single-sided STX liquidity", () => {
-        console.log("\n=== Single-Sided STX Liquidity Test ===");
+        console.log("\n✨ Single-Sided STX Liquidity Test ✨");
         const amount = 1_000 * unit;
 
         // Get initial pool state
@@ -56,13 +59,13 @@ suite("Liquidity", { timeout: 100000 }, () => {
         const profitLoss = totalValueReceived - initialValue;
 
         console.log("\n=== Operation Results ===");
-        console.log(`Initial Value: ${simulator.formatUSD(amount, Simulator.getPrices().stx)}`);
-        console.log(`Final Value: ${simulator.formatUSD(stx + ststx, Simulator.getPrices().stx)}`);
-        console.log(`Profit/Loss: ${simulator.formatUSD(profitLoss * unit, 1)} (${simulator.formatProfitPercent(profitLoss, initialValue)})`);
+        console.log(`Initial Value: ${initialValue}`);
+        console.log(`Final Value: ${totalValueReceived}`);
+        console.log(`Profit/Loss: ${profitLoss}`);
     });
 
     it("should handle balanced liquidity addition", () => {
-        console.log("\n=== Balanced Liquidity Test ===");
+        console.log("\n✨ Balanced Liquidity Test ✨");
         const stxAmount = 1_000 * unit;
         const ststxAmount = 1_000 * unit;
 
@@ -99,12 +102,12 @@ suite("Liquidity", { timeout: 100000 }, () => {
 
         console.log("\n=== Operation Results ===");
         console.log(`Initial Value: ${simulator.formatUSD(stxAmount + ststxAmount, Simulator.getPrices().stx)}`);
-        console.log(`Final Value: ${simulator.formatUSD(stx + ststx, Simulator.getPrices().stx)}`);
-        console.log(`Profit/Loss: ${simulator.formatUSD(profitLoss * unit, 1)} (${simulator.formatProfitPercent(profitLoss, initialValue)})`);
+        console.log(`Final Value: ${finalValue}`);
+        console.log(`Profit/Loss: ${profitLoss}`);
     });
 
     it("should handle partial liquidity withdrawal", () => {
-        console.log("\n=== Partial Withdrawal Test ===");
+        console.log("\n✨ Partial Withdrawal Test ✨");
         const amount = 1_000 * unit;
 
         // Add initial liquidity
@@ -144,7 +147,7 @@ suite("Liquidity", { timeout: 100000 }, () => {
     });
 
     it("should maintain pool balance ratios", () => {
-        console.log("\n=== Pool Balance Ratio Test ===");
+        console.log("\n✨ Pool Balance Ratio Test ✨");
 
         // Get initial ratios
         const initialState = simulator.getPoolState();

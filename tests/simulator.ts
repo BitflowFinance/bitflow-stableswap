@@ -27,6 +27,7 @@ export class Simulator {
     private static readonly UNIT = Math.pow(10, Simulator.DECIMALS);
 
     // Price Constants
+    private static readonly ONE_DOLLAR = 1.00;
     private static readonly STX_PRICE_USD = 1.00;
     private static readonly STSTX_PRICE_USD = 1.10;
 
@@ -34,15 +35,15 @@ export class Simulator {
     private static readonly DEFAULT_POOL_CONFIG = {
         initialBalance: 10_000_000 * Simulator.UNIT, // 10M tokens
         burnAmount: 1000,
-        midpoint: 1000000,
+        midpoint: 1100000,
         midpointFactor: 1000000,
-        midpointReversed: true,
+        midpointReversed: false,
         protocolFee: 30, // 0.3%
         providerFee: 30, // 0.3%
         liquidityFee: 40, // 0.4%
         ampCoeff: 100,
         convergenceThreshold: 2
-    } as const;
+    } as any;
 
     // Default Operation Parameters
     private static readonly DEFAULT_SWAP_PARAMS = {
@@ -76,7 +77,7 @@ export class Simulator {
     }
 
     public static async create(): Promise<Simulator> {
-        console.log("Creating simulator");
+        console.log("Creating new simulation...");
         const simnet = await initSimnet();
         return new Simulator(simnet);
     }
@@ -230,19 +231,24 @@ export class Simulator {
             this.deployer
         );
         expect(result.result.type, "Failed to get pool state").toBe(ClarityType.ResponseOk);
-        const poolDetails = cvToJSON(result.result).value.value;
-        return {
-            stxBalance: Number(poolDetails['x-balance'].value),
-            ststxBalance: Number(poolDetails['y-balance'].value),
-            protocolFee: Number(poolDetails['x-protocol-fee'].value),
-            providerFee: Number(poolDetails['x-provider-fee'].value),
-            liquidityFee: Number(poolDetails['liquidity-fee'].value),
-            ampCoeff: Number(poolDetails['amplification-coefficient'].value),
-            convergenceThreshold: Number(poolDetails['convergence-threshold'].value)
-        };
+        const cvPoolDetails = cvToJSON(result.result).value.value;
+        const poolDetails = {
+            stxBalance: Number(cvPoolDetails['x-balance'].value),
+            ststxBalance: Number(cvPoolDetails['y-balance'].value),
+            protocolFee: Number(cvPoolDetails['x-protocol-fee'].value),
+            providerFee: Number(cvPoolDetails['x-provider-fee'].value),
+            liquidityFee: Number(cvPoolDetails['liquidity-fee'].value),
+            midpoint: Number(cvPoolDetails['midpoint'].value),
+            midpointFactor: Number(cvPoolDetails['midpoint-factor'].value),
+            midpointReversed: Boolean(cvPoolDetails['midpoint-reversed'].value),
+            ampCoeff: Number(cvPoolDetails['amplification-coefficient'].value),
+            convergenceThreshold: Number(cvPoolDetails['convergence-threshold'].value)
+        }
+        console.log("Pool State:", poolDetails);
+        return poolDetails;
     }
 
-    public getQuoteSTXtostSTX(amount: number): number {
+    public getQuoteSTXtoSTSTX(amount: number): number {
         const result = this.simnet.callPublicFn(
             "stableswap-core-v-1-1",
             "get-dy",
@@ -633,7 +639,7 @@ export class Simulator {
         return Simulator.colors.token(`${(microAmount / this.UNIT).toLocaleString()} stSTX`);
     }
 
-    public formatUSD(microAmount: number, price: number = Simulator.STX_PRICE_USD): string {
+    public formatUSD(microAmount: number, price: number = Simulator.ONE_DOLLAR): string {
         const usdValue = (microAmount / this.UNIT) * price;
         return Simulator.colors.usd(`$${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
     }

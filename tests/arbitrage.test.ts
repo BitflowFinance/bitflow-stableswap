@@ -1,9 +1,10 @@
 import { Simulator } from './simulator';
-import { describe, expect, it, beforeAll, beforeEach, suite } from 'vitest';
+import { expect, it, beforeAll, beforeEach, suite } from 'vitest';
 
 // Get simulator colors for formatting
 const colors = Simulator.getColors();
 const unit = Simulator.getUnit();
+
 // Test setup
 let simulator: Simulator;
 
@@ -18,17 +19,20 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
 
         // Create pool with default configuration
         simulator.createPool();
+
+        // wait 1 second
+        await new Promise(resolve => setTimeout(resolve, 1000));
     });
 
     beforeEach(() => {
         simulator.simnet.mineEmptyBlock();
     });
 
-    const ATTEMPT_AMOUNT = 1000_000000; // 1k tokens for arbitrage attempt
-    const MAX_ACCEPTABLE_PROFIT = 0.001; // 0.1% maximum acceptable profit
-
     it("should resist single-sided liquidity arbitrage", async () => {
-        console.log("\n=== Testing Single-Sided Liquidity Resistance ===");
+        const ATTEMPT_AMOUNT = 1000_000000; // 1k tokens for arbitrage attempt
+        const MAX_ACCEPTABLE_PROFIT = 0.001; // 0.1% maximum acceptable profit
+
+        console.log("\n✨ Testing Single-Sided Liquidity Resistance ✨");
         console.log(`Attempting arbitrage with ${simulator.formatSTX(ATTEMPT_AMOUNT)} (${simulator.formatUSD(ATTEMPT_AMOUNT, Simulator.getPrices().stx)})`);
 
         // Step 1: Add single-sided liquidity (STX only)
@@ -51,14 +55,12 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
         // Verify that profit is below acceptable threshold
         expect(profitPercent).toBeLessThanOrEqual(MAX_ACCEPTABLE_PROFIT);
     });
-});
-
-describe("2.1 Single-Sided Liquidity Protection", { timeout: 100000 }, () => {
-    const ATTEMPT_AMOUNT = 1_000 * Simulator.getUnit();    // 1k tokens
-    const MAX_ACCEPTABLE_PROFIT = 0.001;    // 0.1% maximum acceptable profit
 
     it("should resist single-sided liquidity imbalance", async () => {
-        console.log("\n=== Testing Single-Sided Liquidity Protection ===");
+        const ATTEMPT_AMOUNT = 1_000 * Simulator.getUnit();    // 1k tokens
+        const MAX_ACCEPTABLE_PROFIT = 0.001;    // 0.1% maximum acceptable profit
+
+        console.log("\n✨ Testing Single-Sided Liquidity Protection ✨");
         console.log(`Market conditions: 1 stSTX = ${simulator.formatUSD(Simulator.getUnit(), Simulator.getPrices().ststx)} (${((Simulator.getPrices().ststx / Simulator.getPrices().stx - 1) * 100).toFixed(1)}% premium)`);
 
         // Step 1: Attempt single-sided liquidity addition
@@ -78,9 +80,9 @@ describe("2.1 Single-Sided Liquidity Protection", { timeout: 100000 }, () => {
         const profitUSD = finalValueUSD - initialInvestmentUSD;
 
         console.log("\n=== Protection Analysis ===");
-        console.log(`${colors.subtitle('Initial investment:')} ${simulator.formatSTX(ATTEMPT_AMOUNT)} (${simulator.formatUSD(ATTEMPT_AMOUNT, Simulator.getPrices().stx)})`);
-        console.log(`${colors.subtitle('Final position:')} ${simulator.formatSTX(finalSTX)} + ${simulator.formatStSTX(finalStSTX)} (${simulator.formatUSD(finalSTX + finalStSTX, Simulator.getPrices().stx)})`);
-        console.log(`${colors.subtitle('Total profit/loss:')} ${simulator.formatUSD(profitUSD, Simulator.getPrices().stx)} (${simulator.formatProfitPercent(profitUSD, initialInvestmentUSD)})`);
+        console.log(`${colors.subtitle('Initial investment:')} $${initialInvestmentUSD} (${simulator.formatUSD(ATTEMPT_AMOUNT, Simulator.getPrices().stx)})`);
+        console.log(`${colors.subtitle('Final position:')} $${finalValueUSD} (${simulator.formatUSD(finalSTX + finalStSTX, Simulator.getPrices().stx)})`);
+        console.log(`${colors.subtitle('Total profit/loss:')} $${profitUSD} (${simulator.formatProfitPercent(profitUSD, initialInvestmentUSD)})`);
 
         // Verify pool protections are working
         const profitPercent = profitUSD / initialInvestmentUSD;
@@ -89,15 +91,13 @@ describe("2.1 Single-Sided Liquidity Protection", { timeout: 100000 }, () => {
         console.log(`${colors.subtitle('Maximum acceptable profit:')} ${colors.info((MAX_ACCEPTABLE_PROFIT * 100).toFixed(3) + '%')}`);
         console.log(`${colors.subtitle('Actual profit:')} ${simulator.formatProfitPercent(profitUSD, initialInvestmentUSD)}`);
     });
-});
-
-describe("2.2 Multi-Cycle Trading Protection", { timeout: 100000 }, () => {
-    const ATTEMPT_AMOUNT = 1_000 * Simulator.getUnit();    // 1k tokens
-    const MAX_ACCEPTABLE_PROFIT = 0.001;    // 0.1% maximum acceptable profit
-    const CYCLES = 5;                       // Number of trading cycles to test
 
     it("should resist multi-cycle trading strategies", async () => {
-        console.log("\n=== Testing Multi-Cycle Trading Protection ===");
+        const ATTEMPT_AMOUNT = 1_000 * Simulator.getUnit();    // 1k tokens
+        const MAX_ACCEPTABLE_PROFIT = 0.001;    // 0.1% maximum acceptable profit
+        const CYCLES = 5;                       // Number of trading cycles to test
+
+        console.log("\n✨ Testing Multi-Cycle Trading Protection ✨");
         console.log(`Market conditions: 1 stSTX = ${simulator.formatUSD(Simulator.getUnit(), Simulator.getPrices().ststx)} (${((Simulator.getPrices().ststx / Simulator.getPrices().stx - 1) * 100).toFixed(1)}% premium)`);
         console.log(`Testing ${CYCLES} cycles with ${simulator.formatSTX(ATTEMPT_AMOUNT)} initial position`);
 
@@ -133,7 +133,7 @@ describe("2.2 Multi-Cycle Trading Protection", { timeout: 100000 }, () => {
             console.log(`${colors.info('External market:')} ${simulator.formatStSTX(receivedStSTX)} → ${simulator.formatSTX(externalSwapSTX)}`);
             console.log(`${colors.info('External market value:')} ${simulator.formatUSD(receivedStSTX, Simulator.getPrices().ststx)} → ${simulator.formatUSD(externalSwapSTX, Simulator.getPrices().stx)}`);
             console.log(`${colors.info('New position:')} ${simulator.formatSTX(currentSTXBalance)} (${simulator.formatUSD(currentSTXBalance, Simulator.getPrices().stx)})`);
-            console.log(`${colors.info('Cycle profit:')} ${simulator.formatUSD(cycleProfit, Simulator.getPrices().stx)} (${simulator.formatProfitPercent(cycleProfit, previousValueUSD)})`);
+            console.log(`${colors.info('Cycle profit:')} $${cycleProfit} (${simulator.formatProfitPercent(cycleProfit, previousValueUSD)})`);
         }
 
         // Calculate final results
@@ -143,7 +143,7 @@ describe("2.2 Multi-Cycle Trading Protection", { timeout: 100000 }, () => {
         console.log("\n=== Protection Analysis ===");
         console.log(`${colors.subtitle('Initial investment:')} ${simulator.formatSTX(ATTEMPT_AMOUNT)} (${simulator.formatUSD(ATTEMPT_AMOUNT, Simulator.getPrices().stx)})`);
         console.log(`${colors.subtitle('Final position:')} ${simulator.formatSTX(currentSTXBalance)} (${simulator.formatUSD(finalValueUSD, 1)})`);
-        console.log(`${colors.subtitle('Total profit/loss:')} ${simulator.formatUSD(totalProfit * Simulator.getUnit(), Simulator.getPrices().stx)} (${simulator.formatProfitPercent(totalProfit, initialInvestmentUSD)})`);
+        console.log(`${colors.subtitle('Total profit/loss:')} $${totalProfit} (${simulator.formatProfitPercent(totalProfit, initialInvestmentUSD)})`);
         console.log(`${colors.subtitle('Total volume:')} ${simulator.formatSTX(totalVolume)} (${simulator.formatUSD(totalVolume, Simulator.getPrices().stx)})`);
         console.log(`${colors.subtitle('Profit/volume ratio:')} ${((totalProfit / (totalVolume / Simulator.getUnit())) * 100).toFixed(3)}%`);
 
@@ -153,16 +153,14 @@ describe("2.2 Multi-Cycle Trading Protection", { timeout: 100000 }, () => {
         console.log(`${colors.subtitle('Maximum acceptable profit:')} ${colors.info((MAX_ACCEPTABLE_PROFIT * 100).toFixed(3) + '%')}`);
         console.log(`${colors.subtitle('Actual profit:')} ${simulator.formatProfitPercent(totalProfit, initialInvestmentUSD)}`);
     });
-});
-
-describe("2.3 External Market Protection", { timeout: 100000 }, () => {
-    const ATTEMPT_AMOUNT = 1_000 * Simulator.getUnit();    // 1k tokens
-    const MAX_ACCEPTABLE_PROFIT = 0.001;    // 0.1% maximum acceptable profit
-    const CYCLES = 5;                       // Number of cycles to test
-    const EXTERNAL_PRICE_RATIO = 1.1;       // External market price ratio (10% premium)
 
     it("should resist arbitrage with external markets", async () => {
-        console.log("\n=== Testing External Market Protection ===");
+        const ATTEMPT_AMOUNT = 1_000 * Simulator.getUnit();    // 1k tokens
+        const MAX_ACCEPTABLE_PROFIT = 0.001;    // 0.1% maximum acceptable profit
+        const CYCLES = 5;                       // Number of cycles to test
+        const EXTERNAL_PRICE_RATIO = 1.1;       // External market price ratio (10% premium)
+
+        console.log("\n✨ Testing External Market Protection ✨");
         console.log(`Pool conditions: 1 stSTX = $${Simulator.getPrices().ststx} (${((Simulator.getPrices().ststx / Simulator.getPrices().stx - 1) * 100).toFixed(1)}% premium)`);
         console.log(`External market: 1 stSTX = ${EXTERNAL_PRICE_RATIO} STX (${((EXTERNAL_PRICE_RATIO - 1) * 100).toFixed(1)}% premium)`);
         console.log(`Testing ${CYCLES} cycles with ${simulator.formatSTX(ATTEMPT_AMOUNT)} initial position`);
@@ -209,7 +207,7 @@ describe("2.3 External Market Protection", { timeout: 100000 }, () => {
         console.log("\n=== Protection Analysis ===");
         console.log(`${colors.subtitle('Initial investment:')} ${simulator.formatSTX(ATTEMPT_AMOUNT)} (${simulator.formatUSD(ATTEMPT_AMOUNT, Simulator.getPrices().stx)})`);
         console.log(`${colors.subtitle('Final position:')} ${simulator.formatSTX(currentSTXBalance)} (${simulator.formatUSD(finalValueUSD, 1)})`);
-        console.log(`${colors.subtitle('Total profit/loss:')} ${simulator.formatUSD(totalProfit * Simulator.getUnit(), Simulator.getPrices().stx)} (${simulator.formatProfitPercent(totalProfit, initialInvestmentUSD)})`);
+        console.log(`${colors.subtitle('Total profit/loss:')} $${totalProfit} (${simulator.formatProfitPercent(totalProfit, initialInvestmentUSD)})`);
         console.log(`${colors.subtitle('Total volume:')} ${simulator.formatSTX(totalVolume)} (${simulator.formatUSD(totalVolume, Simulator.getPrices().stx)})`);
         console.log(`${colors.subtitle('Profit/volume ratio:')} ${((totalProfit / (totalVolume / Simulator.getUnit())) * 100).toFixed(3)}%`);
 

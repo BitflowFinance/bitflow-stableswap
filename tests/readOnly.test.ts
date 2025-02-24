@@ -22,7 +22,7 @@ suite("Read-Only", () => {
     });
 
     it("should get admin information", () => {
-        console.log("\n=== Admin Information ===");
+        console.log("\n✨ Admin Information ✨");
 
         const admins = simulator.getAdmins();
         const adminHelper = simulator.getAdminHelper();
@@ -36,7 +36,7 @@ suite("Read-Only", () => {
     });
 
     it("should verify read-only functions return expected values", () => {
-        console.log("\n=== Read-Only Functions Test ===");
+        console.log("\n✨ Read-Only Functions Test ✨");
 
         // Test get-admins
         const admins = simulator.getAdmins();
@@ -64,7 +64,7 @@ suite("Read-Only", () => {
     });
 
     it("should get pool configuration", () => {
-        console.log("\n=== Pool Configuration ===");
+        console.log("\n✨ Pool Configuration ✨");
 
         const lastPoolId = simulator.getLastPoolId();
         const poolData = simulator.getPoolById(lastPoolId);
@@ -86,7 +86,7 @@ suite("Read-Only", () => {
     });
 
     it("should verify pool state matches configuration", () => {
-        console.log("\n=== Pool State Verification ===");
+        console.log("\n✨ Pool State Verification ✨");
 
         const lastPoolId = simulator.getLastPoolId();
         const poolData = simulator.getPoolById(lastPoolId);
@@ -114,7 +114,7 @@ suite("Read-Only", () => {
     });
 
     it("should track pool changes", () => {
-        console.log("\n=== Pool Change Tracking ===");
+        console.log("\n✨ Pool Change Tracking ✨");
 
         // Get initial state
         const initialState = simulator.getPoolState();

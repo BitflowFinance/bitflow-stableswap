@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2025-02-24 08:10:42</td>
+            <td class="headerValue">2025-02-24 11:23:49</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">42</td>
@@ -878,129 +878,129 @@
 <a name="816"><span class="lineNum">     816 </span>            :     (fee-address principal)</a>
 <a name="817"><span class="lineNum">     817 </span>            :     (uri (string-utf8 256)) (status bool)</a>
 <a name="818"><span class="lineNum">     818 </span>            :   )</a>
-<a name="819"><span class="lineNum">     819 </span><span class="lineCov">          6 :   (let (</span></a>
+<a name="819"><span class="lineNum">     819 </span><span class="lineCov">          7 :   (let (</span></a>
 <a name="820"><span class="lineNum">     820 </span>            :     ;; Gather all pool data and pool contract</a>
-<a name="821"><span class="lineNum">     821 </span><span class="lineCov">          6 :     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))</span></a>
-<a name="822"><span class="lineNum">     822 </span><span class="lineCov">          6 :     (pool-contract (contract-of pool-trait))</span></a>
+<a name="821"><span class="lineNum">     821 </span><span class="lineCov">          7 :     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))</span></a>
+<a name="822"><span class="lineNum">     822 </span><span class="lineCov">          7 :     (pool-contract (contract-of pool-trait))</span></a>
 <a name="823"><span class="lineNum">     823 </span>            :     </a>
 <a name="824"><span class="lineNum">     824 </span>            :     ;; Get pool ID and create pool symbol and name </a>
-<a name="825"><span class="lineNum">     825 </span><span class="lineCov">          6 :     (new-pool-id (+ (var-get last-pool-id) u1))</span></a>
-<a name="826"><span class="lineNum">     826 </span><span class="lineCov">          6 :     (symbol (unwrap! (create-symbol x-token-trait y-token-trait) ERR_INVALID_POOL_SYMBOL))</span></a>
-<a name="827"><span class="lineNum">     827 </span><span class="lineCov">          6 :     (name (concat symbol &quot;-LP&quot;))</span></a>
-<a name="828"><span class="lineNum">     828 </span><span class="lineCov">          6 :     (x-token-contract (contract-of x-token-trait))</span></a>
-<a name="829"><span class="lineNum">     829 </span><span class="lineCov">          6 :     (y-token-contract (contract-of y-token-trait))</span></a>
+<a name="825"><span class="lineNum">     825 </span><span class="lineCov">          7 :     (new-pool-id (+ (var-get last-pool-id) u1))</span></a>
+<a name="826"><span class="lineNum">     826 </span><span class="lineCov">          7 :     (symbol (unwrap! (create-symbol x-token-trait y-token-trait) ERR_INVALID_POOL_SYMBOL))</span></a>
+<a name="827"><span class="lineNum">     827 </span><span class="lineCov">          7 :     (name (concat symbol &quot;-LP&quot;))</span></a>
+<a name="828"><span class="lineNum">     828 </span><span class="lineCov">          7 :     (x-token-contract (contract-of x-token-trait))</span></a>
+<a name="829"><span class="lineNum">     829 </span><span class="lineCov">          7 :     (y-token-contract (contract-of y-token-trait))</span></a>
 <a name="830"><span class="lineNum">     830 </span>            :     </a>
 <a name="831"><span class="lineNum">     831 </span>            :     ;; Scale up pool balances and calculate total shares</a>
-<a name="832"><span class="lineNum">     832 </span><span class="lineCov">          6 :     (pool-balances-scaled (scale-up-amounts x-amount y-amount x-token-trait y-token-trait))</span></a>
-<a name="833"><span class="lineNum">     833 </span><span class="lineCov">          6 :     (x-balance-scaled (get x-amount pool-balances-scaled))</span></a>
-<a name="834"><span class="lineNum">     834 </span><span class="lineCov">          6 :     (y-balance-scaled (get y-amount pool-balances-scaled))</span></a>
-<a name="835"><span class="lineNum">     835 </span><span class="lineCov">          6 :     (total-shares (+ x-balance-scaled y-balance-scaled))</span></a>
-<a name="836"><span class="lineNum">     836 </span><span class="lineCov">          6 :     (min-burnt-shares (var-get minimum-burnt-shares))</span></a>
-<a name="837"><span class="lineNum">     837 </span><span class="lineCov">          6 :     (caller tx-sender)</span></a>
+<a name="832"><span class="lineNum">     832 </span><span class="lineCov">          7 :     (pool-balances-scaled (scale-up-amounts x-amount y-amount x-token-trait y-token-trait))</span></a>
+<a name="833"><span class="lineNum">     833 </span><span class="lineCov">          7 :     (x-balance-scaled (get x-amount pool-balances-scaled))</span></a>
+<a name="834"><span class="lineNum">     834 </span><span class="lineCov">          7 :     (y-balance-scaled (get y-amount pool-balances-scaled))</span></a>
+<a name="835"><span class="lineNum">     835 </span><span class="lineCov">          7 :     (total-shares (+ x-balance-scaled y-balance-scaled))</span></a>
+<a name="836"><span class="lineNum">     836 </span><span class="lineCov">          7 :     (min-burnt-shares (var-get minimum-burnt-shares))</span></a>
+<a name="837"><span class="lineNum">     837 </span><span class="lineCov">          7 :     (caller tx-sender)</span></a>
 <a name="838"><span class="lineNum">     838 </span>            :   )</a>
-<a name="839"><span class="lineNum">     839 </span><span class="lineCov">          6 :     (begin</span></a>
+<a name="839"><span class="lineNum">     839 </span><span class="lineCov">          7 :     (begin</span></a>
 <a name="840"><span class="lineNum">     840 </span>            :       ;; Assert that caller is an admin or public-pool-creation is true</a>
-<a name="841"><span class="lineNum">     841 </span><span class="lineCov">          6 :       (asserts! (or (is-some (index-of (var-get admins) caller)) (var-get public-pool-creation)) ERR_NOT_AUTHORIZED)</span></a>
+<a name="841"><span class="lineNum">     841 </span><span class="lineCov">          7 :       (asserts! (or (is-some (index-of (var-get admins) caller)) (var-get public-pool-creation)) ERR_NOT_AUTHORIZED)</span></a>
 <a name="842"><span class="lineNum">     842 </span>            :       </a>
 <a name="843"><span class="lineNum">     843 </span>            :       ;; Assert that pool is not created</a>
-<a name="844"><span class="lineNum">     844 </span><span class="lineCov">          6 :       (asserts! (is-eq (get pool-created pool-data) false) ERR_POOL_ALREADY_CREATED)</span></a>
+<a name="844"><span class="lineNum">     844 </span><span class="lineCov">          7 :       (asserts! (is-eq (get pool-created pool-data) false) ERR_POOL_ALREADY_CREATED)</span></a>
 <a name="845"><span class="lineNum">     845 </span>            : </a>
 <a name="846"><span class="lineNum">     846 </span>            :       ;; Assert that x-token-contract and y-token-contract are not matching</a>
-<a name="847"><span class="lineNum">     847 </span><span class="lineCov">          6 :       (asserts! (not (is-eq x-token-contract y-token-contract)) ERR_MATCHING_TOKEN_CONTRACTS)</span></a>
+<a name="847"><span class="lineNum">     847 </span><span class="lineCov">          7 :       (asserts! (not (is-eq x-token-contract y-token-contract)) ERR_MATCHING_TOKEN_CONTRACTS)</span></a>
 <a name="848"><span class="lineNum">     848 </span>            : </a>
 <a name="849"><span class="lineNum">     849 </span>            :       ;; Assert that addresses are standard principals</a>
-<a name="850"><span class="lineNum">     850 </span><span class="lineCov">          6 :       (asserts! (is-standard x-token-contract) ERR_INVALID_PRINCIPAL)</span></a>
-<a name="851"><span class="lineNum">     851 </span><span class="lineCov">          6 :       (asserts! (is-standard y-token-contract) ERR_INVALID_PRINCIPAL)</span></a>
-<a name="852"><span class="lineNum">     852 </span><span class="lineCov">          6 :       (asserts! (is-standard fee-address) ERR_INVALID_PRINCIPAL)</span></a>
+<a name="850"><span class="lineNum">     850 </span><span class="lineCov">          7 :       (asserts! (is-standard x-token-contract) ERR_INVALID_PRINCIPAL)</span></a>
+<a name="851"><span class="lineNum">     851 </span><span class="lineCov">          7 :       (asserts! (is-standard y-token-contract) ERR_INVALID_PRINCIPAL)</span></a>
+<a name="852"><span class="lineNum">     852 </span><span class="lineCov">          7 :       (asserts! (is-standard fee-address) ERR_INVALID_PRINCIPAL)</span></a>
 <a name="853"><span class="lineNum">     853 </span>            :       </a>
 <a name="854"><span class="lineNum">     854 </span>            :       ;; Assert that x and y amount is greater than 0</a>
-<a name="855"><span class="lineNum">     855 </span><span class="lineCov">          6 :       (asserts! (and (&gt; x-amount u0) (&gt; y-amount u0)) ERR_INVALID_AMOUNT)</span></a>
+<a name="855"><span class="lineNum">     855 </span><span class="lineCov">          7 :       (asserts! (and (&gt; x-amount u0) (&gt; y-amount u0)) ERR_INVALID_AMOUNT)</span></a>
 <a name="856"><span class="lineNum">     856 </span>            : </a>
 <a name="857"><span class="lineNum">     857 </span>            :       ;; Assert that balances are equal</a>
-<a name="858"><span class="lineNum">     858 </span><span class="lineCov">          6 :       (asserts! (is-eq x-balance-scaled y-balance-scaled) ERR_UNEQUAL_POOL_BALANCES)</span></a>
+<a name="858"><span class="lineNum">     858 </span><span class="lineCov">          7 :       (asserts! (is-eq x-balance-scaled y-balance-scaled) ERR_UNEQUAL_POOL_BALANCES)</span></a>
 <a name="859"><span class="lineNum">     859 </span>            : </a>
 <a name="860"><span class="lineNum">     860 </span>            :       ;; Assert that total shares minted meets minimum total shares required</a>
-<a name="861"><span class="lineNum">     861 </span><span class="lineCov">          6 :       (asserts! (&gt;= total-shares (var-get minimum-total-shares)) ERR_MINIMUM_LP_AMOUNT)</span></a>
+<a name="861"><span class="lineNum">     861 </span><span class="lineCov">          7 :       (asserts! (&gt;= total-shares (var-get minimum-total-shares)) ERR_MINIMUM_LP_AMOUNT)</span></a>
 <a name="862"><span class="lineNum">     862 </span>            : </a>
 <a name="863"><span class="lineNum">     863 </span>            :       ;; Assert that burn amount meets minimum shares required to burn</a>
-<a name="864"><span class="lineNum">     864 </span><span class="lineCov">          6 :       (asserts! (&gt;= burn-amount min-burnt-shares) ERR_MINIMUM_BURN_AMOUNT)</span></a>
+<a name="864"><span class="lineNum">     864 </span><span class="lineCov">          7 :       (asserts! (&gt;= burn-amount min-burnt-shares) ERR_MINIMUM_BURN_AMOUNT)</span></a>
 <a name="865"><span class="lineNum">     865 </span>            :       </a>
 <a name="866"><span class="lineNum">     866 </span>            :       ;; Assert that total shares is greater than or equal to 0 after subtracting burn amount</a>
-<a name="867"><span class="lineNum">     867 </span><span class="lineCov">          6 :       (asserts! (&gt;= (- total-shares burn-amount) u0) ERR_MINIMUM_LP_AMOUNT)</span></a>
+<a name="867"><span class="lineNum">     867 </span><span class="lineCov">          7 :       (asserts! (&gt;= (- total-shares burn-amount) u0) ERR_MINIMUM_LP_AMOUNT)</span></a>
 <a name="868"><span class="lineNum">     868 </span>            : </a>
 <a name="869"><span class="lineNum">     869 </span>            :       ;; Assert that length of pool uri, symbol, and name is greater than 0</a>
-<a name="870"><span class="lineNum">     870 </span><span class="lineCov">          6 :       (asserts! (&gt; (len uri) u0) ERR_INVALID_POOL_URI)</span></a>
-<a name="871"><span class="lineNum">     871 </span><span class="lineCov">          6 :       (asserts! (&gt; (len symbol) u0) ERR_INVALID_POOL_SYMBOL)</span></a>
-<a name="872"><span class="lineNum">     872 </span><span class="lineCov">          6 :       (asserts! (&gt; (len name) u0) ERR_INVALID_POOL_NAME)</span></a>
+<a name="870"><span class="lineNum">     870 </span><span class="lineCov">          7 :       (asserts! (&gt; (len uri) u0) ERR_INVALID_POOL_URI)</span></a>
+<a name="871"><span class="lineNum">     871 </span><span class="lineCov">          7 :       (asserts! (&gt; (len symbol) u0) ERR_INVALID_POOL_SYMBOL)</span></a>
+<a name="872"><span class="lineNum">     872 </span><span class="lineCov">          7 :       (asserts! (&gt; (len name) u0) ERR_INVALID_POOL_NAME)</span></a>
 <a name="873"><span class="lineNum">     873 </span>            : </a>
 <a name="874"><span class="lineNum">     874 </span>            :       ;; Assert that midpoint and midpoint-factor are greater than 0</a>
-<a name="875"><span class="lineNum">     875 </span><span class="lineCov">          6 :       (asserts! (&gt; midpoint u0) ERR_INVALID_MIDPOINT)</span></a>
-<a name="876"><span class="lineNum">     876 </span><span class="lineCov">          6 :       (asserts! (&gt; midpoint-factor u0) ERR_INVALID_MIDPOINT_FACTOR)</span></a>
+<a name="875"><span class="lineNum">     875 </span><span class="lineCov">          7 :       (asserts! (&gt; midpoint u0) ERR_INVALID_MIDPOINT)</span></a>
+<a name="876"><span class="lineNum">     876 </span><span class="lineCov">          7 :       (asserts! (&gt; midpoint-factor u0) ERR_INVALID_MIDPOINT_FACTOR)</span></a>
 <a name="877"><span class="lineNum">     877 </span>            : </a>
 <a name="878"><span class="lineNum">     878 </span>            :       ;; Assert that fees are less than maximum BPS</a>
-<a name="879"><span class="lineNum">     879 </span><span class="lineCov">          6 :       (asserts! (&lt; (+ x-protocol-fee x-provider-fee) BPS) ERR_INVALID_FEE)</span></a>
-<a name="880"><span class="lineNum">     880 </span><span class="lineCov">          6 :       (asserts! (&lt; (+ y-protocol-fee y-provider-fee) BPS) ERR_INVALID_FEE)</span></a>
-<a name="881"><span class="lineNum">     881 </span><span class="lineCov">          6 :       (asserts! (&lt; liquidity-fee BPS) ERR_INVALID_FEE)</span></a>
+<a name="879"><span class="lineNum">     879 </span><span class="lineCov">          7 :       (asserts! (&lt; (+ x-protocol-fee x-provider-fee) BPS) ERR_INVALID_FEE)</span></a>
+<a name="880"><span class="lineNum">     880 </span><span class="lineCov">          7 :       (asserts! (&lt; (+ y-protocol-fee y-provider-fee) BPS) ERR_INVALID_FEE)</span></a>
+<a name="881"><span class="lineNum">     881 </span><span class="lineCov">          7 :       (asserts! (&lt; liquidity-fee BPS) ERR_INVALID_FEE)</span></a>
 <a name="882"><span class="lineNum">     882 </span>            : </a>
 <a name="883"><span class="lineNum">     883 </span>            :       ;; Create pool, set midpoint, set midpoint-factor, set midpoint-reversed, and set fees</a>
-<a name="884"><span class="lineNum">     884 </span><span class="lineCov">          6 :       (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract CONTRACT_DEPLOYER fee-address caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))</span></a>
-<a name="885"><span class="lineNum">     885 </span><span class="lineCov">          6 :       (try! (contract-call? pool-trait set-midpoint midpoint))</span></a>
-<a name="886"><span class="lineNum">     886 </span><span class="lineCov">          6 :       (try! (contract-call? pool-trait set-midpoint-factor midpoint-factor))</span></a>
-<a name="887"><span class="lineNum">     887 </span><span class="lineCov">          6 :       (try! (contract-call? pool-trait set-midpoint-reversed midpoint-reversed))</span></a>
-<a name="888"><span class="lineNum">     888 </span><span class="lineCov">          6 :       (try! (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee))</span></a>
-<a name="889"><span class="lineNum">     889 </span><span class="lineCov">          6 :       (try! (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee))</span></a>
-<a name="890"><span class="lineNum">     890 </span><span class="lineCov">          6 :       (try! (contract-call? pool-trait set-liquidity-fee liquidity-fee))</span></a>
+<a name="884"><span class="lineNum">     884 </span><span class="lineCov">          7 :       (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract CONTRACT_DEPLOYER fee-address caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))</span></a>
+<a name="885"><span class="lineNum">     885 </span><span class="lineCov">          7 :       (try! (contract-call? pool-trait set-midpoint midpoint))</span></a>
+<a name="886"><span class="lineNum">     886 </span><span class="lineCov">          7 :       (try! (contract-call? pool-trait set-midpoint-factor midpoint-factor))</span></a>
+<a name="887"><span class="lineNum">     887 </span><span class="lineCov">          7 :       (try! (contract-call? pool-trait set-midpoint-reversed midpoint-reversed))</span></a>
+<a name="888"><span class="lineNum">     888 </span><span class="lineCov">          7 :       (try! (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee))</span></a>
+<a name="889"><span class="lineNum">     889 </span><span class="lineCov">          7 :       (try! (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee))</span></a>
+<a name="890"><span class="lineNum">     890 </span><span class="lineCov">          7 :       (try! (contract-call? pool-trait set-liquidity-fee liquidity-fee))</span></a>
 <a name="891"><span class="lineNum">     891 </span>            :       </a>
 <a name="892"><span class="lineNum">     892 </span>            :       ;; Update ID of last created pool and add pool to pools map</a>
-<a name="893"><span class="lineNum">     893 </span><span class="lineCov">          6 :       (var-set last-pool-id new-pool-id)</span></a>
-<a name="894"><span class="lineNum">     894 </span><span class="lineCov">          6 :       (map-set pools new-pool-id {id: new-pool-id, name: name, symbol: symbol, pool-contract: pool-contract})</span></a>
+<a name="893"><span class="lineNum">     893 </span><span class="lineCov">          7 :       (var-set last-pool-id new-pool-id)</span></a>
+<a name="894"><span class="lineNum">     894 </span><span class="lineCov">          7 :       (map-set pools new-pool-id {id: new-pool-id, name: name, symbol: symbol, pool-contract: pool-contract})</span></a>
 <a name="895"><span class="lineNum">     895 </span>            :       </a>
 <a name="896"><span class="lineNum">     896 </span>            :       ;; Transfer x-amount x tokens and y-amount y tokens from caller to pool-contract</a>
-<a name="897"><span class="lineNum">     897 </span><span class="lineCov">          6 :       (try! (contract-call? x-token-trait transfer x-amount caller pool-contract none))</span></a>
-<a name="898"><span class="lineNum">     898 </span><span class="lineCov">          6 :       (try! (contract-call? y-token-trait transfer y-amount caller pool-contract none))</span></a>
+<a name="897"><span class="lineNum">     897 </span><span class="lineCov">          7 :       (try! (contract-call? x-token-trait transfer x-amount caller pool-contract none))</span></a>
+<a name="898"><span class="lineNum">     898 </span><span class="lineCov">          7 :       (try! (contract-call? y-token-trait transfer y-amount caller pool-contract none))</span></a>
 <a name="899"><span class="lineNum">     899 </span>            : </a>
 <a name="900"><span class="lineNum">     900 </span>            :       ;; Update pool balances and d value</a>
-<a name="901"><span class="lineNum">     901 </span><span class="lineCov">          6 :       (try! (contract-call? pool-trait update-pool-balances x-amount y-amount total-shares))</span></a>
+<a name="901"><span class="lineNum">     901 </span><span class="lineCov">          7 :       (try! (contract-call? pool-trait update-pool-balances x-amount y-amount total-shares))</span></a>
 <a name="902"><span class="lineNum">     902 </span>            : </a>
 <a name="903"><span class="lineNum">     903 </span>            :       ;; Mint LP tokens to caller </a>
-<a name="904"><span class="lineNum">     904 </span><span class="lineCov">          6 :       (try! (contract-call? pool-trait pool-mint (- total-shares burn-amount) caller))</span></a>
+<a name="904"><span class="lineNum">     904 </span><span class="lineCov">          7 :       (try! (contract-call? pool-trait pool-mint (- total-shares burn-amount) caller))</span></a>
 <a name="905"><span class="lineNum">     905 </span>            :       </a>
 <a name="906"><span class="lineNum">     906 </span>            :       ;; Mint burn amount LP token to pool-contract</a>
-<a name="907"><span class="lineNum">     907 </span><span class="lineCov">          6 :       (try! (contract-call? pool-trait pool-mint burn-amount pool-contract))</span></a>
+<a name="907"><span class="lineNum">     907 </span><span class="lineCov">          7 :       (try! (contract-call? pool-trait pool-mint burn-amount pool-contract))</span></a>
 <a name="908"><span class="lineNum">     908 </span>            :       </a>
 <a name="909"><span class="lineNum">     909 </span>            :       ;; Print create pool data and return true</a>
-<a name="910"><span class="lineNum">     910 </span><span class="lineCov">          6 :       (print {</span></a>
-<a name="911"><span class="lineNum">     911 </span><span class="lineCov">          6 :         action: &quot;create-pool&quot;,</span></a>
-<a name="912"><span class="lineNum">     912 </span><span class="lineCov">          6 :         caller: caller,</span></a>
+<a name="910"><span class="lineNum">     910 </span><span class="lineCov">          7 :       (print {</span></a>
+<a name="911"><span class="lineNum">     911 </span><span class="lineCov">          7 :         action: &quot;create-pool&quot;,</span></a>
+<a name="912"><span class="lineNum">     912 </span><span class="lineCov">          7 :         caller: caller,</span></a>
 <a name="913"><span class="lineNum">     913 </span><span class="lineNoCov">          0 :         data: {</span></a>
-<a name="914"><span class="lineNum">     914 </span><span class="lineCov">          6 :           pool-id: new-pool-id,</span></a>
-<a name="915"><span class="lineNum">     915 </span><span class="lineCov">          6 :           pool-name: name,</span></a>
-<a name="916"><span class="lineNum">     916 </span><span class="lineCov">          6 :           pool-contract: pool-contract,</span></a>
-<a name="917"><span class="lineNum">     917 </span><span class="lineCov">          6 :           x-token: x-token-contract,</span></a>
-<a name="918"><span class="lineNum">     918 </span><span class="lineCov">          6 :           y-token: y-token-contract,</span></a>
-<a name="919"><span class="lineNum">     919 </span><span class="lineCov">          6 :           x-protocol-fee: x-protocol-fee,</span></a>
-<a name="920"><span class="lineNum">     920 </span><span class="lineCov">          6 :           x-provider-fee: x-provider-fee,</span></a>
-<a name="921"><span class="lineNum">     921 </span><span class="lineCov">          6 :           y-protocol-fee: y-protocol-fee,</span></a>
-<a name="922"><span class="lineNum">     922 </span><span class="lineCov">          6 :           y-provider-fee: y-provider-fee,</span></a>
-<a name="923"><span class="lineNum">     923 </span><span class="lineCov">          6 :           liquidity-fee: liquidity-fee,</span></a>
-<a name="924"><span class="lineNum">     924 </span><span class="lineCov">          6 :           x-amount: x-amount,</span></a>
-<a name="925"><span class="lineNum">     925 </span><span class="lineCov">          6 :           y-amount: y-amount,</span></a>
-<a name="926"><span class="lineNum">     926 </span><span class="lineCov">          6 :           burn-amount: burn-amount,</span></a>
-<a name="927"><span class="lineNum">     927 </span><span class="lineCov">          6 :           midpoint: midpoint,</span></a>
-<a name="928"><span class="lineNum">     928 </span><span class="lineCov">          6 :           midpoint-factor: midpoint-factor,</span></a>
-<a name="929"><span class="lineNum">     929 </span><span class="lineCov">          6 :           midpoint-reversed: midpoint-reversed,</span></a>
-<a name="930"><span class="lineNum">     930 </span><span class="lineCov">          6 :           total-shares: total-shares,</span></a>
-<a name="931"><span class="lineNum">     931 </span><span class="lineCov">          6 :           pool-symbol: symbol,</span></a>
-<a name="932"><span class="lineNum">     932 </span><span class="lineCov">          6 :           pool-uri: uri,</span></a>
-<a name="933"><span class="lineNum">     933 </span><span class="lineCov">          6 :           pool-status: status,</span></a>
-<a name="934"><span class="lineNum">     934 </span><span class="lineCov">          6 :           creation-height: burn-block-height,</span></a>
-<a name="935"><span class="lineNum">     935 </span><span class="lineCov">          6 :           midpoint-manager: CONTRACT_DEPLOYER,</span></a>
-<a name="936"><span class="lineNum">     936 </span><span class="lineCov">          6 :           fee-address: fee-address,</span></a>
-<a name="937"><span class="lineNum">     937 </span><span class="lineCov">          6 :           amplification-coefficient: amplification-coefficient,</span></a>
-<a name="938"><span class="lineNum">     938 </span><span class="lineCov">          6 :           convergence-threshold: convergence-threshold</span></a>
+<a name="914"><span class="lineNum">     914 </span><span class="lineCov">          7 :           pool-id: new-pool-id,</span></a>
+<a name="915"><span class="lineNum">     915 </span><span class="lineCov">          7 :           pool-name: name,</span></a>
+<a name="916"><span class="lineNum">     916 </span><span class="lineCov">          7 :           pool-contract: pool-contract,</span></a>
+<a name="917"><span class="lineNum">     917 </span><span class="lineCov">          7 :           x-token: x-token-contract,</span></a>
+<a name="918"><span class="lineNum">     918 </span><span class="lineCov">          7 :           y-token: y-token-contract,</span></a>
+<a name="919"><span class="lineNum">     919 </span><span class="lineCov">          7 :           x-protocol-fee: x-protocol-fee,</span></a>
+<a name="920"><span class="lineNum">     920 </span><span class="lineCov">          7 :           x-provider-fee: x-provider-fee,</span></a>
+<a name="921"><span class="lineNum">     921 </span><span class="lineCov">          7 :           y-protocol-fee: y-protocol-fee,</span></a>
+<a name="922"><span class="lineNum">     922 </span><span class="lineCov">          7 :           y-provider-fee: y-provider-fee,</span></a>
+<a name="923"><span class="lineNum">     923 </span><span class="lineCov">          7 :           liquidity-fee: liquidity-fee,</span></a>
+<a name="924"><span class="lineNum">     924 </span><span class="lineCov">          7 :           x-amount: x-amount,</span></a>
+<a name="925"><span class="lineNum">     925 </span><span class="lineCov">          7 :           y-amount: y-amount,</span></a>
+<a name="926"><span class="lineNum">     926 </span><span class="lineCov">          7 :           burn-amount: burn-amount,</span></a>
+<a name="927"><span class="lineNum">     927 </span><span class="lineCov">          7 :           midpoint: midpoint,</span></a>
+<a name="928"><span class="lineNum">     928 </span><span class="lineCov">          7 :           midpoint-factor: midpoint-factor,</span></a>
+<a name="929"><span class="lineNum">     929 </span><span class="lineCov">          7 :           midpoint-reversed: midpoint-reversed,</span></a>
+<a name="930"><span class="lineNum">     930 </span><span class="lineCov">          7 :           total-shares: total-shares,</span></a>
+<a name="931"><span class="lineNum">     931 </span><span class="lineCov">          7 :           pool-symbol: symbol,</span></a>
+<a name="932"><span class="lineNum">     932 </span><span class="lineCov">          7 :           pool-uri: uri,</span></a>
+<a name="933"><span class="lineNum">     933 </span><span class="lineCov">          7 :           pool-status: status,</span></a>
+<a name="934"><span class="lineNum">     934 </span><span class="lineCov">          7 :           creation-height: burn-block-height,</span></a>
+<a name="935"><span class="lineNum">     935 </span><span class="lineCov">          7 :           midpoint-manager: CONTRACT_DEPLOYER,</span></a>
+<a name="936"><span class="lineNum">     936 </span><span class="lineCov">          7 :           fee-address: fee-address,</span></a>
+<a name="937"><span class="lineNum">     937 </span><span class="lineCov">          7 :           amplification-coefficient: amplification-coefficient,</span></a>
+<a name="938"><span class="lineNum">     938 </span><span class="lineCov">          7 :           convergence-threshold: convergence-threshold</span></a>
 <a name="939"><span class="lineNum">     939 </span>            :         }</a>
 <a name="940"><span class="lineNum">     940 </span>            :       })</a>
-<a name="941"><span class="lineNum">     941 </span><span class="lineCov">          6 :       (ok true)</span></a>
+<a name="941"><span class="lineNum">     941 </span><span class="lineCov">          7 :       (ok true)</span></a>
 <a name="942"><span class="lineNum">     942 </span>            :     )</a>
 <a name="943"><span class="lineNum">     943 </span>            :   )</a>
 <a name="944"><span class="lineNum">     944 </span>            : )</a>
@@ -1574,27 +1574,27 @@
 <a name="1512"><span class="lineNum">    1512 </span>            : </a>
 <a name="1513"><span class="lineNum">    1513 </span>            : ;; Create pool symbol using x token and y token symbols</a>
 <a name="1514"><span class="lineNum">    1514 </span>            : (define-private (create-symbol (x-token-trait &lt;sip-010-trait&gt;) (y-token-trait &lt;sip-010-trait&gt;))</a>
-<a name="1515"><span class="lineNum">    1515 </span><span class="lineCov">          6 :   (let (</span></a>
+<a name="1515"><span class="lineNum">    1515 </span><span class="lineCov">          7 :   (let (</span></a>
 <a name="1516"><span class="lineNum">    1516 </span>            :     ;; Get x token and y token symbols</a>
-<a name="1517"><span class="lineNum">    1517 </span><span class="lineCov">          6 :     (x-symbol (unwrap-panic (contract-call? x-token-trait get-symbol)))</span></a>
-<a name="1518"><span class="lineNum">    1518 </span><span class="lineCov">          6 :     (y-symbol (unwrap-panic (contract-call? y-token-trait get-symbol)))</span></a>
+<a name="1517"><span class="lineNum">    1517 </span><span class="lineCov">          7 :     (x-symbol (unwrap-panic (contract-call? x-token-trait get-symbol)))</span></a>
+<a name="1518"><span class="lineNum">    1518 </span><span class="lineCov">          7 :     (y-symbol (unwrap-panic (contract-call? y-token-trait get-symbol)))</span></a>
 <a name="1519"><span class="lineNum">    1519 </span>            :     </a>
 <a name="1520"><span class="lineNum">    1520 </span>            :     ;; Truncate symbols if length exceeds 14</a>
 <a name="1521"><span class="lineNum">    1521 </span><span class="lineNoCov">          0 :     (x-truncated </span></a>
-<a name="1522"><span class="lineNum">    1522 </span><span class="lineCov">          6 :       (if (&gt; (len x-symbol) u14)</span></a>
+<a name="1522"><span class="lineNum">    1522 </span><span class="lineCov">          7 :       (if (&gt; (len x-symbol) u14)</span></a>
 <a name="1523"><span class="lineNum">    1523 </span><span class="lineNoCov">          0 :         (unwrap-panic (slice? x-symbol u0 u14))</span></a>
-<a name="1524"><span class="lineNum">    1524 </span><span class="lineCov">          6 :         x-symbol</span></a>
+<a name="1524"><span class="lineNum">    1524 </span><span class="lineCov">          7 :         x-symbol</span></a>
 <a name="1525"><span class="lineNum">    1525 </span>            :       )</a>
 <a name="1526"><span class="lineNum">    1526 </span>            :     )</a>
 <a name="1527"><span class="lineNum">    1527 </span><span class="lineNoCov">          0 :     (y-truncated</span></a>
-<a name="1528"><span class="lineNum">    1528 </span><span class="lineCov">          6 :       (if (&gt; (len y-symbol) u14)</span></a>
+<a name="1528"><span class="lineNum">    1528 </span><span class="lineCov">          7 :       (if (&gt; (len y-symbol) u14)</span></a>
 <a name="1529"><span class="lineNum">    1529 </span><span class="lineNoCov">          0 :         (unwrap-panic (slice? y-symbol u0 u14))</span></a>
-<a name="1530"><span class="lineNum">    1530 </span><span class="lineCov">          6 :         y-symbol</span></a>
+<a name="1530"><span class="lineNum">    1530 </span><span class="lineCov">          7 :         y-symbol</span></a>
 <a name="1531"><span class="lineNum">    1531 </span>            :       )</a>
 <a name="1532"><span class="lineNum">    1532 </span>            :     )</a>
 <a name="1533"><span class="lineNum">    1533 </span>            :   )</a>
 <a name="1534"><span class="lineNum">    1534 </span>            :     ;; Return pool symbol with max length of 29</a>
-<a name="1535"><span class="lineNum">    1535 </span><span class="lineCov">          6 :     (as-max-len? (concat x-truncated (concat &quot;-&quot; y-truncated)) u29)</span></a>
+<a name="1535"><span class="lineNum">    1535 </span><span class="lineCov">          7 :     (as-max-len? (concat x-truncated (concat &quot;-&quot; y-truncated)) u29)</span></a>
 <a name="1536"><span class="lineNum">    1536 </span>            :   )</a>
 <a name="1537"><span class="lineNum">    1537 </span>            : )</a>
 <a name="1538"><span class="lineNum">    1538 </span>            : </a>
@@ -1690,32 +1690,32 @@
 <a name="1628"><span class="lineNum">    1628 </span>            :   )</a>
 <a name="1629"><span class="lineNum">    1629 </span>            :     ;; Check if converged value or new d was already found</a>
 <a name="1630"><span class="lineNum">    1630 </span><span class="lineCov">      96768 :     (if (is-eq current-converged u0)</span></a>
-<a name="1631"><span class="lineNum">    1631 </span><span class="lineCov">        527 :       (if (&gt; new-d current-d)</span></a>
+<a name="1631"><span class="lineNum">    1631 </span><span class="lineCov">        581 :       (if (&gt; new-d current-d)</span></a>
 <a name="1632"><span class="lineNum">    1632 </span><span class="lineNoCov">          0 :         (if (&lt;= (- new-d current-d) current-threshold)</span></a>
 <a name="1633"><span class="lineNum">    1633 </span><span class="lineNoCov">          0 :           {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: new-d}</span></a>
 <a name="1634"><span class="lineNum">    1634 </span><span class="lineNoCov">          0 :           {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: u0}</span></a>
 <a name="1635"><span class="lineNum">    1635 </span>            :         )</a>
-<a name="1636"><span class="lineNum">    1636 </span><span class="lineCov">        527 :         (if (&lt;= (- current-d new-d) current-threshold)</span></a>
+<a name="1636"><span class="lineNum">    1636 </span><span class="lineCov">        581 :         (if (&lt;= (- current-d new-d) current-threshold)</span></a>
 <a name="1637"><span class="lineNum">    1637 </span><span class="lineCov">        252 :           {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: new-d}</span></a>
-<a name="1638"><span class="lineNum">    1638 </span><span class="lineCov">        275 :           {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: u0}</span></a>
+<a name="1638"><span class="lineNum">    1638 </span><span class="lineCov">        329 :           {x-bal: current-x-balance, y-bal: current-y-balance, d: new-d, an: current-an, threshold: current-threshold, converged: u0}</span></a>
 <a name="1639"><span class="lineNum">    1639 </span>            :         )</a>
 <a name="1640"><span class="lineNum">    1640 </span>            :       )</a>
-<a name="1641"><span class="lineNum">    1641 </span><span class="lineCov">      96241 :       static-data</span></a>
+<a name="1641"><span class="lineNum">    1641 </span><span class="lineCov">      96187 :       static-data</span></a>
 <a name="1642"><span class="lineNum">    1642 </span>            :     )</a>
 <a name="1643"><span class="lineNum">    1643 </span>            :   )</a>
 <a name="1644"><span class="lineNum">    1644 </span>            : )</a>
 <a name="1645"><span class="lineNum">    1645 </span>            : </a>
 <a name="1646"><span class="lineNum">    1646 </span>            : ;; Scale up token amounts to the same level of precision before performing AMM calculations</a>
 <a name="1647"><span class="lineNum">    1647 </span>            : (define-private (scale-up-amounts (x-amount uint) (y-amount uint) (x-token-trait &lt;sip-010-trait&gt;) (y-token-trait &lt;sip-010-trait&gt;))</a>
-<a name="1648"><span class="lineNum">    1648 </span><span class="lineCov">        261 :   (let (</span></a>
+<a name="1648"><span class="lineNum">    1648 </span><span class="lineCov">        262 :   (let (</span></a>
 <a name="1649"><span class="lineNum">    1649 </span>            :     ;; Get decimals for x and y tokens</a>
-<a name="1650"><span class="lineNum">    1650 </span><span class="lineCov">        261 :     (x-decimals (unwrap-panic (contract-call? x-token-trait get-decimals)))</span></a>
-<a name="1651"><span class="lineNum">    1651 </span><span class="lineCov">        261 :     (y-decimals (unwrap-panic (contract-call? y-token-trait get-decimals)))</span></a>
+<a name="1650"><span class="lineNum">    1650 </span><span class="lineCov">        262 :     (x-decimals (unwrap-panic (contract-call? x-token-trait get-decimals)))</span></a>
+<a name="1651"><span class="lineNum">    1651 </span><span class="lineCov">        262 :     (y-decimals (unwrap-panic (contract-call? y-token-trait get-decimals)))</span></a>
 <a name="1652"><span class="lineNum">    1652 </span>            : </a>
 <a name="1653"><span class="lineNum">    1653 </span>            :     ;; Scale x amount and y amounts</a>
 <a name="1654"><span class="lineNum">    1654 </span><span class="lineNoCov">          0 :     (x-amount-scaled</span></a>
-<a name="1655"><span class="lineNum">    1655 </span><span class="lineCov">        261 :       (if (is-eq x-decimals y-decimals)</span></a>
-<a name="1656"><span class="lineNum">    1656 </span><span class="lineCov">        261 :         x-amount</span></a>
+<a name="1655"><span class="lineNum">    1655 </span><span class="lineCov">        262 :       (if (is-eq x-decimals y-decimals)</span></a>
+<a name="1656"><span class="lineNum">    1656 </span><span class="lineCov">        262 :         x-amount</span></a>
 <a name="1657"><span class="lineNum">    1657 </span><span class="lineNoCov">          0 :         (if (&gt; x-decimals y-decimals)</span></a>
 <a name="1658"><span class="lineNum">    1658 </span><span class="lineNoCov">          0 :           x-amount</span></a>
 <a name="1659"><span class="lineNum">    1659 </span><span class="lineNoCov">          0 :           (* x-amount (pow u10 (- y-decimals x-decimals)))</span></a>
@@ -1723,8 +1723,8 @@
 <a name="1661"><span class="lineNum">    1661 </span>            :       )</a>
 <a name="1662"><span class="lineNum">    1662 </span>            :     )</a>
 <a name="1663"><span class="lineNum">    1663 </span><span class="lineNoCov">          0 :     (y-amount-scaled</span></a>
-<a name="1664"><span class="lineNum">    1664 </span><span class="lineCov">        261 :       (if (is-eq x-decimals y-decimals)</span></a>
-<a name="1665"><span class="lineNum">    1665 </span><span class="lineCov">        261 :         y-amount</span></a>
+<a name="1664"><span class="lineNum">    1664 </span><span class="lineCov">        262 :       (if (is-eq x-decimals y-decimals)</span></a>
+<a name="1665"><span class="lineNum">    1665 </span><span class="lineCov">        262 :         y-amount</span></a>
 <a name="1666"><span class="lineNum">    1666 </span><span class="lineNoCov">          0 :         (if (&gt; y-decimals x-decimals)</span></a>
 <a name="1667"><span class="lineNum">    1667 </span><span class="lineNoCov">          0 :           y-amount</span></a>
 <a name="1668"><span class="lineNum">    1668 </span><span class="lineNoCov">          0 :           (* y-amount (pow u10 (- x-decimals y-decimals)))</span></a>
@@ -1733,7 +1733,7 @@
 <a name="1671"><span class="lineNum">    1671 </span>            :     )</a>
 <a name="1672"><span class="lineNum">    1672 </span>            :   )</a>
 <a name="1673"><span class="lineNum">    1673 </span>            :     ;; Return scaled x and y amounts</a>
-<a name="1674"><span class="lineNum">    1674 </span><span class="lineCov">        261 :     {x-amount: x-amount-scaled, y-amount: y-amount-scaled}</span></a>
+<a name="1674"><span class="lineNum">    1674 </span><span class="lineCov">        262 :     {x-amount: x-amount-scaled, y-amount: y-amount-scaled}</span></a>
 <a name="1675"><span class="lineNum">    1675 </span>            :   )</a>
 <a name="1676"><span class="lineNum">    1676 </span>            : )</a>
 <a name="1677"><span class="lineNum">    1677 </span>            : </a>
