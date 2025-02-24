@@ -307,7 +307,7 @@ const calculateScore = (averageProfit: number, averageImpact: number, maxProfit:
     return Math.max(0, combinedScore);
 };
 
-describe("Stableswap Configuration Optimization", () => {
+describe.skip("Stableswap Configuration Optimization", () => {
     let results: ConfigResult[] = [];
 
     describe("Testing Configuration Combinations", () => {

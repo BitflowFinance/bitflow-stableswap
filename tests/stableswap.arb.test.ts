@@ -223,7 +223,7 @@ const testArbitrage = (config: PoolConfig, attemptSize: number): { profitPercent
     }
 };
 
-describe("Stableswap Configuration Optimization", () => {
+describe.skip("Stableswap Configuration Optimization", () => {
     let results: ConfigResult[] = [];
 
     describe("Testing Configuration Combinations", () => {

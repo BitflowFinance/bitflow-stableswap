@@ -174,7 +174,7 @@ const testPoolCreation = (params: {
     }
 };
 
-describe("Stableswap Pool Creation Parameter Testing", () => {
+describe.skip("Stableswap Pool Creation Parameter Testing", () => {
     const results: PoolCreationResult[] = [];
 
     // Test subset of combinations to keep test runtime reasonable

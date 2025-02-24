@@ -17,14 +17,14 @@ class ClarityCoverageProvider implements CoverageProvider {
     constructor() {
         this.lcovPath = path.resolve('./coverage/lcov.info');
         this.coverageDir = path.resolve('./coverage');
-        console.log('[ClarityCoverageProvider] Initialized with paths:', {
-            lcov: this.lcovPath,
-            coverage: this.coverageDir
-        });
+        // console.log('[ClarityCoverageProvider] Initialized with paths:', {
+        //     lcov: this.lcovPath,
+        //     coverage: this.coverageDir
+        // });
 
         // Ensure coverage directory exists
         if (!fs.existsSync(this.coverageDir)) {
-            console.log('[ClarityCoverageProvider] Creating coverage directory:', this.coverageDir);
+            // console.log('[ClarityCoverageProvider] Creating coverage directory:', this.coverageDir);
             fs.mkdirSync(this.coverageDir, { recursive: true });
         }
 
@@ -34,19 +34,19 @@ class ClarityCoverageProvider implements CoverageProvider {
 
         [clarityDir, vitestDir].forEach(dir => {
             if (!fs.existsSync(dir)) {
-                console.log('[ClarityCoverageProvider] Creating directory:', dir);
+                // console.log('[ClarityCoverageProvider] Creating directory:', dir);
                 fs.mkdirSync(dir, { recursive: true });
             }
         });
     }
 
     async initialize(ctx: Vitest) {
-        console.log('[ClarityCoverageProvider] Initializing with Vitest context');
+        // console.log('[ClarityCoverageProvider] Initializing with Vitest context');
         this.ctx = ctx;
     }
 
     resolveOptions(): ResolvedCoverageOptions {
-        console.log('[ClarityCoverageProvider] Resolving coverage options');
+        // console.log('[ClarityCoverageProvider] Resolving coverage options');
         return {
             enabled: true,
             clean: false,
@@ -64,72 +64,72 @@ class ClarityCoverageProvider implements CoverageProvider {
     }
 
     async clean() {
-        console.log('[ClarityCoverageProvider] Cleaning up coverage data');
+        // console.log('[ClarityCoverageProvider] Cleaning up coverage data');
         this.coverageData = null;
     }
 
     async onAfterSuiteRun() {
-        console.log('[ClarityCoverageProvider] After suite run hook called');
+        // console.log('[ClarityCoverageProvider] After suite run hook called');
         await this.stopCoverage();
     }
 
     async onFileCollected() {
-        console.log('[ClarityCoverageProvider] File collected hook called');
+        // console.log('[ClarityCoverageProvider] File collected hook called');
     }
 
     async startCoverage() {
-        console.log('[ClarityCoverageProvider] Starting coverage collection');
+        // console.log('[ClarityCoverageProvider] Starting coverage collection');
         this.coverageData = null;
     }
 
     private async generateHtmlReport() {
         try {
-            console.log('[ClarityCoverageProvider] Generating HTML report using genhtml');
+            // console.log('[ClarityCoverageProvider] Generating HTML report using genhtml');
             const htmlDir = path.join(this.coverageDir, 'clarity');
             // Remove existing files to prevent stale data
             if (fs.existsSync(htmlDir)) {
-                console.log('[ClarityCoverageProvider] Cleaning existing clarity report directory');
+                // console.log('[ClarityCoverageProvider] Cleaning existing clarity report directory');
                 fs.rmSync(htmlDir, { recursive: true, force: true });
                 fs.mkdirSync(htmlDir, { recursive: true });
             }
             const { stdout, stderr } = await execPromise(`genhtml "${this.lcovPath}" -o "${htmlDir}"`);
-            console.log('[ClarityCoverageProvider] genhtml stdout:', stdout);
+            // console.log('[ClarityCoverageProvider] genhtml stdout:', stdout);
             if (stderr) {
                 console.warn('[ClarityCoverageProvider] genhtml stderr:', stderr);
             }
         } catch (error) {
-            console.error('[ClarityCoverageProvider] Error generating HTML report:', error);
+            // console.error('[ClarityCoverageProvider] Error generating HTML report:', error);
         }
     }
 
     async stopCoverage() {
-        console.log('[ClarityCoverageProvider] Stopping coverage collection');
+        // console.log('[ClarityCoverageProvider] Stopping coverage collection');
     }
 
     async takeCoverage() {
-        console.log('[ClarityCoverageProvider] Taking coverage snapshot');
+        // console.log('[ClarityCoverageProvider] Taking coverage snapshot');
         return this.coverageData;
     }
 
     async generateCoverage() {
-        console.log('[ClarityCoverageProvider] Generating coverage report');
-        console.log('[ClarityCoverageProvider] Coverage data:', this.coverageData);
+        // console.log('[ClarityCoverageProvider] Generating coverage report');
+        // console.log('[ClarityCoverageProvider] Coverage data:', this.coverageData);
         return this.coverageData;
     }
 
     async reportCoverage() {
-        console.log('[ClarityCoverageProvider] Reporting coverage data');
+        // console.log('[ClarityCoverageProvider] Reporting coverage data');
         if (fs.existsSync(this.lcovPath)) {
-            console.log('[ClarityCoverageProvider] Reading LCOV file');
+            // console.log('[ClarityCoverageProvider] Reading LCOV file');
             const lcovContent = fs.readFileSync(this.lcovPath, 'utf-8');
             this.coverageData = this.parseLcov(lcovContent);
             await this.generateHtmlReport();
         } else {
-            console.warn('[ClarityCoverageProvider] No LCOV file found at:', this.lcovPath);
+            // console.warn('[ClarityCoverageProvider] No LCOV file found at:', this.lcovPath);
             // Wait a bit and try again, as Clarinet might be writing the file
             await new Promise(resolve => setTimeout(resolve, 1000));
             if (fs.existsSync(this.lcovPath)) {
-                console.log('[ClarityCoverageProvider] Found LCOV file after waiting');
+                // console.log('[ClarityCoverageProvider] Found LCOV file after waiting');
                 const lcovContent = fs.readFileSync(this.lcovPath, 'utf-8');
                 this.coverageData = this.parseLcov(lcovContent);
                 await this.generateHtmlReport();
@@ -139,7 +139,7 @@ class ClarityCoverageProvider implements CoverageProvider {
     }
 
     private parseLcov(lcovContent: string) {
-        console.log('[ClarityCoverageProvider] Parsing LCOV content', lcovContent);
+        // console.log('[ClarityCoverageProvider] Parsing LCOV content', lcovContent);
         const files: Record<string, any> = {};
         let currentFile: any = null;
         let lineCount = 0;
@@ -228,11 +228,11 @@ class ClarityCoverageProvider implements CoverageProvider {
             }
         });
 
-        console.log('[ClarityCoverageProvider] LCOV parsing complete:', {
-            totalLines: lineCount,
-            fileCount: Object.keys(files).length,
-            files: Object.keys(files)
-        });
+        // console.log('[ClarityCoverageProvider] LCOV parsing complete:', {
+        //     totalLines: lineCount,
+        //     fileCount: Object.keys(files).length,
+        //     files: Object.keys(files)
+        // });
 
         return {
             result: {

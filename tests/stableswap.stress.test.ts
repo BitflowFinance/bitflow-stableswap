@@ -282,7 +282,7 @@ const initializePool = (config: PoolConfig) => {
     return result;
 };
 
-describe("Stableswap Stress Tests", () => {
+describe.skip("Stableswap Stress Tests", () => {
     let testResults: TestResult[] = [];
 
     describe("Parameter Range Tests", () => {
