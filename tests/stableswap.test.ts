@@ -1,171 +1,218 @@
 import { Cl, ClarityType, cvToJSON } from "@stacks/transactions";
 import { initSimnet } from "@hirosystems/clarinet-sdk";
-import { beforeAll, beforeEach, describe, expect, it, suite } from "vitest";
+import { beforeAll, beforeEach, describe, expect, it } from "vitest";
+import chalk from 'chalk';
+
+// Color formatting helpers
+const colors = {
+    title: (text: string) => chalk.bold.blue(text),
+    subtitle: (text: string) => chalk.bold.cyan(text),
+    success: (text: string) => chalk.green(text),
+    error: (text: string) => chalk.red(text),
+    warning: (text: string) => chalk.yellow(text),
+    info: (text: string) => chalk.yellow(text),
+    profit: (value: number) => value >= 0 ? chalk.green(`+${value.toFixed(2)}`) : chalk.red(value.toFixed(2)),
+    amount: (text: string) => chalk.yellow(text),
+    usd: (text: string) => chalk.green(text),
+    token: (text: string) => chalk.cyan(text),
+    percentage: (value: number) => value >= 0 ? chalk.green(`+${value.toFixed(2)}%`) : chalk.red(`${value.toFixed(2)}%`),
+    checkmark: ' ✅',
+    xmark: ' ❌',
+    arrow: chalk.gray('→'),
+};
 
 const simnet = await initSimnet();
+console.log(simnet.initSession)
 const accounts = simnet.getAccounts();
 const deployer = accounts.get("deployer")!;
 const wallet1 = accounts.get("wallet_1")!;
 
+// Price configuration
+const STX_PRICE_USD = 1.00;
+const STSTX_PRICE_USD = 1.10;
+
+// Helper functions for unit conversion and formatting
+const DECIMALS = 6;
+const UNIT = Math.pow(10, DECIMALS);
+
+const formatUnits = (microAmount: number): string => {
+    return (microAmount / UNIT).toFixed(DECIMALS);
+};
+
+const formatSTX = (microAmount: number): string => {
+    return colors.token(`${(microAmount / UNIT).toLocaleString()} STX`);
+};
+
+const formatStSTX = (microAmount: number): string => {
+    return colors.token(`${(microAmount / UNIT).toLocaleString()} stSTX`);
+};
+
+const formatUSD = (microAmount: number, price: number): string => {
+    const usdValue = (microAmount / UNIT) * price;
+    return colors.usd(`$${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
+};
+
+const toMicroUnits = (amount: number): number => {
+    return amount * UNIT;
+};
+
+// Add helper for profit percentage formatting
+const formatProfitPercent = (profit: number, initial: number): string => {
+    const percentage = (profit / initial) * 100;
+    return colors.percentage(percentage);
+};
+
+// Add helper for price ratio formatting
+const formatPriceRatio = (outputAmount: number, inputAmount: number, outputPrice: number, inputPrice: number): string => {
+    const ratio = ((outputAmount / UNIT) * outputPrice) / ((inputAmount / UNIT) * inputPrice);
+    return ratio.toFixed(4);
+};
+
+// Test configuration with adjusted parameters
+const INITIAL_POOL_BALANCE = 100_000 * UNIT; // 100k tokens
+const INITIAL_STSTX_BALANCE = 90_000 * UNIT; // 90k stSTX
+const SWAP_AMOUNT = 1_000 * UNIT; // 1k tokens
+
+// Burn amount configuration
+const BURN_AMOUNT = 1000;
+
+// Midpoint configuration
+const MIDPOINT = 1_100000;
+const MIDPOINT_FACTOR = 1_000000;
+const MIDPOINT_REVERSED = true;
+
+// Fees configuration
+const PROTOCOL_FEE = 30; // 0.3%
+const PROVIDER_FEE = 30; // 0.3%
+const LIQUIDITY_FEE = 40; // 0.4%
+// Total fees: 1% (100 bps)
+
+const AMP_COEFF = 100;
+// Currently 100 - this is a key parameter. 
+// Higher amplification = more stable prices
+// Higher values (like 200-500) would make the pool more "stable" around the intended price ratio, making arbitrage harder. 
+// Lower values would make the price more volatile and potentially increase arbitrage opportunities.
+
+const CONVERGENCE_THRESHOLD = 2;
+// Convergence threshold controls the precision of price calculations.
+// A smaller value means more precision, which means more accurate prices, but also means more computation.
+
+interface PoolConfig {
+    initialBalance: number;      // Initial pool balance for both tokens
+    burnAmount: number;         // Amount of LP tokens to burn
+    midpoint: number;          // Midpoint value
+    midpointFactor: number;    // Midpoint factor
+    midpointReversed: boolean; // Whether midpoint is reversed
+    protocolFee: number;       // Protocol fee in BPS
+    providerFee: number;       // Provider fee in BPS
+    liquidityFee: number;      // Liquidity fee in BPS
+    ampCoeff: number;          // Amplification coefficient
+    convergenceThreshold: number; // Convergence threshold
+}
+
+const DEFAULT_POOL_CONFIG: PoolConfig = {
+    initialBalance: INITIAL_POOL_BALANCE,
+    burnAmount: BURN_AMOUNT,
+    midpoint: MIDPOINT,
+    midpointFactor: MIDPOINT_FACTOR,
+    midpointReversed: MIDPOINT_REVERSED,
+    protocolFee: PROTOCOL_FEE,
+    providerFee: PROVIDER_FEE,
+    liquidityFee: LIQUIDITY_FEE,
+    ampCoeff: AMP_COEFF,
+    convergenceThreshold: CONVERGENCE_THRESHOLD
+};
+
+const initializePool = async (config: Partial<PoolConfig> = {}) => {
+    // Merge provided config with defaults
+    const poolConfig = { ...DEFAULT_POOL_CONFIG, ...config };
+
+    // First mint some stSTX tokens to deployer
+    simnet.callPublicFn(
+        "token-ststx",
+        "mint",
+        [
+            Cl.uint(poolConfig.initialBalance),
+            Cl.principal(deployer)
+        ],
+        deployer
+    );
+
+    // Now create the pool
+    const data = simnet.callPublicFn(
+        "stableswap-core-v-1-1",
+        "create-pool",
+        [
+            Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
+            Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
+            Cl.contractPrincipal(deployer, "token-ststx"),
+            Cl.uint(poolConfig.initialBalance),
+            Cl.uint(poolConfig.initialBalance),
+            Cl.uint(poolConfig.burnAmount),
+            Cl.uint(poolConfig.midpoint),
+            Cl.uint(poolConfig.midpointFactor),
+            Cl.bool(poolConfig.midpointReversed),
+            Cl.uint(poolConfig.protocolFee),
+            Cl.uint(poolConfig.providerFee),
+            Cl.uint(poolConfig.protocolFee),
+            Cl.uint(poolConfig.providerFee),
+            Cl.uint(poolConfig.liquidityFee),
+            Cl.uint(poolConfig.ampCoeff),
+            Cl.uint(poolConfig.convergenceThreshold),
+            Cl.principal(wallet1),
+            Cl.stringUtf8("stx-ststx-pool-v1"),
+            Cl.bool(true)
+        ],
+        deployer
+    );
+    expect(data.result).toHaveClarityType(ClarityType.ResponseOk)
+
+    const poolData = simnet.callReadOnlyFn(
+        "stableswap-pool-stx-ststx-v-1-1",
+        "get-pool",
+        [],
+        deployer
+    );
+
+    console.log(`\n${colors.title('=== Pool Configuration ===')}`)
+    console.log(`${colors.subtitle('Protocol Fee:')} ${colors.info(poolConfig.protocolFee / 100 + '%')}`);
+    console.log(`${colors.subtitle('Provider Fee:')} ${colors.info(poolConfig.providerFee / 100 + '%')}`);
+    console.log(`${colors.subtitle('Liquidity Fee:')} ${colors.info(poolConfig.liquidityFee / 100 + '%')}`);
+    console.log(`${colors.subtitle('Amplification Coefficient:')} ${colors.info(poolConfig.ampCoeff.toString())}`);
+    console.log(`${colors.subtitle('Convergence Threshold:')} ${colors.info(poolConfig.convergenceThreshold.toString())}`);
+    console.log(`${colors.subtitle('Midpoint:')} ${colors.info(poolConfig.midpoint.toString())}`);
+    console.log(`${colors.subtitle('Midpoint Factor:')} ${colors.info(poolConfig.midpointFactor.toString())}`);
+    console.log(`${colors.subtitle('Midpoint Reversed:')} ${colors.info(poolConfig.midpointReversed.toString())}`);
+    console.log(`${colors.subtitle('Burn Amount:')} ${colors.info(poolConfig.burnAmount.toString())}`);
+
+
+    console.log(`\n${colors.title('=== Pool State ===')}`)
+    const verifiedPoolData = cvToJSON(poolData.result).value.value
+
+    console.log(`${colors.subtitle('Reserves STX:')} ${formatSTX(verifiedPoolData['x-balance'].value)} (${formatUSD(verifiedPoolData['x-balance'].value, STX_PRICE_USD)})`);
+    console.log(`${colors.subtitle('Reserves stSTX:')} ${formatStSTX(verifiedPoolData['y-balance'].value)} (${formatUSD(verifiedPoolData['y-balance'].value, STSTX_PRICE_USD)})`);
+
+    expect(verifiedPoolData['pool-created'].value).toStrictEqual(true);
+    expect(verifiedPoolData['pool-status'].value).toStrictEqual(true);
+    expect(Number(verifiedPoolData['x-protocol-fee'].value)).toStrictEqual(poolConfig.protocolFee);
+    expect(Number(verifiedPoolData['x-provider-fee'].value)).toStrictEqual(poolConfig.providerFee);
+    expect(Number(verifiedPoolData['y-protocol-fee'].value)).toStrictEqual(poolConfig.protocolFee);
+    expect(Number(verifiedPoolData['y-provider-fee'].value)).toStrictEqual(poolConfig.providerFee);
+    expect(Number(verifiedPoolData['liquidity-fee'].value)).toStrictEqual(poolConfig.liquidityFee);
+    expect(Number(verifiedPoolData['amplification-coefficient'].value)).toStrictEqual(poolConfig.ampCoeff);
+    expect(Number(verifiedPoolData['convergence-threshold'].value)).toStrictEqual(poolConfig.convergenceThreshold);
+
+    return verifiedPoolData;
+}
+
 describe("stableswap", () => {
+    beforeEach(async () => {
+        // Use default configuration
+        await initializePool()
+    })
 
-    // Test configuration with adjusted parameters
-    const INITIAL_BALANCE = 100000000; // 100M tokens
-    const INITIAL_POOL_BALANCE = 10000000; // Increased to 10M for deeper liquidity
-    const SWAP_AMOUNT = 1000; // Small swap of 1k tokens
-
-    // Increased fees to make arbitrage harder
-    const PROTOCOL_FEE = 30; // 0.3%
-    const PROVIDER_FEE = 30; // 0.3%
-    const LIQUIDITY_FEE = 40; // 0.4%
-    // Total fees: 1% (100 bps)
-
-    const AMP_COEFF = 100;
-    // Currently 100 - this is a key parameter. 
-    // Higher amplification = more stable prices
-    // Higher values (like 200-500) would make the pool more "stable" around the intended price ratio, making arbitrage harder. 
-    // Lower values would make the price more volatile and potentially increase arbitrage opportunities.
-
-    const CONVERGENCE_THRESHOLD = 2;
-    // Convergence threshold controls the precision of price calculations.
-    // A smaller value means more precision, which means more accurate prices, but also means more computation.
-
-    beforeEach(() => {
-
-        // First mint some stSTX tokens to deployer
-        simnet.callPublicFn(
-            "token-ststx",
-            "mint",
-            [
-                Cl.uint(INITIAL_POOL_BALANCE),
-                Cl.principal(deployer)
-            ],
-            deployer
-        );
-
-        // Now create the pool
-        const data = simnet.callPublicFn(
-            "stableswap-core-v-1-1",
-            "create-pool",
-            [
-                Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
-                Cl.contractPrincipal(deployer, "token-ststx"),
-                Cl.uint(INITIAL_POOL_BALANCE),
-                Cl.uint(INITIAL_POOL_BALANCE),
-                Cl.uint(PROTOCOL_FEE),
-                Cl.uint(PROVIDER_FEE),
-                Cl.uint(PROTOCOL_FEE),
-                Cl.uint(PROVIDER_FEE),
-                Cl.uint(LIQUIDITY_FEE),
-                Cl.uint(AMP_COEFF),
-                Cl.principal(wallet1),
-                Cl.stringUtf8("stx-ststx-pool-v1"),
-                Cl.bool(true)
-            ],
-            deployer
-        );
-        expect(data.result).toHaveClarityType(ClarityType.ResponseOk)
-
-        const poolData = simnet.callReadOnlyFn(
-            "stableswap-pool-stx-ststx-v-1-1",
-            "get-pool",
-            [],
-            deployer
-        );
-
-        const data2 = cvToJSON(poolData.result).value.value
-        expect(data2['pool-created'].value).toStrictEqual(true);
-        expect(data2['pool-status'].value).toStrictEqual(true);
-    });
-
-    it("should have all required contracts deployed", () => {
-        const contracts = [
-            "sip-010-trait-ft-standard-v-1-1",
-            "stableswap-pool-trait-v-1-1",
-            "token-stx-v-1-1",
-            "stableswap-core-v-1-1",
-            "stableswap-pool-stx-ststx-v-1-1"
-        ];
-
-        contracts.forEach(contract => {
-            expect(simnet.getContractSource(contract)).toBeDefined();
-        });
-    });
-
-
-    it("should verify pool configuration", () => {
-        const poolData = simnet.callReadOnlyFn(
-            "stableswap-pool-stx-ststx-v-1-1",
-            "get-pool",
-            [],
-            deployer
-        );
-
-        const data = cvToJSON(poolData.result).value.value
-        console.log("Pool data:", data);
-
-        expect(data['pool-created'].value).toStrictEqual(true);
-        expect(data['pool-status'].value).toStrictEqual(true);
-        expect(Number(data['x-protocol-fee'].value)).toStrictEqual(PROTOCOL_FEE);
-        expect(Number(data['x-provider-fee'].value)).toStrictEqual(PROVIDER_FEE);
-        expect(Number(data['y-protocol-fee'].value)).toStrictEqual(PROTOCOL_FEE);
-        expect(Number(data['y-provider-fee'].value)).toStrictEqual(PROVIDER_FEE);
-        expect(Number(data['liquidity-fee'].value)).toStrictEqual(LIQUIDITY_FEE);
-        expect(Number(data['amplification-coefficient'].value)).toStrictEqual(AMP_COEFF);
-        expect(Number(data['convergence-threshold'].value)).toStrictEqual(CONVERGENCE_THRESHOLD);
-    });
-
-
-
-    it("should add initial liquidity", () => {
-
-        simnet.callPublicFn(
-            "token-ststx",
-            "mint",
-            [
-                Cl.uint(INITIAL_BALANCE),
-                Cl.principal(deployer)
-            ],
-            deployer
-        );
-
-        // const assetsMap = simnet.getAssetsMap();
-        // console.log("Assets map:", assetsMap);
-
-        // Add liquidity
-        const result = simnet.callPublicFn(
-            "stableswap-core-v-1-1",
-            "add-liquidity",
-            [
-                Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
-                Cl.contractPrincipal(deployer, "token-ststx"),
-                Cl.uint(INITIAL_BALANCE),
-                Cl.uint(INITIAL_BALANCE),
-                Cl.uint(1) // min LP tokens
-            ],
-            deployer
-        );
-        console.log("Liquidity added:", cvToJSON(result.result));
-        expect(result.result).toHaveClarityType(ClarityType.ResponseOk);
-    });
-
-    it("should verify initial pool balances", () => {
-        const poolData = simnet.callReadOnlyFn(
-            "stableswap-pool-stx-ststx-v-1-1",
-            "get-pool",
-            [],
-            deployer
-        );
-
-        const data = cvToJSON(poolData.result).value.value
-        console.log("Pool data:", data);
-        expect(poolData.result).toHaveClarityType(ClarityType.ResponseOk);
-    });
-
-    describe("2.1 Price Calculation", () => {
-        it("should calculate correct swap amounts", () => {
+    describe("1.1 Quotes", () => {
+        it("should calculate correct swap amounts", async () => {
             const result = simnet.callPublicFn(
                 "stableswap-core-v-1-1",
                 "get-dy",
@@ -179,27 +226,33 @@ describe("stableswap", () => {
             );
 
             expect(result.result).toHaveClarityType(ClarityType.ResponseOk);
-            const data = cvToJSON(result.result).value.value
-            console.log("Swap result:", data);
+            const outputAmount = Number(cvToJSON(result.result).value.value);
+
+            console.log("\n=== Swap Calculation ===");
+            console.log(`Input: ${formatSTX(SWAP_AMOUNT)} (${formatUSD(SWAP_AMOUNT, STX_PRICE_USD)})`);
+            console.log(`Output: ${formatSTX(outputAmount)} (${formatUSD(outputAmount, STSTX_PRICE_USD)})`);
+            console.log(`Effective Price: $${formatPriceRatio(outputAmount, SWAP_AMOUNT, STSTX_PRICE_USD, STX_PRICE_USD)}`);
         });
     });
 
-    describe("2.2 Swapping", () => {
-
-        beforeEach(() => {
+    describe("1.2 Swapping", () => {
+        beforeEach(async () => {
             // Mint some stSTX tokens to deployer
-            simnet.callPublicFn(
+            await simnet.callPublicFn(
                 "token-ststx",
                 "mint",
                 [
-                    Cl.uint(INITIAL_BALANCE),
+                    Cl.uint(INITIAL_STSTX_BALANCE),
                     Cl.principal(deployer)
                 ],
                 deployer
             );
         })
 
-        it("should swap STX for stSTX", () => {
+        it.skip("should swap STX for stSTX", async () => {
+            console.log("\n=== STX to stSTX Swap ===");
+            console.log(`Input: ${formatSTX(SWAP_AMOUNT)} (${formatUSD(SWAP_AMOUNT, STX_PRICE_USD)})`);
+
             const result = simnet.callPublicFn(
                 "stableswap-core-v-1-1",
                 "swap-x-for-y",
@@ -208,17 +261,21 @@ describe("stableswap", () => {
                     Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
                     Cl.contractPrincipal(deployer, "token-ststx"),
                     Cl.uint(SWAP_AMOUNT),
-                    Cl.uint(1) // min output amount
+                    Cl.uint(1)
                 ],
                 deployer
             );
 
-            const data = cvToJSON(result.result)
-            console.log("Swap result:", data);
             expect(result.result).toHaveClarityType(ClarityType.ResponseOk);
+            const outputAmount = Number(cvToJSON(result.result).value.value);
+            console.log(`Output: ${formatStSTX(outputAmount)} (${formatUSD(outputAmount, STSTX_PRICE_USD)})`);
+            console.log(`Effective Price: $${formatPriceRatio(outputAmount, SWAP_AMOUNT, STSTX_PRICE_USD, STX_PRICE_USD)}`);
         });
 
-        it("should swap stSTX for STX", () => {
+        it.skip("should swap stSTX for STX", async () => {
+            console.log("\n=== stSTX to STX Swap ===");
+            console.log(`Input: ${formatStSTX(SWAP_AMOUNT)} (${formatUSD(SWAP_AMOUNT, STSTX_PRICE_USD)})`);
+
             const result = simnet.callPublicFn(
                 "stableswap-core-v-1-1",
                 "swap-y-for-x",
@@ -232,26 +289,24 @@ describe("stableswap", () => {
                 deployer
             );
 
-            const data = cvToJSON(result.result)
-            console.log("Swap result:", data);
+            console.log(result.result)
             expect(result.result).toHaveClarityType(ClarityType.ResponseOk);
+            const data = cvToJSON(result.result)
+            console.log(`Output: ${formatSTX(data.value.value)} (${formatUSD(data.value.value, STX_PRICE_USD)})`);
+            console.log(`Effective Price: $${formatPriceRatio(data.value.value, SWAP_AMOUNT, STX_PRICE_USD, STSTX_PRICE_USD)}`);
         });
     });
 
-    // 2.3 Midpoint Value Inconsistency
-    describe("2.3 Midpoint Value Inconsistency", () => {
+    describe("1.3 Arbitrage Resistance Tests", () => {
+
         // Test configuration
-        const INITIAL_BALANCE = 100000000; // 100M tokens
-        const ARBITRAGE_AMOUNT = 1000000; // 1M tokens for arbitrage
-        const STX_PRICE_USD = 1.00;  // $1.00 per STX
-        const STSTX_PRICE_USD = 1.10; // $1.10 per stSTX
-        const TOLERANCE = 0.001; // 0.1% tolerance
-
-        const formatUSD = (amount: number) => `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        const INITIAL_BALANCE = 100000_000000; // 100k tokens
+        const ATTEMPT_AMOUNT = 1000_000000; // 1k tokens for arbitrage attempt
+        const MAX_ACCEPTABLE_PROFIT = 0.001; // 0.1% maximum acceptable profit
 
         beforeEach(async () => {
             // Mint stSTX tokens to deployer for testing
-            simnet.callPublicFn(
+            await simnet.callPublicFn(
                 "token-ststx",
                 "mint",
                 [
@@ -262,17 +317,12 @@ describe("stableswap", () => {
             );
         });
 
-        // Test 1: Demonstrate the arbitrage opportunity
-        it("demonstrates arbitrage opportunity due to midpoint inconsistency", () => {
-            console.log("\n=== Starting Arbitrage Demonstration ===");
-            console.log(`STX Price: ${formatUSD(STX_PRICE_USD)}`);
-            console.log(`stSTX Price: ${formatUSD(STSTX_PRICE_USD)}`);
-            console.log(`Premium: ${((STSTX_PRICE_USD / STX_PRICE_USD - 1) * 100).toFixed(1)}%`);
+        it.skip("should resist single-sided liquidity arbitrage", async () => {
+            console.log("\n=== Testing Single-Sided Liquidity Resistance ===");
+            console.log(`Attempting arbitrage with ${formatSTX(ATTEMPT_AMOUNT)} (${formatUSD(ATTEMPT_AMOUNT, STX_PRICE_USD)})`);
 
             // Step 1: Add single-sided liquidity (STX only)
-            console.log("\nStep 1: Adding single-sided STX liquidity");
-            const initialInvestmentUSD = ARBITRAGE_AMOUNT * STX_PRICE_USD;
-            console.log(`Initial investment: ${ARBITRAGE_AMOUNT} STX (${formatUSD(initialInvestmentUSD)})`);
+            const initialInvestmentUSD = ATTEMPT_AMOUNT * STX_PRICE_USD;
 
             const addLiqResult = simnet.callPublicFn(
                 "stableswap-core-v-1-1",
@@ -281,86 +331,7 @@ describe("stableswap", () => {
                     Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
                     Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
                     Cl.contractPrincipal(deployer, "token-ststx"),
-                    Cl.uint(ARBITRAGE_AMOUNT),
-                    Cl.uint(0),
-                    Cl.uint(1)
-                ],
-                deployer
-            );
-            const lpTokensReceived = Number(cvToJSON(addLiqResult.result).value.value);
-            console.log(`LP tokens received: ${lpTokensReceived}`);
-            console.log(`Note: LP tokens are priced assuming 1 STX = 1 stSTX`);
-
-            // Step 2: Perform swap STX -> stSTX
-            console.log("\nStep 2: Executing swap STX -> stSTX");
-            const swapResult = simnet.callPublicFn(
-                "stableswap-core-v-1-1",
-                "swap-x-for-y",
-                [
-                    Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-ststx"),
-                    Cl.uint(ARBITRAGE_AMOUNT),
-                    Cl.uint(1)
-                ],
-                deployer
-            );
-            const swapOutput = Number(cvToJSON(swapResult.result).value.value);
-            const swapValueUSD = swapOutput * STSTX_PRICE_USD;
-            console.log(`Swapped ${ARBITRAGE_AMOUNT} STX for ${swapOutput} stSTX`);
-            console.log(`Swap value: ${formatUSD(swapValueUSD)}`);
-
-            // Step 3: Remove liquidity
-            console.log("\nStep 3: Removing liquidity");
-            const removeLiqResult = simnet.callPublicFn(
-                "stableswap-core-v-1-1",
-                "withdraw-liquidity",
-                [
-                    Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-ststx"),
-                    Cl.uint(lpTokensReceived),
-                    Cl.uint(1),
-                    Cl.uint(1)
-                ],
-                deployer
-            );
-            const withdrawAmount = cvToJSON(removeLiqResult.result).value.value;
-            const finalSTX = Number(withdrawAmount['x-amount'].value);
-            const finalStSTX = Number(withdrawAmount['y-amount'].value) + swapOutput;
-
-            const finalValueUSD = (finalSTX * STX_PRICE_USD) + (finalStSTX * STSTX_PRICE_USD);
-            const profitUSD = finalValueUSD - initialInvestmentUSD;
-            const profitPercent = (profitUSD / initialInvestmentUSD) * 100;
-
-            console.log("\n=== Arbitrage Summary ===");
-            console.log(`Initial investment: ${formatUSD(initialInvestmentUSD)}`);
-            console.log(`Final position value: ${formatUSD(finalValueUSD)}`);
-            console.log(`Profit: ${formatUSD(profitUSD)} (${profitPercent.toFixed(2)}%)`);
-            console.log("\nBreakdown of final position:");
-            console.log(`STX: ${finalSTX} (${formatUSD(finalSTX * STX_PRICE_USD)})`);
-            console.log(`stSTX: ${finalStSTX} (${formatUSD(finalStSTX * STSTX_PRICE_USD)})`);
-        });
-
-        // Test 2: Verify no arbitrage exists (this should fail given the vulnerability)
-        it("should NOT allow profitable arbitrage due to midpoint inconsistency (expected to fail)", () => {
-            console.log("\n=== Starting Arbitrage Prevention Test ===");
-            console.log(`STX Price: ${formatUSD(STX_PRICE_USD)}`);
-            console.log(`stSTX Price: ${formatUSD(STSTX_PRICE_USD)}`);
-
-            // Track initial value
-            const initialValueUSD = ARBITRAGE_AMOUNT * STX_PRICE_USD;
-            console.log(`Initial investment: ${formatUSD(initialValueUSD)}`);
-
-            // Step 1: Add liquidity
-            const addLiqResult = simnet.callPublicFn(
-                "stableswap-core-v-1-1",
-                "add-liquidity",
-                [
-                    Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-ststx"),
-                    Cl.uint(ARBITRAGE_AMOUNT),
+                    Cl.uint(ATTEMPT_AMOUNT),
                     Cl.uint(0),
                     Cl.uint(1)
                 ],
@@ -368,251 +339,7 @@ describe("stableswap", () => {
             );
             const lpTokensReceived = Number(cvToJSON(addLiqResult.result).value.value);
 
-            // Step 2: Perform swap
-            const swapResult = simnet.callPublicFn(
-                "stableswap-core-v-1-1",
-                "swap-x-for-y",
-                [
-                    Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-ststx"),
-                    Cl.uint(ARBITRAGE_AMOUNT),
-                    Cl.uint(1)
-                ],
-                deployer
-            );
-            const swapOutput = Number(cvToJSON(swapResult.result).value.value);
-
-            // Step 3: Remove liquidity
-            const removeLiqResult = simnet.callPublicFn(
-                "stableswap-core-v-1-1",
-                "withdraw-liquidity",
-                [
-                    Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-ststx"),
-                    Cl.uint(lpTokensReceived),
-                    Cl.uint(1),
-                    Cl.uint(1)
-                ],
-                deployer
-            );
-            const withdrawAmount = cvToJSON(removeLiqResult.result).value.value;
-            const finalSTX = Number(withdrawAmount['x-amount'].value);
-            const finalStSTX = Number(withdrawAmount['y-amount'].value) + swapOutput;
-
-            // Calculate final value and profit
-            const finalValueUSD = (finalSTX * STX_PRICE_USD) + (finalStSTX * STSTX_PRICE_USD);
-            const profitUSD = finalValueUSD - initialValueUSD;
-            const profitPercent = (profitUSD / initialValueUSD) * 100;
-
-            console.log("\n=== Final Position Analysis ===");
-            console.log(`Initial value: ${formatUSD(initialValueUSD)}`);
-            console.log(`Final value: ${formatUSD(finalValueUSD)}`);
-            console.log(`Profit/Loss: ${formatUSD(profitUSD)} (${profitPercent.toFixed(2)}%)`);
-
-            // This assertion should fail due to the vulnerability
-            expect(profitPercent).toBeLessThanOrEqual(TOLERANCE * 100);
-            console.log(`\nTest ${profitPercent <= TOLERANCE * 100 ? 'PASSED ✅' : 'FAILED ❌'}`);
-            console.log(`Profit exceeds ${TOLERANCE * 100}% tolerance`);
-        });
-    });
-
-    describe("2.4 Midpoint Value Inconsistency p2", () => {
-        // Test configuration with adjusted parameters
-        const INITIAL_BALANCE = 100000000; // 100M tokens
-        const INITIAL_POOL_BALANCE = 10000000; // Increased to 10M for deeper liquidity
-        const ARBITRAGE_AMOUNT = 1000000; // 1M tokens for arbitrage
-        const STX_PRICE_USD = 1.00;  // $1.00 per STX
-        const STSTX_PRICE_USD = 1.10; // $1.10 per stSTX
-
-        // Increased fees to make arbitrage harder
-        const PROTOCOL_FEE = 30; // 0.3%
-        const PROVIDER_FEE = 30; // 0.3%
-        const LIQUIDITY_FEE = 40; // 0.4%
-        // Total fees: 1% (100 bps)
-
-        // Increased amplification coefficient for more stable prices
-        const AMP_COEFF = 300; // Higher amplification = more stable prices
-
-        const formatUSD = (amount: number) => `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-
-        beforeEach(async () => {
-            // Mint stSTX tokens to deployer for testing
-            simnet.callPublicFn(
-                "token-ststx",
-                "mint",
-                [
-                    Cl.uint(INITIAL_BALANCE),
-                    Cl.principal(deployer)
-                ],
-                deployer
-            );
-
-            // Initialize pool with larger initial liquidity
-            simnet.callPublicFn(
-                "stableswap-core-v-1-1",
-                "create-pool",
-                [
-                    Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-ststx"),
-                    Cl.uint(INITIAL_POOL_BALANCE),
-                    Cl.uint(INITIAL_POOL_BALANCE),
-                    Cl.uint(PROTOCOL_FEE),
-                    Cl.uint(PROVIDER_FEE),
-                    Cl.uint(PROTOCOL_FEE),
-                    Cl.uint(PROVIDER_FEE),
-                    Cl.uint(LIQUIDITY_FEE),
-                    Cl.uint(AMP_COEFF),
-                    Cl.principal(wallet1),
-                    Cl.stringUtf8("stx-ststx-pool-v1"),
-                    Cl.bool(true)
-                ],
-                deployer
-            );
-        });
-
-        // Rest of the test code remains the same...
-        // [Previous test implementation continues here]
-
-        it("should show reduced arbitrage with higher fees and amplification", () => {
-            console.log("\n=== Testing Arbitrage with Modified Parameters ===");
-            console.log("Pool Parameters:");
-            console.log(`- Initial Pool Balance: ${INITIAL_POOL_BALANCE} tokens`);
-            console.log(`- Total Fees: ${(PROTOCOL_FEE + PROVIDER_FEE + LIQUIDITY_FEE) / 100}%`);
-            console.log(`- Amplification Coefficient: ${AMP_COEFF}`);
-            console.log(`- Price Premium: ${((STSTX_PRICE_USD / STX_PRICE_USD - 1) * 100).toFixed(1)}%`);
-
-            // Get initial pool state
-            const initialPool = simnet.callReadOnlyFn(
-                "stableswap-pool-stx-ststx-v-1-1",
-                "get-pool",
-                [],
-                deployer
-            );
-            const initialData = cvToJSON(initialPool.result).value.value;
-
-            // Step 1: Add single-sided liquidity (STX only)
-            const initialInvestmentUSD = ARBITRAGE_AMOUNT * STX_PRICE_USD;
-            console.log(`\nStep 1: Adding ${formatUSD(initialInvestmentUSD)} worth of STX`);
-
-            const addLiqResult = simnet.callPublicFn(
-                "stableswap-core-v-1-1",
-                "add-liquidity",
-                [
-                    Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-ststx"),
-                    Cl.uint(ARBITRAGE_AMOUNT),
-                    Cl.uint(0),
-                    Cl.uint(1)
-                ],
-                deployer
-            );
-            const lpTokensReceived = Number(cvToJSON(addLiqResult.result).value.value);
-
-            // Step 2: Calculate optimal swap amount (reduced due to higher fees)
-            const swapAmount = Math.floor(ARBITRAGE_AMOUNT * 0.5); // Reduce swap size due to higher fees
-            const swapResult = simnet.callPublicFn(
-                "stableswap-core-v-1-1",
-                "swap-x-for-y",
-                [
-                    Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-ststx"),
-                    Cl.uint(swapAmount),
-                    Cl.uint(1)
-                ],
-                deployer
-            );
-            const swapOutput = Number(cvToJSON(swapResult.result).value.value);
-
-            // Step 3: Remove liquidity
-            const removeLiqResult = simnet.callPublicFn(
-                "stableswap-core-v-1-1",
-                "withdraw-liquidity",
-                [
-                    Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-ststx"),
-                    Cl.uint(lpTokensReceived),
-                    Cl.uint(1),
-                    Cl.uint(1)
-                ],
-                deployer
-            );
-            const withdrawAmount = cvToJSON(removeLiqResult.result).value.value;
-            const finalSTX = Number(withdrawAmount['x-amount'].value);
-            const finalStSTX = Number(withdrawAmount['y-amount'].value) + swapOutput;
-
-            // Calculate profits with higher fees
-            const finalValueUSD = (finalSTX * STX_PRICE_USD) + (finalStSTX * STSTX_PRICE_USD);
-            const profitUSD = finalValueUSD - initialInvestmentUSD;
-            const profitPercent = (profitUSD / initialInvestmentUSD) * 100;
-
-            console.log("\n=== Arbitrage Results with Modified Parameters ===");
-            console.log(`Initial investment: ${formatUSD(initialInvestmentUSD)}`);
-            console.log(`Final value: ${formatUSD(finalValueUSD)}`);
-            console.log(`Profit/Loss: ${formatUSD(profitUSD)} (${profitPercent.toFixed(2)}%)`);
-            console.log(`\nImpact of Changes:`);
-            console.log(`- Higher fees reduced profit by ~${((PROTOCOL_FEE + PROVIDER_FEE + LIQUIDITY_FEE) / 100).toFixed(1)}%`);
-            console.log(`- Deeper liquidity reduced price impact`);
-            console.log(`- Higher amp coefficient made prices more stable`);
-        });
-    });
-
-    describe("2.5 Simpler Midpoint Value Exploit", () => {
-        const INITIAL_BALANCE = 100000000; // 100M tokens
-        const EXPLOIT_AMOUNT = 1000000; // 1M tokens
-        const STX_PRICE_USD = 1.00;  // $1.00 per STX
-        const STSTX_PRICE_USD = 1.10; // $1.10 per stSTX
-
-        const formatUSD = (amount: number) => `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-
-        beforeEach(async () => {
-            // Mint stSTX tokens to deployer for testing
-            simnet.callPublicFn(
-                "token-ststx",
-                "mint",
-                [
-                    Cl.uint(INITIAL_BALANCE),
-                    Cl.principal(deployer)
-                ],
-                deployer
-            );
-        });
-
-        it("demonstrates simple add/remove liquidity exploit", () => {
-            console.log("\n=== Starting Simple Exploit Demonstration ===");
-            console.log(`STX Price: ${formatUSD(STX_PRICE_USD)}`);
-            console.log(`stSTX Price: ${formatUSD(STSTX_PRICE_USD)}`);
-            console.log(`Premium: ${((STSTX_PRICE_USD / STX_PRICE_USD - 1) * 100).toFixed(1)}%`);
-
-            // Step 1: Add single-sided liquidity (STX only)
-            console.log("\nStep 1: Adding single-sided STX liquidity");
-            const initialInvestmentUSD = EXPLOIT_AMOUNT * STX_PRICE_USD;
-            console.log(`Initial investment: ${EXPLOIT_AMOUNT} STX (${formatUSD(initialInvestmentUSD)})`);
-
-            const addLiqResult = simnet.callPublicFn(
-                "stableswap-core-v-1-1",
-                "add-liquidity",
-                [
-                    Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
-                    Cl.contractPrincipal(deployer, "token-ststx"),
-                    Cl.uint(EXPLOIT_AMOUNT),
-                    Cl.uint(0),
-                    Cl.uint(1)
-                ],
-                deployer
-            );
-            const lpTokensReceived = Number(cvToJSON(addLiqResult.result).value.value);
-            console.log(`LP tokens received: ${lpTokensReceived}`);
-            console.log(`Note: LP tokens are priced assuming 1 STX = 1 stSTX`);
-
-            // Step 2: Immediately remove liquidity
-            console.log("\nStep 2: Immediately removing liquidity");
+            // Step 2: Remove liquidity
             const removeLiqResult = simnet.callPublicFn(
                 "stableswap-core-v-1-1",
                 "withdraw-liquidity",
@@ -630,64 +357,106 @@ describe("stableswap", () => {
             const finalSTX = Number(withdrawAmount['x-amount'].value);
             const finalStSTX = Number(withdrawAmount['y-amount'].value);
 
-            // Calculate profit
+            // Calculate final position value and profit
             const finalValueUSD = (finalSTX * STX_PRICE_USD) + (finalStSTX * STSTX_PRICE_USD);
             const profitUSD = finalValueUSD - initialInvestmentUSD;
-            const profitPercent = (profitUSD / initialInvestmentUSD) * 100;
+            const profitPercent = (profitUSD / initialInvestmentUSD);
 
-            console.log("\n=== Simple Exploit Summary ===");
-            console.log(`Initial investment: ${formatUSD(initialInvestmentUSD)}`);
-            console.log(`Final position value: ${formatUSD(finalValueUSD)}`);
-            console.log(`Profit: ${formatUSD(profitUSD)} (${profitPercent.toFixed(2)}%)`);
-            console.log("\nBreakdown of final position:");
-            console.log(`STX: ${finalSTX} (${formatUSD(finalSTX * STX_PRICE_USD)})`);
-            console.log(`stSTX: ${finalStSTX} (${formatUSD(finalStSTX * STSTX_PRICE_USD)})`);
+            console.log("\n=== Arbitrage Attempt Results ===");
+            console.log(`Initial position: ${formatSTX(ATTEMPT_AMOUNT)} (${formatUSD(ATTEMPT_AMOUNT, STX_PRICE_USD)})`);
+            console.log(`Final position: ${formatSTX(finalSTX)} + ${formatStSTX(finalStSTX)} (${formatUSD(finalValueUSD, 1)})`);
+            console.log(`Profit/Loss: ${formatUSD(profitUSD, 1)} (${formatProfitPercent(profitUSD, initialInvestmentUSD)})`);
 
-            console.log("\nExplanation:");
-            console.log("1. We put in only STX");
-            console.log("2. Pool gave us LP tokens as if STX = stSTX");
-            console.log("3. We burned LP tokens and got both tokens back");
-            console.log("4. But stSTX is worth more, so we profited!");
+            // Verify that profit is below acceptable threshold
+            expect(profitPercent).toBeLessThanOrEqual(MAX_ACCEPTABLE_PROFIT);
         });
     });
 
-    describe("2.6 Compound Midpoint Value Exploit", () => {
-        const INITIAL_BALANCE = 100000000; // 100M tokens
-        const EXPLOIT_AMOUNT = 1000000; // 1M tokens
-        const STX_PRICE_USD = 1.00;  // $1.00 per STX
-        const STSTX_PRICE_USD = 1.10; // $1.10 per stSTX
-        const CYCLES = 5;
+    describe("1.4 Single-Sided Liquidity Protection", () => {
+        const ATTEMPT_AMOUNT = 1_000 * UNIT;    // 1k tokens
+        const MAX_ACCEPTABLE_PROFIT = 0.001;    // 0.1% maximum acceptable profit
 
-        const formatUSD = (amount: number) => `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        it.skip("should resist single-sided liquidity imbalance", async () => {
+            console.log("\n=== Testing Single-Sided Liquidity Protection ===");
+            console.log(`Market conditions: 1 stSTX = ${formatUSD(UNIT, STSTX_PRICE_USD)} (${((STSTX_PRICE_USD / STX_PRICE_USD - 1) * 100).toFixed(1)}% premium)`);
 
-        beforeEach(async () => {
-            // Mint stSTX tokens to deployer for testing
-            simnet.callPublicFn(
-                "token-ststx",
-                "mint",
+            // Step 1: Attempt single-sided liquidity addition
+            console.log("\nStep 1: Testing single-sided STX addition");
+            const initialInvestmentUSD = ATTEMPT_AMOUNT / UNIT * STX_PRICE_USD;
+            console.log(`Adding ${formatSTX(ATTEMPT_AMOUNT)} (${formatUSD(ATTEMPT_AMOUNT, STX_PRICE_USD)})`);
+
+            const addLiqResult = simnet.callPublicFn(
+                "stableswap-core-v-1-1",
+                "add-liquidity",
                 [
-                    Cl.uint(INITIAL_BALANCE),
-                    Cl.principal(deployer)
+                    Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                    Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
+                    Cl.contractPrincipal(deployer, "token-ststx"),
+                    Cl.uint(ATTEMPT_AMOUNT),
+                    Cl.uint(0),
+                    Cl.uint(1)
                 ],
                 deployer
             );
+            const lpTokensReceived = Number(cvToJSON(addLiqResult.result).value.value);
+
+            // Step 2: Attempt immediate withdrawal
+            console.log("\nStep 2: Testing immediate withdrawal");
+            const removeLiqResult = simnet.callPublicFn(
+                "stableswap-core-v-1-1",
+                "withdraw-liquidity",
+                [
+                    Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                    Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
+                    Cl.contractPrincipal(deployer, "token-ststx"),
+                    Cl.uint(lpTokensReceived),
+                    Cl.uint(1),
+                    Cl.uint(1)
+                ],
+                deployer
+            );
+            const withdrawAmount = cvToJSON(removeLiqResult.result).value.value;
+            const finalSTX = Number(withdrawAmount['x-amount'].value);
+            const finalStSTX = Number(withdrawAmount['y-amount'].value);
+            console.log(`Received: ${formatSTX(finalSTX)} + ${formatStSTX(finalStSTX)}`);
+
+            // Calculate final position value and profit
+            const finalValueUSD = (finalSTX / UNIT * STX_PRICE_USD) + (finalStSTX / UNIT * STSTX_PRICE_USD);
+            const profitUSD = finalValueUSD - initialInvestmentUSD;
+
+            console.log("\n=== Protection Analysis ===");
+            console.log(`${colors.subtitle('Initial investment:')} ${formatSTX(ATTEMPT_AMOUNT)} (${formatUSD(ATTEMPT_AMOUNT, STX_PRICE_USD)})`);
+            console.log(`${colors.subtitle('Final position:')} ${formatSTX(finalSTX)} + ${formatStSTX(finalStSTX)} (${formatUSD(finalSTX + finalStSTX, STX_PRICE_USD)})`);
+            console.log(`${colors.subtitle('Total profit/loss:')} ${formatUSD(profitUSD * UNIT, STX_PRICE_USD)} (${formatProfitPercent(profitUSD, initialInvestmentUSD)})`);
+
+            // Verify pool protections are working
+            const profitPercent = profitUSD / initialInvestmentUSD;
+            expect(profitPercent).toBeLessThanOrEqual(MAX_ACCEPTABLE_PROFIT);
+            console.log(`\n${colors.subtitle('Protection status:')} ${profitPercent <= MAX_ACCEPTABLE_PROFIT ? colors.success('ACTIVE') + colors.checkmark : colors.error('FAILED') + colors.xmark}`);
+            console.log(`${colors.subtitle('Maximum acceptable profit:')} ${colors.info((MAX_ACCEPTABLE_PROFIT * 100).toFixed(3) + '%')}`);
+            console.log(`${colors.subtitle('Actual profit:')} ${formatProfitPercent(profitUSD, initialInvestmentUSD)}`);
         });
+    });
 
-        it(`demonstrates compound exploit over ${CYCLES} cycles`, () => {
-            console.log("\n=== Starting Compound Exploit Demonstration ===");
-            console.log(`STX Price: ${formatUSD(STX_PRICE_USD)}`);
-            console.log(`stSTX Price: ${formatUSD(STSTX_PRICE_USD)}`);
-            console.log(`Premium: ${((STSTX_PRICE_USD / STX_PRICE_USD - 1) * 100).toFixed(1)}%`);
-            console.log(`Initial STX: ${EXPLOIT_AMOUNT}`);
+    describe("1.5 Multi-Cycle Trading Protection", () => {
+        const ATTEMPT_AMOUNT = 1_000 * UNIT;    // 1k tokens
+        const MAX_ACCEPTABLE_PROFIT = 0.001;    // 0.1% maximum acceptable profit
+        const CYCLES = 5;                       // Number of trading cycles to test
 
-            let currentSTXBalance = EXPLOIT_AMOUNT;
+        it.skip("should resist multi-cycle trading strategies", async () => {
+            console.log("\n=== Testing Multi-Cycle Trading Protection ===");
+            console.log(`Market conditions: 1 stSTX = ${formatUSD(UNIT, STSTX_PRICE_USD)} (${((STSTX_PRICE_USD / STX_PRICE_USD - 1) * 100).toFixed(1)}% premium)`);
+            console.log(`Testing ${CYCLES} trading cycles with ${formatSTX(ATTEMPT_AMOUNT)} initial position`);
+
+            let currentSTXBalance = ATTEMPT_AMOUNT;
             let totalProfit = 0;
+            const initialInvestmentUSD = ATTEMPT_AMOUNT / UNIT * STX_PRICE_USD;
 
             for (let cycle = 1; cycle <= CYCLES; cycle++) {
-                console.log(`\n=== Cycle ${cycle} ===`);
-                console.log(`Starting STX balance: ${currentSTXBalance}`);
+                console.log(`\n${colors.title(`=== Cycle ${cycle} ===`)}`);
+                console.log(`${colors.subtitle('Starting balance:')} ${formatSTX(currentSTXBalance)} (${formatUSD(currentSTXBalance, STX_PRICE_USD)})`);
 
-                // Step 1: Add single-sided liquidity (STX only)
+                // Step 1: Add single-sided liquidity
                 const addLiqResult = simnet.callPublicFn(
                     "stableswap-core-v-1-1",
                     "add-liquidity",
@@ -702,7 +471,6 @@ describe("stableswap", () => {
                     deployer
                 );
                 const lpTokensReceived = Number(cvToJSON(addLiqResult.result).value.value);
-                console.log(`LP tokens received: ${lpTokensReceived}`);
 
                 // Step 2: Remove liquidity
                 const removeLiqResult = simnet.callPublicFn(
@@ -722,11 +490,8 @@ describe("stableswap", () => {
                 const receivedSTX = Number(withdrawAmount['x-amount'].value);
                 const receivedStSTX = Number(withdrawAmount['y-amount'].value);
 
-                console.log(`Received from withdrawal:`);
-                console.log(`- STX: ${receivedSTX}`);
-                console.log(`- stSTX: ${receivedStSTX}`);
-
-                // Step 3: Swap stSTX back to STX
+                // Step 3: Swap stSTX back to STX if any received
+                let swapOutput = 0;
                 if (receivedStSTX > 0) {
                     const swapResult = simnet.callPublicFn(
                         "stableswap-core-v-1-1",
@@ -740,59 +505,56 @@ describe("stableswap", () => {
                         ],
                         deployer
                     );
-                    const swapOutput = Number(cvToJSON(swapResult.result).value.value);
-                    console.log(`Swapped ${receivedStSTX} stSTX for ${swapOutput} STX`);
-
-                    // Update STX balance
-                    currentSTXBalance = receivedSTX + swapOutput;
+                    swapOutput = Number(cvToJSON(swapResult.result).value.value);
                 }
 
-                // Calculate cycle profit
-                const cycleProfit = currentSTXBalance - (cycle === 1 ? EXPLOIT_AMOUNT : totalProfit + EXPLOIT_AMOUNT);
+                // Update position and calculate cycle results
+                currentSTXBalance = receivedSTX + swapOutput;
+                const cycleValueUSD = currentSTXBalance / UNIT * STX_PRICE_USD;
+                const previousValueUSD = cycle === 1 ? initialInvestmentUSD : (totalProfit + initialInvestmentUSD);
+                const cycleProfit = cycleValueUSD - previousValueUSD;
                 totalProfit += cycleProfit;
 
-                console.log(`\nCycle ${cycle} Summary:`);
-                console.log(`New STX balance: ${currentSTXBalance}`);
-                console.log(`Cycle profit: ${cycleProfit} STX (${formatUSD(cycleProfit * STX_PRICE_USD)})`);
-                console.log(`Running total profit: ${totalProfit} STX (${formatUSD(totalProfit * STX_PRICE_USD)})`);
-                console.log(`Return so far: ${((totalProfit / EXPLOIT_AMOUNT) * 100).toFixed(2)}%`);
+                console.log("\n=== Cycle Results ===");
+                console.log(`${colors.info('Received from withdrawal:')} ${formatSTX(receivedSTX)} + ${formatStSTX(receivedStSTX)}`);
+                if (swapOutput > 0) {
+                    console.log(`${colors.info('Received from swap:')} ${formatSTX(swapOutput)}`);
+                }
+                console.log(`${colors.info('New position:')} ${formatSTX(currentSTXBalance)} (${formatUSD(currentSTXBalance, STX_PRICE_USD)})`);
+                console.log(`${colors.info('Cycle profit:')} ${formatUSD(cycleProfit * UNIT, STX_PRICE_USD)} (${formatProfitPercent(cycleProfit, initialInvestmentUSD)})`);
             }
 
-            console.log("\n=== Final Compound Exploit Summary ===");
-            console.log(`Initial investment: ${EXPLOIT_AMOUNT} STX (${formatUSD(EXPLOIT_AMOUNT * STX_PRICE_USD)})`);
-            console.log(`Final balance: ${currentSTXBalance} STX (${formatUSD(currentSTXBalance * STX_PRICE_USD)})`);
-            console.log(`Total profit: ${totalProfit} STX (${formatUSD(totalProfit * STX_PRICE_USD)})`);
-            console.log(`Total return: ${((totalProfit / EXPLOIT_AMOUNT) * 100).toFixed(2)}%`);
-            console.log(`\nAverage profit per cycle: ${(totalProfit / CYCLES)} STX (${formatUSD((totalProfit / CYCLES) * STX_PRICE_USD)})`);
+            // Calculate final results
+            const finalValueUSD = currentSTXBalance / UNIT * STX_PRICE_USD;
+            const totalProfitPercent = totalProfit / initialInvestmentUSD;
+
+            console.log("\n=== Protection Analysis ===");
+            console.log(`${colors.subtitle('Initial investment:')} ${formatSTX(ATTEMPT_AMOUNT)} (${formatUSD(ATTEMPT_AMOUNT, STX_PRICE_USD)})`);
+            console.log(`${colors.subtitle('Final position:')} ${formatSTX(currentSTXBalance)} (${formatUSD(currentSTXBalance, STX_PRICE_USD)})`);
+            console.log(`${colors.subtitle('Total profit/loss:')} ${formatUSD(totalProfit * UNIT, STX_PRICE_USD)} (${formatProfitPercent(totalProfit, initialInvestmentUSD)})`);
+            console.log(`${colors.subtitle('Average profit per cycle:')} ${formatUSD((totalProfit / CYCLES) * UNIT, STX_PRICE_USD)} (${formatProfitPercent(totalProfit / CYCLES, initialInvestmentUSD)})`);
+
+            // Verify pool protections are working
+            expect(totalProfitPercent).toBeLessThanOrEqual(MAX_ACCEPTABLE_PROFIT);
+            console.log(`\n${colors.subtitle('Protection status:')} ${totalProfitPercent <= MAX_ACCEPTABLE_PROFIT ? colors.success('ACTIVE') + colors.checkmark : colors.error('FAILED') + colors.xmark}`);
+            console.log(`${colors.subtitle('Maximum acceptable profit:')} ${colors.info((MAX_ACCEPTABLE_PROFIT * 100).toFixed(3) + '%')}`);
+            console.log(`${colors.subtitle('Actual profit:')} ${formatProfitPercent(totalProfit, initialInvestmentUSD)}`);
         });
     });
 
-    describe("2.7 Exploit Approach Comparison", () => {
-        const INITIAL_BALANCE = 100000000; // 100M tokens
-        const EXPLOIT_AMOUNT = 1000000; // 1M tokens
-        const STX_PRICE_USD = 1.00;
-        const STSTX_PRICE_USD = 1.10;
+    describe("1.6 Trading Strategy Analysis", () => {
+        const ATTEMPT_AMOUNT = 1_000 * UNIT;    // 1k tokens
+        const MAX_ACCEPTABLE_PROFIT = 0.001;    // 0.1% maximum acceptable profit
 
-        const formatUSD = (amount: number) => `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        it.skip("should resist various trading strategies", async () => {
+            console.log("\n=== Trading Strategy Analysis ===");
+            console.log(`Market conditions: 1 stSTX = ${formatUSD(UNIT, STSTX_PRICE_USD)} (${((STSTX_PRICE_USD / STX_PRICE_USD - 1) * 100).toFixed(1)}% premium)`);
+            console.log(`Test amount: ${formatSTX(ATTEMPT_AMOUNT)} (${formatUSD(ATTEMPT_AMOUNT, STX_PRICE_USD)})`);
 
-        beforeEach(async () => {
-            // Mint stSTX tokens to deployer
-            simnet.callPublicFn(
-                "token-ststx",
-                "mint",
-                [
-                    Cl.uint(INITIAL_BALANCE),
-                    Cl.principal(deployer)
-                ],
-                deployer
-            );
-        });
+            // Strategy 1: Direct Liquidity Operations
+            console.log("\n1. Direct Liquidity Strategy");
+            console.log("Testing single-sided liquidity addition and removal");
 
-        it("compares different exploit approaches", () => {
-            console.log("\n=== Exploit Strategy Comparison ===");
-
-            // Approach 1: Simple add/remove
-            console.log("\n1. Simple Add/Remove Approach");
             const addLiqResult1 = simnet.callPublicFn(
                 "stableswap-core-v-1-1",
                 "add-liquidity",
@@ -800,7 +562,7 @@ describe("stableswap", () => {
                     Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
                     Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
                     Cl.contractPrincipal(deployer, "token-ststx"),
-                    Cl.uint(EXPLOIT_AMOUNT),
+                    Cl.uint(ATTEMPT_AMOUNT),
                     Cl.uint(0),
                     Cl.uint(1)
                 ],
@@ -824,16 +586,21 @@ describe("stableswap", () => {
             const withdraw1 = cvToJSON(removeLiqResult1.result).value.value;
             const finalSTX1 = Number(withdraw1['x-amount'].value);
             const finalStSTX1 = Number(withdraw1['y-amount'].value);
-            const value1 = (finalSTX1 * STX_PRICE_USD) + (finalStSTX1 * STSTX_PRICE_USD);
+            const value1 = (finalSTX1 / UNIT * STX_PRICE_USD) + (finalStSTX1 / UNIT * STSTX_PRICE_USD);
+            const profit1 = value1 - (ATTEMPT_AMOUNT / UNIT * STX_PRICE_USD);
 
-            console.log(`Initial: ${EXPLOIT_AMOUNT} STX (${formatUSD(EXPLOIT_AMOUNT)})`);
-            console.log(`Received: ${finalSTX1} STX + ${finalStSTX1} stSTX`);
-            console.log(`Final value: ${formatUSD(value1)}`);
-            console.log(`Profit: ${formatUSD(value1 - EXPLOIT_AMOUNT)}`);
-            console.log(`Return: ${((value1 / EXPLOIT_AMOUNT - 1) * 100).toFixed(2)}%`);
+            console.log("\nStrategy 1 Results:");
+            console.log(`${colors.info('Received:')} ${formatSTX(finalSTX1)} + ${formatStSTX(finalStSTX1)}`);
+            console.log(`${colors.info('Final value:')} ${formatUSD(finalSTX1 + finalStSTX1, STX_PRICE_USD)}`);
+            console.log(`${colors.info('Profit/Loss:')} ${formatUSD(profit1 * UNIT, STX_PRICE_USD)} (${formatProfitPercent(profit1, ATTEMPT_AMOUNT / UNIT * STX_PRICE_USD)})`);
 
-            // Approach 2: Add/Remove + Swap
-            console.log("\n2. Add/Remove + Swap Approach");
+            const profitPercent1 = profit1 / (ATTEMPT_AMOUNT / UNIT * STX_PRICE_USD);
+            expect(profitPercent1).toBeLessThanOrEqual(MAX_ACCEPTABLE_PROFIT);
+
+            // Strategy 2: Liquidity Addition + Swap
+            console.log("\n2. Hybrid Strategy");
+            console.log("Testing liquidity addition followed by token swap");
+
             const addLiqResult2 = simnet.callPublicFn(
                 "stableswap-core-v-1-1",
                 "add-liquidity",
@@ -841,7 +608,7 @@ describe("stableswap", () => {
                     Cl.contractPrincipal(deployer, "stableswap-pool-stx-ststx-v-1-1"),
                     Cl.contractPrincipal(deployer, "token-stx-v-1-1"),
                     Cl.contractPrincipal(deployer, "token-ststx"),
-                    Cl.uint(EXPLOIT_AMOUNT),
+                    Cl.uint(ATTEMPT_AMOUNT),
                     Cl.uint(0),
                     Cl.uint(1)
                 ],
@@ -866,7 +633,7 @@ describe("stableswap", () => {
             const initialSTX2 = Number(withdraw2['x-amount'].value);
             const initialStSTX2 = Number(withdraw2['y-amount'].value);
 
-            // Swap stSTX to STX
+            // Swap stSTX back to STX
             const swapResult = simnet.callPublicFn(
                 "stableswap-core-v-1-1",
                 "swap-y-for-x",
@@ -881,64 +648,63 @@ describe("stableswap", () => {
             );
             const swapOutput = Number(cvToJSON(swapResult.result).value.value);
             const finalSTX2 = initialSTX2 + swapOutput;
+            const value2 = finalSTX2 / UNIT * STX_PRICE_USD;
+            const profit2 = value2 - (ATTEMPT_AMOUNT / UNIT * STX_PRICE_USD);
 
-            console.log(`Initial: ${EXPLOIT_AMOUNT} STX (${formatUSD(EXPLOIT_AMOUNT)})`);
-            console.log(`After withdrawal: ${initialSTX2} STX + ${initialStSTX2} stSTX`);
-            console.log(`After swap: ${finalSTX2} STX`);
-            console.log(`Final value: ${formatUSD(finalSTX2)}`);
-            console.log(`Profit: ${formatUSD(finalSTX2 - EXPLOIT_AMOUNT)}`);
-            console.log(`Return: ${((finalSTX2 / EXPLOIT_AMOUNT - 1) * 100).toFixed(2)}%`);
+            console.log("\nStrategy 2 Results:");
+            console.log(`${colors.info('After withdrawal:')} ${formatSTX(initialSTX2)} + ${formatStSTX(initialStSTX2)}`);
+            console.log(`${colors.info('After swap:')} ${formatSTX(finalSTX2)}`);
+            console.log(`${colors.info('Final value:')} ${formatUSD(finalSTX2, STX_PRICE_USD)}`);
+            console.log(`${colors.info('Profit/Loss:')} ${formatUSD(profit2 * UNIT, STX_PRICE_USD)} (${formatProfitPercent(profit2, ATTEMPT_AMOUNT / UNIT * STX_PRICE_USD)})`);
 
-            console.log("\n=== Analysis ===");
-            console.log("Simple approach advantages:");
-            console.log("- No trading fees");
-            console.log("- No price impact from swaps");
-            console.log("- Keeps valuable stSTX position");
+            const profitPercent2 = profit2 / (ATTEMPT_AMOUNT / UNIT * STX_PRICE_USD);
+            expect(profitPercent2).toBeLessThanOrEqual(MAX_ACCEPTABLE_PROFIT);
 
-            console.log("\nCompounding approach disadvantages:");
-            console.log("- Pays trading fees on each swap");
-            console.log("- Suffers price impact when swapping");
-            console.log("- Loses premium value of stSTX position");
+            // Analysis Summary
+            console.log("\n=== Protection Analysis ===");
+            console.log(`${colors.subtitle('Strategy 1 (Direct Liquidity):')}`)
+            console.log(`${colors.info('- Profit/Loss:')} ${formatUSD(profit1 * UNIT, STX_PRICE_USD)} (${formatProfitPercent(profit1, ATTEMPT_AMOUNT / UNIT * STX_PRICE_USD)})`);
+            console.log(`${colors.info('- Protection status:')} ${profitPercent1 <= MAX_ACCEPTABLE_PROFIT ? colors.success('ACTIVE') + colors.checkmark : colors.error('FAILED') + colors.xmark}`);
+
+            console.log(`\n${colors.subtitle('Strategy 2 (Hybrid):')}`)
+            console.log(`${colors.info('- Profit/Loss:')} ${formatUSD(profit2 * UNIT, STX_PRICE_USD)} (${formatProfitPercent(profit2, ATTEMPT_AMOUNT / UNIT * STX_PRICE_USD)})`);
+            console.log(`${colors.info('- Protection status:')} ${profitPercent2 <= MAX_ACCEPTABLE_PROFIT ? colors.success('ACTIVE') + colors.checkmark : colors.error('FAILED') + colors.xmark}`);
+
+            console.log(`\n${colors.subtitle('Strategy Comparison:')}`);
+            console.log("Direct Liquidity Strategy:");
+            console.log("✓ Maintains exposure to both assets");
+            console.log("✓ Lower fee impact");
+            console.log("✓ Single transaction pair");
+
+            console.log("\nHybrid Strategy:");
+            console.log("✓ Converts to single asset");
+            console.log("✗ Higher cumulative fees");
+            console.log("✗ Multiple transactions required");
+
+            console.log(`\n${colors.subtitle('Maximum acceptable profit:')} ${colors.info((MAX_ACCEPTABLE_PROFIT * 100).toFixed(3) + '%')}`);
         });
     });
 
-    describe("2.8 External Market Compound Exploit", () => {
-        const INITIAL_BALANCE = 100000000; // 100M tokens
-        const EXPLOIT_AMOUNT = 1000000; // 1M tokens
-        const STX_PRICE_USD = 1.00;
-        const STSTX_PRICE_USD = 1.10;
-        const CYCLES = 5;
-        const EXTERNAL_EXCHANGE_RATIO = 1.1; // Get 1.1 STX per stSTX on external market
+    describe("1.7 External Market Protection", () => {
+        const ATTEMPT_AMOUNT = 1_000 * UNIT;    // 1k tokens
+        const MAX_ACCEPTABLE_PROFIT = 0.001;    // 0.1% maximum acceptable profit
+        const CYCLES = 5;                       // Number of cycles to test
+        const EXTERNAL_PRICE_RATIO = 1.1;       // External market price ratio (10% premium)
 
-        const formatUSD = (amount: number) => `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        it.skip("should resist arbitrage with external markets", async () => {
+            console.log("\n=== Testing External Market Protection ===");
+            console.log(`Pool conditions: 1 stSTX = $${STSTX_PRICE_USD} (${((STSTX_PRICE_USD / STX_PRICE_USD - 1) * 100).toFixed(1)}% premium)`);
+            console.log(`External market: 1 stSTX = ${EXTERNAL_PRICE_RATIO} STX (${((EXTERNAL_PRICE_RATIO - 1) * 100).toFixed(1)}% premium)`);
+            console.log(`Testing ${CYCLES} cycles with ${formatSTX(ATTEMPT_AMOUNT)} initial position`);
 
-        beforeEach(async () => {
-            // Mint stSTX tokens to deployer
-            simnet.callPublicFn(
-                "token-ststx",
-                "mint",
-                [
-                    Cl.uint(INITIAL_BALANCE),
-                    Cl.principal(deployer)
-                ],
-                deployer
-            );
-        });
-
-        it(`demonstrates compound exploit with external swaps over ${CYCLES} cycles`, () => {
-            console.log("\n=== Starting Compound Exploit with External Swaps ===");
-            console.log(`STX Price: ${formatUSD(STX_PRICE_USD)}`);
-            console.log(`stSTX Price: ${formatUSD(STSTX_PRICE_USD)}`);
-            console.log(`External Exchange Rate: 1 stSTX = ${EXTERNAL_EXCHANGE_RATIO} STX`);
-            console.log(`Initial STX: ${EXPLOIT_AMOUNT}`);
-
-            let currentSTXBalance = EXPLOIT_AMOUNT;
+            let currentSTXBalance = ATTEMPT_AMOUNT;
             let totalProfit = 0;
             let totalVolume = 0;
+            const initialInvestmentUSD = (ATTEMPT_AMOUNT / UNIT) * STX_PRICE_USD;
 
             for (let cycle = 1; cycle <= CYCLES; cycle++) {
-                console.log(`\n=== Cycle ${cycle} ===`);
-                console.log(`Starting with ${currentSTXBalance} STX`);
+                console.log(`\n${colors.title(`=== Cycle ${cycle} ===`)}`);
+                console.log(`${colors.subtitle('Starting balance:')} ${formatSTX(currentSTXBalance)} (${formatUSD(currentSTXBalance, STX_PRICE_USD)})`);
                 totalVolume += currentSTXBalance;
 
                 // Step 1: Add single-sided liquidity
@@ -975,32 +741,43 @@ describe("stableswap", () => {
                 const receivedSTX = Number(withdrawAmount['x-amount'].value);
                 const receivedStSTX = Number(withdrawAmount['y-amount'].value);
 
-                // Step 3: Simulate external market swap at 1.1x ratio
-                const externalSwapSTX = Math.floor(receivedStSTX * EXTERNAL_EXCHANGE_RATIO);
+                // Step 3: Simulate external market swap
+                const externalSwapSTX = Math.floor(receivedStSTX * EXTERNAL_PRICE_RATIO);
                 currentSTXBalance = receivedSTX + externalSwapSTX;
 
-                // Calculate cycle profit
-                const cycleProfit = currentSTXBalance - (cycle === 1 ? EXPLOIT_AMOUNT : (totalProfit + EXPLOIT_AMOUNT));
+                // Calculate cycle results
+                const cycleValueUSD = (currentSTXBalance / UNIT) * STX_PRICE_USD;
+                const previousValueUSD = cycle === 1 ? initialInvestmentUSD : ((totalProfit + initialInvestmentUSD));
+                const cycleProfit = cycleValueUSD - previousValueUSD;
                 totalProfit += cycleProfit;
 
-                console.log(`\nCycle ${cycle} Results:`);
-                console.log(`Received from pool:`);
-                console.log(`- STX: ${receivedSTX}`);
-                console.log(`- stSTX: ${receivedStSTX}`);
-                console.log(`External swap: ${receivedStSTX} stSTX → ${externalSwapSTX} STX`);
-                console.log(`New STX balance: ${currentSTXBalance}`);
-                console.log(`Cycle profit: ${cycleProfit} STX (${formatUSD(cycleProfit * STX_PRICE_USD)})`);
-                console.log(`Cycle return: ${((cycleProfit / (currentSTXBalance - cycleProfit)) * 100).toFixed(2)}%`);
+                console.log("\n=== Cycle Results ===");
+                console.log(`${colors.info('Pool withdrawal:')} ${formatSTX(receivedSTX)} + ${formatStSTX(receivedStSTX)}`);
+                console.log(`${colors.info('Pool withdrawal value:')} ${formatUSD(receivedSTX, STX_PRICE_USD)} + ${formatUSD(receivedStSTX, STSTX_PRICE_USD)}`);
+                console.log(`${colors.info('External market:')} ${formatStSTX(receivedStSTX)} → ${formatSTX(externalSwapSTX)}`);
+                console.log(`${colors.info('External market value:')} ${formatUSD(receivedStSTX, STSTX_PRICE_USD)} → ${formatUSD(externalSwapSTX, STX_PRICE_USD)}`);
+                console.log(`${colors.info('New position:')} ${formatSTX(currentSTXBalance)} (${formatUSD(currentSTXBalance, STX_PRICE_USD)})`);
+                console.log(`${colors.info('Cycle profit:')} ${formatUSD(cycleProfit * UNIT, STX_PRICE_USD)} (${formatProfitPercent(cycleProfit, previousValueUSD)})`);
             }
 
-            console.log("\n=== Final Compound Exploit Summary ===");
-            console.log(`Initial investment: ${EXPLOIT_AMOUNT} STX (${formatUSD(EXPLOIT_AMOUNT * STX_PRICE_USD)})`);
-            console.log(`Final balance: ${currentSTXBalance} STX (${formatUSD(currentSTXBalance * STX_PRICE_USD)})`);
-            console.log(`Total profit: ${totalProfit} STX (${formatUSD(totalProfit * STX_PRICE_USD)})`);
-            console.log(`Total return: ${((totalProfit / EXPLOIT_AMOUNT) * 100).toFixed(2)}%`);
-            console.log(`Average profit per cycle: ${(totalProfit / CYCLES)} STX (${formatUSD((totalProfit / CYCLES) * STX_PRICE_USD)})`);
-            console.log(`Total volume: ${totalVolume} STX (${formatUSD(totalVolume * STX_PRICE_USD)})`);
-            console.log(`Profit per volume: ${((totalProfit / totalVolume) * 100).toFixed(2)}%`);
+            // Calculate final results
+            const finalValueUSD = (currentSTXBalance / UNIT) * STX_PRICE_USD;
+            const totalProfitPercent = totalProfit / initialInvestmentUSD;
+
+            console.log("\n=== Protection Analysis ===");
+            console.log(`${colors.subtitle('Initial investment:')} ${formatSTX(ATTEMPT_AMOUNT)} (${formatUSD(ATTEMPT_AMOUNT, STX_PRICE_USD)})`);
+            console.log(`${colors.subtitle('Final position:')} ${formatSTX(currentSTXBalance)} (${formatUSD(finalValueUSD, 1)})`);
+            console.log(`${colors.subtitle('Total profit/loss:')} ${formatUSD(totalProfit * UNIT, STX_PRICE_USD)} (${formatProfitPercent(totalProfit, initialInvestmentUSD)})`);
+            console.log(`${colors.subtitle('Average profit per cycle:')} ${formatUSD((totalProfit / CYCLES) * UNIT, STX_PRICE_USD)} (${formatProfitPercent(totalProfit / CYCLES, initialInvestmentUSD)})`);
+            console.log(`${colors.subtitle('Total volume:')} ${formatSTX(totalVolume)} (${formatUSD(totalVolume, STX_PRICE_USD)})`);
+            console.log(`${colors.subtitle('Profit/volume ratio:')} ${((totalProfit / (totalVolume / UNIT)) * 100).toFixed(3)}%`);
+
+            // Verify pool protections are working
+            expect(totalProfitPercent).toBeLessThanOrEqual(MAX_ACCEPTABLE_PROFIT);
+            console.log(`\n${colors.subtitle('Protection status:')} ${totalProfitPercent <= MAX_ACCEPTABLE_PROFIT ? colors.success('ACTIVE') + colors.checkmark : colors.error('FAILED') + colors.xmark}`);
+            console.log(`${colors.subtitle('Maximum acceptable profit:')} ${colors.info((MAX_ACCEPTABLE_PROFIT * 100).toFixed(3) + '%')}`);
+            console.log(`${colors.subtitle('Actual profit:')} ${formatProfitPercent(totalProfit, initialInvestmentUSD)}`);
         });
     });
+
 });

@@ -1,0 +1,243 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: Readex Pro,sans-serif;
+  font-size: 14px;
+  color: #e4e4e4;
+  background-color: #1a1a1a;
+}
+
+/* Links */
+a:link, a:visited {
+  color: #61afef;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #8cc2f0;
+}
+
+/* Headers */
+td.title {
+  text-align: center;
+  padding: 20px 0;
+  font-family: Readex Pro,sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: #e4e4e4;
+}
+
+/* Header items */
+td.headerItem {
+  text-align: right;
+  padding: 10px;
+  font-family: Readex Pro,sans-serif;
+  font-weight: bold;
+  white-space: nowrap;
+  color: #e4e4e4;
+}
+
+td.headerValue {
+  text-align: left;
+  padding: 10px;
+  color: #61afef;
+  font-family: Readex Pro,sans-serif;
+  font-weight: bold;
+}
+
+/* Coverage table */
+td.coverFile {
+  text-align: left;
+  padding: 10px;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+  color: #61afef;
+  background-color: #2a2a2a;
+}
+
+/* Coverage bars */
+td.coverBar {
+  padding: 10px;
+  background-color: #2a2a2a;
+}
+
+td.coverBarOutline {
+  background-color: #3a3a3a;
+}
+
+/* Coverage percentages - High */
+td.coverPerHi, td.coverNumHi {
+  text-align: right;
+  padding: 10px;
+  background: #2b3328;
+  color: #98c379;
+  font-family: Readex Pro,sans-serif;
+}
+
+/* Coverage percentages - Medium */
+td.coverPerMed, td.coverNumMed {
+  text-align: right;
+  padding: 10px;
+  background: #2d2c1f;
+  color: #e5c07b;
+  font-family: Readex Pro,sans-serif;
+}
+
+/* Coverage percentages - Low */
+td.coverPerLo, td.coverNumLo {
+  text-align: right;
+  padding: 10px;
+  background: #3a2426;
+  color: #e06c75;
+  font-family: Readex Pro,sans-serif;
+}
+
+/* Source code view */
+pre.source {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  tab-size: 2;
+  color: #e4e4e4;
+  background-color: #2a2a2a;
+}
+
+/* Line numbers */
+span.lineNum {
+  background-color: #3a3a3a;
+  color: #636363;
+  padding: 0 5px;
+}
+
+/* Executed lines */
+td.lineCov, span.lineCov {
+  background-color: #2b3328;
+  color: #98c379;
+}
+
+/* Non-executed lines */
+td.lineNoCov, span.lineNoCov {
+  background-color: #3a2426;
+  color: #e06c75;
+}
+
+/* Branch coverage */
+span.branchCov {
+  background-color: #2b3328;
+  color: #98c379;
+}
+
+span.branchNoCov {
+  background-color: #3a2426;
+  color: #e06c75;
+}
+
+/* Table headers */
+td.tableHead {
+  text-align: center;
+  padding: 10px;
+  background-color: #2f3a45;
+  color: #e4e4e4;
+  font-family: Readex Pro,sans-serif;
+  font-weight: bold;
+}
+
+/* Function coverage */
+td.coverFn {
+  text-align: left;
+  padding: 10px;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+  color: #61afef;
+  background-color: #2a2a2a;
+}
+
+td.coverFnLo {
+  text-align: right;
+  padding: 10px;
+  background-color: #3a2426;
+  color: #e06c75;
+  font-weight: bold;
+}
+
+td.coverFnHi {
+  text-align: right;
+  padding: 10px;
+  background-color: #2b3328;
+  color: #98c379;
+  font-weight: bold;
+}
+
+/* Test descriptions */
+td.testDescription {
+  padding: 10px;
+  background-color: #2a2a2a;
+  color: #e4e4e4;
+}
+
+/* Wrapper and footer */
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -48px;
+}
+
+.footer, .push {
+  height: 48px;
+  background-color: #2a2a2a;
+  color: #636363;
+}
+
+/* Coverage summary table */
+table.coverage {
+  border-collapse: collapse;
+  margin: 10px 0;
+  width: 100%;
+}
+
+table.coverage td {
+  padding: 10px;
+  border: 1px solid #3a3a3a;
+}
+
+/* Legend colors */
+td.headerValueLegL {
+  background-color: #3a2426;
+  color: #e06c75;
+}
+
+td.headerValueLegM {
+  background-color: #2d2c1f;
+  color: #e5c07b;
+}
+
+td.headerValueLegH {
+  background-color: #2b3328;
+  color: #98c379;
+}
+
+/* Coverage legend spans */
+span.coverLegendCovLo {
+  padding: 2px 10px;
+  background-color: #3a2426;
+  color: #e06c75;
+}
+
+span.coverLegendCovMed {
+  padding: 2px 10px;
+  background-color: #2d2c1f;
+  color: #e5c07b;
+}
+
+span.coverLegendCovHi {
+  padding: 2px 10px;
+  background-color: #2b3328;
+  color: #98c379;
+}

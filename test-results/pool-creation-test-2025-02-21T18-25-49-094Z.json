@@ -1,0 +1,3316 @@
+{
+  "timestamp": "2025-02-21T18-25-49-094Z",
+  "summary": {
+    "totalTests": 180,
+    "successfulTests": 180,
+    "failureRate": 0,
+    "analysis": {
+      "byInitialBalance": [
+        {
+          "value": "Tiny",
+          "successRate": 100,
+          "total": 36,
+          "successful": 36
+        },
+        {
+          "value": "Small",
+          "successRate": 100,
+          "total": 36,
+          "successful": 36
+        },
+        {
+          "value": "Medium",
+          "successRate": 100,
+          "total": 36,
+          "successful": 36
+        },
+        {
+          "value": "Large",
+          "successRate": 100,
+          "total": 36,
+          "successful": 36
+        },
+        {
+          "value": "Very Large",
+          "successRate": 100,
+          "total": 36,
+          "successful": 36
+        }
+      ],
+      "byAmpCoeff": [
+        {
+          "value": "Minimum",
+          "successRate": 100,
+          "total": 60,
+          "successful": 60
+        },
+        {
+          "value": "Standard",
+          "successRate": 100,
+          "total": 60,
+          "successful": 60
+        },
+        {
+          "value": "Maximum",
+          "successRate": 100,
+          "total": 60,
+          "successful": 60
+        }
+      ],
+      "byMidpoint": [
+        {
+          "value": "Very Low",
+          "successRate": 100,
+          "total": 180,
+          "successful": 180
+        }
+      ],
+      "byMidpointFactor": [
+        {
+          "value": "Very Low",
+          "successRate": 100,
+          "total": 180,
+          "successful": 180
+        }
+      ],
+      "byBurnAmount": [
+        {
+          "value": "Minimum",
+          "successRate": 100,
+          "total": 90,
+          "successful": 90
+        },
+        {
+          "value": "Very High",
+          "successRate": 100,
+          "total": 90,
+          "successful": 90
+        }
+      ],
+      "byConvergenceThreshold": [
+        {
+          "value": "Very Precise",
+          "successRate": 100,
+          "total": 60,
+          "successful": 60
+        },
+        {
+          "value": "Standard",
+          "successRate": 100,
+          "total": 60,
+          "successful": 60
+        },
+        {
+          "value": "Very Relaxed",
+          "successRate": 100,
+          "total": 60,
+          "successful": 60
+        }
+      ],
+      "byReversed": [
+        {
+          "value": "true",
+          "successRate": 100,
+          "total": 90,
+          "successful": 90
+        },
+        {
+          "value": "false",
+          "successRate": 100,
+          "total": 90,
+          "successful": 90
+        }
+      ]
+    }
+  },
+  "parameterRanges": {
+    "initialBalances": [
+      {
+        "name": "Tiny",
+        "value": 100000000
+      },
+      {
+        "name": "Small",
+        "value": 1000000000
+      },
+      {
+        "name": "Medium",
+        "value": 10000000000
+      },
+      {
+        "name": "Large",
+        "value": 100000000000
+      },
+      {
+        "name": "Very Large",
+        "value": 1000000000000
+      }
+    ],
+    "midpointValues": [
+      {
+        "name": "Very Low",
+        "value": 11000000
+      }
+    ],
+    "midpointFactors": [
+      {
+        "name": "Very Low",
+        "value": 10000000
+      }
+    ],
+    "ampCoefficients": [
+      {
+        "name": "Minimum",
+        "value": 1
+      },
+      {
+        "name": "Standard",
+        "value": 100
+      },
+      {
+        "name": "Maximum",
+        "value": 5000
+      }
+    ],
+    "protocolFees": [
+      {
+        "name": "Zero",
+        "value": 0
+      },
+      {
+        "name": "Low",
+        "value": 10
+      },
+      {
+        "name": "Standard",
+        "value": 30
+      },
+      {
+        "name": "High",
+        "value": 50
+      }
+    ],
+    "providerFees": [
+      {
+        "name": "Zero",
+        "value": 0
+      },
+      {
+        "name": "Low",
+        "value": 10
+      },
+      {
+        "name": "Standard",
+        "value": 30
+      },
+      {
+        "name": "High",
+        "value": 50
+      }
+    ],
+    "liquidityFees": [
+      {
+        "name": "Zero",
+        "value": 0
+      },
+      {
+        "name": "Low",
+        "value": 10
+      },
+      {
+        "name": "Standard",
+        "value": 40
+      },
+      {
+        "name": "High",
+        "value": 100
+      }
+    ],
+    "burnAmounts": [
+      {
+        "name": "Minimum",
+        "value": 1000
+      },
+      {
+        "name": "Very High",
+        "value": 100000
+      }
+    ],
+    "convergenceThresholds": [
+      {
+        "name": "Very Precise",
+        "value": 1
+      },
+      {
+        "name": "Standard",
+        "value": 5
+      },
+      {
+        "name": "Very Relaxed",
+        "value": 20
+      }
+    ]
+  },
+  "results": [
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Tiny (100000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Small (1000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Medium (10000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Large (100000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Minimum (1)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Standard (100)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Minimum (1000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Precise (1)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Standard (5)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": true,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    },
+    {
+      "initialBalance": "Very Large (1000000000000)",
+      "midpoint": "Very Low (11000000)",
+      "midpointFactor": "Very Low (10000000)",
+      "ampCoeff": "Maximum (5000)",
+      "protocolFee": "Standard (30)",
+      "providerFee": "Standard (30)",
+      "liquidityFee": "Standard (40)",
+      "burnAmount": "Very High (100000)",
+      "convergenceThreshold": "Very Relaxed (20)",
+      "reversed": false,
+      "success": true,
+      "poolData": {
+        "type": "bool",
+        "value": true
+      }
+    }
+  ]
+}
