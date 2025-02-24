@@ -108,9 +108,7 @@ suite("Admin", { timeout: 100000 }, () => {
             console.log(`${colors.subtitle('Adding')} ${colors.info(additionalAdmins.toString())} ${colors.subtitle('more admins...')}`);
 
             // Generate test accounts (we'll use wallet_1 with different numbers appended)
-            const testAccounts = Array.from({ length: additionalAdmins + 1 }, (_, i) =>
-                `${simulator.getWallet1()}`
-            );
+            const testAccounts = Array.from(simulator.accounts.values());
 
             // Add admins up to the limit
             for (let i = 0; i < additionalAdmins; i++) {

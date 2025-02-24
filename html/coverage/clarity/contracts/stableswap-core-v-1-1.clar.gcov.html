@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2025-02-24 07:46:16</td>
+            <td class="headerValue">2025-02-24 07:58:21</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">41</td>
@@ -137,7 +137,7 @@
 <a name="75"><span class="lineNum">      75 </span>            : </a>
 <a name="76"><span class="lineNum">      76 </span>            : ;; Get admins list</a>
 <a name="77"><span class="lineNum">      77 </span>            : (define-read-only (get-admins)</a>
-<a name="78"><span class="lineNum">      78 </span><span class="lineCov">          6 :   (ok (var-get admins))</span></a>
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">          8 :   (ok (var-get admins))</span></a>
 <a name="79"><span class="lineNum">      79 </span>            : )</a>
 <a name="80"><span class="lineNum">      80 </span>            : </a>
 <a name="81"><span class="lineNum">      81 </span>            : ;; Get admin helper var</a>
@@ -1463,43 +1463,43 @@
 <a name="1401"><span class="lineNum">    1401 </span>            : </a>
 <a name="1402"><span class="lineNum">    1402 </span>            : ;; Add an admin to the admins list</a>
 <a name="1403"><span class="lineNum">    1403 </span>            : (define-public (add-admin (admin principal))</a>
-<a name="1404"><span class="lineNum">    1404 </span><span class="lineCov">          5 :   (let (</span></a>
-<a name="1405"><span class="lineNum">    1405 </span><span class="lineCov">          5 :     (admins-list (var-get admins))</span></a>
-<a name="1406"><span class="lineNum">    1406 </span><span class="lineCov">          5 :     (caller tx-sender)</span></a>
+<a name="1404"><span class="lineNum">    1404 </span><span class="lineCov">          8 :   (let (</span></a>
+<a name="1405"><span class="lineNum">    1405 </span><span class="lineCov">          8 :     (admins-list (var-get admins))</span></a>
+<a name="1406"><span class="lineNum">    1406 </span><span class="lineCov">          8 :     (caller tx-sender)</span></a>
 <a name="1407"><span class="lineNum">    1407 </span>            :   )</a>
 <a name="1408"><span class="lineNum">    1408 </span>            :     ;; Assert caller is an existing admin and new admin is not in admins-list</a>
-<a name="1409"><span class="lineNum">    1409 </span><span class="lineCov">          5 :     (asserts! (is-some (index-of admins-list caller)) ERR_NOT_AUTHORIZED)</span></a>
-<a name="1410"><span class="lineNum">    1410 </span><span class="lineCov">          5 :     (asserts! (is-none (index-of admins-list admin)) ERR_ALREADY_ADMIN)</span></a>
+<a name="1409"><span class="lineNum">    1409 </span><span class="lineCov">          8 :     (asserts! (is-some (index-of admins-list caller)) ERR_NOT_AUTHORIZED)</span></a>
+<a name="1410"><span class="lineNum">    1410 </span><span class="lineCov">          8 :     (asserts! (is-none (index-of admins-list admin)) ERR_ALREADY_ADMIN)</span></a>
 <a name="1411"><span class="lineNum">    1411 </span>            :     </a>
 <a name="1412"><span class="lineNum">    1412 </span>            :     ;; Add admin to list with max length of 5</a>
-<a name="1413"><span class="lineNum">    1413 </span><span class="lineCov">          2 :     (var-set admins (unwrap! (as-max-len? (append admins-list admin) u5) ERR_ADMIN_LIMIT_REACHED))</span></a>
+<a name="1413"><span class="lineNum">    1413 </span><span class="lineCov">          6 :     (var-set admins (unwrap! (as-max-len? (append admins-list admin) u5) ERR_ADMIN_LIMIT_REACHED))</span></a>
 <a name="1414"><span class="lineNum">    1414 </span>            :     </a>
 <a name="1415"><span class="lineNum">    1415 </span>            :     ;; Print add admin data and return true</a>
-<a name="1416"><span class="lineNum">    1416 </span><span class="lineCov">          2 :     (print {action: &quot;add-admin&quot;, caller: caller, data: {admin: admin}})</span></a>
-<a name="1417"><span class="lineNum">    1417 </span><span class="lineCov">          2 :     (ok true)</span></a>
+<a name="1416"><span class="lineNum">    1416 </span><span class="lineCov">          5 :     (print {action: &quot;add-admin&quot;, caller: caller, data: {admin: admin}})</span></a>
+<a name="1417"><span class="lineNum">    1417 </span><span class="lineCov">          5 :     (ok true)</span></a>
 <a name="1418"><span class="lineNum">    1418 </span>            :   )</a>
 <a name="1419"><span class="lineNum">    1419 </span>            : )</a>
 <a name="1420"><span class="lineNum">    1420 </span>            : </a>
 <a name="1421"><span class="lineNum">    1421 </span>            : ;; Remove an admin from the admins list</a>
 <a name="1422"><span class="lineNum">    1422 </span>            : (define-public (remove-admin (admin principal))</a>
-<a name="1423"><span class="lineNum">    1423 </span><span class="lineCov">          4 :   (let (</span></a>
-<a name="1424"><span class="lineNum">    1424 </span><span class="lineCov">          4 :     (admins-list (var-get admins))</span></a>
-<a name="1425"><span class="lineNum">    1425 </span><span class="lineCov">          4 :     (caller tx-sender)</span></a>
+<a name="1423"><span class="lineNum">    1423 </span><span class="lineCov">          8 :   (let (</span></a>
+<a name="1424"><span class="lineNum">    1424 </span><span class="lineCov">          8 :     (admins-list (var-get admins))</span></a>
+<a name="1425"><span class="lineNum">    1425 </span><span class="lineCov">          8 :     (caller tx-sender)</span></a>
 <a name="1426"><span class="lineNum">    1426 </span>            :   )</a>
 <a name="1427"><span class="lineNum">    1427 </span>            :     ;; Assert caller is an existing admin and admin to remove is in admins-list</a>
-<a name="1428"><span class="lineNum">    1428 </span><span class="lineCov">          4 :     (asserts! (is-some (index-of admins-list caller)) ERR_NOT_AUTHORIZED)</span></a>
-<a name="1429"><span class="lineNum">    1429 </span><span class="lineCov">          3 :     (asserts! (is-some (index-of admins-list admin)) ERR_ADMIN_NOT_IN_LIST)</span></a>
+<a name="1428"><span class="lineNum">    1428 </span><span class="lineCov">          8 :     (asserts! (is-some (index-of admins-list caller)) ERR_NOT_AUTHORIZED)</span></a>
+<a name="1429"><span class="lineNum">    1429 </span><span class="lineCov">          7 :     (asserts! (is-some (index-of admins-list admin)) ERR_ADMIN_NOT_IN_LIST)</span></a>
 <a name="1430"><span class="lineNum">    1430 </span>            : </a>
 <a name="1431"><span class="lineNum">    1431 </span>            :     ;; Assert contract deployer cannot be removed</a>
-<a name="1432"><span class="lineNum">    1432 </span><span class="lineCov">          2 :     (asserts! (not (is-eq admin CONTRACT_DEPLOYER)) ERR_CANNOT_REMOVE_CONTRACT_DEPLOYER)</span></a>
+<a name="1432"><span class="lineNum">    1432 </span><span class="lineCov">          6 :     (asserts! (not (is-eq admin CONTRACT_DEPLOYER)) ERR_CANNOT_REMOVE_CONTRACT_DEPLOYER)</span></a>
 <a name="1433"><span class="lineNum">    1433 </span>            : </a>
 <a name="1434"><span class="lineNum">    1434 </span>            :     ;; Set admin-helper to admin to remove and filter admins-list to remove admin</a>
-<a name="1435"><span class="lineNum">    1435 </span><span class="lineCov">          1 :     (var-set admin-helper admin)</span></a>
-<a name="1436"><span class="lineNum">    1436 </span><span class="lineCov">          1 :     (var-set admins (filter admin-not-removable admins-list))</span></a>
+<a name="1435"><span class="lineNum">    1435 </span><span class="lineCov">          5 :     (var-set admin-helper admin)</span></a>
+<a name="1436"><span class="lineNum">    1436 </span><span class="lineCov">          5 :     (var-set admins (filter admin-not-removable admins-list))</span></a>
 <a name="1437"><span class="lineNum">    1437 </span>            : </a>
 <a name="1438"><span class="lineNum">    1438 </span>            :     ;; Print remove admin data and return true</a>
-<a name="1439"><span class="lineNum">    1439 </span><span class="lineCov">          1 :     (print {action: &quot;remove-admin&quot;, caller: caller, data: {admin: admin}})</span></a>
-<a name="1440"><span class="lineNum">    1440 </span><span class="lineCov">          1 :     (ok true)</span></a>
+<a name="1439"><span class="lineNum">    1439 </span><span class="lineCov">          5 :     (print {action: &quot;remove-admin&quot;, caller: caller, data: {admin: admin}})</span></a>
+<a name="1440"><span class="lineNum">    1440 </span><span class="lineCov">          5 :     (ok true)</span></a>
 <a name="1441"><span class="lineNum">    1441 </span>            :   )</a>
 <a name="1442"><span class="lineNum">    1442 </span>            : )</a>
 <a name="1443"><span class="lineNum">    1443 </span>            : </a>
@@ -1569,7 +1569,7 @@
 <a name="1507"><span class="lineNum">    1507 </span>            : </a>
 <a name="1508"><span class="lineNum">    1508 </span>            : ;; Helper function for removing an admin</a>
 <a name="1509"><span class="lineNum">    1509 </span>            : (define-private (admin-not-removable (admin principal))</a>
-<a name="1510"><span class="lineNum">    1510 </span><span class="lineCov">          2 :   (not (is-eq admin (var-get admin-helper)))</span></a>
+<a name="1510"><span class="lineNum">    1510 </span><span class="lineCov">         16 :   (not (is-eq admin (var-get admin-helper)))</span></a>
 <a name="1511"><span class="lineNum">    1511 </span>            : )</a>
 <a name="1512"><span class="lineNum">    1512 </span>            : </a>
 <a name="1513"><span class="lineNum">    1513 </span>            : ;; Create pool symbol using x token and y token symbols</a>

@@ -58,14 +58,21 @@ export class Simulator {
 
     public deployer: string;
     public simnet: Simnet;
-    private wallet1: string;
-    private readonly UNIT = Simulator.UNIT;
+    readonly accounts: Map<string, string>;
+    readonly wallet1: string;
+    readonly wallet2: string;
+    readonly wallet3: string;
+    readonly wallet4: string;
+    readonly UNIT = Simulator.UNIT;
 
     constructor(simnet: Simnet) {
         this.simnet = simnet;
-        const accounts = simnet.getAccounts();
-        this.deployer = accounts.get("deployer")!;
-        this.wallet1 = accounts.get("wallet_1")!;
+        this.accounts = simnet.getAccounts();
+        this.deployer = this.accounts.get("deployer")!;
+        this.wallet1 = this.accounts.get("wallet_1")!;
+        this.wallet2 = this.accounts.get("wallet_2")!;
+        this.wallet3 = this.accounts.get("wallet_3")!;
+        this.wallet4 = this.accounts.get("wallet_4")!;
     }
 
     public static async create(): Promise<Simulator> {
@@ -574,6 +581,24 @@ export class Simulator {
             this.deployer
         );
         expect(result.result.type, "Failed to set fee address").toBe(ClarityType.ResponseOk);
+    }
+
+    // Liquidity Quote Operations
+    public getDLP(stxAmount: number, ststxAmount: number): number {
+        const result = this.simnet.callPublicFn(
+            "stableswap-core-v-1-1",
+            "get-dlp",
+            [
+                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(this.deployer, "token-stx-v-1-1"),
+                Cl.contractPrincipal(this.deployer, "token-ststx"),
+                Cl.uint(stxAmount),
+                Cl.uint(ststxAmount)
+            ],
+            this.deployer
+        );
+        expect(result.result.type, "Failed to get DLP quote").toBe(ClarityType.ResponseOk);
+        return Number(cvToJSON(result.result).value.value);
     }
 
     // Admin Management

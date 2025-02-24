@@ -24483,11 +24483,13 @@ FN:1477,set-y-fees-multi
 FN:1485,set-liquidity-fee-multi
 FN:1493,set-amplification-coefficient-multi
 FN:1501,set-convergence-threshold-multi
-FNDA:2,add-admin
-FNDA:1,get-admins
+FNDA:5,add-admin
+FNDA:4,admin-not-removable
+FNDA:3,get-admins
+FNDA:4,remove-admin
 FNF:50
-FNH:2
-DA:78,1
+FNH:4
+DA:78,3
 DA:83,0
 DA:88,0
 DA:93,0
@@ -25245,24 +25247,24 @@ DA:1392,0
 DA:1393,0
 DA:1394,0
 DA:1397,0
-DA:1404,2
-DA:1405,2
-DA:1406,2
-DA:1409,2
-DA:1410,2
-DA:1413,1
-DA:1416,1
-DA:1417,1
-DA:1423,0
-DA:1424,0
-DA:1425,0
-DA:1428,0
-DA:1429,0
-DA:1432,0
-DA:1435,0
-DA:1436,0
-DA:1439,0
-DA:1440,0
+DA:1404,5
+DA:1405,5
+DA:1406,5
+DA:1409,5
+DA:1410,5
+DA:1413,5
+DA:1416,4
+DA:1417,4
+DA:1423,4
+DA:1424,4
+DA:1425,4
+DA:1428,4
+DA:1429,4
+DA:1432,4
+DA:1435,4
+DA:1436,4
+DA:1439,4
+DA:1440,4
 DA:1449,0
 DA:1457,0
 DA:1465,0
@@ -25271,7 +25273,7 @@ DA:1481,0
 DA:1489,0
 DA:1497,0
 DA:1505,0
-DA:1510,0
+DA:1510,14
 DA:1515,0
 DA:1517,0
 DA:1518,0
@@ -25381,7 +25383,7 @@ DA:1699,0
 DA:1700,0
 DA:1706,0
 BRF:235
-BRH:1
+BRH:0
 BRDA:120,1569,0,0
 BRDA:145,1713,0,0
 BRDA:145,1713,1,0
@@ -25569,7 +25571,7 @@ BRDA:1365,6736,1,0
 BRDA:1370,6752,0,0
 BRDA:1371,6752,1,0
 BRDA:1409,6865,0,0
-BRDA:1410,6874,0,1
+BRDA:1410,6874,0,0
 BRDA:1428,6949,0,0
 BRDA:1429,6958,0,0
 BRDA:1432,6967,0,0
@@ -69854,14 +69856,14 @@ BRDA:82,260,0,0
 BRDA:84,274,0,0
 BRDA:84,274,1,3
 end_of_record
-TN:tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly
+TN:tests/quotes.test.ts__Quotes__should handle DLP quotes correctly
 SF:/home/rozar/Documents/bitflow/bitflow-stableswap/contracts/sip-010-trait-ft-standard-v-1-1.clar
 FNF:0
 FNH:0
 BRF:0
 BRH:0
 end_of_record
-TN:tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly
+TN:tests/quotes.test.ts__Quotes__should handle DLP quotes correctly
 SF:/home/rozar/Documents/bitflow/bitflow-stableswap/contracts/stableswap-core-v-1-1.clar
 FN:77,get-admins
 FN:82,get-admin-helper
@@ -71037,7 +71039,7 @@ BRDA:1698,1507,1,0
 BRDA:1699,1514,0,0
 BRDA:1700,1514,1,0
 end_of_record
-TN:tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly
+TN:tests/quotes.test.ts__Quotes__should handle DLP quotes correctly
 SF:/home/rozar/Documents/bitflow/bitflow-stableswap/contracts/stableswap-emissions-stx-ststx-stx-v-1-1.clar
 FN:43,get-deployment-height
 FN:47,get-current-cycle
@@ -71071,7 +71073,7 @@ FNH:0
 BRF:0
 BRH:0
 end_of_record
-TN:tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly
+TN:tests/quotes.test.ts__Quotes__should handle DLP quotes correctly
 SF:/home/rozar/Documents/bitflow/bitflow-stableswap/contracts/stableswap-pool-stx-ststx-v-1-1.clar
 FN:63,get-name
 FN:68,get-symbol
@@ -71325,14 +71327,14 @@ BRDA:410,1094,0,0
 BRDA:438,1182,0,0
 BRDA:439,1189,0,0
 end_of_record
-TN:tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly
+TN:tests/quotes.test.ts__Quotes__should handle DLP quotes correctly
 SF:/home/rozar/Documents/bitflow/bitflow-stableswap/contracts/stableswap-pool-trait-v-1-1.clar
 FNF:0
 FNH:0
 BRF:0
 BRH:0
 end_of_record
-TN:tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly
+TN:tests/quotes.test.ts__Quotes__should handle DLP quotes correctly
 SF:/home/rozar/Documents/bitflow/bitflow-stableswap/contracts/stableswap-staking-stx-ststx-v-1-1.clar
 FN:60,get-deployment-height
 FN:64,get-current-cycle
@@ -71373,7 +71375,7 @@ FNH:0
 BRF:0
 BRH:0
 end_of_record
-TN:tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly
+TN:tests/quotes.test.ts__Quotes__should handle DLP quotes correctly
 SF:/home/rozar/Documents/bitflow/bitflow-stableswap/contracts/external/token-ststx.clar
 FN:9,get-total-supply
 FN:13,get-name
@@ -71415,7 +71417,7 @@ BRDA:40,101,0,0
 BRDA:43,110,0,1
 BRDA:47,110,1,0
 end_of_record
-TN:tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly
+TN:tests/quotes.test.ts__Quotes__should handle DLP quotes correctly
 SF:/home/rozar/Documents/bitflow/bitflow-stableswap/contracts/token-stx-v-1-1.clar
 FN:14,get-name
 FN:18,get-symbol
