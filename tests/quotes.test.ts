@@ -1,5 +1,5 @@
 import { Simulator } from './simulator';
-import { describe, expect, it, beforeAll, beforeEach } from 'vitest';
+import { expect, it, beforeAll, beforeEach, suite } from 'vitest';
 
 // Get simulator colors for formatting
 const colors = Simulator.getColors();
@@ -8,7 +8,7 @@ const unit = Simulator.getUnit();
 // Test setup
 let simulator: Simulator;
 
-describe("1.1 Quotes", { timeout: 100000 }, () => {
+suite("Quotes", { timeout: 100000 }, () => {
 
     beforeAll(async () => {
         // Create simulator
@@ -157,5 +157,60 @@ describe("1.1 Quotes", { timeout: 100000 }, () => {
             finalState.ststxBalance === initialState.ststxBalance;
 
         console.log(`\nPool State Check: ${stateUnchanged ? colors.success('UNCHANGED') + colors.checkmark : colors.error('CHANGED') + colors.xmark}`);
+    });
+
+    it("should handle stSTX to STX quotes correctly", () => {
+        console.log("\n=== stSTX to STX Quote Tests ===");
+
+        const testCases = [
+            { amount: 100 * unit, label: "Small" },
+            { amount: 1_000 * unit, label: "Medium" },
+            { amount: 10_000 * unit, label: "Large" }
+        ];
+
+        for (const { amount, label } of testCases) {
+            console.log(`\n${label} Amount Test:`);
+            const quote = simulator.getQuoteSTSTXtoSTX(amount);
+
+            console.log(`Input: ${simulator.formatStSTX(amount)} (${simulator.formatUSD(amount, Simulator.getPrices().ststx)})`);
+            console.log(`Output: ${simulator.formatSTX(quote)} (${simulator.formatUSD(quote, Simulator.getPrices().stx)})`);
+            console.log(`Effective Price: $${simulator.formatPriceRatio(amount, quote, Simulator.getPrices().ststx, Simulator.getPrices().stx)}`);
+
+            // Basic assertions
+            expect(quote).toBeGreaterThan(0);
+
+            // Calculate and check price impact
+            const priceImpact = Math.abs((quote / amount) - 1);
+            console.log(`Price Impact: ${simulator.formatProfitPercent(priceImpact, 1)}`);
+
+            // Price impact thresholds (matching STX to stSTX thresholds)
+            if (label === "Small") {
+                expect(quote).toBeLessThan(amount * 1.2); // Should not exceed 20% price impact
+            } else if (label === "Medium") {
+                expect(quote).toBeLessThan(amount * 1.15); // Should not exceed 15% price impact
+            } else {
+                expect(quote).toBeLessThan(amount * 1.1); // Should not exceed 10% price impact for larger amounts
+            }
+
+            // Verify quote consistency
+            const secondQuote = simulator.getQuoteSTSTXtoSTX(amount);
+            expect(secondQuote).toBe(quote);
+        }
+
+        // Test quote vs actual swap amounts
+        const testAmount = 500 * unit;
+        const quote = simulator.getQuoteSTSTXtoSTX(testAmount);
+        const actualOutput = simulator.swapSTSTXForSTX(testAmount);
+
+        console.log("\nQuote vs Actual Swap Test:");
+        console.log(`Quote Amount: ${simulator.formatSTX(quote)}`);
+        console.log(`Actual Output: ${simulator.formatSTX(actualOutput)}`);
+
+        // The actual output should be very close to the quote
+        const difference = Math.abs(quote - actualOutput);
+        const tolerance = unit / 1000; // 0.001 tolerance
+        expect(difference).toBeLessThan(tolerance);
+
+        console.log(`Quote Accuracy: ${difference < tolerance ? colors.success('ACCURATE') + colors.checkmark : colors.error('INACCURATE') + colors.xmark}`);
     });
 });

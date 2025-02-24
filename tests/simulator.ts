@@ -251,6 +251,22 @@ export class Simulator {
         return Number(cvToJSON(result.result).value.value);
     }
 
+    public getQuoteSTSTXtoSTX(amount: number): number {
+        const result = this.simnet.callPublicFn(
+            "stableswap-core-v-1-1",
+            "get-dx",
+            [
+                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(this.deployer, "token-stx-v-1-1"),
+                Cl.contractPrincipal(this.deployer, "token-ststx"),
+                Cl.uint(amount)
+            ],
+            this.deployer
+        );
+        expect(result.result.type, "Failed to get quote").toBe(ClarityType.ResponseOk);
+        return Number(cvToJSON(result.result).value.value);
+    }
+
     // Admin Operations
     public getAdmins(): string[] {
         const result = this.simnet.callReadOnlyFn(
@@ -558,6 +574,29 @@ export class Simulator {
             this.deployer
         );
         expect(result.result.type, "Failed to set fee address").toBe(ClarityType.ResponseOk);
+    }
+
+    // Admin Management
+    public addAdmin(admin: string, sender: string = this.deployer): boolean {
+        const result = this.simnet.callPublicFn(
+            "stableswap-core-v-1-1",
+            "add-admin",
+            [Cl.principal(admin)],
+            sender
+        );
+        expect(result.result.type, "Failed to add admin").toBe(ClarityType.ResponseOk);
+        return cvToJSON(result.result).value.value;
+    }
+
+    public removeAdmin(admin: string, sender: string = this.deployer): boolean {
+        const result = this.simnet.callPublicFn(
+            "stableswap-core-v-1-1",
+            "remove-admin",
+            [Cl.principal(admin)],
+            sender
+        );
+        expect(result.result.type, "Failed to remove admin").toBe(ClarityType.ResponseOk);
+        return cvToJSON(result.result).value.value;
     }
 
     // Formatting and Calculation Helpers

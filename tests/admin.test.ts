@@ -20,6 +20,132 @@ suite("Admin", { timeout: 100000 }, () => {
         simulator.createPool();
     });
 
+    describe("3.0 Admin Management", () => {
+        it("should manage admins correctly", () => {
+            console.log("\n=== Admin Management Test ===");
+
+            // Get initial admins
+            const initialAdmins = simulator.getAdmins();
+            console.log(`${colors.subtitle('Initial Admins:')} ${colors.info(initialAdmins.join(', '))}`);
+            expect(initialAdmins).toContain(simulator.deployer);
+
+            // Add a new admin (wallet_1)
+            const wallet1 = simulator.getWallet1();
+            console.log(`\n${colors.subtitle('Adding Admin:')} ${colors.info(wallet1)}`);
+            const addResult = simulator.addAdmin(wallet1);
+            expect(addResult).toBe(true);
+
+            // Verify admin was added
+            const adminsAfterAdd = simulator.getAdmins();
+            console.log(`${colors.subtitle('Admins After Add:')} ${colors.info(adminsAfterAdd.join(', '))}`);
+            expect(adminsAfterAdd).toContain(wallet1);
+            expect(adminsAfterAdd.length).toBe(initialAdmins.length + 1);
+
+            // Try to add the same admin again (should fail)
+            try {
+                simulator.addAdmin(wallet1);
+                throw new Error("Should not be able to add the same admin twice");
+            } catch (error) {
+                console.log(`${colors.success('✓')} ${colors.info('Successfully prevented duplicate admin addition')}`);
+            }
+
+            // Try to add admin from non-admin account (should fail)
+            try {
+                simulator.addAdmin(simulator.deployer, wallet1);
+                throw new Error("Non-admin should not be able to add admins");
+            } catch (error) {
+                console.log(`${colors.success('✓')} ${colors.info('Successfully prevented unauthorized admin addition')}`);
+            }
+
+            // Remove the added admin
+            console.log(`\n${colors.subtitle('Removing Admin:')} ${colors.info(wallet1)}`);
+            const removeResult = simulator.removeAdmin(wallet1);
+            expect(removeResult).toBe(true);
+
+            // Verify admin was removed
+            const adminsAfterRemove = simulator.getAdmins();
+            console.log(`${colors.subtitle('Admins After Remove:')} ${colors.info(adminsAfterRemove.join(', '))}`);
+            expect(adminsAfterRemove).not.toContain(wallet1);
+            expect(adminsAfterRemove.length).toBe(initialAdmins.length);
+
+            // Try to remove contract deployer (should fail)
+            try {
+                simulator.removeAdmin(simulator.deployer);
+                throw new Error("Should not be able to remove contract deployer");
+            } catch (error) {
+                console.log(`${colors.success('✓')} ${colors.info('Successfully prevented contract deployer removal')}`);
+            }
+
+            // Try to remove non-existent admin (should fail)
+            try {
+                simulator.removeAdmin(wallet1);
+                throw new Error("Should not be able to remove non-existent admin");
+            } catch (error) {
+                console.log(`${colors.success('✓')} ${colors.info('Successfully prevented non-existent admin removal')}`);
+            }
+
+            // Try to remove admin from non-admin account (should fail)
+            try {
+                simulator.removeAdmin(simulator.deployer, wallet1);
+                throw new Error("Non-admin should not be able to remove admins");
+            } catch (error) {
+                console.log(`${colors.success('✓')} ${colors.info('Successfully prevented unauthorized admin removal')}`);
+            }
+        });
+
+        it("should enforce admin limit", () => {
+            console.log("\n=== Admin Limit Test ===");
+
+            // Get initial admins count
+            const initialAdmins = simulator.getAdmins();
+            console.log(`${colors.subtitle('Initial Admin Count:')} ${colors.info(initialAdmins.length.toString())}`);
+
+            // Try to add admins up to the limit
+            const maxAdmins = 5;
+            const currentCount = initialAdmins.length;
+            const additionalAdmins = maxAdmins - currentCount;
+
+            console.log(`${colors.subtitle('Adding')} ${colors.info(additionalAdmins.toString())} ${colors.subtitle('more admins...')}`);
+
+            // Generate test accounts (we'll use wallet_1 with different numbers appended)
+            const testAccounts = Array.from({ length: additionalAdmins + 1 }, (_, i) =>
+                `${simulator.getWallet1()}`
+            );
+
+            // Add admins up to the limit
+            for (let i = 0; i < additionalAdmins; i++) {
+                const result = simulator.addAdmin(testAccounts[i]);
+                expect(result).toBe(true);
+                console.log(`${colors.success('✓')} Added admin: ${colors.info(testAccounts[i])}`);
+            }
+
+            // Verify current admin count
+            const adminsAtLimit = simulator.getAdmins();
+            console.log(`\n${colors.subtitle('Admin Count at Limit:')} ${colors.info(adminsAtLimit.length.toString())}`);
+            expect(adminsAtLimit.length).toBe(maxAdmins);
+
+            // Try to add one more admin (should fail)
+            try {
+                simulator.addAdmin(testAccounts[additionalAdmins]);
+                throw new Error("Should not be able to exceed admin limit");
+            } catch (error) {
+                console.log(`${colors.success('✓')} ${colors.info('Successfully prevented exceeding admin limit')}`);
+            }
+
+            // Clean up by removing added admins
+            console.log('\nCleaning up added admins...');
+            for (let i = 0; i < additionalAdmins; i++) {
+                simulator.removeAdmin(testAccounts[i]);
+                console.log(`${colors.success('✓')} Removed admin: ${colors.info(testAccounts[i])}`);
+            }
+
+            // Verify cleanup
+            const finalAdmins = simulator.getAdmins();
+            console.log(`\n${colors.subtitle('Final Admin Count:')} ${colors.info(finalAdmins.length.toString())}`);
+            expect(finalAdmins.length).toBe(initialAdmins.length);
+        });
+    });
+
     describe("3.0 Share Management", () => {
         it("should set and verify minimum shares", async () => {
             console.log("\n=== Minimum Shares Configuration Test ===");

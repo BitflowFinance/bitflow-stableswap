@@ -292,7 +292,7 @@ suite("Swaps", { timeout: 100000 }, () => {
         });
     });
 
-    describe("Edge Cases", { skip: true, timeout: 100000 }, () => {
+    describe("Edge Cases", { timeout: 100000 }, () => {
         it("should handle minimum swap amounts", { timeout: 100000 }, () => {
             console.log("\n=== Minimum Swap Amount Test ===");
             const minAmount = unit / 100; // 0.01 tokens
