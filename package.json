@@ -9,7 +9,8 @@
         "test:watch": "chokidar \"unit-tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm t\"",
         "test:ui": "vitest --coverage --ui",
         "coverage": "rm -rf coverage && mkdir -p coverage && COVERAGE=1 vitest run --coverage && genhtml coverage/lcov.info -o coverage/html && echo 'Coverage report generated at coverage/html/index.html'",
-        "coverage:open": "pnpm coverage && xdg-open coverage/html/index.html"
+        "coverage:open": "pnpm coverage && xdg-open coverage/html/index.html",
+        "serve": "echo 'Serving static files from ./html'"
     },
     "author": "",
     "license": "ISC",
