@@ -31,7 +31,7 @@ export default defineConfig({
             customProviderModule: './clarity-coverage-provider',
             // provider: 'v8',
             // reporter: ['html'],
-            reportsDirectory: './coverage',
+            reportsDirectory: './html/coverage',
             include: [
                 // Make sure Clarity files are included
                 'contracts/**/*.clar',
@@ -57,8 +57,8 @@ export default defineConfig({
                 costs: true,
                 cost: true,
                 // Override the coverage settings
-                costsFilename: './coverage/costs-reports.json',
-                coverageFilename: './coverage/lcov.info',
+                costsFilename: './html/coverage/costs-reports.json',
+                coverageFilename: './html/coverage/lcov.info',
                 initBeforeEach: false,
             },
         },

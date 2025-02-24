@@ -15,8 +15,8 @@ class ClarityCoverageProvider implements CoverageProvider {
     private coverageDir: string;
 
     constructor() {
-        this.lcovPath = path.resolve('./coverage/lcov.info');
-        this.coverageDir = path.resolve('./coverage');
+        this.lcovPath = path.resolve('./html/coverage/lcov.info');
+        this.coverageDir = path.resolve('./html/coverage');
         // console.log('[ClarityCoverageProvider] Initialized with paths:', {
         //     lcov: this.lcovPath,
         //     coverage: this.coverageDir
@@ -56,7 +56,7 @@ class ClarityCoverageProvider implements CoverageProvider {
             allowExternal: true,
             processingConcurrency: 1,
             reporter: [['html', { subdir: 'clarity' }]],
-            exclude: ['node_modules/**', 'dist/**', 'coverage/**'],
+            exclude: ['node_modules/**', 'dist/**', 'html/coverage/**'],
             reportsDirectory: this.coverageDir,
             provider: 'custom' as const,
             customProviderModule: 'clarity-coverage-provider'
