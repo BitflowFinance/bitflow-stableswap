@@ -23,27 +23,27 @@ import {
 
 export default defineConfig({
     test: {
-        testTimeout: 100000,
+        pool: "forks",
+        poolOptions: {
+            threads: { singleThread: true },
+            forks: { singleFork: true },
+        },
         reporters: ['default', 'html'],
         coverage: {
             enabled: true,
             provider: 'custom',
             customProviderModule: './clarity-coverage-provider',
-            // provider: 'v8',
-            // reporter: ['html'],
             reportsDirectory: './html/coverage',
             include: [
                 // Make sure Clarity files are included
                 'contracts/**/*.clar',
             ],
             clean: false,
-            all: true,
             // Add source map support for Clarity files
             extension: ['.clar'],
             reportOnFailure: true,  // Add this to ensure reports are generated even on test failures
         },
         environment: "clarinet",
-        singleThread: true,
         setupFiles: [
             vitestSetupFilePath,
             // custom setup files can be added here
