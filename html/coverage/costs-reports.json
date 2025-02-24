@@ -1,0 +1,6223 @@
+[
+  {
+    "test_name": "",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+    "method": "mint",
+    "args": [
+      "u10000000000000",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 1,
+        "write_count": 2,
+        "read_length": 1175,
+        "read_count": 5,
+        "runtime": 3642
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 164,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "create-pool",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000000",
+      "u10000000000000",
+      "u1000",
+      "u1100000",
+      "u1000000",
+      "false",
+      "u30",
+      "u30",
+      "u30",
+      "u30",
+      "u40",
+      "u100",
+      "u2",
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5",
+      "u\"stx-ststx-pool-v1\"",
+      "true"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 611,
+        "write_count": 33,
+        "read_length": 232512,
+        "read_count": 118,
+        "runtime": 514560
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1613,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should match quote and swap outcomes for STX to stSTX",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should match quote and swap outcomes for STX to stSTX",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23959845
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should match quote and swap outcomes for STX to stSTX",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should match quote and swap outcomes for STX to stSTX",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23959845
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should match quote and swap outcomes for stSTX to STX",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should match quote and swap outcomes for stSTX to STX",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-y-for-x",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 137017,
+        "read_count": 85,
+        "runtime": 23937996
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1083,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain quote consistency under pool state changes",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain quote consistency under pool state changes",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u5000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23959845
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain quote consistency under pool state changes",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain quote consistency under pool state changes",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23959845
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle small STX to stSTX swaps",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23959845
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle medium STX to stSTX swaps",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23959845
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle large STX to stSTX swaps",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23959845
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle reverse swaps (stSTX to STX)",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-y-for-x",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 137017,
+        "read_count": 85,
+        "runtime": 23937996
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1083,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle reverse swaps (stSTX to STX)",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-y-for-x",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 137017,
+        "read_count": 85,
+        "runtime": 23937996
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1083,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle reverse swaps (stSTX to STX)",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-y-for-x",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 137017,
+        "read_count": 85,
+        "runtime": 23937996
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1083,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain reasonable slippage for quoted swaps",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u5000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain reasonable slippage for quoted swaps",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u5000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23959845
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain low-impact swaps within limits",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain low-impact swaps within limits",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1001998467830",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23962871
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain low-impact swaps within limits",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain low-impact swaps within limits",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1001998467830"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should verify fee accumulation",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should verify fee accumulation",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23962871
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should verify fee accumulation",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23962871
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should verify fee accumulation",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23962871
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should verify fee accumulation",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23962871
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should verify fee accumulation",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23962871
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should verify fee accumulation",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle minimum swap amounts",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23962871
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle minimum swap amounts",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-y-for-x",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 137017,
+        "read_count": 85,
+        "runtime": 23941022
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1083,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle maximum swap amounts",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle maximum swap amounts",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u5511981075375",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23968995
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle maximum swap amounts",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-y-for-x",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u5511981075375",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 137017,
+        "read_count": 85,
+        "runtime": 23941022
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1083,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain price stability during sequential swaps",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23962871
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain price stability during sequential swaps",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23962871
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain price stability during sequential swaps",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23962871
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain price stability during sequential swaps",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23962871
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should maintain price stability during sequential swaps",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23962871
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle back-and-forth swaps efficiently",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23962871
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle back-and-forth swaps efficiently",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-y-for-x",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u993028083",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 137017,
+        "read_count": 85,
+        "runtime": 23941022
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1083,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle back-and-forth swaps efficiently",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+    "method": "mint",
+    "args": [
+      "u10000000000000",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 1,
+        "write_count": 2,
+        "read_length": 1175,
+        "read_count": 5,
+        "runtime": 3642
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 164,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle back-and-forth swaps efficiently",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "create-pool",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000000",
+      "u10000000000000",
+      "u1000",
+      "u1100000",
+      "u1000000",
+      "false",
+      "u30",
+      "u30",
+      "u30",
+      "u30",
+      "u40",
+      "u100",
+      "u2",
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5",
+      "u\"stx-ststx-pool-v1\"",
+      "true"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 611,
+        "write_count": 33,
+        "read_length": 232512,
+        "read_count": 118,
+        "runtime": 514560
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1613,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/swaps.test.ts__Swaps__should handle back-and-forth swaps efficiently",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist single-sided liquidity arbitrage",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34411864
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist single-sided liquidity arbitrage",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u907271616",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist single-sided liquidity imbalance",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34414890
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist single-sided liquidity imbalance",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u907267142",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist multi-cycle trading strategies",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34414890
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist multi-cycle trading strategies",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u907262667",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist multi-cycle trading strategies",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u952631973",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34414890
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist multi-cycle trading strategies",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u864283173",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist multi-cycle trading strategies",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u907505080",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34414890
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist multi-cycle trading strategies",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u823337570",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist multi-cycle trading strategies",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u864513524",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34414890
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist multi-cycle trading strategies",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u784329809",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist multi-cycle trading strategies",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u823556483",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34414890
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist multi-cycle trading strategies",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u747168359",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist arbitrage with external markets",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34414890
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist arbitrage with external markets",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u907242322",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist arbitrage with external markets",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u952619972",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34414890
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist arbitrage with external markets",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u864252902",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist arbitrage with external markets",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u907482212",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34414890
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist arbitrage with external markets",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u823298360",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist arbitrage with external markets",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u864480850",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34414890
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist arbitrage with external markets",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u784282577",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist arbitrage with external markets",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u823514984",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34414890
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist arbitrage with external markets",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u747113955",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist arbitrage with external markets",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+    "method": "mint",
+    "args": [
+      "u10000000000000",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 1,
+        "write_count": 2,
+        "read_length": 1175,
+        "read_count": 5,
+        "runtime": 3642
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 164,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist arbitrage with external markets",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "create-pool",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000000",
+      "u10000000000000",
+      "u1000",
+      "u1100000",
+      "u1000000",
+      "false",
+      "u30",
+      "u30",
+      "u30",
+      "u30",
+      "u40",
+      "u100",
+      "u2",
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5",
+      "u\"stx-ststx-pool-v1\"",
+      "true"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 611,
+        "write_count": 33,
+        "read_length": 232512,
+        "read_count": 118,
+        "runtime": 514560
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1613,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/arbitrage.test.ts__Anti-Arbitrage__should resist arbitrage with external markets",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admins",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74018,
+        "read_count": 4,
+        "runtime": 74800
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 50,
+        "write_count": 1,
+        "read_length": 74018,
+        "read_count": 5,
+        "runtime": 106673
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 49,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admins",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74040,
+        "read_count": 4,
+        "runtime": 74822
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74040,
+        "read_count": 4,
+        "runtime": 80312
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74040,
+        "read_count": 4,
+        "runtime": 80312
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 51,
+        "write_count": 2,
+        "read_length": 74086,
+        "read_count": 8,
+        "runtime": 100853
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 49,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admins",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74018,
+        "read_count": 4,
+        "runtime": 74800
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74018,
+        "read_count": 4,
+        "runtime": 81598
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74018,
+        "read_count": 4,
+        "runtime": 80227
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74018,
+        "read_count": 4,
+        "runtime": 77802
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admins",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74018,
+        "read_count": 4,
+        "runtime": 74800
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 50,
+        "write_count": 1,
+        "read_length": 74018,
+        "read_count": 5,
+        "runtime": 106673
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 49,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST3AM1A56AK2C1XAFJ4115ZSV26EB49BVQ10MGCS0"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 72,
+        "write_count": 1,
+        "read_length": 74040,
+        "read_count": 5,
+        "runtime": 106849
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 71,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 94,
+        "write_count": 1,
+        "read_length": 74062,
+        "read_count": 5,
+        "runtime": 107025
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 93,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST2REHHS5J3CERCRBEPMGH7921Q6PYKAADT7JP2VB"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 116,
+        "write_count": 1,
+        "read_length": 74084,
+        "read_count": 5,
+        "runtime": 107201
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 115,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admins",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74106,
+        "read_count": 4,
+        "runtime": 74888
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST3PF13W7Z0RRM42A8VZRVFQ75SV1K26RXEP8YGKJ"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74106,
+        "read_count": 4,
+        "runtime": 94206
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 117,
+        "write_count": 2,
+        "read_length": 74221,
+        "read_count": 11,
+        "runtime": 106676
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 115,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST3AM1A56AK2C1XAFJ4115ZSV26EB49BVQ10MGCS0"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 95,
+        "write_count": 2,
+        "read_length": 74176,
+        "read_count": 10,
+        "runtime": 104735
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 93,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 73,
+        "write_count": 2,
+        "read_length": 74131,
+        "read_count": 9,
+        "runtime": 102794
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 71,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST2REHHS5J3CERCRBEPMGH7921Q6PYKAADT7JP2VB"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 51,
+        "write_count": 2,
+        "read_length": 74086,
+        "read_count": 8,
+        "runtime": 100853
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 49,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admins",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74018,
+        "read_count": 4,
+        "runtime": 74800
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify minimum shares",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-minimum-total-shares",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74008,
+        "read_count": 4,
+        "runtime": 74790
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify minimum shares",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-minimum-burnt-shares",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74008,
+        "read_count": 4,
+        "runtime": 74790
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify minimum shares",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-minimum-shares",
+    "args": [
+      "u2000",
+      "u200"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 36,
+        "write_count": 2,
+        "read_length": 74018,
+        "read_count": 6,
+        "runtime": 89761
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 34,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify minimum shares",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-minimum-total-shares",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74008,
+        "read_count": 4,
+        "runtime": 74790
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify minimum shares",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-minimum-burnt-shares",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74008,
+        "read_count": 4,
+        "runtime": 74790
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should toggle and verify public pool creation",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-public-pool-creation",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 73992,
+        "read_count": 4,
+        "runtime": 74774
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should toggle and verify public pool creation",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-public-pool-creation",
+    "args": [
+      "true"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 2,
+        "write_count": 1,
+        "read_length": 74018,
+        "read_count": 5,
+        "runtime": 86309
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should toggle and verify public pool creation",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-public-pool-creation",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 73992,
+        "read_count": 4,
+        "runtime": 74774
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify pool URI",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-pool-uri",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "u\"https://example.com/pool/metadata\""
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 39,
+        "write_count": 1,
+        "read_length": 101436,
+        "read_count": 37,
+        "runtime": 203975
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 38,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify pool status",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-pool-status",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "false"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 2,
+        "write_count": 1,
+        "read_length": 101452,
+        "read_count": 37,
+        "runtime": 196315
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify pool status",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-pool-status",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "true"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 2,
+        "write_count": 1,
+        "read_length": 101452,
+        "read_count": 37,
+        "runtime": 196315
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify fee parameters",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13865,
+        "read_count": 28,
+        "runtime": 29615
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify fee parameters",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-x-fees",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "u40",
+      "u35"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 36,
+        "write_count": 2,
+        "read_length": 101452,
+        "read_count": 38,
+        "runtime": 199540
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 34,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify fee parameters",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-y-fees",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "u40",
+      "u35"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 36,
+        "write_count": 2,
+        "read_length": 101452,
+        "read_count": 38,
+        "runtime": 199540
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 34,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify fee parameters",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-liquidity-fee",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "u45"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 18,
+        "write_count": 1,
+        "read_length": 101452,
+        "read_count": 37,
+        "runtime": 197135
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 17,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify fee parameters",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13865,
+        "read_count": 28,
+        "runtime": 29615
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify amplification coefficient",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13865,
+        "read_count": 28,
+        "runtime": 29615
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify amplification coefficient",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-amplification-coefficient",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "u150"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 18,
+        "write_count": 1,
+        "read_length": 101452,
+        "read_count": 37,
+        "runtime": 197205
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 17,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify amplification coefficient",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13865,
+        "read_count": 28,
+        "runtime": 29615
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify convergence threshold",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13865,
+        "read_count": 28,
+        "runtime": 29615
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify convergence threshold",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-convergence-threshold",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "u3"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 18,
+        "write_count": 1,
+        "read_length": 101452,
+        "read_count": 37,
+        "runtime": 197055
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 17,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify convergence threshold",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13865,
+        "read_count": 28,
+        "runtime": 29615
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify midpoint parameters",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-midpoint-manager",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 23,
+        "write_count": 1,
+        "read_length": 101452,
+        "read_count": 37,
+        "runtime": 200801
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 22,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify midpoint parameters",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-midpoint",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "u1100000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 18,
+        "write_count": 1,
+        "read_length": 101452,
+        "read_count": 37,
+        "runtime": 203870
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 17,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify midpoint parameters",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-midpoint-factor",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "u1100000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 18,
+        "write_count": 1,
+        "read_length": 101452,
+        "read_count": 37,
+        "runtime": 203885
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 17,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify midpoint parameters",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-midpoint-reversed",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "false"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 2,
+        "write_count": 1,
+        "read_length": 101452,
+        "read_count": 37,
+        "runtime": 196495
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify midpoint parameters",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-midpoint-reversed",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "true"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 2,
+        "write_count": 1,
+        "read_length": 101452,
+        "read_count": 37,
+        "runtime": 196495
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify fee address",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "set-fee-address",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 23,
+        "write_count": 1,
+        "read_length": 101452,
+        "read_count": 37,
+        "runtime": 200726
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 22,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify fee address",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+    "method": "mint",
+    "args": [
+      "u10000000000000",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 1,
+        "write_count": 2,
+        "read_length": 1175,
+        "read_count": 5,
+        "runtime": 3642
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 164,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify fee address",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "create-pool",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000000",
+      "u10000000000000",
+      "u1000",
+      "u1100000",
+      "u1000000",
+      "false",
+      "u30",
+      "u30",
+      "u30",
+      "u30",
+      "u40",
+      "u100",
+      "u2",
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5",
+      "u\"stx-ststx-pool-v1\"",
+      "true"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 611,
+        "write_count": 33,
+        "read_length": 232512,
+        "read_count": 118,
+        "runtime": 514560
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1613,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should set and verify fee address",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle small amount quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle medium amount quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle large amount quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should demonstrate increasing price impact with size",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should demonstrate increasing price impact with size",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23959845
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should demonstrate increasing price impact with size",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should demonstrate increasing price impact with size",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23959845
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should demonstrate increasing price impact with size",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should demonstrate increasing price impact with size",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23959845
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should demonstrate increasing price impact with size",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u50000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should demonstrate increasing price impact with size",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u50000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23959845
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should provide consistent quotes for same amount",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u500000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should provide consistent quotes for same amount",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u500000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should provide consistent quotes for same amount",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u500000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should not affect pool state when getting quotes",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should not affect pool state when getting quotes",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should not affect pool state when getting quotes",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should not affect pool state when getting quotes",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dy",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should not affect pool state when getting quotes",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dx",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dx",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dx",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dx",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dx",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dx",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dx",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u500000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 98503,
+        "read_count": 50,
+        "runtime": 15258954
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-y-for-x",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u500000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 137017,
+        "read_count": 85,
+        "runtime": 23937996
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1083,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000",
+      "u100000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000",
+      "u100000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u100000000",
+      "u100000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1623,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1623,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000",
+      "u10000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000",
+      "u10000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000",
+      "u10000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1623,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u150000000",
+      "u50000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u150000000",
+      "u50000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u150000000",
+      "u50000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1623,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u50000000",
+      "u150000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u50000000",
+      "u150000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u50000000",
+      "u150000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1623,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u0"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u0"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34414890
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u0",
+      "u1000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u0",
+      "u1000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25727440
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u0",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 9,
+        "read_length": 138191,
+        "read_count": 89,
+        "runtime": 34371192
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 871,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u0",
+      "u0"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25690339
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dlp",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000000000",
+      "u1000000000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 102006,
+        "read_count": 56,
+        "runtime": 25730466
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+    "method": "mint",
+    "args": [
+      "u10000000000000",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 1,
+        "write_count": 2,
+        "read_length": 1175,
+        "read_count": 5,
+        "runtime": 3642
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 164,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "create-pool",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000000",
+      "u10000000000000",
+      "u1000",
+      "u1100000",
+      "u1000000",
+      "false",
+      "u30",
+      "u30",
+      "u30",
+      "u30",
+      "u40",
+      "u100",
+      "u2",
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5",
+      "u\"stx-ststx-pool-v1\"",
+      "true"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 611,
+        "write_count": 33,
+        "read_length": 232512,
+        "read_count": 118,
+        "runtime": 514560
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1613,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle DLP quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should handle single-sided STX liquidity",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should handle single-sided STX liquidity",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34411864
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should handle single-sided STX liquidity",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should handle single-sided STX liquidity",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u907271616",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should handle balanced liquidity addition",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should handle balanced liquidity addition",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 2,
+        "write_count": 3,
+        "read_length": 112517,
+        "read_count": 77,
+        "runtime": 34287896
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 376,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should handle partial liquidity withdrawal",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u0",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 140501,
+        "read_count": 87,
+        "runtime": 34414890
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 967,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should handle partial liquidity withdrawal",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u453633571",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should handle partial liquidity withdrawal",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u453633571",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should maintain pool balance ratios",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should maintain pool balance ratios",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u800000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 59,
+        "write_count": 11,
+        "read_length": 142851,
+        "read_count": 97,
+        "runtime": 34430050
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1623,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should maintain pool balance ratios",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should maintain pool balance ratios",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "withdraw-liquidity",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1708311441",
+      "u1",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 148659,
+        "read_count": 64,
+        "runtime": 8934628
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 919,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should maintain pool balance ratios",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should maintain pool balance ratios",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+    "method": "mint",
+    "args": [
+      "u10000000000000",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 1,
+        "write_count": 2,
+        "read_length": 1175,
+        "read_count": 5,
+        "runtime": 3642
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 164,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should maintain pool balance ratios",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "create-pool",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000000",
+      "u10000000000000",
+      "u1000",
+      "u1100000",
+      "u1000000",
+      "false",
+      "u30",
+      "u30",
+      "u30",
+      "u30",
+      "u40",
+      "u100",
+      "u2",
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5",
+      "u\"stx-ststx-pool-v1\"",
+      "true"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 611,
+        "write_count": 33,
+        "read_length": 232512,
+        "read_count": 118,
+        "runtime": 514560
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1613,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/liquidity.test.ts__Liquidity__should maintain pool balance ratios",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should get admin information",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admins",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74018,
+        "read_count": 4,
+        "runtime": 74800
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should get admin information",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admin-helper",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74013,
+        "read_count": 4,
+        "runtime": 74795
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should verify read-only functions return expected values",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admins",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74018,
+        "read_count": 4,
+        "runtime": 74800
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should verify read-only functions return expected values",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admin-helper",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74013,
+        "read_count": 4,
+        "runtime": 74795
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should verify read-only functions return expected values",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-last-pool-id",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74008,
+        "read_count": 4,
+        "runtime": 74790
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should verify read-only functions return expected values",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-pool-by-id",
+    "args": [
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74145,
+        "read_count": 4,
+        "runtime": 75581
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should get pool configuration",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-last-pool-id",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74008,
+        "read_count": 4,
+        "runtime": 74790
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should get pool configuration",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-pool-by-id",
+    "args": [
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74145,
+        "read_count": 4,
+        "runtime": 75581
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should get pool configuration",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-minimum-total-shares",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74008,
+        "read_count": 4,
+        "runtime": 74790
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should get pool configuration",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-minimum-burnt-shares",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74008,
+        "read_count": 4,
+        "runtime": 74790
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should get pool configuration",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-public-pool-creation",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 73992,
+        "read_count": 4,
+        "runtime": 74774
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should verify pool state matches configuration",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-last-pool-id",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74008,
+        "read_count": 4,
+        "runtime": 74790
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should verify pool state matches configuration",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-pool-by-id",
+    "args": [
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 74145,
+        "read_count": 4,
+        "runtime": 75581
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should verify pool state matches configuration",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should track pool changes",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should track pool changes",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-x-for-y",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u1000000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 7,
+        "read_length": 138172,
+        "read_count": 84,
+        "runtime": 23959845
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1131,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/readOnly.test.ts__Read-Only__should track pool changes",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/midpoint.test.ts__midpoint and liquidity tests__normal midpoint with 1 to 1.1 ratio",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+    "method": "mint",
+    "args": [
+      "u10000000000000",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 1,
+        "write_count": 2,
+        "read_length": 1175,
+        "read_count": 5,
+        "runtime": 3642
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 164,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/midpoint.test.ts__midpoint and liquidity tests__normal midpoint with 1 to 1.1 ratio",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+    "method": "mint",
+    "args": [
+      "u10000000000000",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 1,
+        "write_count": 2,
+        "read_length": 1175,
+        "read_count": 5,
+        "runtime": 3642
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 164,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/midpoint.test.ts__midpoint and liquidity tests__normal midpoint with 1 to 1.1 ratio",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "create-pool",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000000",
+      "u10000000000000",
+      "u1000",
+      "u1000000",
+      "u1100000",
+      "false",
+      "u30",
+      "u30",
+      "u30",
+      "u30",
+      "u40",
+      "u100",
+      "u2",
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5",
+      "u\"stx-ststx-pool-v1\"",
+      "true"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 611,
+        "write_count": 33,
+        "read_length": 232512,
+        "read_count": 118,
+        "runtime": 514560
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1613,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/midpoint.test.ts__midpoint and liquidity tests__normal midpoint with 1 to 1.1 ratio",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/midpoint.test.ts__midpoint and liquidity tests__normal midpoint with 1 to 1.1 ratio",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+    "method": "get-pool",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 13849,
+        "read_count": 28,
+        "runtime": 29599
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  }
+]

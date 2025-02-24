@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2025-02-24 11:23:49</td>
+            <td class="headerValue">2025-02-24 11:37:26</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">18</td>
@@ -153,34 +153,34 @@
 <a name="91"><span class="lineNum">      91 </span>            : </a>
 <a name="92"><span class="lineNum">      92 </span>            : ;; Get all pool data</a>
 <a name="93"><span class="lineNum">      93 </span>            : (define-read-only (get-pool)</a>
-<a name="94"><span class="lineNum">      94 </span><span class="lineCov">        167 :   (ok {</span></a>
-<a name="95"><span class="lineNum">      95 </span><span class="lineCov">        167 :     pool-id: (var-get pool-id),</span></a>
-<a name="96"><span class="lineNum">      96 </span><span class="lineCov">        167 :     pool-name: (var-get pool-name),</span></a>
-<a name="97"><span class="lineNum">      97 </span><span class="lineCov">        167 :     pool-symbol: (var-get pool-symbol),</span></a>
-<a name="98"><span class="lineNum">      98 </span><span class="lineCov">        167 :     pool-uri: (var-get pool-uri),</span></a>
-<a name="99"><span class="lineNum">      99 </span><span class="lineCov">        167 :     pool-created: (var-get pool-created),</span></a>
-<a name="100"><span class="lineNum">     100 </span><span class="lineCov">        167 :     creation-height: (var-get creation-height),</span></a>
-<a name="101"><span class="lineNum">     101 </span><span class="lineCov">        167 :     pool-status: (var-get pool-status),</span></a>
-<a name="102"><span class="lineNum">     102 </span><span class="lineCov">        167 :     core-address: CORE_ADDRESS,</span></a>
-<a name="103"><span class="lineNum">     103 </span><span class="lineCov">        167 :     midpoint-manager: (var-get midpoint-manager),</span></a>
-<a name="104"><span class="lineNum">     104 </span><span class="lineCov">        167 :     fee-address: (var-get fee-address),</span></a>
-<a name="105"><span class="lineNum">     105 </span><span class="lineCov">        167 :     x-token: (var-get x-token),</span></a>
-<a name="106"><span class="lineNum">     106 </span><span class="lineCov">        167 :     y-token: (var-get y-token),</span></a>
-<a name="107"><span class="lineNum">     107 </span><span class="lineCov">        167 :     pool-token: (as-contract tx-sender),</span></a>
-<a name="108"><span class="lineNum">     108 </span><span class="lineCov">        167 :     x-balance: (var-get x-balance),</span></a>
-<a name="109"><span class="lineNum">     109 </span><span class="lineCov">        167 :     y-balance: (var-get y-balance),</span></a>
-<a name="110"><span class="lineNum">     110 </span><span class="lineCov">        167 :     d: (var-get d),</span></a>
-<a name="111"><span class="lineNum">     111 </span><span class="lineCov">        167 :     midpoint: (var-get midpoint),</span></a>
-<a name="112"><span class="lineNum">     112 </span><span class="lineCov">        167 :     midpoint-factor: (var-get midpoint-factor),</span></a>
-<a name="113"><span class="lineNum">     113 </span><span class="lineCov">        167 :     midpoint-reversed: (var-get midpoint-reversed),</span></a>
-<a name="114"><span class="lineNum">     114 </span><span class="lineCov">        167 :     total-shares: (ft-get-supply pool-token),</span></a>
-<a name="115"><span class="lineNum">     115 </span><span class="lineCov">        167 :     x-protocol-fee: (var-get x-protocol-fee),</span></a>
-<a name="116"><span class="lineNum">     116 </span><span class="lineCov">        167 :     x-provider-fee: (var-get x-provider-fee),</span></a>
-<a name="117"><span class="lineNum">     117 </span><span class="lineCov">        167 :     y-protocol-fee: (var-get y-protocol-fee),</span></a>
-<a name="118"><span class="lineNum">     118 </span><span class="lineCov">        167 :     y-provider-fee: (var-get y-provider-fee),</span></a>
-<a name="119"><span class="lineNum">     119 </span><span class="lineCov">        167 :     liquidity-fee: (var-get liquidity-fee),</span></a>
-<a name="120"><span class="lineNum">     120 </span><span class="lineCov">        167 :     amplification-coefficient: (var-get amplification-coefficient),</span></a>
-<a name="121"><span class="lineNum">     121 </span><span class="lineCov">        167 :     convergence-threshold: (var-get convergence-threshold)</span></a>
+<a name="94"><span class="lineNum">      94 </span><span class="lineCov">        168 :   (ok {</span></a>
+<a name="95"><span class="lineNum">      95 </span><span class="lineCov">        168 :     pool-id: (var-get pool-id),</span></a>
+<a name="96"><span class="lineNum">      96 </span><span class="lineCov">        168 :     pool-name: (var-get pool-name),</span></a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineCov">        168 :     pool-symbol: (var-get pool-symbol),</span></a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">        168 :     pool-uri: (var-get pool-uri),</span></a>
+<a name="99"><span class="lineNum">      99 </span><span class="lineCov">        168 :     pool-created: (var-get pool-created),</span></a>
+<a name="100"><span class="lineNum">     100 </span><span class="lineCov">        168 :     creation-height: (var-get creation-height),</span></a>
+<a name="101"><span class="lineNum">     101 </span><span class="lineCov">        168 :     pool-status: (var-get pool-status),</span></a>
+<a name="102"><span class="lineNum">     102 </span><span class="lineCov">        168 :     core-address: CORE_ADDRESS,</span></a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">        168 :     midpoint-manager: (var-get midpoint-manager),</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">        168 :     fee-address: (var-get fee-address),</span></a>
+<a name="105"><span class="lineNum">     105 </span><span class="lineCov">        168 :     x-token: (var-get x-token),</span></a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">        168 :     y-token: (var-get y-token),</span></a>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">        168 :     pool-token: (as-contract tx-sender),</span></a>
+<a name="108"><span class="lineNum">     108 </span><span class="lineCov">        168 :     x-balance: (var-get x-balance),</span></a>
+<a name="109"><span class="lineNum">     109 </span><span class="lineCov">        168 :     y-balance: (var-get y-balance),</span></a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">        168 :     d: (var-get d),</span></a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">        168 :     midpoint: (var-get midpoint),</span></a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineCov">        168 :     midpoint-factor: (var-get midpoint-factor),</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">        168 :     midpoint-reversed: (var-get midpoint-reversed),</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">        168 :     total-shares: (ft-get-supply pool-token),</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">        168 :     x-protocol-fee: (var-get x-protocol-fee),</span></a>
+<a name="116"><span class="lineNum">     116 </span><span class="lineCov">        168 :     x-provider-fee: (var-get x-provider-fee),</span></a>
+<a name="117"><span class="lineNum">     117 </span><span class="lineCov">        168 :     y-protocol-fee: (var-get y-protocol-fee),</span></a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineCov">        168 :     y-provider-fee: (var-get y-provider-fee),</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">        168 :     liquidity-fee: (var-get liquidity-fee),</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">        168 :     amplification-coefficient: (var-get amplification-coefficient),</span></a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">        168 :     convergence-threshold: (var-get convergence-threshold)</span></a>
 <a name="122"><span class="lineNum">     122 </span>            :   })</a>
 <a name="123"><span class="lineNum">     123 </span>            : )</a>
 <a name="124"><span class="lineNum">     124 </span>            : </a>
