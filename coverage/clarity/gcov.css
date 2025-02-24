@@ -1,243 +1,519 @@
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+/* All views: initial background and text color */
+body
+{
+  color: #000000;
+  background-color: #FFFFFF;
 }
 
-body {
-  font-family: Readex Pro,sans-serif;
-  font-size: 14px;
-  color: #e4e4e4;
-  background-color: #1a1a1a;
-}
-
-/* Links */
-a:link, a:visited {
-  color: #61afef;
-  text-decoration: none;
-}
-
-a:hover {
+/* All views: standard link format*/
+a:link
+{
+  color: #284FA8;
   text-decoration: underline;
-  color: #8cc2f0;
 }
 
-/* Headers */
-td.title {
+/* All views: standard link - visited format */
+a:visited
+{
+  color: #00CB40;
+  text-decoration: underline;
+}
+
+/* All views: standard link - activated format */
+a:active
+{
+  color: #FF0040;
+  text-decoration: underline;
+}
+
+/* All views: main title format */
+td.title
+{
   text-align: center;
-  padding: 20px 0;
-  font-family: Readex Pro,sans-serif;
-  font-size: 20px;
+  padding-bottom: 10px;
+  font-family: sans-serif;
+  font-size: 20pt;
+  font-style: italic;
   font-weight: bold;
-  color: #e4e4e4;
 }
 
-/* Header items */
-td.headerItem {
+/* All views: header item format */
+td.headerItem
+{
   text-align: right;
-  padding: 10px;
-  font-family: Readex Pro,sans-serif;
+  padding-right: 6px;
+  font-family: sans-serif;
+  font-weight: bold;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+/* All views: header item value format */
+td.headerValue
+{
+  text-align: left;
+  color: #284FA8;
+  font-family: sans-serif;
   font-weight: bold;
   white-space: nowrap;
-  color: #e4e4e4;
 }
 
-td.headerValue {
-  text-align: left;
-  padding: 10px;
-  color: #61afef;
-  font-family: Readex Pro,sans-serif;
-  font-weight: bold;
-}
-
-/* Coverage table */
-td.coverFile {
-  text-align: left;
-  padding: 10px;
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  font-size: 12px;
-  color: #61afef;
-  background-color: #2a2a2a;
-}
-
-/* Coverage bars */
-td.coverBar {
-  padding: 10px;
-  background-color: #2a2a2a;
-}
-
-td.coverBarOutline {
-  background-color: #3a3a3a;
-}
-
-/* Coverage percentages - High */
-td.coverPerHi, td.coverNumHi {
-  text-align: right;
-  padding: 10px;
-  background: #2b3328;
-  color: #98c379;
-  font-family: Readex Pro,sans-serif;
-}
-
-/* Coverage percentages - Medium */
-td.coverPerMed, td.coverNumMed {
-  text-align: right;
-  padding: 10px;
-  background: #2d2c1f;
-  color: #e5c07b;
-  font-family: Readex Pro,sans-serif;
-}
-
-/* Coverage percentages - Low */
-td.coverPerLo, td.coverNumLo {
-  text-align: right;
-  padding: 10px;
-  background: #3a2426;
-  color: #e06c75;
-  font-family: Readex Pro,sans-serif;
-}
-
-/* Source code view */
-pre.source {
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  font-size: 12px;
-  margin: 0;
-  padding: 0;
-  tab-size: 2;
-  color: #e4e4e4;
-  background-color: #2a2a2a;
-}
-
-/* Line numbers */
-span.lineNum {
-  background-color: #3a3a3a;
-  color: #636363;
-  padding: 0 5px;
-}
-
-/* Executed lines */
-td.lineCov, span.lineCov {
-  background-color: #2b3328;
-  color: #98c379;
-}
-
-/* Non-executed lines */
-td.lineNoCov, span.lineNoCov {
-  background-color: #3a2426;
-  color: #e06c75;
-}
-
-/* Branch coverage */
-span.branchCov {
-  background-color: #2b3328;
-  color: #98c379;
-}
-
-span.branchNoCov {
-  background-color: #3a2426;
-  color: #e06c75;
-}
-
-/* Table headers */
-td.tableHead {
+/* All views: header item coverage table heading */
+td.headerCovTableHead
+{
   text-align: center;
-  padding: 10px;
-  background-color: #2f3a45;
-  color: #e4e4e4;
-  font-family: Readex Pro,sans-serif;
-  font-weight: bold;
+  padding-right: 6px;
+  padding-left: 6px;
+  padding-bottom: 0px;
+  font-family: sans-serif;
+  font-size: 80%;
+  white-space: nowrap;
 }
 
-/* Function coverage */
-td.coverFn {
+/* All views: header item coverage table entry */
+td.headerCovTableEntry
+{
+  text-align: right;
+  color: #284FA8;
+  font-family: sans-serif;
+  font-weight: bold;
+  white-space: nowrap;
+  padding-left: 12px;
+  padding-right: 4px;
+  background-color: #DAE7FE;
+}
+
+/* All views: header item coverage table entry for high coverage rate */
+td.headerCovTableEntryHi
+{
+  text-align: right;
+  color: #000000;
+  font-family: sans-serif;
+  font-weight: bold;
+  white-space: nowrap;
+  padding-left: 12px;
+  padding-right: 4px;
+  background-color: #A7FC9D;
+}
+
+/* All views: header item coverage table entry for medium coverage rate */
+td.headerCovTableEntryMed
+{
+  text-align: right;
+  color: #000000;
+  font-family: sans-serif;
+  font-weight: bold;
+  white-space: nowrap;
+  padding-left: 12px;
+  padding-right: 4px;
+  background-color: #FFEA20;
+}
+
+/* All views: header item coverage table entry for ow coverage rate */
+td.headerCovTableEntryLo
+{
+  text-align: right;
+  color: #000000;
+  font-family: sans-serif;
+  font-weight: bold;
+  white-space: nowrap;
+  padding-left: 12px;
+  padding-right: 4px;
+  background-color: #FF0000;
+}
+
+/* All views: header legend value for legend entry */
+td.headerValueLeg
+{
   text-align: left;
-  padding: 10px;
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  font-size: 12px;
-  color: #61afef;
-  background-color: #2a2a2a;
+  color: #000000;
+  font-family: sans-serif;
+  font-size: 80%;
+  white-space: nowrap;
+  padding-top: 4px;
 }
 
-td.coverFnLo {
+/* All views: color of horizontal ruler */
+td.ruler
+{
+  background-color: #6688D4;
+}
+
+/* All views: version string format */
+td.versionInfo
+{
+  text-align: center;
+  padding-top: 2px;
+  font-family: sans-serif;
+  font-style: italic;
+}
+
+/* Directory view/File view (all)/Test case descriptions:
+   table headline format */
+td.tableHead
+{
+  text-align: center;
+  color: #FFFFFF;
+  background-color: #6688D4;
+  font-family: sans-serif;
+  font-size: 120%;
+  font-weight: bold;
+  white-space: nowrap;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+span.tableHeadSort
+{
+  padding-right: 4px;
+}
+
+/* Directory view/File view (all): filename entry format */
+td.coverFile
+{
+  text-align: left;
+  padding-left: 10px;
+  padding-right: 20px; 
+  color: #284FA8;
+  background-color: #DAE7FE;
+  font-family: monospace;
+}
+
+/* Directory view/File view (all): bar-graph entry format*/
+td.coverBar
+{
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #DAE7FE;
+}
+
+/* Directory view/File view (all): bar-graph outline color */
+td.coverBarOutline
+{
+  background-color: #000000;
+}
+
+/* Directory view/File view (all): percentage entry for files with
+   high coverage rate */
+td.coverPerHi
+{
   text-align: right;
-  padding: 10px;
-  background-color: #3a2426;
-  color: #e06c75;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #A7FC9D;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/* Directory view/File view (all): line count entry for files with
+   high coverage rate */
+td.coverNumHi
+{
+  text-align: right;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #A7FC9D;
+  white-space: nowrap;
+  font-family: sans-serif;
+}
+
+/* Directory view/File view (all): percentage entry for files with
+   medium coverage rate */
+td.coverPerMed
+{
+  text-align: right;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #FFEA20;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/* Directory view/File view (all): line count entry for files with
+   medium coverage rate */
+td.coverNumMed
+{
+  text-align: right;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #FFEA20;
+  white-space: nowrap;
+  font-family: sans-serif;
+}
+
+/* Directory view/File view (all): percentage entry for files with
+   low coverage rate */
+td.coverPerLo
+{
+  text-align: right;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #FF0000;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/* Directory view/File view (all): line count entry for files with
+   low coverage rate */
+td.coverNumLo
+{
+  text-align: right;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #FF0000;
+  white-space: nowrap;
+  font-family: sans-serif;
+}
+
+/* File view (all): "show/hide details" link format */
+a.detail:link
+{
+  color: #B8D0FF;
+  font-size:80%;
+}
+
+/* File view (all): "show/hide details" link - visited format */
+a.detail:visited
+{
+  color: #B8D0FF;
+  font-size:80%;
+}
+
+/* File view (all): "show/hide details" link - activated format */
+a.detail:active
+{
+  color: #FFFFFF;
+  font-size:80%;
+}
+
+/* File view (detail): test name entry */
+td.testName
+{
+  text-align: right;
+  padding-right: 10px;
+  background-color: #DAE7FE;
+  font-family: sans-serif;
+}
+
+/* File view (detail): test percentage entry */
+td.testPer
+{
+  text-align: right;
+  padding-left: 10px;
+  padding-right: 10px; 
+  background-color: #DAE7FE;
+  font-family: sans-serif;
+}
+
+/* File view (detail): test lines count entry */
+td.testNum
+{
+  text-align: right;
+  padding-left: 10px;
+  padding-right: 10px; 
+  background-color: #DAE7FE;
+  font-family: sans-serif;
+}
+
+/* Test case descriptions: test name format*/
+dt
+{
+  font-family: sans-serif;
   font-weight: bold;
 }
 
-td.coverFnHi {
+/* Test case descriptions: description table body */
+td.testDescription
+{
+  padding-top: 10px;
+  padding-left: 30px;
+  padding-bottom: 10px;
+  padding-right: 30px;
+  background-color: #DAE7FE;
+}
+
+/* Source code view: function entry */
+td.coverFn
+{
+  text-align: left;
+  padding-left: 10px;
+  padding-right: 20px; 
+  color: #284FA8;
+  background-color: #DAE7FE;
+  font-family: monospace;
+}
+
+/* Source code view: function entry zero count*/
+td.coverFnLo
+{
   text-align: right;
-  padding: 10px;
-  background-color: #2b3328;
-  color: #98c379;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #FF0000;
   font-weight: bold;
+  font-family: sans-serif;
 }
 
-/* Test descriptions */
-td.testDescription {
-  padding: 10px;
-  background-color: #2a2a2a;
-  color: #e4e4e4;
+/* Source code view: function entry nonzero count*/
+td.coverFnHi
+{
+  text-align: right;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #DAE7FE;
+  font-weight: bold;
+  font-family: sans-serif;
 }
 
-/* Wrapper and footer */
-.wrapper {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -48px;
+/* Source code view: source code format */
+pre.source
+{
+  font-family: monospace;
+  white-space: pre;
+  margin-top: 2px;
 }
 
-.footer, .push {
-  height: 48px;
-  background-color: #2a2a2a;
-  color: #636363;
+/* Source code view: line number format */
+span.lineNum
+{
+  background-color: #EFE383;
 }
 
-/* Coverage summary table */
-table.coverage {
-  border-collapse: collapse;
-  margin: 10px 0;
-  width: 100%;
+/* Source code view: format for lines which were executed */
+td.lineCov,
+span.lineCov
+{
+  background-color: #CAD7FE;
 }
 
-table.coverage td {
-  padding: 10px;
-  border: 1px solid #3a3a3a;
+/* Source code view: format for Cov legend */
+span.coverLegendCov
+{
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 2px;
+  background-color: #CAD7FE;
 }
 
-/* Legend colors */
-td.headerValueLegL {
-  background-color: #3a2426;
-  color: #e06c75;
+/* Source code view: format for lines which were not executed */
+td.lineNoCov,
+span.lineNoCov
+{
+  background-color: #FF6230;
 }
 
-td.headerValueLegM {
-  background-color: #2d2c1f;
-  color: #e5c07b;
+/* Source code view: format for NoCov legend */
+span.coverLegendNoCov
+{
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 2px;
+  background-color: #FF6230;
 }
 
-td.headerValueLegH {
-  background-color: #2b3328;
-  color: #98c379;
+/* Source code view (function table): standard link - visited format */
+td.lineNoCov > a:visited,
+td.lineCov > a:visited
+{  
+  color: black;
+  text-decoration: underline;
+}  
+
+/* Source code view: format for lines which were executed only in a
+   previous version */
+span.lineDiffCov
+{
+  background-color: #B5F7AF;
 }
 
-/* Coverage legend spans */
-span.coverLegendCovLo {
-  padding: 2px 10px;
-  background-color: #3a2426;
-  color: #e06c75;
+/* Source code view: format for branches which were executed
+ * and taken */
+span.branchCov
+{
+  background-color: #CAD7FE;
 }
 
-span.coverLegendCovMed {
-  padding: 2px 10px;
-  background-color: #2d2c1f;
-  color: #e5c07b;
+/* Source code view: format for branches which were executed
+ * but not taken */
+span.branchNoCov
+{
+  background-color: #FF6230;
 }
 
-span.coverLegendCovHi {
-  padding: 2px 10px;
-  background-color: #2b3328;
-  color: #98c379;
+/* Source code view: format for branches which were not executed */
+span.branchNoExec
+{
+  background-color: #FF6230;
+}
+
+/* Source code view: format for the source code heading line */
+pre.sourceHeading
+{
+  white-space: pre;
+  font-family: monospace;
+  font-weight: bold;
+  margin: 0px;
+}
+
+/* All views: header legend value for low rate */
+td.headerValueLegL
+{
+  font-family: sans-serif;
+  text-align: center;
+  white-space: nowrap;
+  padding-left: 4px;
+  padding-right: 2px;
+  background-color: #FF0000;
+  font-size: 80%;
+}
+
+/* All views: header legend value for med rate */
+td.headerValueLegM
+{
+  font-family: sans-serif;
+  text-align: center;
+  white-space: nowrap;
+  padding-left: 2px;
+  padding-right: 2px;
+  background-color: #FFEA20;
+  font-size: 80%;
+}
+
+/* All views: header legend value for hi rate */
+td.headerValueLegH
+{
+  font-family: sans-serif;
+  text-align: center;
+  white-space: nowrap;
+  padding-left: 2px;
+  padding-right: 4px;
+  background-color: #A7FC9D;
+  font-size: 80%;
+}
+
+/* All views except source code view: legend format for low coverage */
+span.coverLegendCovLo
+{
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 2px;
+  background-color: #FF0000;
+}
+
+/* All views except source code view: legend format for med coverage */
+span.coverLegendCovMed
+{
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 2px;
+  background-color: #FFEA20;
+}
+
+/* All views except source code view: legend format for hi coverage */
+span.coverLegendCovHi
+{
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 2px;
+  background-color: #A7FC9D;
 }

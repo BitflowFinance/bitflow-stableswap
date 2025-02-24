@@ -47,7 +47,6 @@ class ClarityCoverageProvider implements CoverageProvider {
 
     resolveOptions(): ResolvedCoverageOptions {
         console.log('[ClarityCoverageProvider] Resolving coverage options');
-        const vitestDir = path.join(this.coverageDir, 'vitest');
         return {
             enabled: true,
             clean: false,
@@ -105,6 +104,21 @@ class ClarityCoverageProvider implements CoverageProvider {
 
     async stopCoverage() {
         console.log('[ClarityCoverageProvider] Stopping coverage collection');
+    }
+
+    async takeCoverage() {
+        console.log('[ClarityCoverageProvider] Taking coverage snapshot');
+        return this.coverageData;
+    }
+
+    async generateCoverage() {
+        console.log('[ClarityCoverageProvider] Generating coverage report');
+        console.log('[ClarityCoverageProvider] Coverage data:', this.coverageData);
+        return this.coverageData;
+    }
+
+    async reportCoverage() {
+        console.log('[ClarityCoverageProvider] Reporting coverage data');
         if (fs.existsSync(this.lcovPath)) {
             console.log('[ClarityCoverageProvider] Reading LCOV file');
             const lcovContent = fs.readFileSync(this.lcovPath, 'utf-8');
@@ -121,24 +135,11 @@ class ClarityCoverageProvider implements CoverageProvider {
                 await this.generateHtmlReport();
             }
         }
-    }
-    async takeCoverage() {
-        console.log('[ClarityCoverageProvider] Taking coverage snapshot');
-        return this.coverageData;
-    }
-
-    async generateCoverage() {
-        console.log('[ClarityCoverageProvider] Generating coverage report');
-        return this.coverageData;
-    }
-
-    async reportCoverage() {
-        console.log('[ClarityCoverageProvider] Reporting coverage data');
         return this.coverageData;
     }
 
     private parseLcov(lcovContent: string) {
-        console.log('[ClarityCoverageProvider] Parsing LCOV content');
+        console.log('[ClarityCoverageProvider] Parsing LCOV content', lcovContent);
         const files: Record<string, any> = {};
         let currentFile: any = null;
         let lineCount = 0;
