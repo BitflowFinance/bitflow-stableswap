@@ -980,8 +980,8 @@
     (updated-x-balance-scaled (+ x-balance-scaled dx-scaled x-amount-fees-provider-scaled))
     
     ;; Calculate updated pool balances using midpoint
-    (midpoint-value-a (if midpoint-reversed midpoint midpoint-factor))
-    (midpoint-value-b (if midpoint-reversed midpoint-factor midpoint))
+    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
+    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
     (x-balance-midpoint-scaled (/ (* x-balance-scaled midpoint-value-a) midpoint-value-b))
     (updated-y-balance-scaled (get-y dx-scaled x-balance-midpoint-scaled y-balance-scaled amplification-coefficient convergence-threshold))
 
@@ -1086,8 +1086,8 @@
     (updated-y-balance-scaled (+ y-balance-scaled dy-scaled y-amount-fees-provider-scaled))
     
     ;; Calculate updated pool balances using midpoint
-    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
-    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
+    (midpoint-value-a (if midpoint-reversed midpoint midpoint-factor))
+    (midpoint-value-b (if midpoint-reversed midpoint-factor midpoint))
     (y-balance-midpoint-scaled (/ (* y-balance-scaled midpoint-value-a) midpoint-value-b))
     (updated-x-balance-scaled (get-x dy-scaled y-balance-midpoint-scaled x-balance-scaled amplification-coefficient convergence-threshold))
 
