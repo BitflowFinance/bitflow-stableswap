@@ -129,7 +129,7 @@
     (provider-fee (get x-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
     (amplification-coefficient (get amplification-coefficient pool-data))
-    
+
     ;; Scale up pool balances and swap amounts to perform AMM calculations with get-y
     (pool-balances-scaled (scale-up-amounts x-balance y-balance x-token-trait y-token-trait))
     (x-balance-scaled (get x-amount pool-balances-scaled))
@@ -142,10 +142,11 @@
     (dx-scaled (- x-amount-scaled x-amount-fees-total-scaled))
 
     ;; Calculate updated pool balances using midpoint
-    (midpoint-value-a (if midpoint-reversed midpoint midpoint-factor))
-    (midpoint-value-b (if midpoint-reversed midpoint-factor midpoint))
+    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
+    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
+    (dx-midpoint-scaled (/ (* dx-scaled midpoint-value-b) midpoint-value-a))
     (x-balance-midpoint-scaled (/ (* x-balance-scaled midpoint-value-a) midpoint-value-b))
-    (updated-y-balance-scaled (get-y dx-scaled x-balance-midpoint-scaled y-balance-scaled amplification-coefficient convergence-threshold))
+    (updated-y-balance-scaled (get-y dx-midpoint-scaled x-balance-midpoint-scaled y-balance-scaled amplification-coefficient convergence-threshold))
 
     ;; Scale down to precise amounts for y and dy
     (updated-y-balance (get y-amount (scale-down-amounts u0 updated-y-balance-scaled x-token-trait y-token-trait)))
@@ -196,13 +197,14 @@
     (y-amount-fees-provider-scaled (/ (* y-amount-scaled provider-fee) BPS))
     (y-amount-fees-total-scaled (+ y-amount-fees-protocol-scaled y-amount-fees-provider-scaled))
     (dy-scaled (- y-amount-scaled y-amount-fees-total-scaled))
-    
+
     ;; Calculate updated pool balances using midpoint
-    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
-    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
+    (midpoint-value-a (if midpoint-reversed midpoint midpoint-factor))
+    (midpoint-value-b (if midpoint-reversed midpoint-factor midpoint))
+    (dy-midpoint-scaled (/ (* dy-scaled midpoint-value-b) midpoint-value-a))
     (y-balance-midpoint-scaled (/ (* y-balance-scaled midpoint-value-a) midpoint-value-b))
-    (updated-x-balance-scaled (get-x dy-scaled y-balance-midpoint-scaled x-balance-scaled amplification-coefficient convergence-threshold))
-    
+    (updated-x-balance-scaled (get-x dy-midpoint-scaled y-balance-midpoint-scaled x-balance-scaled amplification-coefficient convergence-threshold))
+
     ;; Scale down to precise amounts for x and dx
     (updated-x-balance (get x-amount (scale-down-amounts updated-x-balance-scaled u0 x-token-trait y-token-trait)))
     (dx (- x-balance updated-x-balance))
@@ -978,12 +980,13 @@
     (x-amount-fees-total-scaled (+ x-amount-fees-protocol-scaled x-amount-fees-provider-scaled))
     (dx-scaled (- x-amount-scaled x-amount-fees-total-scaled))
     (updated-x-balance-scaled (+ x-balance-scaled dx-scaled x-amount-fees-provider-scaled))
-    
+
     ;; Calculate updated pool balances using midpoint
     (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
     (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
+    (dx-midpoint-scaled (/ (* dx-scaled midpoint-value-b) midpoint-value-a))
     (x-balance-midpoint-scaled (/ (* x-balance-scaled midpoint-value-a) midpoint-value-b))
-    (updated-y-balance-scaled (get-y dx-scaled x-balance-midpoint-scaled y-balance-scaled amplification-coefficient convergence-threshold))
+    (updated-y-balance-scaled (get-y dx-midpoint-scaled x-balance-midpoint-scaled y-balance-scaled amplification-coefficient convergence-threshold))
 
     ;; Scale down to precise amounts for y and dy, as well as x-amount-fees-protocol and x-amount-fees-provider
     (updated-y-balance (get y-amount (scale-down-amounts u0 updated-y-balance-scaled x-token-trait y-token-trait)))
@@ -1084,12 +1087,13 @@
     (y-amount-fees-total-scaled (+ y-amount-fees-protocol-scaled y-amount-fees-provider-scaled))
     (dy-scaled (- y-amount-scaled y-amount-fees-total-scaled))
     (updated-y-balance-scaled (+ y-balance-scaled dy-scaled y-amount-fees-provider-scaled))
-    
+
     ;; Calculate updated pool balances using midpoint
     (midpoint-value-a (if midpoint-reversed midpoint midpoint-factor))
     (midpoint-value-b (if midpoint-reversed midpoint-factor midpoint))
+    (dy-midpoint-scaled (/ (* dy-scaled midpoint-value-b) midpoint-value-a))
     (y-balance-midpoint-scaled (/ (* y-balance-scaled midpoint-value-a) midpoint-value-b))
-    (updated-x-balance-scaled (get-x dy-scaled y-balance-midpoint-scaled x-balance-scaled amplification-coefficient convergence-threshold))
+    (updated-x-balance-scaled (get-x dy-midpoint-scaled y-balance-midpoint-scaled x-balance-scaled amplification-coefficient convergence-threshold))
 
     ;; Scale down to precise amounts for x and dx, as well as y-amount-fees-protocol and y-amount-fees-provider
     (updated-x-balance (get x-amount (scale-down-amounts updated-x-balance-scaled u0 x-token-trait y-token-trait)))
