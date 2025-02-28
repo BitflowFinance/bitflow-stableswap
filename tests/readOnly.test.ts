@@ -32,7 +32,7 @@ suite("Read-Only", () => {
 
         expect(admins).toBeDefined();
         expect(adminHelper).toBeDefined();
-        expect(admins).toContain(simulator.deployer);
+        expect(admins).toContain(Simulator.deployer);
     });
 
     it("should verify read-only functions return expected values", () => {

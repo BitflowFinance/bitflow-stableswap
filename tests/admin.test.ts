@@ -30,7 +30,7 @@ suite("Admin", { timeout: 100000 }, () => {
         // Get initial admins
         const initialAdmins = simulator.getAdmins();
         console.log(`${colors.subtitle('Initial Admins:')} ${colors.info(initialAdmins.join(', '))}`);
-        expect(initialAdmins).toContain(simulator.deployer);
+        expect(initialAdmins).toContain(Simulator.deployer);
 
         // Add a new admin (wallet_1)
         const wallet1 = simulator.getWallet1();
@@ -54,7 +54,7 @@ suite("Admin", { timeout: 100000 }, () => {
 
         // Try to add admin from non-admin account (should fail)
         try {
-            simulator.addAdmin(simulator.deployer, wallet1);
+            simulator.addAdmin(Simulator.deployer, wallet1);
             throw new Error("Non-admin should not be able to add admins");
         } catch (error) {
             console.log(`${colors.success('✓')} ${colors.info('Successfully prevented unauthorized admin addition')}`);
@@ -73,7 +73,7 @@ suite("Admin", { timeout: 100000 }, () => {
 
         // Try to remove contract deployer (should fail)
         try {
-            simulator.removeAdmin(simulator.deployer);
+            simulator.removeAdmin(Simulator.deployer);
             throw new Error("Should not be able to remove contract deployer");
         } catch (error) {
             console.log(`${colors.success('✓')} ${colors.info('Successfully prevented contract deployer removal')}`);
@@ -89,7 +89,7 @@ suite("Admin", { timeout: 100000 }, () => {
 
         // Try to remove admin from non-admin account (should fail)
         try {
-            simulator.removeAdmin(simulator.deployer, wallet1);
+            simulator.removeAdmin(Simulator.deployer, wallet1);
             throw new Error("Non-admin should not be able to remove admins");
         } catch (error) {
             console.log(`${colors.success('✓')} ${colors.info('Successfully prevented unauthorized admin removal')}`);
@@ -111,13 +111,13 @@ suite("Admin", { timeout: 100000 }, () => {
         console.log(`${colors.subtitle('Adding')} ${colors.info(additionalAdmins.toString())} ${colors.subtitle('more admins...')}`);
 
         // Generate test accounts (we'll use wallet_1 with different numbers appended)
-        const testAccounts = Array.from(simulator.accounts.values());
+        const testAccounts = Array.from(Simulator.accounts.values());
 
         // Add admins up to the limit
         for (let i = 0; i < additionalAdmins; i++) {
-            const result = simulator.addAdmin(testAccounts[i]);
+            const result = simulator.addAdmin(testAccounts[i] as string);
             expect(result).toBe(true);
-            console.log(`${colors.success('✓')} Added admin: ${colors.info(testAccounts[i])}`);
+            console.log(`${colors.success('✓')} Added admin: ${colors.info(testAccounts[i] as string)}`);
         }
 
         // Verify current admin count
@@ -127,7 +127,7 @@ suite("Admin", { timeout: 100000 }, () => {
 
         // Try to add one more admin (should fail)
         try {
-            simulator.addAdmin(testAccounts[additionalAdmins]);
+            simulator.addAdmin(testAccounts[additionalAdmins] as string);
             throw new Error("Should not be able to exceed admin limit");
         } catch (error) {
             console.log(`${colors.success('✓')} ${colors.info('Successfully prevented exceeding admin limit')}`);
@@ -136,8 +136,8 @@ suite("Admin", { timeout: 100000 }, () => {
         // Clean up by removing added admins
         console.log('\nCleaning up added admins...');
         for (let i = 0; i < additionalAdmins; i++) {
-            simulator.removeAdmin(testAccounts[i]);
-            console.log(`${colors.success('✓')} Removed admin: ${colors.info(testAccounts[i])}`);
+            simulator.removeAdmin(testAccounts[i] as string);
+            console.log(`${colors.success('✓')} Removed admin: ${colors.info(testAccounts[i] as string)}`);
         }
 
         // Verify cleanup

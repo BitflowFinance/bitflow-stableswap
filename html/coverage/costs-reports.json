@@ -3014,6 +3014,518 @@
     }
   },
   {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 50,
+        "write_count": 1,
+        "read_length": 75222,
+        "read_count": 5,
+        "runtime": 107877
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 49,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admins",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 75244,
+        "read_count": 4,
+        "runtime": 76026
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 75244,
+        "read_count": 4,
+        "runtime": 81516
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 75244,
+        "read_count": 4,
+        "runtime": 81516
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 51,
+        "write_count": 2,
+        "read_length": 75290,
+        "read_count": 8,
+        "runtime": 102057
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 49,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admins",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 75222,
+        "read_count": 4,
+        "runtime": 76004
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 75222,
+        "read_count": 4,
+        "runtime": 82802
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 75222,
+        "read_count": 4,
+        "runtime": 81431
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should manage admins correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 75222,
+        "read_count": 4,
+        "runtime": 79006
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admins",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 75222,
+        "read_count": 4,
+        "runtime": 76004
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 50,
+        "write_count": 1,
+        "read_length": 75222,
+        "read_count": 5,
+        "runtime": 107877
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 49,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST3AM1A56AK2C1XAFJ4115ZSV26EB49BVQ10MGCS0"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 72,
+        "write_count": 1,
+        "read_length": 75244,
+        "read_count": 5,
+        "runtime": 108053
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 71,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 94,
+        "write_count": 1,
+        "read_length": 75266,
+        "read_count": 5,
+        "runtime": 108229
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 93,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST2REHHS5J3CERCRBEPMGH7921Q6PYKAADT7JP2VB"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 116,
+        "write_count": 1,
+        "read_length": 75288,
+        "read_count": 5,
+        "runtime": 108405
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 115,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-admins",
+    "args": [],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 75310,
+        "read_count": 4,
+        "runtime": 76092
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "add-admin",
+    "args": [
+      "'ST3PF13W7Z0RRM42A8VZRVFQ75SV1K26RXEP8YGKJ"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 75310,
+        "read_count": 4,
+        "runtime": 95410
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 117,
+        "write_count": 2,
+        "read_length": 75425,
+        "read_count": 11,
+        "runtime": 107880
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 115,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST3AM1A56AK2C1XAFJ4115ZSV26EB49BVQ10MGCS0"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 95,
+        "write_count": 2,
+        "read_length": 75380,
+        "read_count": 10,
+        "runtime": 105939
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 93,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 73,
+        "write_count": 2,
+        "read_length": 75335,
+        "read_count": 9,
+        "runtime": 103998
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 71,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "remove-admin",
+    "args": [
+      "'ST2REHHS5J3CERCRBEPMGH7921Q6PYKAADT7JP2VB"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 51,
+        "write_count": 2,
+        "read_length": 75290,
+        "read_count": 8,
+        "runtime": 102057
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 49,
+      "memory_limit": 100000000
+    }
+  },
+  {
     "test_name": "tests/admin.test.ts__Admin__should enforce admin limit",
     "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
     "method": "get-admins",
@@ -4570,6 +5082,94 @@
         "runtime": 5000000000
       },
       "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dx",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u10000000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 99707,
+        "read_count": 50,
+        "runtime": 15260714
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "get-dx",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u500000000"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 0,
+        "write_count": 0,
+        "read_length": 99707,
+        "read_count": 50,
+        "runtime": 15260714
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 0,
+      "memory_limit": 100000000
+    }
+  },
+  {
+    "test_name": "tests/quotes.test.ts__Quotes__should handle stSTX to STX quotes correctly",
+    "contract_id": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-core-v-1-1",
+    "method": "swap-y-for-x",
+    "args": [
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-stx-v-1-1",
+      "'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-ststx",
+      "u500000000",
+      "u1"
+    ],
+    "cost_result": {
+      "total": {
+        "write_length": 57,
+        "write_count": 8,
+        "read_length": 138221,
+        "read_count": 85,
+        "runtime": 23942782
+      },
+      "limit": {
+        "write_length": 15000000,
+        "write_count": 15000,
+        "read_length": 100000000,
+        "read_count": 15000,
+        "runtime": 5000000000
+      },
+      "memory": 1083,
       "memory_limit": 100000000
     }
   },

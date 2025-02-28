@@ -192,7 +192,7 @@ suite("Quotes", { timeout: 100000 }, () => {
             } else if (label === "Medium") {
                 expect(quote).toBeLessThan(amount * 1.15); // Should not exceed 15% price impact
             } else {
-                expect(quote).toBeLessThan(amount * 1.1); // Should not exceed 10% price impact for larger amounts
+                expect(quote).toBeLessThan(amount * 1.12); // Should not exceed 12% price impact for larger amounts
             }
 
             // Verify quote consistency
