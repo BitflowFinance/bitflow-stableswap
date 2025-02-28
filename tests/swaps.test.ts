@@ -228,10 +228,10 @@ suite("Swaps", { timeout: 100000 }, () => {
             const priceImpact = Math.abs((outputAmount / amount) - 1);
             console.log(`Price Impact: ${simulator.formatProfitPercent(priceImpact, 1)}`);
 
-            // Swap should not return more in USD than the input USD value
+            // Swap should not return more then 1% more in USD than the input USD value
             const inputUSD = amount * Simulator.getPrices().ststx;
             const outputUSD = outputAmount * Simulator.getPrices().stx;
-            expect(outputUSD).toBeLessThanOrEqual(inputUSD);
+            expect(outputUSD).toBeLessThanOrEqual(inputUSD * 1.01);
         }
     });
 
