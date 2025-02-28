@@ -6,6 +6,9 @@
     "scripts": {
         "test": "vitest run -- --manifest-path ./Clarinet.toml",
         "test:reports": "vitest run -- --coverage --costs",
+        "test:sanity": "vitest sanity run -- --coverage --costs",
+        "test:arbitrage": "vitest arbitrage run -- --coverage --costs",
+        "test:fuzz": "vitest fuzz run -- --coverage --costs",
         "test:watch": "chokidar \"unit-tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm t\"",
         "test:ui": "vitest --coverage --ui",
         "coverage": "rm -rf coverage && mkdir -p coverage && COVERAGE=1 vitest run --coverage && genhtml coverage/lcov.info -o coverage/html && echo 'Coverage report generated at coverage/html/index.html'",

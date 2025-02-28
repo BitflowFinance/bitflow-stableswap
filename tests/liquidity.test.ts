@@ -20,8 +20,8 @@ suite("Liquidity", { timeout: 100000 }, () => {
         // Create pool with default configuration
         simulator.createPool();
 
-        // wait 1 second
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // balance the pool with a swap
+        simulator.swapSTXForSTSTX(500_000 * unit);
     });
 
     it("should handle single-sided STX liquidity", () => {
@@ -34,9 +34,9 @@ suite("Liquidity", { timeout: 100000 }, () => {
         console.log(`STX Balance: ${simulator.formatSTX(initialState.stxBalance)}`);
         console.log(`stSTX Balance: ${simulator.formatStSTX(initialState.ststxBalance)}`);
 
-        // Add liquidity
+        // Add liquidity (STX only)
         console.log(`\nAdding ${simulator.formatSTX(amount)} single-sided`);
-        const lpTokensReceived = simulator.addLiquidity(amount);
+        const lpTokensReceived = simulator.addLiquidity(amount, 0);
         console.log(`LP Tokens Received: ${simulator.formatUnits(lpTokensReceived)}`);
 
         // Verify pool state after addition
@@ -59,9 +59,9 @@ suite("Liquidity", { timeout: 100000 }, () => {
         const profitLoss = totalValueReceived - initialValue;
 
         console.log("\n=== Operation Results ===");
-        console.log(`Initial Value: ${initialValue}`);
-        console.log(`Final Value: ${totalValueReceived}`);
-        console.log(`Profit/Loss: ${profitLoss}`);
+        console.log(`Initial Value: $${initialValue}`);
+        console.log(`Final Value: $${totalValueReceived}`);
+        console.log(`Profit/Loss: $${profitLoss}`);
     });
 
     it("should handle balanced liquidity addition", () => {
@@ -101,9 +101,9 @@ suite("Liquidity", { timeout: 100000 }, () => {
         const profitLoss = finalValue - initialValue;
 
         console.log("\n=== Operation Results ===");
-        console.log(`Initial Value: ${simulator.formatUSD(stxAmount + ststxAmount, Simulator.getPrices().stx)}`);
-        console.log(`Final Value: ${finalValue}`);
-        console.log(`Profit/Loss: ${profitLoss}`);
+        console.log(`Initial Value: $${initialValue}`);
+        console.log(`Final Value: $${finalValue}`);
+        console.log(`Profit/Loss: $${profitLoss}`);
     });
 
     it("should handle partial liquidity withdrawal", () => {
@@ -112,7 +112,7 @@ suite("Liquidity", { timeout: 100000 }, () => {
 
         // Add initial liquidity
         console.log(`\nAdding initial liquidity: ${simulator.formatSTX(amount)}`);
-        const lpTokensReceived = simulator.addLiquidity(amount);
+        const lpTokensReceived = simulator.addLiquidity(amount, 0);
         console.log(`LP Tokens Received: ${simulator.formatUnits(lpTokensReceived)}`);
 
         // Withdraw 50% of LP tokens

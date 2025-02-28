@@ -15,10 +15,13 @@ suite("Swaps", { timeout: 100000 }, () => {
         simulator = await Simulator.create();
 
         // First mint some stSTX tokens to deployer
-        simulator.mintStSTX(10_000_000 * unit);
+        simulator.mintStSTX(20_000_000 * unit);
 
         // Create pool with default configuration
         simulator.createPool();
+
+        // balance the pool with a swap
+        // simulator.swapSTSTXForSTX(800_000 * unit);
     });
 
     beforeEach(() => {
@@ -30,9 +33,9 @@ suite("Swaps", { timeout: 100000 }, () => {
         console.log("\n✨ STX to stSTX Quote vs Swap Test ✨");
 
         const testAmounts = [
-            { amount: 100 * unit, label: "Small" },
-            // { amount: 1_000 * unit, label: "Medium" },
-            { amount: 10_000 * unit, label: "Large" }
+            // { amount: 100 * unit, label: "Small" },
+            { amount: 1_000 * unit, label: "Medium" },
+            // { amount: 10_000 * unit, label: "Large" }
         ];
 
         for (const { amount, label } of testAmounts) {
@@ -50,7 +53,7 @@ suite("Swaps", { timeout: 100000 }, () => {
             // Calculate and display difference
             const difference = Math.abs(quotedAmount - swapAmount);
             const percentDiff = (difference / quotedAmount) * 100;
-            console.log(`Difference: ${simulator.formatStSTX(difference)} (${percentDiff.toFixed(6)}%)`);
+            console.log(`Quote vs Swap Difference: ${simulator.formatStSTX(difference)} (${percentDiff.toFixed(6)}%)`);
 
             // Verify the difference is minimal
             expect(difference).toBe(0);

@@ -19,13 +19,6 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
 
         // Create pool with default configuration
         simulator.createPool();
-
-        // wait 1 second
-        await new Promise(resolve => setTimeout(resolve, 1000));
-    });
-
-    beforeEach(() => {
-        simulator.simnet.mineEmptyBlock();
     });
 
     it("should resist single-sided liquidity arbitrage", async () => {
@@ -37,13 +30,13 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
 
         // Step 1: Add single-sided liquidity (STX only)
         const initialInvestmentUSD = ATTEMPT_AMOUNT * Simulator.getPrices().stx;
-        const lpTokensReceived = simulator.addLiquidity(ATTEMPT_AMOUNT);
+        const lpTokensReceived = simulator.addLiquidity(ATTEMPT_AMOUNT, 0);
+        console.log(`LP Tokens Received: ${simulator.formatUnits(lpTokensReceived)}`);
 
         // Step 2: Remove liquidity
         const { stx: finalSTX, ststx: finalStSTX } = simulator.withdrawLiquidity(lpTokensReceived);
-
-        // Calculate final position value and profit
         const finalValueUSD = (finalSTX * Simulator.getPrices().stx) + (finalStSTX * Simulator.getPrices().ststx);
+        console.log(`Received: ${simulator.formatSTX(finalSTX)} + ${simulator.formatStSTX(finalStSTX)}`);
         const profitUSD = finalValueUSD - initialInvestmentUSD;
         const profitPercent = (profitUSD / initialInvestmentUSD);
 
@@ -63,12 +56,12 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
         console.log("\n✨ Testing Single-Sided Liquidity Protection ✨");
         console.log(`Market conditions: 1 stSTX = ${simulator.formatUSD(Simulator.getUnit(), Simulator.getPrices().ststx)} (${((Simulator.getPrices().ststx / Simulator.getPrices().stx - 1) * 100).toFixed(1)}% premium)`);
 
-        // Step 1: Attempt single-sided liquidity addition
+        // Step 1: Attempt single-sided liquidity addition (STX only)
         console.log("\nStep 1: Testing single-sided STX addition");
         const initialInvestmentUSD = ATTEMPT_AMOUNT / Simulator.getUnit() * Simulator.getPrices().stx;
         console.log(`Adding ${simulator.formatSTX(ATTEMPT_AMOUNT)} (${simulator.formatUSD(ATTEMPT_AMOUNT, Simulator.getPrices().stx)})`);
-
-        const lpTokensReceived = simulator.addLiquidity(ATTEMPT_AMOUNT);
+        const lpTokensReceived = simulator.addLiquidity(ATTEMPT_AMOUNT, 0);
+        console.log(`LP Tokens Received: ${simulator.formatUnits(lpTokensReceived)}`);
 
         // Step 2: Attempt immediate withdrawal
         console.log("\nStep 2: Testing immediate withdrawal");
@@ -111,8 +104,9 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
             console.log(`${colors.subtitle('Starting balance:')} ${simulator.formatSTX(currentSTXBalance)} (${simulator.formatUSD(currentSTXBalance, Simulator.getPrices().stx)})`);
             totalVolume += currentSTXBalance;
 
-            // Step 1: Add single-sided liquidity
-            const lpTokensReceived = simulator.addLiquidity(currentSTXBalance);
+            // Step 1: Add single-sided liquidity (STX only)
+            const lpTokensReceived = simulator.addLiquidity(currentSTXBalance, 0);
+            console.log(`LP Tokens Received: ${simulator.formatUnits(lpTokensReceived)}`);
 
             // Step 2: Remove liquidity
             const { stx: receivedSTX, ststx: receivedStSTX } = simulator.withdrawLiquidity(lpTokensReceived);
@@ -175,8 +169,9 @@ suite("Anti-Arbitrage", { timeout: 100000 }, () => {
             console.log(`${colors.subtitle('Starting balance:')} ${simulator.formatSTX(currentSTXBalance)} (${simulator.formatUSD(currentSTXBalance, Simulator.getPrices().stx)})`);
             totalVolume += currentSTXBalance;
 
-            // Step 1: Add single-sided liquidity
-            const lpTokensReceived = simulator.addLiquidity(currentSTXBalance);
+            // Step 1: Add single-sided liquidity (STX only)
+            const lpTokensReceived = simulator.addLiquidity(currentSTXBalance, 0);
+            console.log(`LP Tokens Received: ${simulator.formatUnits(lpTokensReceived)}`);
 
             // Step 2: Remove liquidity
             const { stx: receivedSTX, ststx: receivedStSTX } = simulator.withdrawLiquidity(lpTokensReceived);

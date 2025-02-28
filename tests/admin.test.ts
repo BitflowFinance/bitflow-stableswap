@@ -3,6 +3,7 @@ import { describe, expect, it, beforeAll, suite } from 'vitest';
 
 // Get simulator colors for formatting
 const colors = Simulator.getColors();
+const unit = Simulator.getUnit();
 
 // Test setup
 let simulator: Simulator;
@@ -18,6 +19,9 @@ suite("Admin", { timeout: 100000 }, () => {
 
         // Create pool with default configuration
         simulator.createPool();
+
+        // balance the pool with a swap
+        simulator.swapSTXForSTSTX(500_000 * unit);
     });
 
     it("should manage admins correctly", () => {

@@ -19,6 +19,9 @@ suite("Quotes", { timeout: 100000 }, () => {
 
         // Create pool with default configuration
         simulator.createPool();
+
+        // balance the pool with a swap
+        simulator.swapSTXForSTSTX(500_000 * unit);
     });
 
     beforeEach(() => {

@@ -31,37 +31,32 @@ export class Simulator {
     private static readonly STX_PRICE_USD = 1.00;
     private static readonly STSTX_PRICE_USD = 1.10;
 
-    public deployer: string;
     public simnet: Simnet;
-    readonly accounts: Map<string, string>;
-    readonly wallet1: string;
-    readonly wallet2: string;
-    readonly wallet3: string;
-    readonly wallet4: string;
+    static readonly accounts = simnet.getAccounts();
+    static readonly deployer = this.accounts.get("deployer")!;
+    static readonly wallet1 = this.accounts.get("wallet_1")!;;
+    static readonly wallet2 = this.accounts.get("wallet_2")!;
+    static readonly wallet3 = this.accounts.get("wallet_3")!;
+    static readonly wallet4 = this.accounts.get("wallet_4")!;
     readonly UNIT = Simulator.UNIT;
 
     // Default Pool Configuration
     private static readonly DEFAULT_POOL_CONFIG = {
         initialBalance: 10_000_000 * this.UNIT, // 10M tokens
-        burnAmount: 1000,
+        burnAmount: 100000,
         midpoint: 1100000,
         midpointFactor: 1000000,
         midpointReversed: false,
-        protocolFee: 30, // 0.3%
-        providerFee: 30, // 0.3%
-        liquidityFee: 40, // 0.4%
-        ampCoeff: 100,
-        convergenceThreshold: 2
+        protocolFee: 4,
+        providerFee: 6,
+        liquidityFee: 10,
+        ampCoeff: 25,
+        convergenceThreshold: 2,
+        feeAddress: this.wallet1
     } as any;
 
     constructor(simnet: Simnet) {
         this.simnet = simnet;
-        this.accounts = simnet.getAccounts();
-        this.deployer = this.accounts.get("deployer")!;
-        this.wallet1 = this.accounts.get("wallet_1")!;
-        this.wallet2 = this.accounts.get("wallet_2")!;
-        this.wallet3 = this.accounts.get("wallet_3")!;
-        this.wallet4 = this.accounts.get("wallet_4")!;
     }
 
     public static async create(): Promise<Simulator> {
@@ -96,7 +91,7 @@ export class Simulator {
     }
 
     public getWallet1(): string {
-        return this.wallet1;
+        return Simulator.wallet1;
     }
 
     public formatUnits(microAmount: number): string {
@@ -110,7 +105,7 @@ export class Simulator {
     // Token Operations
     public mintStSTX(
         amount: number = 100 * this.UNIT,
-        recipient: string = this.deployer
+        recipient: string = Simulator.deployer
     ): void {
         const result = this.simnet.callPublicFn(
             "token-ststx",
@@ -119,29 +114,29 @@ export class Simulator {
                 Cl.uint(amount),
                 Cl.principal(recipient)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to mint stSTX").toBe(ClarityType.ResponseOk);
     }
 
     // Liquidity Operations
     public addLiquidity(
-        stxAmount: number = 100 * this.UNIT,
-        ststxAmount: number = 100 * this.UNIT,
+        stxAmount: number,
+        ststxAmount: number,
         minLpTokens: number = 1
     ): number {
         const result = this.simnet.callPublicFn(
             "stableswap-core-v-1-1",
             "add-liquidity",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-stx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-ststx"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-stx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-ststx"),
                 Cl.uint(stxAmount),
                 Cl.uint(ststxAmount),
                 Cl.uint(minLpTokens)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to add liquidity").toBe(ClarityType.ResponseOk);
         return Number(cvToJSON(result.result).value.value);
@@ -152,14 +147,14 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "withdraw-liquidity",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-stx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-ststx"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-stx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-ststx"),
                 Cl.uint(lpTokens),
                 Cl.uint(minStx),
                 Cl.uint(minStSTX)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to withdraw liquidity").toBe(ClarityType.ResponseOk);
         const withdrawAmount = cvToJSON(result.result).value.value;
@@ -178,13 +173,13 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "swap-x-for-y",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-stx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-ststx"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-stx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-ststx"),
                 Cl.uint(amount),
                 Cl.uint(minOutput)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to swap STX for stSTX").toBe(ClarityType.ResponseOk);
         return Number(cvToJSON(result.result).value.value);
@@ -198,13 +193,13 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "swap-y-for-x",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-stx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-ststx"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-stx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-ststx"),
                 Cl.uint(amount),
                 Cl.uint(minOutput)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to swap stSTX for STX").toBe(ClarityType.ResponseOk);
         return Number(cvToJSON(result.result).value.value);
@@ -216,7 +211,7 @@ export class Simulator {
             "stableswap-pool-stx-ststx-v-1-1",
             "get-pool",
             [],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to get pool state").toBe(ClarityType.ResponseOk);
         const cvPoolDetails = cvToJSON(result.result).value.value;
@@ -232,7 +227,7 @@ export class Simulator {
             ampCoeff: Number(cvPoolDetails['amplification-coefficient'].value),
             convergenceThreshold: Number(cvPoolDetails['convergence-threshold'].value)
         }
-        console.log("Pool State:", poolDetails);
+        // console.log("Pool State:", poolDetails);
         return poolDetails;
     }
 
@@ -241,12 +236,12 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "get-dy",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-stx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-ststx"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-stx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-ststx"),
                 Cl.uint(amount)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to get quote").toBe(ClarityType.ResponseOk);
         return Number(cvToJSON(result.result).value.value);
@@ -257,12 +252,12 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "get-dx",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-stx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-ststx"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-stx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-ststx"),
                 Cl.uint(amount)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to get quote").toBe(ClarityType.ResponseOk);
         return Number(cvToJSON(result.result).value.value);
@@ -274,7 +269,7 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "get-admins",
             [],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to get admins").toBe(ClarityType.ResponseOk);
         return cvToJSON(result.result).value.value.map((cv: any) => cv.value);
@@ -285,7 +280,7 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "get-admin-helper",
             [],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to get admin helper").toBe(ClarityType.ResponseOk);
         return cvToJSON(result.result).value.value;
@@ -296,7 +291,7 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "get-last-pool-id",
             [],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to get last pool ID").toBe(ClarityType.ResponseOk);
         return Number(cvToJSON(result.result).value.value);
@@ -312,7 +307,7 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "get-pool-by-id",
             [Cl.uint(id)],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to get pool by ID").toBe(ClarityType.ResponseOk);
         const cvPoolData = cvToJSON(result.result).value.value.value;
@@ -329,7 +324,7 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "get-minimum-total-shares",
             [],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to get minimum total shares").toBe(ClarityType.ResponseOk);
         return Number(cvToJSON(result.result).value.value);
@@ -340,7 +335,7 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "get-minimum-burnt-shares",
             [],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to get minimum burnt shares").toBe(ClarityType.ResponseOk);
         return Number(cvToJSON(result.result).value.value);
@@ -351,7 +346,7 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "get-public-pool-creation",
             [],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to get public pool creation status").toBe(ClarityType.ResponseOk);
         return cvToJSON(result.result).value.value;
@@ -364,9 +359,9 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "create-pool",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-stx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-ststx"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-stx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-ststx"),
                 Cl.uint(finalConfig.initialBalance),
                 Cl.uint(finalConfig.initialBalance),
                 Cl.uint(finalConfig.burnAmount),
@@ -380,11 +375,11 @@ export class Simulator {
                 Cl.uint(finalConfig.liquidityFee),
                 Cl.uint(finalConfig.ampCoeff),
                 Cl.uint(finalConfig.convergenceThreshold),
-                Cl.principal(this.wallet1),
+                Cl.principal(Simulator.wallet1),
                 Cl.stringUtf8("stx-ststx-pool-v1"),
                 Cl.bool(true)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to create pool").toBe(ClarityType.ResponseOk);
         return this.getPoolState();
@@ -399,7 +394,7 @@ export class Simulator {
                 Cl.uint(minTotal),
                 Cl.uint(minBurnt)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to set minimum shares").toBe(ClarityType.ResponseOk);
     }
@@ -410,7 +405,7 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "set-public-pool-creation",
             [Cl.bool(enabled)],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to set public pool creation").toBe(ClarityType.ResponseOk);
     }
@@ -421,10 +416,10 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "set-pool-uri",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
                 Cl.stringUtf8(uri)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to set pool URI").toBe(ClarityType.ResponseOk);
     }
@@ -434,10 +429,10 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "set-pool-status",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
                 Cl.bool(active)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to set pool status").toBe(ClarityType.ResponseOk);
     }
@@ -448,11 +443,11 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "set-x-fees",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
                 Cl.uint(protocolFee),
                 Cl.uint(providerFee)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to set X fees").toBe(ClarityType.ResponseOk);
     }
@@ -462,11 +457,11 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "set-y-fees",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
                 Cl.uint(protocolFee),
                 Cl.uint(providerFee)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to set Y fees").toBe(ClarityType.ResponseOk);
     }
@@ -476,10 +471,10 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "set-liquidity-fee",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
                 Cl.uint(fee)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to set liquidity fee").toBe(ClarityType.ResponseOk);
     }
@@ -490,10 +485,10 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "set-amplification-coefficient",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
                 Cl.uint(coefficient)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to set amplification coefficient").toBe(ClarityType.ResponseOk);
     }
@@ -503,10 +498,10 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "set-convergence-threshold",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
                 Cl.uint(threshold)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to set convergence threshold").toBe(ClarityType.ResponseOk);
     }
@@ -517,20 +512,20 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "set-midpoint-manager",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
                 Cl.principal(manager)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to set midpoint manager").toBe(ClarityType.ResponseOk);
     }
 
-    public setMidpoint(midpoint: number, sender: string = this.deployer): void {
+    public setMidpoint(midpoint: number, sender: string = Simulator.deployer): void {
         const result = this.simnet.callPublicFn(
             "stableswap-core-v-1-1",
             "set-midpoint",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
                 Cl.uint(midpoint)
             ],
             sender
@@ -543,10 +538,10 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "set-midpoint-factor",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
                 Cl.uint(factor)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to set midpoint factor").toBe(ClarityType.ResponseOk);
     }
@@ -556,10 +551,10 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "set-midpoint-reversed",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
                 Cl.bool(reversed)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to set midpoint reversed").toBe(ClarityType.ResponseOk);
     }
@@ -569,10 +564,10 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "set-fee-address",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
                 Cl.principal(address)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to set fee address").toBe(ClarityType.ResponseOk);
     }
@@ -583,20 +578,20 @@ export class Simulator {
             "stableswap-core-v-1-1",
             "get-dlp",
             [
-                Cl.contractPrincipal(this.deployer, "stableswap-pool-stx-ststx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-stx-v-1-1"),
-                Cl.contractPrincipal(this.deployer, "token-ststx"),
+                Cl.contractPrincipal(Simulator.deployer, "stableswap-pool-stx-ststx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-stx-v-1-1"),
+                Cl.contractPrincipal(Simulator.deployer, "token-ststx"),
                 Cl.uint(stxAmount),
                 Cl.uint(ststxAmount)
             ],
-            this.deployer
+            Simulator.deployer
         );
         expect(result.result.type, "Failed to get DLP quote").toBe(ClarityType.ResponseOk);
         return Number(cvToJSON(result.result).value.value);
     }
 
     // Admin Management
-    public addAdmin(admin: string, sender: string = this.deployer): boolean {
+    public addAdmin(admin: string, sender: string = Simulator.deployer): boolean {
         const result = this.simnet.callPublicFn(
             "stableswap-core-v-1-1",
             "add-admin",
@@ -607,7 +602,7 @@ export class Simulator {
         return cvToJSON(result.result).value.value;
     }
 
-    public removeAdmin(admin: string, sender: string = this.deployer): boolean {
+    public removeAdmin(admin: string, sender: string = Simulator.deployer): boolean {
         const result = this.simnet.callPublicFn(
             "stableswap-core-v-1-1",
             "remove-admin",

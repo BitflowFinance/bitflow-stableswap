@@ -129,7 +129,7 @@
     (provider-fee (get x-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
     (amplification-coefficient (get amplification-coefficient pool-data))
-    
+
     ;; Scale up pool balances and swap amounts to perform AMM calculations with get-y
     (pool-balances-scaled (scale-up-amounts x-balance y-balance x-token-trait y-token-trait))
     (x-balance-scaled (get x-amount pool-balances-scaled))
@@ -142,10 +142,11 @@
     (dx-scaled (- x-amount-scaled x-amount-fees-total-scaled))
 
     ;; Calculate updated pool balances using midpoint
-    (midpoint-value-a (if midpoint-reversed midpoint midpoint-factor))
-    (midpoint-value-b (if midpoint-reversed midpoint-factor midpoint))
+    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
+    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
+    (dx-midpoint-scaled (/ (* dx-scaled midpoint-value-b) midpoint-value-a))
     (x-balance-midpoint-scaled (/ (* x-balance-scaled midpoint-value-a) midpoint-value-b))
-    (updated-y-balance-scaled (get-y dx-scaled x-balance-midpoint-scaled y-balance-scaled amplification-coefficient convergence-threshold))
+    (updated-y-balance-scaled (get-y dx-midpoint-scaled x-balance-midpoint-scaled y-balance-scaled amplification-coefficient convergence-threshold))
 
     ;; Scale down to precise amounts for y and dy
     (updated-y-balance (get y-amount (scale-down-amounts u0 updated-y-balance-scaled x-token-trait y-token-trait)))
@@ -196,13 +197,14 @@
     (y-amount-fees-provider-scaled (/ (* y-amount-scaled provider-fee) BPS))
     (y-amount-fees-total-scaled (+ y-amount-fees-protocol-scaled y-amount-fees-provider-scaled))
     (dy-scaled (- y-amount-scaled y-amount-fees-total-scaled))
-    
+
     ;; Calculate updated pool balances using midpoint
-    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
-    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
+    (midpoint-value-a (if midpoint-reversed midpoint midpoint-factor))
+    (midpoint-value-b (if midpoint-reversed midpoint-factor midpoint))
+    (dy-midpoint-scaled (/ (* dy-scaled midpoint-value-b) midpoint-value-a))
     (y-balance-midpoint-scaled (/ (* y-balance-scaled midpoint-value-a) midpoint-value-b))
-    (updated-x-balance-scaled (get-x dy-scaled y-balance-midpoint-scaled x-balance-scaled amplification-coefficient convergence-threshold))
-    
+    (updated-x-balance-scaled (get-x dy-midpoint-scaled y-balance-midpoint-scaled x-balance-scaled amplification-coefficient convergence-threshold))
+
     ;; Scale down to precise amounts for x and dx
     (updated-x-balance (get x-amount (scale-down-amounts updated-x-balance-scaled u0 x-token-trait y-token-trait)))
     (dx (- x-balance updated-x-balance))
@@ -978,12 +980,13 @@
     (x-amount-fees-total-scaled (+ x-amount-fees-protocol-scaled x-amount-fees-provider-scaled))
     (dx-scaled (- x-amount-scaled x-amount-fees-total-scaled))
     (updated-x-balance-scaled (+ x-balance-scaled dx-scaled x-amount-fees-provider-scaled))
-    
+
     ;; Calculate updated pool balances using midpoint
-    (midpoint-value-a (if midpoint-reversed midpoint midpoint-factor))
-    (midpoint-value-b (if midpoint-reversed midpoint-factor midpoint))
+    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
+    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
+    (dx-midpoint-scaled (/ (* dx-scaled midpoint-value-b) midpoint-value-a))
     (x-balance-midpoint-scaled (/ (* x-balance-scaled midpoint-value-a) midpoint-value-b))
-    (updated-y-balance-scaled (get-y dx-scaled x-balance-midpoint-scaled y-balance-scaled amplification-coefficient convergence-threshold))
+    (updated-y-balance-scaled (get-y dx-midpoint-scaled x-balance-midpoint-scaled y-balance-scaled amplification-coefficient convergence-threshold))
 
     ;; Scale down to precise amounts for y and dy, as well as x-amount-fees-protocol and x-amount-fees-provider
     (updated-y-balance (get y-amount (scale-down-amounts u0 updated-y-balance-scaled x-token-trait y-token-trait)))
@@ -1084,12 +1087,13 @@
     (y-amount-fees-total-scaled (+ y-amount-fees-protocol-scaled y-amount-fees-provider-scaled))
     (dy-scaled (- y-amount-scaled y-amount-fees-total-scaled))
     (updated-y-balance-scaled (+ y-balance-scaled dy-scaled y-amount-fees-provider-scaled))
-    
+
     ;; Calculate updated pool balances using midpoint
-    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
-    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
+    (midpoint-value-a (if midpoint-reversed midpoint midpoint-factor))
+    (midpoint-value-b (if midpoint-reversed midpoint-factor midpoint))
+    (dy-midpoint-scaled (/ (* dy-scaled midpoint-value-b) midpoint-value-a))
     (y-balance-midpoint-scaled (/ (* y-balance-scaled midpoint-value-a) midpoint-value-b))
-    (updated-x-balance-scaled (get-x dy-scaled y-balance-midpoint-scaled x-balance-scaled amplification-coefficient convergence-threshold))
+    (updated-x-balance-scaled (get-x dy-midpoint-scaled y-balance-midpoint-scaled x-balance-scaled amplification-coefficient convergence-threshold))
 
     ;; Scale down to precise amounts for x and dx, as well as y-amount-fees-protocol and y-amount-fees-provider
     (updated-x-balance (get x-amount (scale-down-amounts updated-x-balance-scaled u0 x-token-trait y-token-trait)))
@@ -1236,7 +1240,6 @@
     ;; Check that d-c is greater than d-a and calculate dlp
     (minimum-d-check (asserts! (> d-c d-a) ERR_MINIMUM_D_VALUE))
     (dlp (/ (* total-shares (- d-c d-a)) d-a))
-
     (caller tx-sender)
   )
     (begin
@@ -1325,14 +1328,26 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
+    (midpoint (get midpoint pool-data))
+    (midpoint-factor (get midpoint-factor pool-data))
+    (midpoint-reversed (get midpoint-reversed pool-data))
     (total-shares (get total-shares pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
     (amplification-coefficient (get amplification-coefficient pool-data))
     
-    ;; Calculate x-amount and y-amount to transfer and updated balances
+    ;; Calculate midpoint addition amount
+    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
+    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
+    (midpoint-addition-value (- midpoint-value-b (/ (* midpoint-value-b midpoint-value-b) midpoint-value-a)))
+    
+    ;; Calculate x-amount to transfer using midpoint-addition-value
     (x-amount (/ (* amount x-balance) total-shares))
+    (x-amount-addition (/ (* x-amount midpoint-addition-value) midpoint-value-b))
+    (x-amount-post-addition (+ x-amount x-amount-addition))
+
+    ;; Calculate y-amount to transfer and updated balances
     (y-amount (/ (* amount y-balance) total-shares))
-    (updated-x-balance (- x-balance x-amount))
+    (updated-x-balance (- x-balance x-amount-post-addition))
     (updated-y-balance (- y-balance y-amount))
 
     ;; Scale up balances and calculate updated-d
@@ -1350,18 +1365,18 @@
       ;; Assert that amount is greater than 0
       (asserts! (> amount u0) ERR_INVALID_AMOUNT)
 
-      ;; Assert that x-amount + y-amount is greater than 0
-      (asserts! (> (+ x-amount y-amount) u0) ERR_INVALID_AMOUNT)
+      ;; Assert that x-amount-post-addition + y-amount is greater than 0
+      (asserts! (> (+ x-amount-post-addition y-amount) u0) ERR_INVALID_AMOUNT)
 
-      ;; Assert that x-amount is greater than or equal to min-x-amount
-      (asserts! (>= x-amount min-x-amount) ERR_MINIMUM_X_AMOUNT)
+      ;; Assert that x-amount-post-addition is greater than or equal to min-x-amount
+      (asserts! (>= x-amount-post-addition min-x-amount) ERR_MINIMUM_X_AMOUNT)
 
       ;; Assert that y-amount is greater than or equal to min-y-amount
       (asserts! (>= y-amount min-y-amount) ERR_MINIMUM_Y_AMOUNT)
 
-      ;; Transfer x-amount x tokens from pool-contract to caller
-      (if (> x-amount u0)
-        (try! (contract-call? pool-trait pool-transfer x-token-trait x-amount caller))
+      ;; Transfer x-amount-post-addition x tokens from pool-contract to caller
+      (if (> x-amount-post-addition u0)
+        (try! (contract-call? pool-trait pool-transfer x-token-trait x-amount-post-addition caller))
         false
       )
       
@@ -1389,12 +1404,14 @@
           y-token: y-token,
           amount: amount,
           x-amount: x-amount,
+          x-amount-addition: x-amount-addition,
+          x-amount-post-addition: x-amount-post-addition,
           y-amount: y-amount,
           min-x-amount: min-x-amount,
           min-y-amount: min-y-amount
         }
       })
-      (ok {x-amount: x-amount, y-amount: y-amount})
+      (ok {x-amount: x-amount-post-addition, y-amount: y-amount})
     )
   )
 )

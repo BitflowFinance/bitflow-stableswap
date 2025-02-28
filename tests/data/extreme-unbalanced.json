@@ -1,0 +1,93 @@
+{
+    "name": "extreme_unbalanced_region_swaps_test",
+    "description": "Aggressive test with large swaps in extreme unbalanced regions to stress test pool recovery and minimal slippage",
+    "poolConfig": {
+        "initialBalance": 50000000000000,
+        "burnAmount": 500000,
+        "midpoint": 5500000,
+        "midpointFactor": 5000000,
+        "midpointReversed": false,
+        "protocolFee": 4,
+        "providerFee": 6,
+        "liquidityFee": 10,
+        "ampCoeff": 25,
+        "convergenceThreshold": 2
+    },
+    "actions": [
+        {
+            "type": "swapSTXForSTSTX",
+            "params": {
+                "amount": 250000000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "swapSTSTXForSTX",
+            "params": {
+                "amount": 50000000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "swapSTXForSTSTX",
+            "params": {
+                "amount": 300000000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "swapSTSTXForSTX",
+            "params": {
+                "amount": 100000000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "swapSTXForSTSTX",
+            "params": {
+                "amount": 350000000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "swapSTSTXForSTX",
+            "params": {
+                "amount": 200000000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "swapSTXForSTSTX",
+            "params": {
+                "amount": 400000000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "swapSTSTXForSTX",
+            "params": {
+                "amount": 250000000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "swapSTXForSTSTX",
+            "params": {
+                "amount": 450000000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "swapSTSTXForSTX",
+            "params": {
+                "amount": 300000000000,
+                "minOutput": 1
+            }
+        }
+    ],
+    "expectedChecks": {
+        "minPoolSolvency": 0.93,
+        "maxUserLoss": 0.08,
+        "maxProtocolFees": 0.05
+    }
+}
