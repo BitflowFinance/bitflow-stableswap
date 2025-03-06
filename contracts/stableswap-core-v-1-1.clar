@@ -606,11 +606,12 @@
   (let (
     ;; Gather all pool data
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (midpoint-manager (get midpoint-manager pool-data))
     (caller tx-sender)
   )
     (begin
-      ;; Assert caller is an admin and pool is created and valid
-      (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      ;; Assert caller is an admin or midpoint manager and pool is created and valid
+      (asserts! (or (is-some (index-of (var-get admins) caller)) (is-eq midpoint-manager caller)) ERR_NOT_AUTHORIZED)
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       
