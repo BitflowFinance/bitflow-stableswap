@@ -44,9 +44,11 @@
 
 (define-data-var d uint u0)
 
-(define-data-var midpoint uint u0)
-(define-data-var midpoint-factor uint u0)
-(define-data-var midpoint-reversed bool false)
+(define-data-var midpoint-swap-numerator uint u0)
+(define-data-var midpoint-swap-denominator uint u0)
+
+(define-data-var midpoint-liquidity-numerator uint u0)
+(define-data-var midpoint-liquidity-denominator uint u0)
 
 (define-data-var x-protocol-fee uint u0)
 (define-data-var x-provider-fee uint u0)
@@ -108,9 +110,10 @@
     x-balance: (var-get x-balance),
     y-balance: (var-get y-balance),
     d: (var-get d),
-    midpoint: (var-get midpoint),
-    midpoint-factor: (var-get midpoint-factor),
-    midpoint-reversed: (var-get midpoint-reversed),
+    midpoint-swap-numerator: (var-get midpoint-swap-numerator),
+    midpoint-swap-denominator: (var-get midpoint-swap-denominator),
+    midpoint-liquidity-numerator: (var-get midpoint-liquidity-numerator),
+    midpoint-liquidity-denominator: (var-get midpoint-liquidity-denominator),
     total-shares: (ft-get-supply pool-token),
     x-protocol-fee: (var-get x-protocol-fee),
     x-provider-fee: (var-get x-provider-fee),
@@ -179,42 +182,20 @@
 )
 
 ;; Set midpoint via Stableswap Core
-(define-public (set-midpoint (value uint))
+(define-public (set-midpoint
+    (swap-numerator uint) (swap-denominator uint)
+    (liquidity-numerator uint) (liquidity-denominator uint)
+  )
   (let (
     (caller contract-caller)
   )
     (begin
-      ;; Assert that caller is core address before setting var
+      ;; Assert that caller is core address before setting vars
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
-      (var-set midpoint value)
-      (ok true)
-    )
-  )
-)
-
-;; Set midpoint factor via Stableswap Core
-(define-public (set-midpoint-factor (factor uint))
-  (let (
-    (caller contract-caller)
-  )
-    (begin
-      ;; Assert that caller is core address before setting var
-      (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
-      (var-set midpoint-factor factor)
-      (ok true)
-    )
-  )
-)
-
-;; Set midpoint reversed via Stableswap Core
-(define-public (set-midpoint-reversed (reversed bool))
-  (let (
-    (caller contract-caller)
-  )
-    (begin
-      ;; Assert that caller is core address before setting var
-      (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
-      (var-set midpoint-reversed reversed)
+      (var-set midpoint-swap-numerator swap-numerator)
+      (var-set midpoint-swap-denominator swap-denominator)
+      (var-set midpoint-liquidity-numerator liquidity-numerator)
+      (var-set midpoint-liquidity-denominator liquidity-denominator)
       (ok true)
     )
   )
