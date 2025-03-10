@@ -31,8 +31,8 @@
 (define-constant ERR_INVALID_FEE (err u1024))
 (define-constant ERR_MINIMUM_BURN_AMOUNT (err u1025))
 (define-constant ERR_INVALID_MIN_BURNT_SHARES (err u1026))
-(define-constant ERR_INVALID_MIDPOINT (err u1027))
-(define-constant ERR_INVALID_MIDPOINT_FACTOR (err u1028))
+(define-constant ERR_INVALID_MIDPOINT_NUMERATOR (err u1027))
+(define-constant ERR_INVALID_MIDPOINT_DENOMINATOR (err u1028))
 
 ;; Contract deployer address
 (define-constant CONTRACT_DEPLOYER tx-sender)
@@ -122,9 +122,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint (get midpoint pool-data))
-    (midpoint-factor (get midpoint-factor pool-data))
-    (midpoint-reversed (get midpoint-reversed pool-data))
+    (midpoint-numerator (get midpoint-swap-numerator pool-data))
+    (midpoint-denominator (get midpoint-swap-denominator pool-data))
     (protocol-fee (get x-protocol-fee pool-data))
     (provider-fee (get x-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -142,10 +141,8 @@
     (dx-scaled (- x-amount-scaled x-amount-fees-total-scaled))
 
     ;; Calculate updated pool balances using midpoint
-    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
-    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
-    (dx-midpoint-scaled (/ (* dx-scaled midpoint-value-b) midpoint-value-a))
-    (x-balance-midpoint-scaled (/ (* x-balance-scaled midpoint-value-a) midpoint-value-b))
+    (dx-midpoint-scaled (/ (* dx-scaled midpoint-numerator) midpoint-denominator))
+    (x-balance-midpoint-scaled (/ (* x-balance-scaled midpoint-numerator) midpoint-denominator))
     (updated-y-balance-scaled (get-y dx-midpoint-scaled x-balance-midpoint-scaled y-balance-scaled amplification-coefficient convergence-threshold))
 
     ;; Scale down to precise amounts for y and dy
@@ -179,9 +176,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint (get midpoint pool-data))
-    (midpoint-factor (get midpoint-factor pool-data))
-    (midpoint-reversed (get midpoint-reversed pool-data))
+    (midpoint-numerator (get midpoint-swap-numerator pool-data))
+    (midpoint-denominator (get midpoint-swap-denominator pool-data))
     (protocol-fee (get y-protocol-fee pool-data))
     (provider-fee (get y-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -199,10 +195,8 @@
     (dy-scaled (- y-amount-scaled y-amount-fees-total-scaled))
 
     ;; Calculate updated pool balances using midpoint
-    (midpoint-value-a (if midpoint-reversed midpoint midpoint-factor))
-    (midpoint-value-b (if midpoint-reversed midpoint-factor midpoint))
-    (dy-midpoint-scaled (/ (* dy-scaled midpoint-value-b) midpoint-value-a))
-    (y-balance-midpoint-scaled (/ (* y-balance-scaled midpoint-value-a) midpoint-value-b))
+    (dy-midpoint-scaled (/ (* dy-scaled midpoint-denominator) midpoint-numerator))
+    (y-balance-midpoint-scaled (/ (* y-balance-scaled midpoint-denominator) midpoint-numerator))
     (updated-x-balance-scaled (get-x dy-midpoint-scaled y-balance-midpoint-scaled x-balance-scaled amplification-coefficient convergence-threshold))
 
     ;; Scale down to precise amounts for x and dx
@@ -236,9 +230,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint (get midpoint pool-data))
-    (midpoint-factor (get midpoint-factor pool-data))
-    (midpoint-reversed (get midpoint-reversed pool-data))
+    (midpoint-numerator (get midpoint-liquidity-numerator pool-data))
+    (midpoint-denominator (get midpoint-liquidity-denominator pool-data))
     (total-shares (get total-shares pool-data))
     (liquidity-fee (get liquidity-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -280,12 +273,10 @@
     (updated-y-amount (get y-amount amounts-added))
 
     ;; Calculate midpoint discount amount
-    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
-    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
-    (midpoint-discount-value (- midpoint-value-b (/ (* midpoint-value-b midpoint-value-b) midpoint-value-a)))
+    (midpoint-discount-value (- midpoint-denominator (/ (* midpoint-denominator midpoint-denominator) midpoint-numerator)))
     
     ;; Calculate d-c using discounted x-amount
-    (x-amount-discount-scaled (/ (* updated-x-amount-scaled midpoint-discount-value) midpoint-value-b))
+    (x-amount-discount-scaled (/ (* updated-x-amount-scaled midpoint-discount-value) midpoint-denominator))
     (x-amount-post-discount-scaled (- updated-x-amount-scaled x-amount-discount-scaled))
     (x-balance-post-discount-scaled (+ x-balance-scaled x-amount-post-discount-scaled))
     (d-c (get-d x-balance-post-discount-scaled updated-balance-y-post-fee-scaled amplification-coefficient convergence-threshold))
@@ -530,7 +521,10 @@
 )
 
 ;; Set midpoint for a pool
-(define-public (set-midpoint (pool-trait <stableswap-pool-trait>) (midpoint uint))
+(define-public (set-midpoint (pool-trait <stableswap-pool-trait>) 
+    (swap-numerator uint) (swap-denominator uint)
+    (liquidity-numerator uint) (liquidity-denominator uint)
+  )
   (let (
     ;; Gather all pool data and check if pool is valid
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
@@ -543,11 +537,16 @@
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
 
-      ;; Assert that midpoint is greater than 0
-      (asserts! (> midpoint u0) ERR_INVALID_MIDPOINT)
+      ;; Assert that swap-numerator and swap-denominator are greater than 0
+      (asserts! (> swap-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> swap-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
+
+      ;; Assert that liquidity-numerator and liquidity-denominator are greater than 0
+      (asserts! (> liquidity-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> liquidity-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
 
       ;; Set midpoint for pool
-      (try! (contract-call? pool-trait set-midpoint midpoint))
+      (try! (contract-call? pool-trait set-midpoint swap-numerator swap-denominator liquidity-numerator liquidity-denominator))
       
       ;; Print function data and return true
       (print {
@@ -557,76 +556,10 @@
           pool-id: (get pool-id pool-data),
           pool-name: (get pool-name pool-data),
           pool-contract: (contract-of pool-trait),
-          midpoint: midpoint
-        }
-      })
-      (ok true)
-    )
-  )
-)
-
-;; Set midpoint factor for a pool
-(define-public (set-midpoint-factor (pool-trait <stableswap-pool-trait>) (factor uint))
-  (let (
-    ;; Gather all pool data and check if pool is valid
-    (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
-    (midpoint-manager (get midpoint-manager pool-data))
-    (caller tx-sender)
-  )
-    (begin
-      ;; Assert caller is an admin or midpoint manager and pool is created and valid
-      (asserts! (or (is-some (index-of (var-get admins) caller)) (is-eq midpoint-manager caller)) ERR_NOT_AUTHORIZED)
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
-      (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
-
-      ;; Assert that factor is greater than 0
-      (asserts! (> factor u0) ERR_INVALID_MIDPOINT_FACTOR)
-
-      ;; Set midpoint factor for pool
-      (try! (contract-call? pool-trait set-midpoint-factor factor))
-      
-      ;; Print function data and return true
-      (print {
-        action: "set-midpoint-factor",
-        caller: caller,
-        data: {
-          pool-id: (get pool-id pool-data),
-          pool-name: (get pool-name pool-data),
-          pool-contract: (contract-of pool-trait),
-          factor: factor
-        }
-      })
-      (ok true)
-    )
-  )
-)
-
-;; Set midpoint reversed for a pool
-(define-public (set-midpoint-reversed (pool-trait <stableswap-pool-trait>) (reversed bool))
-  (let (
-    ;; Gather all pool data
-    (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
-    (midpoint-manager (get midpoint-manager pool-data))
-    (caller tx-sender)
-  )
-    (begin
-      ;; Assert caller is an admin or midpoint manager and pool is created and valid
-      (asserts! (or (is-some (index-of (var-get admins) caller)) (is-eq midpoint-manager caller)) ERR_NOT_AUTHORIZED)
-      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
-      (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
-      
-      ;; Set midpoint reversed for pool
-      (try! (contract-call? pool-trait set-midpoint-reversed reversed))
-      
-      ;; Print function data and return true
-      (print {
-        action: "set-midpoint-reversed",
-        caller: caller,
-        data: {
-          pool-id: (get pool-id pool-data),
-          pool-name: (get pool-name pool-data),
-          pool-contract: (contract-of pool-trait),
-          reversed: reversed
+          swap-numerator: swap-numerator,
+          swap-denominator: swap-denominator,
+          liquidity-numerator: liquidity-numerator,
+          liquidity-denominator: liquidity-denominator
         }
       })
       (ok true)
@@ -809,8 +742,9 @@
 (define-public (create-pool 
     (pool-trait <stableswap-pool-trait>)
     (x-token-trait <sip-010-trait>) (y-token-trait <sip-010-trait>)
-    (x-amount uint) (y-amount uint)
-    (burn-amount uint) (midpoint uint) (midpoint-factor uint) (midpoint-reversed bool)
+    (x-amount uint) (y-amount uint) (burn-amount uint)
+    (midpoint-swap-numerator uint) (midpoint-swap-denominator uint)
+    (midpoint-liquidity-numerator uint) (midpoint-liquidity-denominator uint)
     (x-protocol-fee uint) (x-provider-fee uint)
     (y-protocol-fee uint) (y-provider-fee uint)
     (liquidity-fee uint)
@@ -874,20 +808,22 @@
       (asserts! (> (len symbol) u0) ERR_INVALID_POOL_SYMBOL)
       (asserts! (> (len name) u0) ERR_INVALID_POOL_NAME)
 
-      ;; Assert that midpoint and midpoint-factor are greater than 0
-      (asserts! (> midpoint u0) ERR_INVALID_MIDPOINT)
-      (asserts! (> midpoint-factor u0) ERR_INVALID_MIDPOINT_FACTOR)
+      ;; Assert that midpoint-swap-numerator and midpoint-swap-denominator are greater than 0
+      (asserts! (> midpoint-swap-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> midpoint-swap-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
+
+      ;; Assert that midpoint-liquidity-numerator and midpoint-liquidity-denominator are greater than 0
+      (asserts! (> midpoint-liquidity-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> midpoint-liquidity-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
 
       ;; Assert that fees are less than maximum BPS
       (asserts! (< (+ x-protocol-fee x-provider-fee) BPS) ERR_INVALID_FEE)
       (asserts! (< (+ y-protocol-fee y-provider-fee) BPS) ERR_INVALID_FEE)
       (asserts! (< liquidity-fee BPS) ERR_INVALID_FEE)
 
-      ;; Create pool, set midpoint, set midpoint-factor, set midpoint-reversed, and set fees
+      ;; Create pool, set midpoint, and set fees
       (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract CONTRACT_DEPLOYER fee-address caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))
-      (try! (contract-call? pool-trait set-midpoint midpoint))
-      (try! (contract-call? pool-trait set-midpoint-factor midpoint-factor))
-      (try! (contract-call? pool-trait set-midpoint-reversed midpoint-reversed))
+      (try! (contract-call? pool-trait set-midpoint midpoint-swap-numerator midpoint-swap-denominator midpoint-liquidity-numerator midpoint-liquidity-denominator))
       (try! (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee))
       (try! (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee))
       (try! (contract-call? pool-trait set-liquidity-fee liquidity-fee))
@@ -927,9 +863,10 @@
           x-amount: x-amount,
           y-amount: y-amount,
           burn-amount: burn-amount,
-          midpoint: midpoint,
-          midpoint-factor: midpoint-factor,
-          midpoint-reversed: midpoint-reversed,
+          midpoint-swap-numerator: midpoint-swap-numerator,
+          midpoint-swap-denominator: midpoint-swap-denominator,
+          midpoint-liquidity-numerator: midpoint-liquidity-numerator,
+          midpoint-liquidity-denominator: midpoint-liquidity-denominator,
           total-shares: total-shares,
           pool-symbol: symbol,
           pool-uri: uri,
@@ -962,9 +899,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint (get midpoint pool-data))
-    (midpoint-factor (get midpoint-factor pool-data))
-    (midpoint-reversed (get midpoint-reversed pool-data))
+    (midpoint-numerator (get midpoint-swap-numerator pool-data))
+    (midpoint-denominator (get midpoint-swap-denominator pool-data))
     (protocol-fee (get x-protocol-fee pool-data))
     (provider-fee (get x-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -983,10 +919,8 @@
     (updated-x-balance-scaled (+ x-balance-scaled dx-scaled x-amount-fees-provider-scaled))
 
     ;; Calculate updated pool balances using midpoint
-    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
-    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
-    (dx-midpoint-scaled (/ (* dx-scaled midpoint-value-b) midpoint-value-a))
-    (x-balance-midpoint-scaled (/ (* x-balance-scaled midpoint-value-a) midpoint-value-b))
+    (dx-midpoint-scaled (/ (* dx-scaled midpoint-numerator) midpoint-denominator))
+    (x-balance-midpoint-scaled (/ (* x-balance-scaled midpoint-numerator) midpoint-denominator))
     (updated-y-balance-scaled (get-y dx-midpoint-scaled x-balance-midpoint-scaled y-balance-scaled amplification-coefficient convergence-threshold))
 
     ;; Scale down to precise amounts for y and dy, as well as x-amount-fees-protocol and x-amount-fees-provider
@@ -1041,9 +975,8 @@
           x-amount: x-amount,
           x-amount-fees-protocol: x-amount-fees-protocol,
           x-amount-fees-provider: x-amount-fees-provider,
-          midpoint: midpoint,
-          midpoint-factor: midpoint-factor,
-          midpoint-reversed: midpoint-reversed,
+          midpoint-numerator: midpoint-numerator,
+          midpoint-denominator: midpoint-denominator,
           dy: dy,
           min-dy: min-dy
         }
@@ -1069,9 +1002,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint (get midpoint pool-data))
-    (midpoint-factor (get midpoint-factor pool-data))
-    (midpoint-reversed (get midpoint-reversed pool-data))
+    (midpoint-numerator (get midpoint-swap-numerator pool-data))
+    (midpoint-denominator (get midpoint-swap-denominator pool-data))
     (protocol-fee (get y-protocol-fee pool-data))
     (provider-fee (get y-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -1090,10 +1022,8 @@
     (updated-y-balance-scaled (+ y-balance-scaled dy-scaled y-amount-fees-provider-scaled))
 
     ;; Calculate updated pool balances using midpoint
-    (midpoint-value-a (if midpoint-reversed midpoint midpoint-factor))
-    (midpoint-value-b (if midpoint-reversed midpoint-factor midpoint))
-    (dy-midpoint-scaled (/ (* dy-scaled midpoint-value-b) midpoint-value-a))
-    (y-balance-midpoint-scaled (/ (* y-balance-scaled midpoint-value-a) midpoint-value-b))
+    (dy-midpoint-scaled (/ (* dy-scaled midpoint-denominator) midpoint-numerator))
+    (y-balance-midpoint-scaled (/ (* y-balance-scaled midpoint-denominator) midpoint-numerator))
     (updated-x-balance-scaled (get-x dy-midpoint-scaled y-balance-midpoint-scaled x-balance-scaled amplification-coefficient convergence-threshold))
 
     ;; Scale down to precise amounts for x and dx, as well as y-amount-fees-protocol and y-amount-fees-provider
@@ -1148,9 +1078,8 @@
           y-amount: y-amount,
           y-amount-fees-protocol: y-amount-fees-protocol,
           y-amount-fees-provider: y-amount-fees-provider,
-          midpoint: midpoint,
-          midpoint-factor: midpoint-factor,
-          midpoint-reversed: midpoint-reversed,
+          midpoint-numerator: midpoint-numerator,
+          midpoint-denominator: midpoint-denominator,
           dx: dx,
           min-dx: min-dx
         }
@@ -1176,9 +1105,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint (get midpoint pool-data))
-    (midpoint-factor (get midpoint-factor pool-data))
-    (midpoint-reversed (get midpoint-reversed pool-data))
+    (midpoint-numerator (get midpoint-liquidity-numerator pool-data))
+    (midpoint-denominator (get midpoint-liquidity-denominator pool-data))
     (total-shares (get total-shares pool-data))
     (liquidity-fee (get liquidity-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -1228,12 +1156,10 @@
     (updated-y-balance-post-fee (get y-amount updated-pool-balances-post-fee))
 
     ;; Calculate midpoint discount amount
-    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
-    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
-    (midpoint-discount-value (- midpoint-value-b (/ (* midpoint-value-b midpoint-value-b) midpoint-value-a)))
+    (midpoint-discount-value (- midpoint-denominator (/ (* midpoint-denominator midpoint-denominator) midpoint-numerator)))
     
     ;; Calculate d-c using discounted x-amount
-    (x-amount-discount-scaled (/ (* updated-x-amount-scaled midpoint-discount-value) midpoint-value-b))
+    (x-amount-discount-scaled (/ (* updated-x-amount-scaled midpoint-discount-value) midpoint-denominator))
     (x-amount-post-discount-scaled (- updated-x-amount-scaled x-amount-discount-scaled))
     (x-balance-post-discount-scaled (+ x-balance-scaled x-amount-post-discount-scaled))
     (d-c (get-d x-balance-post-discount-scaled updated-balance-y-post-fee-scaled amplification-coefficient convergence-threshold))
@@ -1300,9 +1226,8 @@
           y-amount: updated-y-amount,
           x-amount-fees-liquidity: x-amount-fees-liquidity,
           y-amount-fees-liquidity: y-amount-fees-liquidity,
-          midpoint: midpoint,
-          midpoint-factor: midpoint-factor,
-          midpoint-reversed: midpoint-reversed,
+          midpoint-numerator: midpoint-numerator,
+          midpoint-denominator: midpoint-denominator,
           midpoint-discount-value: midpoint-discount-value,
           x-amount-discount-scaled: x-amount-discount-scaled,
           x-amount-post-discount-scaled: x-amount-post-discount-scaled,
@@ -1329,21 +1254,18 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint (get midpoint pool-data))
-    (midpoint-factor (get midpoint-factor pool-data))
-    (midpoint-reversed (get midpoint-reversed pool-data))
+    (midpoint-numerator (get midpoint-liquidity-numerator pool-data))
+    (midpoint-denominator (get midpoint-liquidity-denominator pool-data))
     (total-shares (get total-shares pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
     (amplification-coefficient (get amplification-coefficient pool-data))
-    
+
     ;; Calculate midpoint addition amount
-    (midpoint-value-a (if midpoint-reversed midpoint-factor midpoint))
-    (midpoint-value-b (if midpoint-reversed midpoint midpoint-factor))
-    (midpoint-addition-value (- midpoint-value-b (/ (* midpoint-value-b midpoint-value-b) midpoint-value-a)))
-    
+    (midpoint-addition-value (- midpoint-denominator (/ (* midpoint-denominator midpoint-denominator) midpoint-numerator)))
+
     ;; Calculate x-amount to transfer using midpoint-addition-value
     (x-amount (/ (* amount x-balance) total-shares))
-    (x-amount-addition (/ (* x-amount midpoint-addition-value) midpoint-value-b))
+    (x-amount-addition (/ (* x-amount midpoint-addition-value) midpoint-denominator))
     (x-amount-post-addition (+ x-amount x-amount-addition))
 
     ;; Calculate y-amount to transfer and updated balances
@@ -1405,9 +1327,12 @@
           y-token: y-token,
           amount: amount,
           x-amount: x-amount,
+          y-amount: y-amount,
+          midpoint-numerator: midpoint-numerator,
+          midpoint-denominator: midpoint-denominator,
+          midpoint-addition-value: midpoint-addition-value,
           x-amount-addition: x-amount-addition,
           x-amount-post-addition: x-amount-post-addition,
-          y-amount: y-amount,
           min-x-amount: min-x-amount,
           min-y-amount: min-y-amount
         }
