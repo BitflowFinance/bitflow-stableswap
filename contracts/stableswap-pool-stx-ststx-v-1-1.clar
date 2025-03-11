@@ -44,11 +44,11 @@
 
 (define-data-var d uint u0)
 
-(define-data-var midpoint-swap-numerator uint u0)
-(define-data-var midpoint-swap-denominator uint u0)
+(define-data-var midpoint-primary-numerator uint u0)
+(define-data-var midpoint-primary-denominator uint u0)
 
-(define-data-var midpoint-liquidity-numerator uint u0)
-(define-data-var midpoint-liquidity-denominator uint u0)
+(define-data-var midpoint-withdraw-numerator uint u0)
+(define-data-var midpoint-withdraw-denominator uint u0)
 
 (define-data-var x-protocol-fee uint u0)
 (define-data-var x-provider-fee uint u0)
@@ -110,10 +110,10 @@
     x-balance: (var-get x-balance),
     y-balance: (var-get y-balance),
     d: (var-get d),
-    midpoint-swap-numerator: (var-get midpoint-swap-numerator),
-    midpoint-swap-denominator: (var-get midpoint-swap-denominator),
-    midpoint-liquidity-numerator: (var-get midpoint-liquidity-numerator),
-    midpoint-liquidity-denominator: (var-get midpoint-liquidity-denominator),
+    midpoint-primary-numerator: (var-get midpoint-primary-numerator),
+    midpoint-primary-denominator: (var-get midpoint-primary-denominator),
+    midpoint-withdraw-numerator: (var-get midpoint-withdraw-numerator),
+    midpoint-withdraw-denominator: (var-get midpoint-withdraw-denominator),
     total-shares: (ft-get-supply pool-token),
     x-protocol-fee: (var-get x-protocol-fee),
     x-provider-fee: (var-get x-provider-fee),
@@ -183,8 +183,8 @@
 
 ;; Set midpoint via Stableswap Core
 (define-public (set-midpoint
-    (swap-numerator uint) (swap-denominator uint)
-    (liquidity-numerator uint) (liquidity-denominator uint)
+    (primary-numerator uint) (primary-denominator uint)
+    (withdraw-numerator uint) (withdraw-denominator uint)
   )
   (let (
     (caller contract-caller)
@@ -192,10 +192,10 @@
     (begin
       ;; Assert that caller is core address before setting vars
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
-      (var-set midpoint-swap-numerator swap-numerator)
-      (var-set midpoint-swap-denominator swap-denominator)
-      (var-set midpoint-liquidity-numerator liquidity-numerator)
-      (var-set midpoint-liquidity-denominator liquidity-denominator)
+      (var-set midpoint-primary-numerator primary-numerator)
+      (var-set midpoint-primary-denominator primary-denominator)
+      (var-set midpoint-withdraw-numerator withdraw-numerator)
+      (var-set midpoint-withdraw-denominator withdraw-denominator)
       (ok true)
     )
   )
