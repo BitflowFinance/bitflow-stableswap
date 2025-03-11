@@ -122,8 +122,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-swap-numerator pool-data))
-    (midpoint-denominator (get midpoint-swap-denominator pool-data))
+    (midpoint-numerator (get midpoint-primary-numerator pool-data))
+    (midpoint-denominator (get midpoint-primary-denominator pool-data))
     (protocol-fee (get x-protocol-fee pool-data))
     (provider-fee (get x-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -176,8 +176,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-swap-numerator pool-data))
-    (midpoint-denominator (get midpoint-swap-denominator pool-data))
+    (midpoint-numerator (get midpoint-primary-numerator pool-data))
+    (midpoint-denominator (get midpoint-primary-denominator pool-data))
     (protocol-fee (get y-protocol-fee pool-data))
     (provider-fee (get y-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -230,8 +230,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-liquidity-numerator pool-data))
-    (midpoint-denominator (get midpoint-liquidity-denominator pool-data))
+    (midpoint-numerator (get midpoint-primary-numerator pool-data))
+    (midpoint-denominator (get midpoint-primary-denominator pool-data))
     (total-shares (get total-shares pool-data))
     (liquidity-fee (get liquidity-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -523,8 +523,8 @@
 
 ;; Set midpoint for a pool
 (define-public (set-midpoint (pool-trait <stableswap-pool-trait>) 
-    (swap-numerator uint) (swap-denominator uint)
-    (liquidity-numerator uint) (liquidity-denominator uint)
+    (primary-numerator uint) (primary-denominator uint)
+    (withdraw-numerator uint) (withdraw-denominator uint)
   )
   (let (
     ;; Gather all pool data and check if pool is valid
@@ -538,16 +538,16 @@
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
 
-      ;; Assert that swap-numerator and swap-denominator are greater than 0
-      (asserts! (> swap-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
-      (asserts! (> swap-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
+      ;; Assert that primary-numerator and primary-denominator are greater than 0
+      (asserts! (> primary-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> primary-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
 
-      ;; Assert that liquidity-numerator and liquidity-denominator are greater than 0
-      (asserts! (> liquidity-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
-      (asserts! (> liquidity-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
+      ;; Assert that withdraw-numerator and withdraw-denominator are greater than 0
+      (asserts! (> withdraw-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> withdraw-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
 
       ;; Set midpoint for pool
-      (try! (contract-call? pool-trait set-midpoint swap-numerator swap-denominator liquidity-numerator liquidity-denominator))
+      (try! (contract-call? pool-trait set-midpoint primary-numerator primary-denominator withdraw-numerator withdraw-denominator))
       
       ;; Print function data and return true
       (print {
@@ -557,10 +557,10 @@
           pool-id: (get pool-id pool-data),
           pool-name: (get pool-name pool-data),
           pool-contract: (contract-of pool-trait),
-          swap-numerator: swap-numerator,
-          swap-denominator: swap-denominator,
-          liquidity-numerator: liquidity-numerator,
-          liquidity-denominator: liquidity-denominator
+          primary-numerator: primary-numerator,
+          primary-denominator: primary-denominator,
+          withdraw-numerator: withdraw-numerator,
+          withdraw-denominator: withdraw-denominator
         }
       })
       (ok true)
@@ -744,8 +744,8 @@
     (pool-trait <stableswap-pool-trait>)
     (x-token-trait <sip-010-trait>) (y-token-trait <sip-010-trait>)
     (x-amount uint) (y-amount uint) (burn-amount uint)
-    (midpoint-swap-numerator uint) (midpoint-swap-denominator uint)
-    (midpoint-liquidity-numerator uint) (midpoint-liquidity-denominator uint)
+    (midpoint-primary-numerator uint) (midpoint-primary-denominator uint)
+    (midpoint-withdraw-numerator uint) (midpoint-withdraw-denominator uint)
     (x-protocol-fee uint) (x-provider-fee uint)
     (y-protocol-fee uint) (y-provider-fee uint)
     (liquidity-fee uint)
@@ -809,13 +809,13 @@
       (asserts! (> (len symbol) u0) ERR_INVALID_POOL_SYMBOL)
       (asserts! (> (len name) u0) ERR_INVALID_POOL_NAME)
 
-      ;; Assert that midpoint-swap-numerator and midpoint-swap-denominator are greater than 0
-      (asserts! (> midpoint-swap-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
-      (asserts! (> midpoint-swap-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
+      ;; Assert that midpoint-primary-numerator and midpoint-primary-denominator are greater than 0
+      (asserts! (> midpoint-primary-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> midpoint-primary-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
 
-      ;; Assert that midpoint-liquidity-numerator and midpoint-liquidity-denominator are greater than 0
-      (asserts! (> midpoint-liquidity-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
-      (asserts! (> midpoint-liquidity-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
+      ;; Assert that midpoint-withdraw-numerator and midpoint-withdraw-denominator are greater than 0
+      (asserts! (> midpoint-withdraw-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> midpoint-withdraw-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
 
       ;; Assert that fees are less than maximum BPS
       (asserts! (< (+ x-protocol-fee x-provider-fee) BPS) ERR_INVALID_FEE)
@@ -824,7 +824,7 @@
 
       ;; Create pool, set midpoint, and set fees
       (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract CONTRACT_DEPLOYER fee-address caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))
-      (try! (contract-call? pool-trait set-midpoint midpoint-swap-numerator midpoint-swap-denominator midpoint-liquidity-numerator midpoint-liquidity-denominator))
+      (try! (contract-call? pool-trait set-midpoint midpoint-primary-numerator midpoint-primary-denominator midpoint-withdraw-numerator midpoint-withdraw-denominator))
       (try! (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee))
       (try! (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee))
       (try! (contract-call? pool-trait set-liquidity-fee liquidity-fee))
@@ -864,10 +864,10 @@
           x-amount: x-amount,
           y-amount: y-amount,
           burn-amount: burn-amount,
-          midpoint-swap-numerator: midpoint-swap-numerator,
-          midpoint-swap-denominator: midpoint-swap-denominator,
-          midpoint-liquidity-numerator: midpoint-liquidity-numerator,
-          midpoint-liquidity-denominator: midpoint-liquidity-denominator,
+          midpoint-primary-numerator: midpoint-primary-numerator,
+          midpoint-primary-denominator: midpoint-primary-denominator,
+          midpoint-withdraw-numerator: midpoint-withdraw-numerator,
+          midpoint-withdraw-denominator: midpoint-withdraw-denominator,
           total-shares: total-shares,
           pool-symbol: symbol,
           pool-uri: uri,
@@ -900,8 +900,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-swap-numerator pool-data))
-    (midpoint-denominator (get midpoint-swap-denominator pool-data))
+    (midpoint-numerator (get midpoint-primary-numerator pool-data))
+    (midpoint-denominator (get midpoint-primary-denominator pool-data))
     (protocol-fee (get x-protocol-fee pool-data))
     (provider-fee (get x-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -1003,8 +1003,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-swap-numerator pool-data))
-    (midpoint-denominator (get midpoint-swap-denominator pool-data))
+    (midpoint-numerator (get midpoint-primary-numerator pool-data))
+    (midpoint-denominator (get midpoint-primary-denominator pool-data))
     (protocol-fee (get y-protocol-fee pool-data))
     (provider-fee (get y-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -1106,8 +1106,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-liquidity-numerator pool-data))
-    (midpoint-denominator (get midpoint-liquidity-denominator pool-data))
+    (midpoint-numerator (get midpoint-primary-numerator pool-data))
+    (midpoint-denominator (get midpoint-primary-denominator pool-data))
     (total-shares (get total-shares pool-data))
     (liquidity-fee (get liquidity-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -1256,8 +1256,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-liquidity-numerator pool-data))
-    (midpoint-denominator (get midpoint-liquidity-denominator pool-data))
+    (midpoint-numerator (get midpoint-withdraw-numerator pool-data))
+    (midpoint-denominator (get midpoint-withdraw-denominator pool-data))
     (total-shares (get total-shares pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
     (amplification-coefficient (get amplification-coefficient pool-data))
