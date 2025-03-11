@@ -272,14 +272,15 @@
     (updated-x-amount (get x-amount amounts-added))
     (updated-y-amount (get y-amount amounts-added))
 
-    ;; Calculate midpoint discount amount
-    (midpoint-discount-value (- midpoint-denominator (/ (* midpoint-denominator midpoint-denominator) midpoint-numerator)))
+    ;; Calculate midpoint offset and scale value
+    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator))
+    (midpoint-scale-value (if (> (/ midpoint-numerator midpoint-denominator) u0) midpoint-denominator midpoint-numerator))
     
-    ;; Calculate d-c using discounted x-amount
-    (x-amount-discount-scaled (/ (* updated-x-amount-scaled midpoint-discount-value) midpoint-denominator))
-    (x-amount-post-discount-scaled (- updated-x-amount-scaled x-amount-discount-scaled))
-    (x-balance-post-discount-scaled (+ x-balance-scaled x-amount-post-discount-scaled))
-    (d-c (get-d x-balance-post-discount-scaled updated-balance-y-post-fee-scaled amplification-coefficient convergence-threshold))
+    ;; Calculate d-c using offset x-amount
+    (x-amount-offset-scaled (/ (* updated-x-amount-scaled midpoint-offset-value) midpoint-scale-value))
+    (x-amount-post-offset-scaled (- updated-x-amount-scaled x-amount-offset-scaled))
+    (x-balance-post-offset-scaled (+ x-balance-scaled x-amount-post-offset-scaled))
+    (d-c (get-d x-balance-post-offset-scaled updated-balance-y-post-fee-scaled amplification-coefficient convergence-threshold))
 
     ;; Check that d-c is greater than d-a and calculate dlp
     (minimum-d-check (asserts! (> d-c d-a) ERR_MINIMUM_D_VALUE))
@@ -1155,14 +1156,15 @@
     (updated-x-balance-post-fee (get x-amount updated-pool-balances-post-fee))
     (updated-y-balance-post-fee (get y-amount updated-pool-balances-post-fee))
 
-    ;; Calculate midpoint discount amount
-    (midpoint-discount-value (- midpoint-denominator (/ (* midpoint-denominator midpoint-denominator) midpoint-numerator)))
+    ;; Calculate midpoint offset and scale values 
+    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator))
+    (midpoint-scale-value (if (> (/ midpoint-numerator midpoint-denominator) u0) midpoint-denominator midpoint-numerator))
     
-    ;; Calculate d-c using discounted x-amount
-    (x-amount-discount-scaled (/ (* updated-x-amount-scaled midpoint-discount-value) midpoint-denominator))
-    (x-amount-post-discount-scaled (- updated-x-amount-scaled x-amount-discount-scaled))
-    (x-balance-post-discount-scaled (+ x-balance-scaled x-amount-post-discount-scaled))
-    (d-c (get-d x-balance-post-discount-scaled updated-balance-y-post-fee-scaled amplification-coefficient convergence-threshold))
+    ;; Calculate d-c using offset x-amount
+    (x-amount-offset-scaled (/ (* updated-x-amount-scaled midpoint-offset-value) midpoint-scale-value))
+    (x-amount-post-offset-scaled (- updated-x-amount-scaled x-amount-offset-scaled))
+    (x-balance-post-offset-scaled (+ x-balance-scaled x-amount-post-offset-scaled))
+    (d-c (get-d x-balance-post-offset-scaled updated-balance-y-post-fee-scaled amplification-coefficient convergence-threshold))
 
     ;; Check that d-c is greater than d-a and calculate dlp
     (minimum-d-check (asserts! (> d-c d-a) ERR_MINIMUM_D_VALUE))
@@ -1228,9 +1230,9 @@
           y-amount-fees-liquidity: y-amount-fees-liquidity,
           midpoint-numerator: midpoint-numerator,
           midpoint-denominator: midpoint-denominator,
-          midpoint-discount-value: midpoint-discount-value,
-          x-amount-discount-scaled: x-amount-discount-scaled,
-          x-amount-post-discount-scaled: x-amount-post-discount-scaled,
+          midpoint-offset-value: midpoint-offset-value,
+          x-amount-offset-scaled: x-amount-offset-scaled,
+          x-amount-post-offset-scaled: x-amount-post-offset-scaled,
           dlp: dlp,
           min-dlp: min-dlp
         }
@@ -1260,17 +1262,18 @@
     (convergence-threshold (get convergence-threshold pool-data))
     (amplification-coefficient (get amplification-coefficient pool-data))
 
-    ;; Calculate midpoint addition amount
-    (midpoint-addition-value (- midpoint-denominator (/ (* midpoint-denominator midpoint-denominator) midpoint-numerator)))
+    ;; Calculate midpoint offset and scale values
+    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator))
+    (midpoint-scale-value (if (> (/ midpoint-numerator midpoint-denominator) u0) midpoint-denominator midpoint-numerator))
 
-    ;; Calculate x-amount to transfer using midpoint-addition-value
+    ;; Calculate x-amount to transfer using midpoint-offset-value
     (x-amount (/ (* amount x-balance) total-shares))
-    (x-amount-addition (/ (* x-amount midpoint-addition-value) midpoint-denominator))
-    (x-amount-post-addition (+ x-amount x-amount-addition))
+    (x-amount-offset (/ (* x-amount midpoint-offset-value) midpoint-scale-value))
+    (x-amount-post-offset (+ x-amount x-amount-offset))
 
     ;; Calculate y-amount to transfer and updated balances
     (y-amount (/ (* amount y-balance) total-shares))
-    (updated-x-balance (- x-balance x-amount-post-addition))
+    (updated-x-balance (- x-balance x-amount-post-offset))
     (updated-y-balance (- y-balance y-amount))
 
     ;; Scale up balances and calculate updated-d
@@ -1288,18 +1291,18 @@
       ;; Assert that amount is greater than 0
       (asserts! (> amount u0) ERR_INVALID_AMOUNT)
 
-      ;; Assert that x-amount-post-addition + y-amount is greater than 0
-      (asserts! (> (+ x-amount-post-addition y-amount) u0) ERR_INVALID_AMOUNT)
+      ;; Assert that x-amount-post-offset + y-amount is greater than 0
+      (asserts! (> (+ x-amount-post-offset y-amount) u0) ERR_INVALID_AMOUNT)
 
-      ;; Assert that x-amount-post-addition is greater than or equal to min-x-amount
-      (asserts! (>= x-amount-post-addition min-x-amount) ERR_MINIMUM_X_AMOUNT)
+      ;; Assert that x-amount-post-offset is greater than or equal to min-x-amount
+      (asserts! (>= x-amount-post-offset min-x-amount) ERR_MINIMUM_X_AMOUNT)
 
       ;; Assert that y-amount is greater than or equal to min-y-amount
       (asserts! (>= y-amount min-y-amount) ERR_MINIMUM_Y_AMOUNT)
 
-      ;; Transfer x-amount-post-addition x tokens from pool-contract to caller
-      (if (> x-amount-post-addition u0)
-        (try! (contract-call? pool-trait pool-transfer x-token-trait x-amount-post-addition caller))
+      ;; Transfer x-amount-post-offset x tokens from pool-contract to caller
+      (if (> x-amount-post-offset u0)
+        (try! (contract-call? pool-trait pool-transfer x-token-trait x-amount-post-offset caller))
         false
       )
       
@@ -1330,14 +1333,14 @@
           y-amount: y-amount,
           midpoint-numerator: midpoint-numerator,
           midpoint-denominator: midpoint-denominator,
-          midpoint-addition-value: midpoint-addition-value,
-          x-amount-addition: x-amount-addition,
-          x-amount-post-addition: x-amount-post-addition,
+          midpoint-offset-value: midpoint-offset-value,
+          x-amount-offset: x-amount-offset,
+          x-amount-post-offset: x-amount-post-offset,
           min-x-amount: min-x-amount,
           min-y-amount: min-y-amount
         }
       })
-      (ok {x-amount: x-amount-post-addition, y-amount: y-amount})
+      (ok {x-amount: x-amount-post-offset, y-amount: y-amount})
     )
   )
 )
@@ -1647,5 +1650,13 @@
   )
     ;; Return scaled x and y amounts
     {x-amount: x-amount-scaled, y-amount: y-amount-scaled}
+  )
+)
+
+;; Calculates the midpoint offset used in liquidity functions
+(define-private (calculate-midpoint-offset (numerator uint) (denominator uint))
+  (if (> (/ numerator denominator) u0)
+    (- denominator (/ (* denominator denominator) numerator))
+    (- numerator (/ (* numerator numerator) denominator))
   )
 )
