@@ -50,8 +50,6 @@
 (define-data-var midpoint-withdraw-numerator uint u0)
 (define-data-var midpoint-withdraw-denominator uint u0)
 
-(define-data-var midpoint-offset-reversed bool false)
-
 (define-data-var x-protocol-fee uint u0)
 (define-data-var x-provider-fee uint u0)
 
@@ -116,7 +114,6 @@
     midpoint-primary-denominator: (var-get midpoint-primary-denominator),
     midpoint-withdraw-numerator: (var-get midpoint-withdraw-numerator),
     midpoint-withdraw-denominator: (var-get midpoint-withdraw-denominator),
-    midpoint-offset-reversed: (var-get midpoint-offset-reversed),
     total-shares: (ft-get-supply pool-token),
     x-protocol-fee: (var-get x-protocol-fee),
     x-provider-fee: (var-get x-provider-fee),
@@ -188,7 +185,6 @@
 (define-public (set-midpoint
     (primary-numerator uint) (primary-denominator uint)
     (withdraw-numerator uint) (withdraw-denominator uint)
-    (offset-reversed bool)
   )
   (let (
     (caller contract-caller)
@@ -200,7 +196,6 @@
       (var-set midpoint-primary-denominator primary-denominator)
       (var-set midpoint-withdraw-numerator withdraw-numerator)
       (var-set midpoint-withdraw-denominator withdraw-denominator)
-      (var-set midpoint-offset-reversed offset-reversed)
       (ok true)
     )
   )
