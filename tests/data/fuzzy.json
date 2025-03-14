@@ -1,0 +1,80 @@
+{
+    "name": "fuzz_test_1",
+    "description": "Example fuzz test with various operations",
+    "poolConfig": {
+        "initialBalance": 10000000000000,
+        "burnAmount": 100000,
+        "midpoint": 1100000,
+        "midpointFactor": 1000000,
+        "midpointReversed": false,
+        "protocolFee": 4,
+        "providerFee": 6,
+        "liquidityFee": 10,
+        "ampCoeff": 25,
+        "convergenceThreshold": 2
+    },
+    "actions": [
+        {
+            "type": "swapSTXForSTSTX",
+            "params": {
+                "amount": 10000000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "swapSTSTXForSTX",
+            "params": {
+                "amount": 5000000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "addLiquidity",
+            "params": {
+                "stxAmount": 25000000000,
+                "ststxAmount": 25000000000,
+                "minLpTokens": 1,
+                "estimatedLpTokens": 25000000000
+            }
+        },
+        {
+            "type": "setMidpoint",
+            "params": {
+                "midpoint": 1150000
+            }
+        },
+        {
+            "type": "swapSTXForSTSTX",
+            "params": {
+                "amount": 7500000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "withdrawLiquidity",
+            "params": {
+                "lpTokens": 12500000000,
+                "minStx": 1,
+                "minStSTX": 1
+            }
+        },
+        {
+            "type": "setAmplificationCoefficient",
+            "params": {
+                "coefficient": 30
+            }
+        },
+        {
+            "type": "swapSTSTXForSTX",
+            "params": {
+                "amount": 8000000000,
+                "minOutput": 1
+            }
+        }
+    ],
+    "expectedChecks": {
+        "minPoolSolvency": 0.98,
+        "maxUserLoss": 0.05,
+        "maxProtocolFees": 0.03
+    }
+}

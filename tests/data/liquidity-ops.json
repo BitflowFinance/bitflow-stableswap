@@ -1,0 +1,71 @@
+{
+    "name": "liquidity_operations_test",
+    "description": "Tests focused on adding and removing liquidity with different parameters",
+    "poolConfig": {
+        "initialBalance": 10000000000000,
+        "burnAmount": 100000,
+        "midpoint": 1100000,
+        "midpointFactor": 1000000,
+        "midpointReversed": false,
+        "protocolFee": 4,
+        "providerFee": 6,
+        "liquidityFee": 10,
+        "ampCoeff": 25,
+        "convergenceThreshold": 2
+    },
+    "actions": [
+        {
+            "type": "addLiquidity",
+            "params": {
+                "stxAmount": 50000000000,
+                "ststxAmount": 50000000000,
+                "minLpTokens": 1,
+                "estimatedLpTokens": 50000000000
+            }
+        },
+        {
+            "type": "swapSTXForSTSTX",
+            "params": {
+                "amount": 10000000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "withdrawLiquidity",
+            "params": {
+                "lpTokens": 25000000000,
+                "minStx": 1,
+                "minStSTX": 1
+            }
+        },
+        {
+            "type": "addLiquidity",
+            "params": {
+                "stxAmount": 20000000000,
+                "ststxAmount": 10000000000,
+                "minLpTokens": 1,
+                "estimatedLpTokens": 15000000000
+            }
+        },
+        {
+            "type": "swapSTSTXForSTX",
+            "params": {
+                "amount": 5000000000,
+                "minOutput": 1
+            }
+        },
+        {
+            "type": "withdrawLiquidity",
+            "params": {
+                "lpTokens": 40000000000,
+                "minStx": 1,
+                "minStSTX": 1
+            }
+        }
+    ],
+    "expectedChecks": {
+        "minPoolSolvency": 0.98,
+        "maxUserLoss": 0.05,
+        "maxProtocolFees": 0.03
+    }
+}
