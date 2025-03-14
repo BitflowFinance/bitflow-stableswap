@@ -29,9 +29,10 @@
       x-balance: uint,
       y-balance: uint,
       d: uint,
-      midpoint: uint,
-      midpoint-factor: uint,
-      midpoint-reversed: bool,
+      midpoint-primary-numerator: uint,
+      midpoint-primary-denominator: uint,
+      midpoint-withdraw-numerator: uint,
+      midpoint-withdraw-denominator: uint,
       total-shares: uint,
       x-protocol-fee: uint,
       x-provider-fee: uint,
@@ -45,9 +46,7 @@
     (set-pool-status (bool) (response bool uint))
     (set-midpoint-manager (principal) (response bool uint))
     (set-fee-address (principal) (response bool uint))
-    (set-midpoint (uint) (response bool uint))
-    (set-midpoint-factor (uint) (response bool uint))
-    (set-midpoint-reversed (bool) (response bool uint))
+    (set-midpoint (uint uint uint uint) (response bool uint))
     (set-x-fees (uint uint) (response bool uint))
     (set-y-fees (uint uint) (response bool uint))
     (set-liquidity-fee (uint) (response bool uint))

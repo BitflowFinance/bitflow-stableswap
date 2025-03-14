@@ -1,19 +1,24 @@
 ;; stableswap-staking-stx-ststx-v-1-1
 
-(define-constant ERR_NOT_AUTHORIZED (err u1001))
-(define-constant ERR_INVALID_AMOUNT (err u1002))
-(define-constant ERR_ALREADY_ADMIN (err u2001))
-(define-constant ERR_ADMIN_LIMIT_REACHED (err u2002))
-(define-constant ERR_ADMIN_NOT_IN_LIST (err u2003))
-(define-constant ERR_CANNOT_REMOVE_CONTRACT_DEPLOYER (err u2004))
-(define-constant ERR_STAKING_DISABLED (err u6001))
-(define-constant ERR_EARLY_UNSTAKE_DISABLED (err u6002))
-(define-constant ERR_TOKEN_TRANSFER_FAILED (err u6003))
-(define-constant ERR_INVALID_CYCLE_LENGTH (err u6004))
-(define-constant ERR_CYCLES_STAKED_OVERFLOW (err u6005))
-(define-constant ERR_CYCLES_TO_UNSTAKE_OVERFLOW (err u6006))
-(define-constant ERR_NO_USER_DATA (err u6007))
-(define-constant ERR_NO_LP_TO_UNSTAKE (err u6008))
+(define-constant ERR_NOT_AUTHORIZED (err u4001))
+(define-constant ERR_INVALID_AMOUNT (err u4002))
+(define-constant ERR_INVALID_PRINCIPAL (err u4003))
+(define-constant ERR_ALREADY_ADMIN (err u4004))
+(define-constant ERR_ADMIN_LIMIT_REACHED (err u4005))
+(define-constant ERR_ADMIN_NOT_IN_LIST (err u4006))
+(define-constant ERR_CANNOT_REMOVE_CONTRACT_DEPLOYER (err u4007))
+(define-constant ERR_STAKING_DISABLED (err u4008))
+(define-constant ERR_EARLY_UNSTAKE_DISABLED (err u4009))
+(define-constant ERR_TOKEN_TRANSFER_FAILED (err u4010))
+(define-constant ERR_INVALID_STAKING_DURATION (err u4011))
+(define-constant ERR_INVALID_MIN_STAKING_DURATION (err u4012))
+(define-constant ERR_INVALID_MAX_STAKING_DURATION (err u4013))
+(define-constant ERR_CYCLES_STAKED_OVERFLOW (err u4014))
+(define-constant ERR_CYCLES_TO_UNSTAKE_OVERFLOW (err u4015))
+(define-constant ERR_NO_USER_DATA (err u4016))
+(define-constant ERR_NO_EARLY_LP_TO_UNSTAKE (err u4017))
+(define-constant ERR_INVALID_FEE (err u4018))
+(define-constant ERR_HEIGHT_BEFORE_DEPLOYMENT (err u4019))
 
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
@@ -42,6 +47,9 @@
 (define-data-var early-unstake-fee-address principal tx-sender)
 (define-data-var early-unstake-fee uint u50)
 
+(define-data-var minimum-staking-duration uint u1)
+(define-data-var maximum-staking-duration uint u120)
+
 (define-data-var total-lp-staked uint u0)
 
 (define-map lp-staked-at-cycle uint uint)
@@ -66,7 +74,10 @@
 )
 
 (define-read-only (get-cycle-from-height (height uint)) 
-  (/ (- height DEPLOYMENT_HEIGHT) CYCLE_LENGTH)
+  (begin
+    (asserts! (>= height DEPLOYMENT_HEIGHT) ERR_HEIGHT_BEFORE_DEPLOYMENT)
+    (ok (/ (- height DEPLOYMENT_HEIGHT) CYCLE_LENGTH))
+  )
 )
 
 (define-read-only (get-starting-height-from-cycle (cycle uint)) 
@@ -105,6 +116,14 @@
   (ok (var-get early-unstake-fee))
 )
 
+(define-read-only (get-minimum-staking-duration)
+  (ok (var-get minimum-staking-duration))
+)
+
+(define-read-only (get-maximum-staking-duration)
+  (ok (var-get maximum-staking-duration))
+)
+
 (define-read-only (get-total-lp-staked)
   (ok (var-get total-lp-staked))
 )
@@ -137,12 +156,10 @@
 (define-public (remove-admin (admin principal))
   (let (
     (admins-list (var-get admins))
-    (caller-in-list (index-of admins-list tx-sender))
-    (admin-to-remove-in-list (index-of admins-list admin))
     (caller tx-sender)
   )
-    (asserts! (is-some caller-in-list) ERR_NOT_AUTHORIZED)
-    (asserts! (is-some admin-to-remove-in-list) ERR_ADMIN_NOT_IN_LIST)
+    (asserts! (is-some (index-of admins-list caller)) ERR_NOT_AUTHORIZED)
+    (asserts! (is-some (index-of admins-list admin)) ERR_ADMIN_NOT_IN_LIST)
     (asserts! (not (is-eq admin CONTRACT_DEPLOYER)) ERR_CANNOT_REMOVE_CONTRACT_DEPLOYER)
     (var-set admin-helper admin)
     (var-set admins (filter admin-not-removable admins-list))
@@ -183,6 +200,7 @@
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (is-standard address) ERR_INVALID_PRINCIPAL)
       (var-set early-unstake-fee-address address)
       (print {action: "set-early-unstake-fee-address", caller: caller, data: {address: address}})
       (ok true)
@@ -196,6 +214,7 @@
   )
     (begin
       (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (< fee BPS) ERR_INVALID_FEE)
       (var-set early-unstake-fee fee)
       (print {action: "set-early-unstake-fee", caller: caller, data: {fee: fee}})
       (ok true)
@@ -203,26 +222,51 @@
   )
 )
 
+(define-public (set-staking-duration (min-duration uint) (max-duration uint))
+  (let (
+    (caller tx-sender)
+  )
+    (begin
+      (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (and (> min-duration u0) (<= min-duration max-duration)) ERR_INVALID_MIN_STAKING_DURATION)
+      (asserts! (< max-duration u121) ERR_INVALID_MAX_STAKING_DURATION)
+      (var-set minimum-staking-duration min-duration)
+      (var-set maximum-staking-duration max-duration)
+      (print {
+        action: "set-staking-duration",
+        caller: caller,
+        data: {
+          min-duration: min-duration,
+          max-duration: max-duration
+        }
+      })
+      (ok true)
+    )
+  )
+)
+
 (define-public (stake-lp-tokens (amount uint) (cycles uint))
   (let (
-    (current-user-data (map-get? user-data tx-sender))
+    (caller tx-sender)
+    (current-user-data (map-get? user-data caller))
     (user-cycles-staked (default-to (list ) (get cycles-staked current-user-data)))
     (user-cycles-to-unstake (default-to (list ) (get cycles-to-unstake current-user-data)))
     (helper-value-for-filter (var-set helper-value cycles))
-    (filtered-cycles-list (filter filter-cycles-list CYCLES_LIST))
+    (filtered-cycles-list (filter filter-values-lte-helper-value CYCLES_LIST))
     (current-cycle (get-current-cycle))
     (helper-value-for-map (var-set helper-value current-cycle))
-    (next-cycles (map map-filtered-cycles-list filtered-cycles-list))
+    (next-cycles (map sum-with-helper-value filtered-cycles-list))
     (helper-list-for-filter (var-set helper-list user-cycles-staked))
-    (filtered-next-cycles-list (filter filter-next-cycles-list next-cycles))
-    (cycle-to-unstake (+ u1 (+ current-cycle cycles)))
+    (filtered-next-cycles-list (filter filter-out-values-contained-in-helper-list next-cycles))
+    (cycle-to-unstake (+ u1 current-cycle cycles))
+    (user-data-at-unstaking-cycle (map-get? user-data-at-cycle {user: caller, cycle: cycle-to-unstake}))
     (updated-total-lp-staked (+ (var-get total-lp-staked) amount))
-    (caller tx-sender)
+    (updated-user-lp-staked (+ (default-to u0 (get lp-staked current-user-data)) amount))
   )
     (begin
       (asserts! (is-eq (var-get staking-status) true) ERR_STAKING_DISABLED)
       (asserts! (> amount u0) ERR_INVALID_AMOUNT)
-      (asserts! (and (> cycles u0) (< cycles u121)) ERR_INVALID_CYCLE_LENGTH)
+      (asserts! (and (>= cycles (var-get minimum-staking-duration)) (<= cycles (var-get maximum-staking-duration))) ERR_INVALID_STAKING_DURATION)
       (try! (transfer-lp-token amount caller (as-contract tx-sender)))
       (fold fold-user-data-per-cycle next-cycles {amount: amount, cycles-staked: user-cycles-staked})
       (var-set total-lp-staked updated-total-lp-staked)
@@ -233,7 +277,7 @@
             user-cycles-to-unstake
             (unwrap! (as-max-len? (concat user-cycles-to-unstake (list cycle-to-unstake)) u12000) ERR_CYCLES_TO_UNSTAKE_OVERFLOW)
           ),
-          lp-staked: (+ amount (default-to u0 (get lp-staked current-user-data)))
+          lp-staked: updated-user-lp-staked
         })
         (map-set user-data caller {
           cycles-staked: next-cycles,
@@ -241,10 +285,10 @@
           lp-staked: amount
         })
       )
-      (if (is-some (map-get? user-data-at-cycle {user: caller, cycle: cycle-to-unstake}))
+      (if (is-some user-data-at-unstaking-cycle)
         (map-set user-data-at-cycle {user: caller, cycle: cycle-to-unstake} (merge 
-          (default-to {lp-staked: u0, lp-to-unstake: u0} (map-get? user-data-at-cycle {user: caller, cycle: cycle-to-unstake}))
-          {lp-to-unstake: (+ amount (default-to u0 (get lp-to-unstake (map-get? user-data-at-cycle {user: caller, cycle: cycle-to-unstake}))))}
+          (default-to {lp-staked: u0, lp-to-unstake: u0} user-data-at-unstaking-cycle)
+          {lp-to-unstake: (+ amount (default-to u0 (get lp-to-unstake user-data-at-unstaking-cycle)))}
         ))
         (map-set user-data-at-cycle {user: caller, cycle: cycle-to-unstake} { 
           lp-staked: u0,
@@ -260,7 +304,7 @@
           amount: amount,
           cycles: cycles,
           cycle-to-unstake: cycle-to-unstake,
-          user-lp-staked: (+ amount (default-to u0 (get lp-staked current-user-data)))
+          user-lp-staked: updated-user-lp-staked
         }
       })
       (ok {amount: amount, cycles: cycles})
@@ -270,25 +314,29 @@
 
 (define-public (unstake-lp-tokens)
   (let (
+    (caller tx-sender)
     (current-cycle (get-current-cycle))
     (helper-value-current-cycle (var-set helper-value current-cycle))
-    (current-user-data (unwrap! (map-get? user-data tx-sender) ERR_NO_USER_DATA))
+    (current-user-data (unwrap! (map-get? user-data caller) ERR_NO_USER_DATA))
     (user-cycles-to-unstake (get cycles-to-unstake current-user-data))
-    (user-lp-staked (get lp-staked current-user-data))      
-    (unstake-data (fold fold-cycles-to-unstakeable-cycles user-cycles-to-unstake {lp-to-unstake: u0, cycles-to-unstake: user-cycles-to-unstake}))
+    (filtered-user-cycles-to-unstake (filter filter-values-lte-helper-value user-cycles-to-unstake))
+    (user-lp-staked (get lp-staked current-user-data))
+    (unstake-data (fold fold-cycles-to-unstakeable-cycles filtered-user-cycles-to-unstake {lp-to-unstake: u0, cycles-to-unstake: filtered-user-cycles-to-unstake}))
     (lp-to-unstake (get lp-to-unstake unstake-data))
     (updated-user-lp-staked (- user-lp-staked lp-to-unstake))
     (updated-total-lp-staked (- (var-get total-lp-staked) lp-to-unstake))
-    (caller tx-sender)
   )
     (begin
-      (asserts! (> lp-to-unstake u0) ERR_NO_LP_TO_UNSTAKE)
-      (try! (as-contract (transfer-lp-token lp-to-unstake tx-sender caller)))
-      (var-set total-lp-staked updated-total-lp-staked)
-      (map-set user-data caller (merge
-        current-user-data
-        {lp-staked: updated-user-lp-staked, cycles-to-unstake: (get cycles-to-unstake unstake-data)}
-      ))
+      (if (> lp-to-unstake u0)
+        (begin
+          (try! (as-contract (transfer-lp-token lp-to-unstake tx-sender caller)))
+          (var-set total-lp-staked updated-total-lp-staked)
+          (map-set user-data caller (merge
+            current-user-data
+            {lp-staked: updated-user-lp-staked, cycles-to-unstake: (get cycles-to-unstake unstake-data)}
+          )))
+        false
+      )
       (print {
         action: "unstake-lp-tokens",
         caller: caller,
@@ -307,22 +355,23 @@
 
 (define-public (early-unstake-lp-tokens)
   (let (
-    (current-cycle (get-current-cycle))
-    (current-user-data (unwrap! (map-get? user-data tx-sender) ERR_NO_USER_DATA))
-    (user-cycles-staked (get cycles-staked current-user-data))
-    (unstake-data (fold fold-early-unstake-per-cycle user-cycles-staked {current-cycle: current-cycle, lp-to-unstake: u0, cycles-to-unstake: user-cycles-staked}))
-    (lp-to-unstake-total (get lp-staked current-user-data))
-    (lp-to-unstake-fees (/ (* lp-to-unstake-total (var-get early-unstake-fee)) BPS))
-    (lp-to-unstake-user (- lp-to-unstake-total lp-to-unstake-fees))
-    (updated-total-lp-staked (- (var-get total-lp-staked) lp-to-unstake-total))
     (caller tx-sender)
+    (unstake-matured-user-lp (try! (unstake-lp-tokens)))
+    (current-cycle (get-current-cycle))
+    (current-user-data (unwrap! (map-get? user-data caller) ERR_NO_USER_DATA))
+    (user-cycles-staked (get cycles-staked current-user-data))
+    (unstake-data (fold fold-early-unstake-per-cycle user-cycles-staked {current-cycle: current-cycle, lp-to-unstake: u0}))
+    (early-lp-to-unstake-total (get lp-staked current-user-data))
+    (early-lp-to-unstake-fees (/ (* early-lp-to-unstake-total (var-get early-unstake-fee)) BPS))
+    (early-lp-to-unstake-user (- early-lp-to-unstake-total early-lp-to-unstake-fees))
+    (updated-total-lp-staked (- (var-get total-lp-staked) early-lp-to-unstake-total))
   )
     (begin
       (asserts! (is-eq (var-get early-unstake-status) true) ERR_EARLY_UNSTAKE_DISABLED)
-      (asserts! (> lp-to-unstake-total u0) ERR_NO_LP_TO_UNSTAKE)
-      (try! (as-contract (transfer-lp-token lp-to-unstake-user tx-sender caller)))
-      (if (> lp-to-unstake-fees u0)
-        (try! (as-contract (transfer-lp-token lp-to-unstake-fees tx-sender (var-get early-unstake-fee-address))))
+      (asserts! (> early-lp-to-unstake-total u0) ERR_NO_EARLY_LP_TO_UNSTAKE)
+      (try! (as-contract (transfer-lp-token early-lp-to-unstake-user tx-sender caller)))
+      (if (> early-lp-to-unstake-fees u0)
+        (try! (as-contract (transfer-lp-token early-lp-to-unstake-fees tx-sender (var-get early-unstake-fee-address))))
         false
       )
       (var-set total-lp-staked updated-total-lp-staked)
@@ -330,21 +379,21 @@
         current-user-data
         {cycles-to-unstake: (list ), lp-staked: u0}
       ))
-      (map-delete user-data-at-cycle {user: caller, cycle: (+ (len user-cycles-staked) u1)})
       (print {
         action: "early-unstake-lp-tokens",
         caller: caller,
         data: {
           current-cycle: current-cycle,
           total-lp-staked: updated-total-lp-staked,
-          lp-to-unstake-total: lp-to-unstake-total,
-          lp-to-unstake-fees: lp-to-unstake-fees,
-          lp-to-unstake-user: lp-to-unstake-user,
+          matured-lp-to-unstake-user: unstake-matured-user-lp,
+          early-lp-to-unstake-total: early-lp-to-unstake-total,
+          early-lp-to-unstake-fees: early-lp-to-unstake-fees,
+          early-lp-to-unstake-user: early-lp-to-unstake-user,
           cycles-to-unstake: user-cycles-staked,
           user-lp-staked: u0
         }
       })
-      (ok lp-to-unstake-user)
+      (ok {matured-lp-to-unstake-user: unstake-matured-user-lp, early-lp-to-unstake-user: early-lp-to-unstake-user})
     )
   )
 )
@@ -353,37 +402,28 @@
   (not (is-eq admin (var-get admin-helper)))
 )
 
-(define-private (filter-cycles-list (value uint)) 
-  (if (<= value (var-get helper-value)) 
-    true
-    false
-  )
+(define-private (filter-values-lte-helper-value (value uint)) 
+  (<= value (var-get helper-value))
 )
 
-(define-private (filter-next-cycles-list (value uint)) 
-  (if (is-some (index-of (var-get helper-list) value))
-    false
-    true
-  )
+(define-private (filter-out-values-contained-in-helper-list (value uint)) 
+  (not (is-some (index-of (var-get helper-list) value)))
 )
 
-(define-private (filter-unstaked-cycles-list (value uint)) 
-  (if (is-eq value (var-get helper-value)) 
-    false
-    true
-  )
+(define-private (filter-out-values-eq-to-helper-value (value uint)) 
+  (not (is-eq value (var-get helper-value)))
 )
 
-(define-private (map-filtered-cycles-list (value uint)) 
+(define-private (sum-with-helper-value (value uint)) 
   (+ (var-get helper-value) value)
 )
 
 (define-private (fold-user-data-per-cycle (next-cycle uint) (static-data {amount: uint, cycles-staked: (list 12000 uint)}))
   (let (
-    (amount-static (get amount static-data))
-    (user-cycle-data (default-to {lp-staked: u0, lp-to-unstake: u0} (map-get? user-data-at-cycle {user: tx-sender, cycle: next-cycle})))
-    (cycle-lp-data (map-get? lp-staked-at-cycle next-cycle))
     (caller tx-sender)
+    (amount-static (get amount static-data))
+    (user-cycle-data (default-to {lp-staked: u0, lp-to-unstake: u0} (map-get? user-data-at-cycle {user: caller, cycle: next-cycle})))
+    (cycle-lp-data (map-get? lp-staked-at-cycle next-cycle))
   )
     (if (is-some (index-of (get cycles-staked static-data) next-cycle))
       (map-set user-data-at-cycle {user: caller, cycle: next-cycle} (merge 
@@ -405,18 +445,14 @@
 
 (define-private (fold-cycles-to-unstakeable-cycles (cycle uint) (static-data {lp-to-unstake: uint, cycles-to-unstake: (list 12000 uint)})) 
   (let (
+    (caller tx-sender)
     (lp-to-unstake-static (get lp-to-unstake static-data))
-    (user-cycle-data (match (map-get? user-data-at-cycle {user: tx-sender, cycle: cycle}) 
-      unwrapped-value
-        unwrapped-value
-      {lp-staked: u0, lp-to-unstake: u0}
-    ))
+    (user-cycle-data (default-to {lp-staked: u0, lp-to-unstake: u0} (map-get? user-data-at-cycle {user: caller, cycle: cycle})))
     (user-lp-to-unstake (get lp-to-unstake user-cycle-data))
     (helper-value-for-filter (var-set helper-value cycle))
-    (filtered-cycles-to-unstake (filter filter-unstaked-cycles-list (get cycles-to-unstake static-data)))
-    (caller tx-sender)
+    (filtered-cycles-to-unstake (filter filter-out-values-eq-to-helper-value (get cycles-to-unstake static-data)))
   )
-    (if (and (> user-lp-to-unstake u0) (<= cycle (get-current-cycle)))
+    (if (> user-lp-to-unstake u0)
       (begin 
         (map-set user-data-at-cycle {user: caller, cycle: cycle} (merge 
           user-cycle-data
@@ -429,24 +465,23 @@
   )
 )
 
-(define-private (fold-early-unstake-per-cycle (cycle uint) (static-data {current-cycle: uint, lp-to-unstake: uint, cycles-to-unstake: (list 12000 uint)})) 
+(define-private (fold-early-unstake-per-cycle (cycle uint) (static-data {current-cycle: uint, lp-to-unstake: uint})) 
   (let (
+    (caller tx-sender)
     (current-cycle-static (get current-cycle static-data))
     (lp-to-unstake-static (get lp-to-unstake static-data))
-    (cycles-to-unstake-static (get cycles-to-unstake static-data))
-    (user-cycle-data (default-to {lp-staked: u0, lp-to-unstake: u0} (map-get? user-data-at-cycle {user: tx-sender, cycle: cycle})))
+    (user-cycle-data (default-to {lp-staked: u0, lp-to-unstake: u0} (map-get? user-data-at-cycle {user: caller, cycle: cycle})))
     (cycle-lp-data (map-get? lp-staked-at-cycle cycle))
     (user-lp-staked (get lp-staked user-cycle-data))
-    (caller tx-sender)
   )
-    (if (> user-lp-staked u0)
+    (if (and (> user-lp-staked u0) (> cycle current-cycle-static))
       (begin
         (map-delete user-data-at-cycle {user: caller, cycle: cycle})
         (if (is-some cycle-lp-data)
           (map-set lp-staked-at-cycle cycle (- (default-to u0 cycle-lp-data) user-lp-staked))
           false
         )
-        {current-cycle: current-cycle-static, lp-to-unstake: (+ user-lp-staked lp-to-unstake-static), cycles-to-unstake: cycles-to-unstake-static}
+        {current-cycle: current-cycle-static, lp-to-unstake: (+ user-lp-staked lp-to-unstake-static)}
       )
       static-data
     )
@@ -456,7 +491,7 @@
 (define-private (transfer-lp-token (amount uint) (sender principal) (recipient principal))
   (let (
     (call-a (unwrap! (contract-call?
-                     'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.stableswap-pool-stx-ststx-v-1-1 transfer
+                     .stableswap-pool-stx-ststx-v-1-1 transfer
                      amount sender recipient none) ERR_TOKEN_TRANSFER_FAILED))
   )
     (ok call-a)
