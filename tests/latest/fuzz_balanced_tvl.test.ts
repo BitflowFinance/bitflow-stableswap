@@ -35,7 +35,7 @@ describe("Stableswap - Fuzz Test 1 (TVL BALANCED)", () => {
 
   // Set midpoint primary ratio
   const primaryNumerator = 1_000_000;
-  const primaryDenominator = 1_088_818;
+  const primaryDenominator = 1_100_000;
   const primaryRatio = primaryDenominator / primaryNumerator;
 
   // Set midpoint withdraw denominator from environment or default
