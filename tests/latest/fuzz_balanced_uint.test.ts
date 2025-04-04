@@ -272,7 +272,7 @@ describe("Stableswap - Fuzz Test 1 (UINT BALANCED)", () => {
       );
     };
 
-    const outputDirectory = "/uint";
+    const outputDirectory = "uint";
     if (!fs.existsSync(outputDirectory)) fs.mkdirSync(outputDirectory, { recursive: true });
     
     const csvFilePath = path.join(outputDirectory, `fuzz_balanced_uint_${amountForPoolCreation * 2}_${withdrawDenominator}.csv`)
