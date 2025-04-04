@@ -2,6 +2,7 @@ import { describe, it } from "vitest";
 import { contractPrincipalCV, cvToValue } from "@stacks/transactions";
 import { createPool, addLiquidity, mintTokens, withdrawLiquidity, getPool } from "./utils";
 import * as fs from "fs";
+import * as path from "path";
 
 // STX and stSTX represent X and Y
 const tokenXContractName = "token-stx";
@@ -267,9 +268,14 @@ describe("Stableswap - Fuzz Test 1 (UINT BALANCED)", () => {
     const csvRows = ["initialPoolBalance,withdrawDenominator,trialId,poolBalanceX,poolBalanceY,stxAddedEstimated,stxWithdrawnEstimated,valueDifference,valueDifferencePercent"];
     for (const r of resultsForExport) {
       csvRows.push(
-        `${r.initialPoolBalance},${r.withdrawDenominator},${r.trialId},${r.poolBalanceX},${r.poolBalanceY},${r.stxAddedEstimated},${r.stxWithdrawnEstimated},${r.valueDifferencePercent},${r.valueDifferencePercent}`
+        `${r.initialPoolBalance},${r.withdrawDenominator},${r.trialId},${r.poolBalanceX},${r.poolBalanceY},${r.stxAddedEstimated},${r.stxWithdrawnEstimated},${r.valueDifference},${r.valueDifferencePercent}`
       );
     };
-    fs.writeFileSync(`fuzz_balanced_uint_${amountForPoolCreation * 2}_${withdrawDenominator}.csv`, csvRows.join("\n"), "utf8");
+
+    const outputDirectory = "/uint";
+    if (!fs.existsSync(outputDirectory)) fs.mkdirSync(outputDirectory, { recursive: true });
+    
+    const csvFilePath = path.join(outputDirectory, `fuzz_balanced_uint_${amountForPoolCreation * 2}_${withdrawDenominator}.csv`)
+    fs.writeFileSync(csvFilePath, csvRows.join("\n"), "utf8");
   });
 });
