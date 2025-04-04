@@ -31,8 +31,8 @@ describe("Stableswap - Fuzz Test 1 (TVL BALANCED)", () => {
 
   // When enabled, calculate random amounts to add using percentage of the pool's balances
   const calculateAddLiquidityAsPercent = true;
-  const minPercentForAddLiquidity = 0.01;
-  const maxPercentForAddLiquidity = 1;
+  const minPercentForAddLiquidity = 0.3;
+  const maxPercentForAddLiquidity = 3;
 
   // Set midpoint primary ratio
   const primaryNumerator = 1_000_000;
