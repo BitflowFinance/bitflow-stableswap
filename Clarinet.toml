@@ -40,8 +40,8 @@ path = "contracts/token-stx-v-1-1.clar"
 clarity_version = 2
 epoch = "2.1"
 
-[contracts.token-ststx]
-path = "contracts/external/token-ststx.clar"
+[contracts.token-stx]
+path = "contracts/mock/token-stx.clar"
 clarity_version = 2
 epoch = "2.1"
 
