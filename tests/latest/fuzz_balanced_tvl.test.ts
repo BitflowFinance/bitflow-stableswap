@@ -293,7 +293,7 @@ describe("Stableswap - Fuzz Test 1 (TVL BALANCED)", () => {
       );
     };
 
-    const outputDirectory = "/tvl";
+    const outputDirectory = "tvl";
     if (!fs.existsSync(outputDirectory)) fs.mkdirSync(outputDirectory, { recursive: true });
     
     const csvFilePath = path.join(outputDirectory, `fuzz_balanced_tvl_${amountForPoolCreation * 2}_${withdrawDenominator}.csv`)
