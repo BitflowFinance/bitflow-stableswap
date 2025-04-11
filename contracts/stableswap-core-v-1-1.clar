@@ -26,7 +26,7 @@
 (define-constant ERR_MINIMUM_X_AMOUNT (err u1019))
 (define-constant ERR_MINIMUM_Y_AMOUNT (err u1020))
 (define-constant ERR_MINIMUM_LP_AMOUNT (err u1021))
-(define-constant ERR_UNEQUAL_POOL_BALANCES (err u1022))
+(define-constant ERR_MAXIMUM_LP_AMOUNT (err u1022))
 (define-constant ERR_MINIMUM_D_VALUE (err u1023))
 (define-constant ERR_INVALID_FEE (err u1024))
 (define-constant ERR_MINIMUM_BURN_AMOUNT (err u1025))
@@ -122,8 +122,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-primary-numerator pool-data))
-    (midpoint-denominator (get midpoint-primary-denominator pool-data))
+    (midpoint-numerator (get midpoint-numerator pool-data))
+    (midpoint-denominator (get midpoint-denominator pool-data))
     (protocol-fee (get x-protocol-fee pool-data))
     (provider-fee (get x-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -176,8 +176,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-primary-numerator pool-data))
-    (midpoint-denominator (get midpoint-primary-denominator pool-data))
+    (midpoint-numerator (get midpoint-numerator pool-data))
+    (midpoint-denominator (get midpoint-denominator pool-data))
     (protocol-fee (get y-protocol-fee pool-data))
     (provider-fee (get y-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -230,8 +230,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-primary-numerator pool-data))
-    (midpoint-denominator (get midpoint-primary-denominator pool-data))
+    (midpoint-numerator (get midpoint-numerator pool-data))
+    (midpoint-denominator (get midpoint-denominator pool-data))
     (total-shares (get total-shares pool-data))
     (liquidity-fee (get liquidity-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -249,10 +249,27 @@
     (updated-pool-balances-scaled (scale-up-amounts updated-x-balance updated-y-balance x-token-trait y-token-trait))
     (updated-x-balance-scaled (get x-amount updated-pool-balances-scaled))
     (updated-y-balance-scaled (get y-amount updated-pool-balances-scaled))
+
+    ;; Calculate midpoint offset and scale values
+    (midpoint-offset-reversed (> midpoint-numerator midpoint-denominator))
+    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator midpoint-offset-reversed))
+    (midpoint-scale-value (if midpoint-offset-reversed midpoint-denominator midpoint-numerator))
+
+    ;; Calculate offset pool balances
+    (x-balance-offset-scaled (if midpoint-offset-reversed u0 (/ (* x-balance-scaled midpoint-offset-value) midpoint-scale-value)))
+    (x-balance-post-offset-scaled (- x-balance-scaled x-balance-offset-scaled))
+    (y-balance-offset-scaled (if midpoint-offset-reversed (/ (* y-balance-scaled midpoint-offset-value) midpoint-scale-value) u0))
+    (y-balance-post-offset-scaled (- y-balance-scaled y-balance-offset-scaled))
+
+    ;; Calculate offset pool balances after adding x and y amounts
+    (updated-x-balance-offset-scaled (if midpoint-offset-reversed u0 (/ (* updated-x-balance-scaled midpoint-offset-value) midpoint-scale-value)))
+    (updated-x-balance-post-offset-scaled (- updated-x-balance-scaled updated-x-balance-offset-scaled))
+    (updated-y-balance-offset-scaled (if midpoint-offset-reversed (/ (* updated-y-balance-scaled midpoint-offset-value) midpoint-scale-value) u0))
+    (updated-y-balance-post-offset-scaled (- updated-y-balance-scaled updated-y-balance-offset-scaled))
     
     ;; Calculate ideal pool balance
-    (d-a (get-d x-balance-scaled y-balance-scaled amplification-coefficient convergence-threshold))
-    (d-b (get-d updated-x-balance-scaled updated-y-balance-scaled amplification-coefficient convergence-threshold))
+    (d-a (get-d x-balance-post-offset-scaled y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
+    (d-b (get-d updated-x-balance-post-offset-scaled updated-y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
     (ideal-x-balance-scaled (/ (* d-b x-balance-scaled) d-a))
     (ideal-y-balance-scaled (/ (* d-b y-balance-scaled) d-a))
     (x-difference (if (> ideal-x-balance-scaled updated-x-balance-scaled) (- ideal-x-balance-scaled updated-x-balance-scaled) (- updated-x-balance-scaled ideal-x-balance-scaled)))
@@ -265,34 +282,34 @@
     (y-amount-fee-liquidity-scaled (if (> y-amount-scaled ideal-y-amount-fee-liquidity-scaled) ideal-y-amount-fee-liquidity-scaled y-amount-scaled))
     (updated-x-amount-scaled (- x-amount-scaled x-amount-fee-liquidity-scaled))
     (updated-y-amount-scaled (- y-amount-scaled y-amount-fee-liquidity-scaled))
+    (updated-balance-x-post-fee-scaled (+ x-balance-scaled updated-x-amount-scaled))
     (updated-balance-y-post-fee-scaled (+ y-balance-scaled updated-y-amount-scaled))
+
+    ;; Calculate offset pool balances post fees and then get d
+    (updated-balance-x-post-fee-offset-scaled (if midpoint-offset-reversed u0 (/ (* updated-balance-x-post-fee-scaled midpoint-offset-value) midpoint-scale-value)))
+    (updated-balance-x-post-fee-and-offset-scaled (- updated-balance-x-post-fee-scaled updated-balance-x-post-fee-offset-scaled))
+    (updated-balance-y-post-fee-offset-scaled (if midpoint-offset-reversed (/ (* updated-balance-y-post-fee-scaled midpoint-offset-value) midpoint-scale-value) u0))
+    (updated-balance-y-post-fee-and-offset-scaled (- updated-balance-y-post-fee-scaled updated-balance-y-post-fee-offset-scaled))
+    (updated-d (get-d updated-balance-x-post-fee-and-offset-scaled updated-balance-y-post-fee-and-offset-scaled amplification-coefficient convergence-threshold))
 
     ;; Scale down for precise token balance updates
     (amounts-added (scale-down-amounts updated-x-amount-scaled updated-y-amount-scaled x-token-trait y-token-trait))
     (updated-x-amount (get x-amount amounts-added))
     (updated-y-amount (get y-amount amounts-added))
 
-    ;; Calculate midpoint offset and scale values
-    (midpoint-offset-reversed (> midpoint-numerator midpoint-denominator))
-    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator midpoint-offset-reversed))
-    (midpoint-scale-value (if midpoint-offset-reversed midpoint-denominator midpoint-numerator))
-
     ;; Calculate offset x-amount
     (x-amount-offset-scaled (if midpoint-offset-reversed u0 (/ (* updated-x-amount-scaled midpoint-offset-value) midpoint-scale-value)))
     (x-amount-post-offset-scaled (- updated-x-amount-scaled x-amount-offset-scaled))
-    (x-balance-post-offset-scaled (+ x-balance-scaled x-amount-post-offset-scaled))
+    (x-balance-post-offset-and-fees-scaled (+ x-balance-scaled x-amount-post-offset-scaled))
 
     ;; Calculate offset y-amount
     (y-amount-offset-scaled (if midpoint-offset-reversed (/ (* updated-y-amount-scaled midpoint-offset-value) midpoint-scale-value) u0))
     (y-amount-post-offset-scaled (- updated-y-amount-scaled y-amount-offset-scaled))
-    (y-balance-post-offset-scaled (+ y-balance-scaled y-amount-post-offset-scaled))
+    (y-balance-post-offset-and-fees-scaled (+ y-balance-scaled y-amount-post-offset-scaled))
 
-    ;; Calculate d-c using offset x and y amounts
-    (d-c (get-d x-balance-post-offset-scaled y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
-
-    ;; Check that d-c is greater than d-a and calculate dlp
-    (minimum-d-check (asserts! (> d-c d-a) ERR_MINIMUM_D_VALUE))
-    (dlp (/ (* total-shares (- d-c d-a)) d-a))
+    ;; Check that updated-d is greater than d-a and calculate dlp
+    (minimum-d-check (asserts! (> updated-d d-a) ERR_MINIMUM_D_VALUE))
+    (dlp (/ (* total-shares (- updated-d d-a)) d-a))
   )
     ;; Assert that pool-status is true and correct token traits are used
     (asserts! (is-eq (get pool-status pool-data) true) ERR_POOL_DISABLED)
@@ -530,10 +547,7 @@
 )
 
 ;; Set midpoint for a pool
-(define-public (set-midpoint (pool-trait <stableswap-pool-trait>) 
-    (primary-numerator uint) (primary-denominator uint)
-    (withdraw-numerator uint) (withdraw-denominator uint)
-  )
+(define-public (set-midpoint (pool-trait <stableswap-pool-trait>) (numerator uint) (denominator uint))
   (let (
     ;; Gather all pool data and check if pool is valid
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
@@ -546,16 +560,12 @@
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
 
-      ;; Assert that primary-numerator and primary-denominator are greater than 0
-      (asserts! (> primary-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
-      (asserts! (> primary-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
-
-      ;; Assert that withdraw-numerator and withdraw-denominator are greater than 0
-      (asserts! (> withdraw-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
-      (asserts! (> withdraw-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
+      ;; Assert that numerator and denominator are greater than 0
+      (asserts! (> numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
 
       ;; Set midpoint for pool
-      (try! (contract-call? pool-trait set-midpoint primary-numerator primary-denominator withdraw-numerator withdraw-denominator))
+      (try! (contract-call? pool-trait set-midpoint numerator denominator))
       
       ;; Print function data and return true
       (print {
@@ -565,10 +575,8 @@
           pool-id: (get pool-id pool-data),
           pool-name: (get pool-name pool-data),
           pool-contract: (contract-of pool-trait),
-          primary-numerator: primary-numerator,
-          primary-denominator: primary-denominator,
-          withdraw-numerator: withdraw-numerator,
-          withdraw-denominator: withdraw-denominator
+          numerator: numerator,
+          denominator: denominator,
         }
       })
       (ok true)
@@ -752,8 +760,7 @@
     (pool-trait <stableswap-pool-trait>)
     (x-token-trait <sip-010-trait>) (y-token-trait <sip-010-trait>)
     (x-amount uint) (y-amount uint) (burn-amount uint)
-    (midpoint-primary-numerator uint) (midpoint-primary-denominator uint)
-    (midpoint-withdraw-numerator uint) (midpoint-withdraw-denominator uint)
+    (midpoint-numerator uint) (midpoint-denominator uint)
     (x-protocol-fee uint) (x-provider-fee uint)
     (y-protocol-fee uint) (y-provider-fee uint)
     (liquidity-fee uint)
@@ -778,7 +785,20 @@
     (pool-balances-scaled (scale-up-amounts x-amount y-amount x-token-trait y-token-trait))
     (x-balance-scaled (get x-amount pool-balances-scaled))
     (y-balance-scaled (get y-amount pool-balances-scaled))
-    (total-shares (+ x-balance-scaled y-balance-scaled))
+
+    ;; Calculate midpoint offset and scale values
+    (midpoint-offset-reversed (> midpoint-numerator midpoint-denominator))
+    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator midpoint-offset-reversed))
+    (midpoint-scale-value (if midpoint-offset-reversed midpoint-denominator midpoint-numerator))
+
+    ;; Calculate offset initial pool balances
+    (x-balance-offset-scaled (if midpoint-offset-reversed u0 (/ (* x-balance-scaled midpoint-offset-value) midpoint-scale-value)))
+    (x-balance-post-offset-scaled (- x-balance-scaled x-balance-offset-scaled))
+    (y-balance-offset-scaled (if midpoint-offset-reversed (/ (* y-balance-scaled midpoint-offset-value) midpoint-scale-value) u0))
+    (y-balance-post-offset-scaled (- y-balance-scaled y-balance-offset-scaled))
+
+    ;; Calculate total shares uses offset pool balances
+    (total-shares (+ x-balance-post-offset-scaled y-balance-post-offset-scaled))
     (min-burnt-shares (var-get minimum-burnt-shares))
     (caller tx-sender)
   )
@@ -800,9 +820,6 @@
       ;; Assert that x and y amount is greater than 0
       (asserts! (and (> x-amount u0) (> y-amount u0)) ERR_INVALID_AMOUNT)
 
-      ;; Assert that balances are equal
-      (asserts! (is-eq x-balance-scaled y-balance-scaled) ERR_UNEQUAL_POOL_BALANCES)
-
       ;; Assert that total shares minted meets minimum total shares required
       (asserts! (>= total-shares (var-get minimum-total-shares)) ERR_MINIMUM_LP_AMOUNT)
 
@@ -817,13 +834,9 @@
       (asserts! (> (len symbol) u0) ERR_INVALID_POOL_SYMBOL)
       (asserts! (> (len name) u0) ERR_INVALID_POOL_NAME)
 
-      ;; Assert that midpoint-primary-numerator and midpoint-primary-denominator are greater than 0
-      (asserts! (> midpoint-primary-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
-      (asserts! (> midpoint-primary-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
-
-      ;; Assert that midpoint-withdraw-numerator and midpoint-withdraw-denominator are greater than 0
-      (asserts! (> midpoint-withdraw-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
-      (asserts! (> midpoint-withdraw-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
+      ;; Assert that midpoint-numerator and midpoint-denominator are greater than 0
+      (asserts! (> midpoint-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> midpoint-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
 
       ;; Assert that fees are less than maximum BPS
       (asserts! (< (+ x-protocol-fee x-provider-fee) BPS) ERR_INVALID_FEE)
@@ -832,7 +845,7 @@
 
       ;; Create pool, set midpoint, and set fees
       (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract CONTRACT_DEPLOYER fee-address caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))
-      (try! (contract-call? pool-trait set-midpoint midpoint-primary-numerator midpoint-primary-denominator midpoint-withdraw-numerator midpoint-withdraw-denominator))
+      (try! (contract-call? pool-trait set-midpoint midpoint-numerator midpoint-denominator))
       (try! (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee))
       (try! (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee))
       (try! (contract-call? pool-trait set-liquidity-fee liquidity-fee))
@@ -872,10 +885,9 @@
           x-amount: x-amount,
           y-amount: y-amount,
           burn-amount: burn-amount,
-          midpoint-primary-numerator: midpoint-primary-numerator,
-          midpoint-primary-denominator: midpoint-primary-denominator,
-          midpoint-withdraw-numerator: midpoint-withdraw-numerator,
-          midpoint-withdraw-denominator: midpoint-withdraw-denominator,
+          midpoint-numerator: midpoint-numerator,
+          midpoint-denominator: midpoint-denominator,
+          midpoint-offset-value: midpoint-offset-value,
           total-shares: total-shares,
           pool-symbol: symbol,
           pool-uri: uri,
@@ -908,8 +920,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-primary-numerator pool-data))
-    (midpoint-denominator (get midpoint-primary-denominator pool-data))
+    (midpoint-numerator (get midpoint-numerator pool-data))
+    (midpoint-denominator (get midpoint-denominator pool-data))
     (protocol-fee (get x-protocol-fee pool-data))
     (provider-fee (get x-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -940,7 +952,18 @@
     (x-amount-fees-total (+ x-amount-fees-protocol x-amount-fees-provider))
     (dx (- x-amount x-amount-fees-total))
     (updated-dx (+ dx x-amount-fees-provider))
-    (updated-d (get-d updated-x-balance-scaled updated-y-balance-scaled amplification-coefficient convergence-threshold))
+
+    ;; Calculate midpoint offset and scale values
+    (midpoint-offset-reversed (> midpoint-numerator midpoint-denominator))
+    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator midpoint-offset-reversed))
+    (midpoint-scale-value (if midpoint-offset-reversed midpoint-denominator midpoint-numerator))
+    
+    ;; Calculate offset pool balances and then get d
+    (updated-x-balance-offset-scaled (if midpoint-offset-reversed u0 (/ (* updated-x-balance-scaled midpoint-offset-value) midpoint-scale-value)))
+    (updated-x-balance-post-offset-scaled (- updated-x-balance-scaled updated-x-balance-offset-scaled))
+    (updated-y-balance-offset-scaled (if midpoint-offset-reversed (/ (* updated-y-balance-scaled midpoint-offset-value) midpoint-scale-value) u0))
+    (updated-y-balance-post-offset-scaled (- updated-y-balance-scaled updated-y-balance-offset-scaled))
+    (updated-d (get-d updated-x-balance-post-offset-scaled updated-y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
     (caller tx-sender)
   )
     (begin
@@ -1011,8 +1034,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-primary-numerator pool-data))
-    (midpoint-denominator (get midpoint-primary-denominator pool-data))
+    (midpoint-numerator (get midpoint-numerator pool-data))
+    (midpoint-denominator (get midpoint-denominator pool-data))
     (protocol-fee (get y-protocol-fee pool-data))
     (provider-fee (get y-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -1043,7 +1066,18 @@
     (y-amount-fees-total (+ y-amount-fees-protocol y-amount-fees-provider))
     (dy (- y-amount y-amount-fees-total))
     (updated-dy (+ dy y-amount-fees-provider))
-    (updated-d (get-d updated-x-balance-scaled updated-y-balance-scaled amplification-coefficient convergence-threshold))
+
+    ;; Calculate midpoint offset and scale values
+    (midpoint-offset-reversed (> midpoint-numerator midpoint-denominator))
+    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator midpoint-offset-reversed))
+    (midpoint-scale-value (if midpoint-offset-reversed midpoint-denominator midpoint-numerator))
+    
+    ;; Calculate offset pool balances and then get d
+    (updated-x-balance-offset-scaled (if midpoint-offset-reversed u0 (/ (* updated-x-balance-scaled midpoint-offset-value) midpoint-scale-value)))
+    (updated-x-balance-post-offset-scaled (- updated-x-balance-scaled updated-x-balance-offset-scaled))
+    (updated-y-balance-offset-scaled (if midpoint-offset-reversed (/ (* updated-y-balance-scaled midpoint-offset-value) midpoint-scale-value) u0))
+    (updated-y-balance-post-offset-scaled (- updated-y-balance-scaled updated-y-balance-offset-scaled))
+    (updated-d (get-d updated-x-balance-post-offset-scaled updated-y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
     (caller tx-sender)
   )
     (begin
@@ -1114,8 +1148,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-primary-numerator pool-data))
-    (midpoint-denominator (get midpoint-primary-denominator pool-data))
+    (midpoint-numerator (get midpoint-numerator pool-data))
+    (midpoint-denominator (get midpoint-denominator pool-data))
     (total-shares (get total-shares pool-data))
     (liquidity-fee (get liquidity-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -1134,9 +1168,26 @@
     (updated-x-balance-scaled (get x-amount updated-pool-balances-scaled))
     (updated-y-balance-scaled (get y-amount updated-pool-balances-scaled))
     
+    ;; Calculate midpoint offset and scale values
+    (midpoint-offset-reversed (> midpoint-numerator midpoint-denominator))
+    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator midpoint-offset-reversed))
+    (midpoint-scale-value (if midpoint-offset-reversed midpoint-denominator midpoint-numerator))
+
+    ;; Calculate offset pool balances
+    (x-balance-offset-scaled (if midpoint-offset-reversed u0 (/ (* x-balance-scaled midpoint-offset-value) midpoint-scale-value)))
+    (x-balance-post-offset-scaled (- x-balance-scaled x-balance-offset-scaled))
+    (y-balance-offset-scaled (if midpoint-offset-reversed (/ (* y-balance-scaled midpoint-offset-value) midpoint-scale-value) u0))
+    (y-balance-post-offset-scaled (- y-balance-scaled y-balance-offset-scaled))
+
+    ;; Calculate offset pool balances after adding x and y amounts
+    (updated-x-balance-offset-scaled (if midpoint-offset-reversed u0 (/ (* updated-x-balance-scaled midpoint-offset-value) midpoint-scale-value)))
+    (updated-x-balance-post-offset-scaled (- updated-x-balance-scaled updated-x-balance-offset-scaled))
+    (updated-y-balance-offset-scaled (if midpoint-offset-reversed (/ (* updated-y-balance-scaled midpoint-offset-value) midpoint-scale-value) u0))
+    (updated-y-balance-post-offset-scaled (- updated-y-balance-scaled updated-y-balance-offset-scaled))
+    
     ;; Calculate ideal pool balance
-    (d-a (get-d x-balance-scaled y-balance-scaled amplification-coefficient convergence-threshold))
-    (d-b (get-d updated-x-balance-scaled updated-y-balance-scaled amplification-coefficient convergence-threshold))
+    (d-a (get-d x-balance-post-offset-scaled y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
+    (d-b (get-d updated-x-balance-post-offset-scaled updated-y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
     (ideal-x-balance-scaled (/ (* d-b x-balance-scaled) d-a))
     (ideal-y-balance-scaled (/ (* d-b y-balance-scaled) d-a))
     (x-difference (if (> ideal-x-balance-scaled updated-x-balance-scaled) (- ideal-x-balance-scaled updated-x-balance-scaled) (- updated-x-balance-scaled ideal-x-balance-scaled)))
@@ -1151,7 +1202,13 @@
     (updated-y-amount-scaled (- y-amount-scaled y-amount-fee-liquidity-scaled))
     (updated-balance-x-post-fee-scaled (+ x-balance-scaled updated-x-amount-scaled))
     (updated-balance-y-post-fee-scaled (+ y-balance-scaled updated-y-amount-scaled))
-    (updated-d (get-d updated-balance-x-post-fee-scaled updated-balance-y-post-fee-scaled amplification-coefficient convergence-threshold))
+
+    ;; Calculate offset pool balances post fees and then get d
+    (updated-balance-x-post-fee-offset-scaled (if midpoint-offset-reversed u0 (/ (* updated-balance-x-post-fee-scaled midpoint-offset-value) midpoint-scale-value)))
+    (updated-balance-x-post-fee-and-offset-scaled (- updated-balance-x-post-fee-scaled updated-balance-x-post-fee-offset-scaled))
+    (updated-balance-y-post-fee-offset-scaled (if midpoint-offset-reversed (/ (* updated-balance-y-post-fee-scaled midpoint-offset-value) midpoint-scale-value) u0))
+    (updated-balance-y-post-fee-and-offset-scaled (- updated-balance-y-post-fee-scaled updated-balance-y-post-fee-offset-scaled))
+    (updated-d (get-d updated-balance-x-post-fee-and-offset-scaled updated-balance-y-post-fee-and-offset-scaled amplification-coefficient convergence-threshold))
     
     ;; Scale down for precise token balance updates and transfers
     (precise-fees-liquidity (scale-down-amounts x-amount-fee-liquidity-scaled y-amount-fee-liquidity-scaled x-token-trait y-token-trait))
@@ -1164,27 +1221,19 @@
     (updated-x-balance-post-fee (get x-amount updated-pool-balances-post-fee))
     (updated-y-balance-post-fee (get y-amount updated-pool-balances-post-fee))
 
-    ;; Calculate midpoint offset and scale values
-    (midpoint-offset-reversed (> midpoint-numerator midpoint-denominator))
-    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator midpoint-offset-reversed))
-    (midpoint-scale-value (if midpoint-offset-reversed midpoint-denominator midpoint-numerator))
-
     ;; Calculate offset x-amount
     (x-amount-offset-scaled (if midpoint-offset-reversed u0 (/ (* updated-x-amount-scaled midpoint-offset-value) midpoint-scale-value)))
     (x-amount-post-offset-scaled (- updated-x-amount-scaled x-amount-offset-scaled))
-    (x-balance-post-offset-scaled (+ x-balance-scaled x-amount-post-offset-scaled))
+    (x-balance-post-offset-and-fees-scaled (+ x-balance-scaled x-amount-post-offset-scaled))
 
     ;; Calculate offset y-amount
     (y-amount-offset-scaled (if midpoint-offset-reversed (/ (* updated-y-amount-scaled midpoint-offset-value) midpoint-scale-value) u0))
     (y-amount-post-offset-scaled (- updated-y-amount-scaled y-amount-offset-scaled))
-    (y-balance-post-offset-scaled (+ y-balance-scaled y-amount-post-offset-scaled))
+    (y-balance-post-offset-and-fees-scaled (+ y-balance-scaled y-amount-post-offset-scaled))
 
-    ;; Calculate d-c using offset x and y amounts
-    (d-c (get-d x-balance-post-offset-scaled y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
-
-    ;; Check that d-c is greater than d-a and calculate dlp
-    (minimum-d-check (asserts! (> d-c d-a) ERR_MINIMUM_D_VALUE))
-    (dlp (/ (* total-shares (- d-c d-a)) d-a))
+    ;; Check that updated-d is greater than d-a and calculate dlp
+    (minimum-d-check (asserts! (> updated-d d-a) ERR_MINIMUM_D_VALUE))
+    (dlp (/ (* total-shares (- updated-d d-a)) d-a))
     (caller tx-sender)
   )
     (begin
@@ -1260,8 +1309,8 @@
   )
 )
 
-;; Withdraw liquidity from a pool
-(define-public (withdraw-liquidity
+;; Withdraw proportional liquidity from a pool
+(define-public (withdraw-proportional-liquidity
     (pool-trait <stableswap-pool-trait>)
     (x-token-trait <sip-010-trait>) (y-token-trait <sip-010-trait>)
     (amount uint) (min-x-amount uint) (min-y-amount uint)
@@ -1274,32 +1323,17 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-withdraw-numerator pool-data))
-    (midpoint-denominator (get midpoint-withdraw-denominator pool-data))
     (total-shares (get total-shares pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
     (amplification-coefficient (get amplification-coefficient pool-data))
 
-    ;; Calculate midpoint offset and scale values
-    (midpoint-offset-reversed (> midpoint-numerator midpoint-denominator))
-    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator midpoint-offset-reversed))
-    (midpoint-scale-value (if midpoint-offset-reversed midpoint-denominator midpoint-numerator))
-
-    ;; Calculate initial x and y amounts
+    ;; Calculate x and y amounts
     (x-amount (/ (* amount x-balance) total-shares))
     (y-amount (/ (* amount y-balance) total-shares))
 
-    ;; Calculate offset x-amount
-    (x-amount-offset (if midpoint-offset-reversed u0 (/ (* x-amount midpoint-offset-value) midpoint-scale-value)))
-    (x-amount-post-offset (+ x-amount x-amount-offset))
-
-    ;; Calculate offset y-amount
-    (y-amount-offset (if midpoint-offset-reversed (/ (* y-amount midpoint-offset-value) midpoint-scale-value) u0))
-    (y-amount-post-offset (+ y-amount y-amount-offset))
-
     ;; Calculate updated pool balances
-    (updated-x-balance (- x-balance x-amount-post-offset))
-    (updated-y-balance (- y-balance y-amount-post-offset))
+    (updated-x-balance (- x-balance x-amount))
+    (updated-y-balance (- y-balance y-amount))
 
     ;; Scale up balances and calculate updated-d
     (updated-pool-balances-scaled (scale-up-amounts updated-x-balance updated-y-balance x-token-trait y-token-trait))
@@ -1316,24 +1350,24 @@
       ;; Assert that amount is greater than 0
       (asserts! (> amount u0) ERR_INVALID_AMOUNT)
 
-      ;; Assert that x-amount-post-offset + y-amount-post-offset is greater than 0
-      (asserts! (> (+ x-amount-post-offset y-amount-post-offset) u0) ERR_INVALID_AMOUNT)
+      ;; Assert that x-amount + y-amount is greater than 0
+      (asserts! (> (+ x-amount y-amount) u0) ERR_INVALID_AMOUNT)
 
-      ;; Assert that x-amount-post-offset is greater than or equal to min-x-amount
-      (asserts! (>= x-amount-post-offset min-x-amount) ERR_MINIMUM_X_AMOUNT)
+      ;; Assert that x-amount is greater than or equal to min-x-amount
+      (asserts! (>= x-amount min-x-amount) ERR_MINIMUM_X_AMOUNT)
 
-      ;; Assert that y-amount-post-offset is greater than or equal to min-y-amount
-      (asserts! (>= y-amount-post-offset min-y-amount) ERR_MINIMUM_Y_AMOUNT)
+      ;; Assert that y-amount is greater than or equal to min-y-amount
+      (asserts! (>= y-amount min-y-amount) ERR_MINIMUM_Y_AMOUNT)
 
-      ;; Transfer x-amount-post-offset x tokens from pool-contract to caller
-      (if (> x-amount-post-offset u0)
-        (try! (contract-call? pool-trait pool-transfer x-token-trait x-amount-post-offset caller))
+      ;; Transfer x-amount x tokens from pool-contract to caller
+      (if (> x-amount u0)
+        (try! (contract-call? pool-trait pool-transfer x-token-trait x-amount caller))
         false
       )
       
-      ;; Transfer y-amount-post-offset y tokens from pool-contract to caller
-      (if (> y-amount-post-offset u0)
-        (try! (contract-call? pool-trait pool-transfer y-token-trait y-amount-post-offset caller))
+      ;; Transfer y-amount y tokens from pool-contract to caller
+      (if (> y-amount u0)
+        (try! (contract-call? pool-trait pool-transfer y-token-trait y-amount caller))
         false
       )
 
@@ -1345,7 +1379,7 @@
       
       ;; Print withdraw liquidity data and return number of x and y tokens caller received
       (print {
-        action: "withdraw-liquidity",
+        action: "withdraw-proportional-liquidity",
         caller: caller,
         data: {
           pool-id: (get pool-id pool-data),
@@ -1356,18 +1390,99 @@
           amount: amount,
           x-amount: x-amount,
           y-amount: y-amount,
-          midpoint-numerator: midpoint-numerator,
-          midpoint-denominator: midpoint-denominator,
-          midpoint-offset-value: midpoint-offset-value,
-          x-amount-offset: x-amount-offset,
-          x-amount-post-offset: x-amount-post-offset,
-          y-amount-offset: y-amount-offset,
-          y-amount-post-offset: y-amount-post-offset,
           min-x-amount: min-x-amount,
           min-y-amount: min-y-amount
         }
       })
-      (ok {x-amount: x-amount-post-offset, y-amount: y-amount-post-offset})
+      (ok {x-amount: x-amount, y-amount: y-amount})
+    )
+  )
+)
+
+;; Withdraw imbalanced liquidity from a pool
+(define-public (withdraw-imbalanced-liquidity
+    (pool-trait <stableswap-pool-trait>)
+    (x-token-trait <sip-010-trait>) (y-token-trait <sip-010-trait>)
+    (x-amount uint) (y-amount uint) (max-lp-amount uint)
+  )
+  (let (
+    ;; Gather all pool data and check if pool is valid
+    (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
+    (x-token (get x-token pool-data))
+    (y-token (get y-token pool-data))
+    (x-balance (get x-balance pool-data))
+    (y-balance (get y-balance pool-data))
+    (total-shares (get total-shares pool-data))
+    (convergence-threshold (get convergence-threshold pool-data))
+    (amplification-coefficient (get amplification-coefficient pool-data))
+
+    ;; Scale up current pool balances and calculate d-a
+    (pool-balances-scaled (scale-up-amounts x-balance y-balance x-token-trait y-token-trait))
+    (x-balance-scaled (get x-amount pool-balances-scaled))
+    (y-balance-scaled (get y-amount pool-balances-scaled))
+    (d-a (get-d x-balance-scaled y-balance-scaled amplification-coefficient convergence-threshold))
+    
+    ;; Calculate updated pool balances
+    (updated-x-balance (- x-balance x-amount))
+    (updated-y-balance (- y-balance y-amount))
+
+    ;; Scale up updated pool balances and calculate updated-d
+    (updated-pool-balances-scaled (scale-up-amounts updated-x-balance updated-y-balance x-token-trait y-token-trait))
+    (updated-x-balance-scaled (get x-amount updated-pool-balances-scaled))
+    (updated-y-balance-scaled (get y-amount updated-pool-balances-scaled))
+    (updated-d (get-d updated-x-balance-scaled updated-y-balance-scaled amplification-coefficient convergence-threshold))
+    
+    ;; Calculate number of LP tokens to burn
+    (lp-amount (/ (* total-shares (- d-a updated-d)) d-a))
+    (caller tx-sender)
+  )
+    (begin
+      ;; Assert that correct token traits are used
+      (asserts! (is-eq (contract-of x-token-trait) x-token) ERR_INVALID_X_TOKEN)
+      (asserts! (is-eq (contract-of y-token-trait) y-token) ERR_INVALID_Y_TOKEN)
+
+      ;; Assert that x-amount + y-amount is greater than 0
+      (asserts! (> (+ x-amount y-amount) u0) ERR_INVALID_AMOUNT)
+
+      ;; Assert that lp-amount is less than or equal to max-lp-amount
+      (asserts! (<= lp-amount max-lp-amount) ERR_MAXIMUM_LP_AMOUNT)
+
+      ;; Transfer x-amount x tokens from pool-contract to caller
+      (if (> x-amount u0)
+        (try! (contract-call? pool-trait pool-transfer x-token-trait x-amount caller))
+        false
+      )
+      
+      ;; Transfer y-amount y tokens from pool-contract to caller
+      (if (> y-amount u0)
+        (try! (contract-call? pool-trait pool-transfer y-token-trait y-amount caller))
+        false
+      )
+
+      ;; Update pool balances and d value
+      (try! (contract-call? pool-trait update-pool-balances updated-x-balance updated-y-balance updated-d))
+      
+      ;; Burn LP tokens from caller
+      (try! (contract-call? pool-trait pool-burn lp-amount caller))
+      
+      ;; Print withdraw liquidity data and return number of x and y tokens caller received and number of LP tokens burnt
+      (print {
+        action: "withdraw-imbalanced-liquidity",
+        caller: caller,
+        data: {
+          pool-id: (get pool-id pool-data),
+          pool-name: (get pool-name pool-data),
+          pool-contract: (contract-of pool-trait),
+          x-token: x-token,
+          y-token: y-token,
+          x-amount: x-amount,
+          y-amount: y-amount,
+          lp-amount: lp-amount,
+          max-lp-amount: max-lp-amount
+        }
+      })
+      (ok {x-amount: x-amount, y-amount: y-amount, lp-amount: lp-amount})
     )
   )
 )
@@ -1430,12 +1545,28 @@
   (ok (map set-pool-status pool-traits statuses))
 )
 
+;; Set midpoint manager for multiple pools
+(define-public (set-midpoint-manager-multi
+    (pool-traits (list 120 <stableswap-pool-trait>))
+    (managers (list 120 principal))
+  )
+  (ok (map set-midpoint-manager pool-traits managers))
+)
+
 ;; Set fee address for multiple pools
 (define-public (set-fee-address-multi
     (pool-traits (list 120 <stableswap-pool-trait>))
     (addresses (list 120 principal))
   )
   (ok (map set-fee-address pool-traits addresses))
+)
+
+;; Set midpoint for multiple pools
+(define-public (set-midpoint-multi
+    (pool-traits (list 120 <stableswap-pool-trait>))
+    (numerators (list 120 uint)) (denominators (list 120 uint))
+  )
+  (ok (map set-midpoint pool-traits numerators denominators))
 )
 
 ;; Set x fees for multiple pools
@@ -1680,7 +1811,7 @@
   )
 )
 
-;; Calculates the midpoint offset used in liquidity functions
+;; Calculates the midpoint offset used in core functions
 (define-private (calculate-midpoint-offset (numerator uint) (denominator uint) (reversed bool))
   (if reversed
     (- denominator (/ (* denominator denominator) numerator))
