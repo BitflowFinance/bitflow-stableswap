@@ -44,8 +44,11 @@
 
 (define-data-var d uint u0)
 
-(define-data-var midpoint-numerator uint u0)
-(define-data-var midpoint-denominator uint u0)
+(define-data-var midpoint-primary-numerator uint u0)
+(define-data-var midpoint-primary-denominator uint u0)
+
+(define-data-var midpoint-withdraw-numerator uint u0)
+(define-data-var midpoint-withdraw-denominator uint u0)
 
 (define-data-var x-protocol-fee uint u0)
 (define-data-var x-provider-fee uint u0)
@@ -59,6 +62,11 @@
 (define-data-var convergence-threshold uint u2)
 
 (define-data-var imbalanced-withdraws bool false)
+
+(define-data-var last-midpoint-update uint u0)
+(define-data-var withdraw-cooldown uint u0)
+
+(define-data-var freeze-midpoint-manager bool false)
 
 ;; SIP 010 function to get token name
 (define-read-only (get-name)
@@ -109,8 +117,10 @@
     x-balance: (var-get x-balance),
     y-balance: (var-get y-balance),
     d: (var-get d),
-    midpoint-numerator: (var-get midpoint-numerator),
-    midpoint-denominator: (var-get midpoint-denominator),
+    midpoint-primary-numerator: (var-get midpoint-primary-numerator),
+    midpoint-primary-denominator: (var-get midpoint-primary-denominator),
+    midpoint-withdraw-numerator: (var-get midpoint-withdraw-numerator),
+    midpoint-withdraw-denominator: (var-get midpoint-withdraw-denominator),
     total-shares: (ft-get-supply pool-token),
     x-protocol-fee: (var-get x-protocol-fee),
     x-provider-fee: (var-get x-provider-fee),
@@ -119,7 +129,10 @@
     liquidity-fee: (var-get liquidity-fee),
     amplification-coefficient: (var-get amplification-coefficient),
     convergence-threshold: (var-get convergence-threshold),
-    imbalanced-withdraws: (var-get imbalanced-withdraws)
+    imbalanced-withdraws: (var-get imbalanced-withdraws),
+    last-midpoint-update: (var-get last-midpoint-update),
+    withdraw-cooldown: (var-get withdraw-cooldown),
+    freeze-midpoint-manager: (var-get freeze-midpoint-manager)
   })
 )
 
@@ -180,15 +193,21 @@
 )
 
 ;; Set midpoint via Stableswap Core
-(define-public (set-midpoint (numerator uint) (denominator uint))
+(define-public (set-midpoint 
+    (primary-numerator uint) (primary-denominator uint)
+    (withdraw-numerator uint) (withdraw-denominator uint)
+  )
   (let (
     (caller contract-caller)
   )
     (begin
       ;; Assert that caller is core address before setting vars
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
-      (var-set midpoint-numerator numerator)
-      (var-set midpoint-denominator denominator)
+      (var-set midpoint-primary-numerator primary-numerator)
+      (var-set midpoint-primary-denominator primary-denominator)
+      (var-set midpoint-withdraw-numerator withdraw-numerator)
+      (var-set midpoint-withdraw-denominator withdraw-denominator)
+      (var-set last-midpoint-update burn-block-height)
       (ok true)
     )
   )
@@ -275,6 +294,34 @@
       ;; Assert that caller is core address before setting var
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
       (var-set imbalanced-withdraws status)
+      (ok true)
+    )
+  )
+)
+
+;; Set withdraw cooldown via Stableswap Core
+(define-public (set-withdraw-cooldown (cooldown uint))
+  (let (
+    (caller contract-caller)
+  )
+    (begin
+      ;; Assert that caller is core address before setting var
+      (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
+      (var-set withdraw-cooldown cooldown)
+      (ok true)
+    )
+  )
+)
+
+;; Set freeze midpoint manager via Stableswap Core
+(define-public (set-freeze-midpoint-manager)
+  (let (
+    (caller contract-caller)
+  )
+    (begin
+      ;; Assert that caller is core address before setting var
+      (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
+      (var-set freeze-midpoint-manager true)
       (ok true)
     )
   )
