@@ -33,6 +33,7 @@
 (define-constant ERR_INVALID_MIN_BURNT_SHARES (err u1026))
 (define-constant ERR_INVALID_MIDPOINT_NUMERATOR (err u1027))
 (define-constant ERR_INVALID_MIDPOINT_DENOMINATOR (err u1028))
+(define-constant ERR_IMBALANCED_WITHDRAWS_DISABLED (err u1029))
 
 ;; Contract deployer address
 (define-constant CONTRACT_DEPLOYER tx-sender)
@@ -64,6 +65,9 @@
 
 ;; Data var used to enable or disable pool creation by anyone
 (define-data-var public-pool-creation bool false)
+
+;; Data var used to enable or disable imabalanced withdraws for all pools
+(define-data-var global-imbalanced-withdraws bool false)
 
 ;; Define pools map
 (define-map pools uint {
@@ -106,6 +110,11 @@
 ;; Get public pool creation status
 (define-read-only (get-public-pool-creation)
   (ok (var-get public-pool-creation))
+)
+
+;; Get global imbalanced withdraws status
+(define-read-only (get-global-imbalanced-withdraws)
+  (ok (var-get global-imbalanced-withdraws))
 )
 
 ;; Get DY
@@ -401,9 +410,28 @@
 
       ;; Set public-pool-creation to status
       (var-set public-pool-creation status)
-      
+
       ;; Print function data and return true
       (print {action: "set-public-pool-creation", caller: caller, data: {status: status}})
+      (ok true)
+    )
+  )
+)
+
+;; Enable or disable global imbalanced withdraws
+(define-public (set-global-imbalanced-withdraws (status bool))
+  (let (
+    (caller tx-sender)
+  )
+    (begin
+      ;; Assert caller is an admin
+      (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+
+      ;; Set global-imbalanced-withdraws to status
+      (var-set global-imbalanced-withdraws status)
+
+      ;; Print function data and return true
+      (print {action: "set-global-imbalanced-withdraws", caller: caller, data: {status: status}})
       (ok true)
     )
   )
@@ -755,6 +783,38 @@
   )
 )
 
+;; Set imbalanced withdraws for a pool
+(define-public (set-imbalanced-withdraws (pool-trait <stableswap-pool-trait>) (status bool))
+  (let (
+    ;; Gather all pool data
+    (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (caller tx-sender)
+  )
+    (begin
+      ;; Assert caller is an admin and pool is created and valid
+      (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
+      (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
+      
+      ;; Set imbalanced withdraws for pool
+      (try! (contract-call? pool-trait set-imbalanced-withdraws status))
+      
+      ;; Print function data and return true
+      (print {
+        action: "set-imbalanced-withdraws",
+        caller: caller,
+        data: {
+          pool-id: (get pool-id pool-data),
+          pool-name: (get pool-name pool-data),
+          pool-contract: (contract-of pool-trait),
+          status: status
+        }
+      })
+      (ok true)
+    )
+  )
+)
+
 ;; Create a new pool
 (define-public (create-pool 
     (pool-trait <stableswap-pool-trait>)
@@ -764,8 +824,8 @@
     (x-protocol-fee uint) (x-provider-fee uint)
     (y-protocol-fee uint) (y-provider-fee uint)
     (liquidity-fee uint)
-    (amplification-coefficient uint)
-    (convergence-threshold uint)
+    (amplification-coefficient uint) (convergence-threshold uint)
+    (imbalanced-withdraws bool)
     (fee-address principal)
     (uri (string-utf8 256)) (status bool)
   )
@@ -843,12 +903,13 @@
       (asserts! (< (+ y-protocol-fee y-provider-fee) BPS) ERR_INVALID_FEE)
       (asserts! (< liquidity-fee BPS) ERR_INVALID_FEE)
 
-      ;; Create pool, set midpoint, and set fees
+      ;; Create pool, set midpoint, set fees, and set imbalanced withdraws
       (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract CONTRACT_DEPLOYER fee-address caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))
       (try! (contract-call? pool-trait set-midpoint midpoint-numerator midpoint-denominator))
       (try! (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee))
       (try! (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee))
       (try! (contract-call? pool-trait set-liquidity-fee liquidity-fee))
+      (try! (contract-call? pool-trait set-imbalanced-withdraws imbalanced-withdraws))
       
       ;; Update ID of last created pool and add pool to pools map
       (var-set last-pool-id new-pool-id)
@@ -896,7 +957,8 @@
           midpoint-manager: CONTRACT_DEPLOYER,
           fee-address: fee-address,
           amplification-coefficient: amplification-coefficient,
-          convergence-threshold: convergence-threshold
+          convergence-threshold: convergence-threshold,
+          imbalanced-withdraws: imbalanced-withdraws
         }
       })
       (ok true)
@@ -1403,12 +1465,13 @@
 (define-public (withdraw-imbalanced-liquidity
     (pool-trait <stableswap-pool-trait>)
     (x-token-trait <sip-010-trait>) (y-token-trait <sip-010-trait>)
-    (x-amount uint) (y-amount uint) (max-lp-amount uint)
+    (x-amount uint) (y-amount uint) (max-dlp uint)
   )
   (let (
-    ;; Gather all pool data and check if pool is valid
+    ;; Gather all pool data, check if pool is valid, and check if imbalanced withdraws are enabled
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
     (pool-validity-check (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL))
+    (imbalanced-withdraws-check (asserts! (and (var-get global-imbalanced-withdraws) (get imbalanced-withdraws pool-data)) ERR_IMBALANCED_WITHDRAWS_DISABLED))
     (x-token (get x-token pool-data))
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
@@ -1423,6 +1486,10 @@
     (y-balance-scaled (get y-amount pool-balances-scaled))
     (d-a (get-d x-balance-scaled y-balance-scaled amplification-coefficient convergence-threshold))
     
+    ;; Assert that x-amount and y-amount are less than or equal to x-balance and y-balance
+    (x-amount-check (asserts! (<= x-amount x-balance) ERR_INVALID_AMOUNT))
+    (y-amount-check (asserts! (<= y-amount y-balance) ERR_INVALID_AMOUNT))
+
     ;; Calculate updated pool balances
     (updated-x-balance (- x-balance x-amount))
     (updated-y-balance (- y-balance y-amount))
@@ -1432,9 +1499,9 @@
     (updated-x-balance-scaled (get x-amount updated-pool-balances-scaled))
     (updated-y-balance-scaled (get y-amount updated-pool-balances-scaled))
     (updated-d (get-d updated-x-balance-scaled updated-y-balance-scaled amplification-coefficient convergence-threshold))
-    
+
     ;; Calculate number of LP tokens to burn
-    (lp-amount (/ (* total-shares (- d-a updated-d)) d-a))
+    (dlp (/ (* total-shares (- d-a updated-d)) d-a))
     (caller tx-sender)
   )
     (begin
@@ -1445,8 +1512,9 @@
       ;; Assert that x-amount + y-amount is greater than 0
       (asserts! (> (+ x-amount y-amount) u0) ERR_INVALID_AMOUNT)
 
-      ;; Assert that lp-amount is less than or equal to max-lp-amount
-      (asserts! (<= lp-amount max-lp-amount) ERR_MAXIMUM_LP_AMOUNT)
+      ;; Assert that max-dlp is greater than 0 and dlp is less than or equal to max-dlp
+      (asserts! (> max-dlp u0) ERR_INVALID_AMOUNT)
+      (asserts! (<= dlp max-dlp) ERR_MAXIMUM_LP_AMOUNT)
 
       ;; Transfer x-amount x tokens from pool-contract to caller
       (if (> x-amount u0)
@@ -1464,7 +1532,7 @@
       (try! (contract-call? pool-trait update-pool-balances updated-x-balance updated-y-balance updated-d))
       
       ;; Burn LP tokens from caller
-      (try! (contract-call? pool-trait pool-burn lp-amount caller))
+      (try! (contract-call? pool-trait pool-burn dlp caller))
       
       ;; Print withdraw liquidity data and return number of x and y tokens caller received and number of LP tokens burnt
       (print {
@@ -1478,11 +1546,11 @@
           y-token: y-token,
           x-amount: x-amount,
           y-amount: y-amount,
-          lp-amount: lp-amount,
-          max-lp-amount: max-lp-amount
+          dlp: dlp,
+          max-dlp: max-dlp
         }
       })
-      (ok {x-amount: x-amount, y-amount: y-amount, lp-amount: lp-amount})
+      (ok {x-amount: x-amount, y-amount: y-amount, dlp: dlp})
     )
   )
 )
@@ -1607,6 +1675,14 @@
     (thresholds (list 120 uint))
   )
   (ok (map set-convergence-threshold pool-traits thresholds))
+)
+
+;; Set imbalanced withdraws for multiple pools
+(define-public (set-imbalanced-withdraws-multi
+    (pool-traits (list 120 <stableswap-pool-trait>))
+    (statuses (list 120 bool))
+  )
+  (ok (map set-imbalanced-withdraws pool-traits statuses))
 )
 
 ;; Helper function for removing an admin
