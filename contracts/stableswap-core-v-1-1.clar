@@ -34,6 +34,8 @@
 (define-constant ERR_INVALID_MIDPOINT_NUMERATOR (err u1027))
 (define-constant ERR_INVALID_MIDPOINT_DENOMINATOR (err u1028))
 (define-constant ERR_IMBALANCED_WITHDRAWS_DISABLED (err u1029))
+(define-constant ERR_WITHDRAW_COOLDOWN (err u1030))
+(define-constant ERR_MIDPOINT_MANAGER_FROZEN (err u1031))
 
 ;; Contract deployer address
 (define-constant CONTRACT_DEPLOYER tx-sender)
@@ -131,8 +133,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-numerator pool-data))
-    (midpoint-denominator (get midpoint-denominator pool-data))
+    (midpoint-numerator (get midpoint-primary-numerator pool-data))
+    (midpoint-denominator (get midpoint-primary-denominator pool-data))
     (protocol-fee (get x-protocol-fee pool-data))
     (provider-fee (get x-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -185,8 +187,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-numerator pool-data))
-    (midpoint-denominator (get midpoint-denominator pool-data))
+    (midpoint-numerator (get midpoint-primary-numerator pool-data))
+    (midpoint-denominator (get midpoint-primary-denominator pool-data))
     (protocol-fee (get y-protocol-fee pool-data))
     (provider-fee (get y-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -239,8 +241,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-numerator pool-data))
-    (midpoint-denominator (get midpoint-denominator pool-data))
+    (midpoint-numerator (get midpoint-primary-numerator pool-data))
+    (midpoint-denominator (get midpoint-primary-denominator pool-data))
     (total-shares (get total-shares pool-data))
     (liquidity-fee (get liquidity-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -300,21 +302,6 @@
     (updated-balance-y-post-fee-offset-scaled (if midpoint-offset-reversed (/ (* updated-balance-y-post-fee-scaled midpoint-offset-value) midpoint-scale-value) u0))
     (updated-balance-y-post-fee-and-offset-scaled (- updated-balance-y-post-fee-scaled updated-balance-y-post-fee-offset-scaled))
     (updated-d (get-d updated-balance-x-post-fee-and-offset-scaled updated-balance-y-post-fee-and-offset-scaled amplification-coefficient convergence-threshold))
-
-    ;; Scale down for precise token balance updates
-    (amounts-added (scale-down-amounts updated-x-amount-scaled updated-y-amount-scaled x-token-trait y-token-trait))
-    (updated-x-amount (get x-amount amounts-added))
-    (updated-y-amount (get y-amount amounts-added))
-
-    ;; Calculate offset x-amount
-    (x-amount-offset-scaled (if midpoint-offset-reversed u0 (/ (* updated-x-amount-scaled midpoint-offset-value) midpoint-scale-value)))
-    (x-amount-post-offset-scaled (- updated-x-amount-scaled x-amount-offset-scaled))
-    (x-balance-post-offset-and-fees-scaled (+ x-balance-scaled x-amount-post-offset-scaled))
-
-    ;; Calculate offset y-amount
-    (y-amount-offset-scaled (if midpoint-offset-reversed (/ (* updated-y-amount-scaled midpoint-offset-value) midpoint-scale-value) u0))
-    (y-amount-post-offset-scaled (- updated-y-amount-scaled y-amount-offset-scaled))
-    (y-balance-post-offset-and-fees-scaled (+ y-balance-scaled y-amount-post-offset-scaled))
 
     ;; Check that updated-d is greater than d-a and calculate dlp
     (minimum-d-check (asserts! (> updated-d d-a) ERR_MINIMUM_D_VALUE))
@@ -509,6 +496,7 @@
   (let (
     ;; Gather all pool data
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (freeze-midpoint-manager (get freeze-midpoint-manager pool-data))
     (caller tx-sender)
   )
     (begin
@@ -517,8 +505,11 @@
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       
+      ;; Assert that midpoint manager is not frozen
+      (asserts! (not freeze-midpoint-manager) ERR_MIDPOINT_MANAGER_FROZEN)
+
       ;; Assert that address is standard principal
-      (asserts! (is-standard manager) ERR_INVALID_PRINCIPAL)
+      (asserts! (is-standard manager) ERR_INVALID_PRINCIPAL) 
       
       ;; Set midpoint manager for pool
       (try! (contract-call? pool-trait set-midpoint-manager manager))
@@ -575,11 +566,16 @@
 )
 
 ;; Set midpoint for a pool
-(define-public (set-midpoint (pool-trait <stableswap-pool-trait>) (numerator uint) (denominator uint))
+(define-public (set-midpoint
+    (pool-trait <stableswap-pool-trait>)
+    (primary-numerator uint) (primary-denominator uint)
+    (withdraw-numerator uint) (withdraw-denominator uint)
+  )
   (let (
     ;; Gather all pool data and check if pool is valid
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
     (midpoint-manager (get midpoint-manager pool-data))
+    (freeze-midpoint-manager (get freeze-midpoint-manager pool-data))
     (caller tx-sender)
   )
     (begin
@@ -588,12 +584,19 @@
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
 
-      ;; Assert that numerator and denominator are greater than 0
-      (asserts! (> numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
-      (asserts! (> denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
+      ;; Assert that caller is midpoint manager if midpoint manager is frozen
+      (asserts! (or (is-eq midpoint-manager caller) (not freeze-midpoint-manager)) ERR_NOT_AUTHORIZED)
+
+      ;; Assert that primary-numerator and primary-denominator are greater than 0
+      (asserts! (> primary-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> primary-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
+
+      ;; Assert that withdraw-numerator and withdraw-denominator are greater than 0
+      (asserts! (> withdraw-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> withdraw-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
 
       ;; Set midpoint for pool
-      (try! (contract-call? pool-trait set-midpoint numerator denominator))
+      (try! (contract-call? pool-trait set-midpoint primary-numerator primary-denominator withdraw-numerator withdraw-denominator))
       
       ;; Print function data and return true
       (print {
@@ -603,8 +606,10 @@
           pool-id: (get pool-id pool-data),
           pool-name: (get pool-name pool-data),
           pool-contract: (contract-of pool-trait),
-          numerator: numerator,
-          denominator: denominator,
+          primary-numerator: primary-numerator,
+          primary-denominator: primary-denominator,
+          withdraw-numerator: withdraw-numerator,
+          withdraw-denominator: withdraw-denominator
         }
       })
       (ok true)
@@ -815,17 +820,81 @@
   )
 )
 
+;; Set withdraw cooldown for a pool
+(define-public (set-withdraw-cooldown (pool-trait <stableswap-pool-trait>) (cooldown uint))
+  (let (
+    ;; Gather all pool data
+    (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (caller tx-sender)
+  )
+    (begin
+      ;; Assert caller is an admin and pool is created and valid
+      (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
+      (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
+      
+      ;; Set withdraw cooldown for pool
+      (try! (contract-call? pool-trait set-withdraw-cooldown cooldown))
+      
+      ;; Print function data and return true
+      (print {
+        action: "set-withdraw-cooldown",
+        caller: caller,
+        data: {
+          pool-id: (get pool-id pool-data),
+          pool-name: (get pool-name pool-data),
+          pool-contract: (contract-of pool-trait),
+          cooldown: cooldown
+        }
+      })
+      (ok true)
+    )
+  )
+)
+
+;; Set freeze midpoint manager for a pool
+(define-public (set-freeze-midpoint-manager (pool-trait <stableswap-pool-trait>))
+  (let (
+    ;; Gather all pool data
+    (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (caller tx-sender)
+  )
+    (begin
+      ;; Assert caller is an admin and pool is created and valid
+      (asserts! (is-some (index-of (var-get admins) caller)) ERR_NOT_AUTHORIZED)
+      (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
+      (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
+      
+      ;; Set freeze midpoint manager for pool
+      (try! (contract-call? pool-trait set-freeze-midpoint-manager))
+      
+      ;; Print function data and return true
+      (print {
+        action: "set-freeze-midpoint-manager",
+        caller: caller,
+        data: {
+          pool-id: (get pool-id pool-data),
+          pool-name: (get pool-name pool-data),
+          pool-contract: (contract-of pool-trait)
+        }
+      })
+      (ok true)
+    )
+  )
+)
+
 ;; Create a new pool
 (define-public (create-pool 
     (pool-trait <stableswap-pool-trait>)
     (x-token-trait <sip-010-trait>) (y-token-trait <sip-010-trait>)
     (x-amount uint) (y-amount uint) (burn-amount uint)
-    (midpoint-numerator uint) (midpoint-denominator uint)
+    (midpoint-primary-numerator uint) (midpoint-primary-denominator uint)
+    (midpoint-withdraw-numerator uint) (midpoint-withdraw-denominator uint)
     (x-protocol-fee uint) (x-provider-fee uint)
     (y-protocol-fee uint) (y-provider-fee uint)
     (liquidity-fee uint)
     (amplification-coefficient uint) (convergence-threshold uint)
-    (imbalanced-withdraws bool)
+    (imbalanced-withdraws bool) (withdraw-cooldown uint) (freeze-midpoint-manager bool)
     (fee-address principal)
     (uri (string-utf8 256)) (status bool)
   )
@@ -847,9 +916,9 @@
     (y-balance-scaled (get y-amount pool-balances-scaled))
 
     ;; Calculate midpoint offset and scale values
-    (midpoint-offset-reversed (> midpoint-numerator midpoint-denominator))
-    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator midpoint-offset-reversed))
-    (midpoint-scale-value (if midpoint-offset-reversed midpoint-denominator midpoint-numerator))
+    (midpoint-offset-reversed (> midpoint-primary-numerator midpoint-primary-denominator))
+    (midpoint-offset-value (calculate-midpoint-offset midpoint-primary-numerator midpoint-primary-denominator midpoint-offset-reversed))
+    (midpoint-scale-value (if midpoint-offset-reversed midpoint-primary-denominator midpoint-primary-numerator))
 
     ;; Calculate offset initial pool balances
     (x-balance-offset-scaled (if midpoint-offset-reversed u0 (/ (* x-balance-scaled midpoint-offset-value) midpoint-scale-value)))
@@ -894,22 +963,30 @@
       (asserts! (> (len symbol) u0) ERR_INVALID_POOL_SYMBOL)
       (asserts! (> (len name) u0) ERR_INVALID_POOL_NAME)
 
-      ;; Assert that midpoint-numerator and midpoint-denominator are greater than 0
-      (asserts! (> midpoint-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
-      (asserts! (> midpoint-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
+      ;; Assert that midpoint-primary-numerator and midpoint-primary-denominator are greater than 0
+      (asserts! (> midpoint-primary-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> midpoint-primary-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
+
+      ;; Assert that midpoint-withdraw-numerator and midpoint-withdraw-denominator are greater than 0
+      (asserts! (> midpoint-withdraw-numerator u0) ERR_INVALID_MIDPOINT_NUMERATOR)
+      (asserts! (> midpoint-withdraw-denominator u0) ERR_INVALID_MIDPOINT_DENOMINATOR)
 
       ;; Assert that fees are less than maximum BPS
       (asserts! (< (+ x-protocol-fee x-provider-fee) BPS) ERR_INVALID_FEE)
       (asserts! (< (+ y-protocol-fee y-provider-fee) BPS) ERR_INVALID_FEE)
       (asserts! (< liquidity-fee BPS) ERR_INVALID_FEE)
 
-      ;; Create pool, set midpoint, set fees, and set imbalanced withdraws
+      ;; Create pool, set midpoint, set fees, set imbalanced withdraws, and set withdraw cooldown
       (try! (contract-call? pool-trait create-pool x-token-contract y-token-contract CONTRACT_DEPLOYER fee-address caller amplification-coefficient convergence-threshold new-pool-id name symbol uri status))
-      (try! (contract-call? pool-trait set-midpoint midpoint-numerator midpoint-denominator))
+      (try! (contract-call? pool-trait set-midpoint midpoint-primary-numerator midpoint-primary-denominator midpoint-withdraw-numerator midpoint-withdraw-denominator))
       (try! (contract-call? pool-trait set-x-fees x-protocol-fee x-provider-fee))
       (try! (contract-call? pool-trait set-y-fees y-protocol-fee y-provider-fee))
       (try! (contract-call? pool-trait set-liquidity-fee liquidity-fee))
       (try! (contract-call? pool-trait set-imbalanced-withdraws imbalanced-withdraws))
+      (try! (contract-call? pool-trait set-withdraw-cooldown withdraw-cooldown))
+
+      ;; Freeze midpoint manager if freeze-midpoint-manager is true
+      (if freeze-midpoint-manager (try! (contract-call? pool-trait set-freeze-midpoint-manager)) false)
       
       ;; Update ID of last created pool and add pool to pools map
       (var-set last-pool-id new-pool-id)
@@ -946,8 +1023,10 @@
           x-amount: x-amount,
           y-amount: y-amount,
           burn-amount: burn-amount,
-          midpoint-numerator: midpoint-numerator,
-          midpoint-denominator: midpoint-denominator,
+          midpoint-primary-numerator: midpoint-primary-numerator,
+          midpoint-primary-denominator: midpoint-primary-denominator,
+          midpoint-withdraw-numerator: midpoint-withdraw-numerator,
+          midpoint-withdraw-denominator: midpoint-withdraw-denominator,
           midpoint-offset-value: midpoint-offset-value,
           total-shares: total-shares,
           pool-symbol: symbol,
@@ -958,7 +1037,9 @@
           fee-address: fee-address,
           amplification-coefficient: amplification-coefficient,
           convergence-threshold: convergence-threshold,
-          imbalanced-withdraws: imbalanced-withdraws
+          imbalanced-withdraws: imbalanced-withdraws,
+          withdraw-cooldown: withdraw-cooldown,
+          freeze-midpoint-manager: freeze-midpoint-manager
         }
       })
       (ok true)
@@ -982,8 +1063,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-numerator pool-data))
-    (midpoint-denominator (get midpoint-denominator pool-data))
+    (midpoint-numerator (get midpoint-primary-numerator pool-data))
+    (midpoint-denominator (get midpoint-primary-denominator pool-data))
     (protocol-fee (get x-protocol-fee pool-data))
     (provider-fee (get x-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -1096,8 +1177,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-numerator pool-data))
-    (midpoint-denominator (get midpoint-denominator pool-data))
+    (midpoint-numerator (get midpoint-primary-numerator pool-data))
+    (midpoint-denominator (get midpoint-primary-denominator pool-data))
     (protocol-fee (get y-protocol-fee pool-data))
     (provider-fee (get y-provider-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -1210,8 +1291,8 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
-    (midpoint-numerator (get midpoint-numerator pool-data))
-    (midpoint-denominator (get midpoint-denominator pool-data))
+    (midpoint-numerator (get midpoint-primary-numerator pool-data))
+    (midpoint-denominator (get midpoint-primary-denominator pool-data))
     (total-shares (get total-shares pool-data))
     (liquidity-fee (get liquidity-fee pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
@@ -1283,16 +1364,6 @@
     (updated-x-balance-post-fee (get x-amount updated-pool-balances-post-fee))
     (updated-y-balance-post-fee (get y-amount updated-pool-balances-post-fee))
 
-    ;; Calculate offset x-amount
-    (x-amount-offset-scaled (if midpoint-offset-reversed u0 (/ (* updated-x-amount-scaled midpoint-offset-value) midpoint-scale-value)))
-    (x-amount-post-offset-scaled (- updated-x-amount-scaled x-amount-offset-scaled))
-    (x-balance-post-offset-and-fees-scaled (+ x-balance-scaled x-amount-post-offset-scaled))
-
-    ;; Calculate offset y-amount
-    (y-amount-offset-scaled (if midpoint-offset-reversed (/ (* updated-y-amount-scaled midpoint-offset-value) midpoint-scale-value) u0))
-    (y-amount-post-offset-scaled (- updated-y-amount-scaled y-amount-offset-scaled))
-    (y-balance-post-offset-and-fees-scaled (+ y-balance-scaled y-amount-post-offset-scaled))
-
     ;; Check that updated-d is greater than d-a and calculate dlp
     (minimum-d-check (asserts! (> updated-d d-a) ERR_MINIMUM_D_VALUE))
     (dlp (/ (* total-shares (- updated-d d-a)) d-a))
@@ -1358,10 +1429,6 @@
           midpoint-numerator: midpoint-numerator,
           midpoint-denominator: midpoint-denominator,
           midpoint-offset-value: midpoint-offset-value,
-          x-amount-offset-scaled: x-amount-offset-scaled,
-          x-amount-post-offset-scaled: x-amount-post-offset-scaled,
-          y-amount-offset-scaled: y-amount-offset-scaled,
-          y-amount-post-offset-scaled: y-amount-post-offset-scaled,
           dlp: dlp,
           min-dlp: min-dlp
         }
@@ -1385,13 +1452,28 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
+    (midpoint-numerator (get midpoint-withdraw-numerator pool-data))
+    (midpoint-denominator (get midpoint-withdraw-denominator pool-data))
     (total-shares (get total-shares pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
     (amplification-coefficient (get amplification-coefficient pool-data))
+    (last-midpoint-update (get last-midpoint-update pool-data))
+    (withdraw-cooldown (get withdraw-cooldown pool-data))
+
+    ;; Calculate midpoint offset and scale values
+    (midpoint-offset-reversed (> midpoint-numerator midpoint-denominator))
+    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator midpoint-offset-reversed))
+    (midpoint-scale-value (if midpoint-offset-reversed midpoint-denominator midpoint-numerator))
+
+    ;; Calculate offset pool balances
+    (x-balance-offset (if midpoint-offset-reversed u0 (/ (* x-balance midpoint-offset-value) midpoint-scale-value)))
+    (x-balance-post-offset (- x-balance x-balance-offset))
+    (y-balance-offset (if midpoint-offset-reversed (/ (* y-balance midpoint-offset-value) midpoint-scale-value) u0))
+    (y-balance-post-offset (- y-balance y-balance-offset))
 
     ;; Calculate x and y amounts
-    (x-amount (/ (* amount x-balance) total-shares))
-    (y-amount (/ (* amount y-balance) total-shares))
+    (x-amount (/ (* amount x-balance-post-offset) total-shares))
+    (y-amount (/ (* amount y-balance-post-offset) total-shares))
 
     ;; Calculate updated pool balances
     (updated-x-balance (- x-balance x-amount))
@@ -1420,6 +1502,9 @@
 
       ;; Assert that y-amount is greater than or equal to min-y-amount
       (asserts! (>= y-amount min-y-amount) ERR_MINIMUM_Y_AMOUNT)
+
+      ;; Assert that withdraw cooldown period has passed
+      (asserts! (>= burn-block-height (+ last-midpoint-update withdraw-cooldown)) ERR_WITHDRAW_COOLDOWN)
 
       ;; Transfer x-amount x tokens from pool-contract to caller
       (if (> x-amount u0)
@@ -1453,7 +1538,10 @@
           x-amount: x-amount,
           y-amount: y-amount,
           min-x-amount: min-x-amount,
-          min-y-amount: min-y-amount
+          min-y-amount: min-y-amount,
+          midpoint-numerator: midpoint-numerator,
+          midpoint-denominator: midpoint-denominator,
+          midpoint-offset-value: midpoint-offset-value
         }
       })
       (ok {x-amount: x-amount, y-amount: y-amount})
@@ -1476,19 +1564,44 @@
     (y-token (get y-token pool-data))
     (x-balance (get x-balance pool-data))
     (y-balance (get y-balance pool-data))
+    (midpoint-numerator (get midpoint-withdraw-numerator pool-data))
+    (midpoint-denominator (get midpoint-withdraw-denominator pool-data))
     (total-shares (get total-shares pool-data))
     (convergence-threshold (get convergence-threshold pool-data))
     (amplification-coefficient (get amplification-coefficient pool-data))
+    (last-midpoint-update (get last-midpoint-update pool-data))
+    (withdraw-cooldown (get withdraw-cooldown pool-data))
+
+    ;; Calculate midpoint offset and scale values
+    (midpoint-offset-reversed (> midpoint-numerator midpoint-denominator))
+    (midpoint-offset-value (calculate-midpoint-offset midpoint-numerator midpoint-denominator midpoint-offset-reversed))
+    (midpoint-scale-value (if midpoint-offset-reversed midpoint-denominator midpoint-numerator))
+
+    ;; Calculate offset pool balances
+    (x-balance-offset (if midpoint-offset-reversed u0 (/ (* x-balance midpoint-offset-value) midpoint-scale-value)))
+    (x-balance-post-offset (- x-balance x-balance-offset))
+    (y-balance-offset (if midpoint-offset-reversed (/ (* y-balance midpoint-offset-value) midpoint-scale-value) u0))
+    (y-balance-post-offset (- y-balance y-balance-offset))
 
     ;; Scale up current pool balances and calculate d-a
-    (pool-balances-scaled (scale-up-amounts x-balance y-balance x-token-trait y-token-trait))
-    (x-balance-scaled (get x-amount pool-balances-scaled))
-    (y-balance-scaled (get y-amount pool-balances-scaled))
-    (d-a (get-d x-balance-scaled y-balance-scaled amplification-coefficient convergence-threshold))
+    (pool-balances-post-offset-scaled (scale-up-amounts x-balance-post-offset y-balance-post-offset x-token-trait y-token-trait))
+    (x-balance-post-offset-scaled (get x-amount pool-balances-post-offset-scaled))
+    (y-balance-post-offset-scaled (get y-amount pool-balances-post-offset-scaled))
+    (d-a (get-d x-balance-post-offset-scaled y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
     
-    ;; Assert that x-amount and y-amount are less than or equal to x-balance and y-balance
-    (x-amount-check (asserts! (<= x-amount x-balance) ERR_INVALID_AMOUNT))
-    (y-amount-check (asserts! (<= y-amount y-balance) ERR_INVALID_AMOUNT))
+    ;; Assert that x-amount and y-amount are less than or equal to x-balance-post-offset and y-balance-post-offset
+    (x-amount-check (asserts! (<= x-amount x-balance-post-offset) ERR_INVALID_AMOUNT))
+    (y-amount-check (asserts! (<= y-amount y-balance-post-offset) ERR_INVALID_AMOUNT))
+
+    ;; Calculate updated offset pool balances
+    (updated-x-balance-post-offset (- x-balance-post-offset x-amount))
+    (updated-y-balance-post-offset (- y-balance-post-offset y-amount))
+
+    ;; Scale up updated offset pool balances and calculate d-b
+    (updated-pool-balances-post-offset-scaled (scale-up-amounts updated-x-balance-post-offset updated-y-balance-post-offset x-token-trait y-token-trait))
+    (updated-x-balance-post-offset-scaled (get x-amount updated-pool-balances-post-offset-scaled))
+    (updated-y-balance-post-offset-scaled (get y-amount updated-pool-balances-post-offset-scaled))
+    (d-b (get-d updated-x-balance-post-offset-scaled updated-y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
 
     ;; Calculate updated pool balances
     (updated-x-balance (- x-balance x-amount))
@@ -1500,8 +1613,9 @@
     (updated-y-balance-scaled (get y-amount updated-pool-balances-scaled))
     (updated-d (get-d updated-x-balance-scaled updated-y-balance-scaled amplification-coefficient convergence-threshold))
 
-    ;; Calculate number of LP tokens to burn
-    (dlp (/ (* total-shares (- d-a updated-d)) d-a))
+    ;; Check that d-a is greater than d-b and calculate number of LP tokens to burn
+    (minimum-d-check (asserts! (> d-a d-b) ERR_MINIMUM_D_VALUE))
+    (dlp (/ (* total-shares (- d-a d-b)) d-a))
     (caller tx-sender)
   )
     (begin
@@ -1515,6 +1629,12 @@
       ;; Assert that max-dlp is greater than 0 and dlp is less than or equal to max-dlp
       (asserts! (> max-dlp u0) ERR_INVALID_AMOUNT)
       (asserts! (<= dlp max-dlp) ERR_MAXIMUM_LP_AMOUNT)
+
+      ;; Assert that dlp is less than or equal to total-shares
+      (asserts! (<= dlp total-shares) ERR_INVALID_AMOUNT)
+
+      ;; Assert that withdraw cooldown period has passed
+      (asserts! (>= burn-block-height (+ last-midpoint-update withdraw-cooldown)) ERR_WITHDRAW_COOLDOWN)
 
       ;; Transfer x-amount x tokens from pool-contract to caller
       (if (> x-amount u0)
@@ -1547,7 +1667,10 @@
           x-amount: x-amount,
           y-amount: y-amount,
           dlp: dlp,
-          max-dlp: max-dlp
+          max-dlp: max-dlp,
+          midpoint-numerator: midpoint-numerator,
+          midpoint-denominator: midpoint-denominator,
+          midpoint-offset-value: midpoint-offset-value
         }
       })
       (ok {x-amount: x-amount, y-amount: y-amount, dlp: dlp})
@@ -1632,9 +1755,10 @@
 ;; Set midpoint for multiple pools
 (define-public (set-midpoint-multi
     (pool-traits (list 120 <stableswap-pool-trait>))
-    (numerators (list 120 uint)) (denominators (list 120 uint))
+    (primary-numerators (list 120 uint)) (primary-denominators (list 120 uint))
+    (withdraw-numerators (list 120 uint)) (withdraw-denominators (list 120 uint))
   )
-  (ok (map set-midpoint pool-traits numerators denominators))
+  (ok (map set-midpoint pool-traits primary-numerators primary-denominators withdraw-numerators withdraw-denominators))
 )
 
 ;; Set x fees for multiple pools
@@ -1683,6 +1807,21 @@
     (statuses (list 120 bool))
   )
   (ok (map set-imbalanced-withdraws pool-traits statuses))
+)
+
+;; Set withdraw cooldown for multiple pools
+(define-public (set-withdraw-cooldown-multi
+    (pool-traits (list 120 <stableswap-pool-trait>))
+    (cooldowns (list 120 uint))
+  )
+  (ok (map set-withdraw-cooldown pool-traits cooldowns))
+)
+
+;; Set freeze midpoint manager for multiple pools
+(define-public (set-freeze-midpoint-manager-multi
+    (pool-traits (list 120 <stableswap-pool-trait>))
+  )
+  (ok (map set-freeze-midpoint-manager pool-traits))
 )
 
 ;; Helper function for removing an admin
