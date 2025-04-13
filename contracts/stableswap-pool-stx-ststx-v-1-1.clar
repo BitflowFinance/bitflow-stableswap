@@ -58,6 +58,8 @@
 (define-data-var amplification-coefficient uint u0)
 (define-data-var convergence-threshold uint u2)
 
+(define-data-var imbalanced-withdraws bool false)
+
 ;; SIP 010 function to get token name
 (define-read-only (get-name)
   (ok (var-get pool-name))
@@ -116,7 +118,8 @@
     y-provider-fee: (var-get y-provider-fee),
     liquidity-fee: (var-get liquidity-fee),
     amplification-coefficient: (var-get amplification-coefficient),
-    convergence-threshold: (var-get convergence-threshold)
+    convergence-threshold: (var-get convergence-threshold),
+    imbalanced-withdraws: (var-get imbalanced-withdraws)
   })
 )
 
@@ -258,6 +261,20 @@
       ;; Assert that caller is core address before setting var
       (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
       (var-set convergence-threshold threshold)
+      (ok true)
+    )
+  )
+)
+
+;; Set imbalanced withdraws via Stableswap Core
+(define-public (set-imbalanced-withdraws (status bool))
+  (let (
+    (caller contract-caller)
+  )
+    (begin
+      ;; Assert that caller is core address before setting var
+      (asserts! (is-eq caller CORE_ADDRESS) ERR_NOT_AUTHORIZED)
+      (var-set imbalanced-withdraws status)
       (ok true)
     )
   )
