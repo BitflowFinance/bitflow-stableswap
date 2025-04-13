@@ -925,7 +925,7 @@
       ;; Mint LP tokens to caller 
       (try! (contract-call? pool-trait pool-mint (- total-shares burn-amount) caller))
       
-      ;; Mint burn amount LP token to pool-contract
+      ;; Mint burn amount LP tokens to pool-contract
       (try! (contract-call? pool-trait pool-mint burn-amount pool-contract))
       
       ;; Print create pool data and return true
