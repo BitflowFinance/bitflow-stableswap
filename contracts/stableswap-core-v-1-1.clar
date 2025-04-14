@@ -1589,9 +1589,9 @@
     (y-balance-post-offset-scaled (get y-amount pool-balances-post-offset-scaled))
     (d-a (get-d x-balance-post-offset-scaled y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
     
-    ;; Assert that x-amount and y-amount are less than or equal to x-balance-post-offset and y-balance-post-offset
-    (x-amount-check (asserts! (<= x-amount x-balance-post-offset) ERR_INVALID_AMOUNT))
-    (y-amount-check (asserts! (<= y-amount y-balance-post-offset) ERR_INVALID_AMOUNT))
+    ;; Assert that x-amount and y-amount are less than x-balance-post-offset and y-balance-post-offset
+    (x-amount-check (asserts! (< x-amount x-balance-post-offset) ERR_INVALID_AMOUNT))
+    (y-amount-check (asserts! (< y-amount y-balance-post-offset) ERR_INVALID_AMOUNT))
 
     ;; Calculate updated offset pool balances
     (updated-x-balance-post-offset (- x-balance-post-offset x-amount))
@@ -1630,8 +1630,8 @@
       (asserts! (> max-dlp u0) ERR_INVALID_AMOUNT)
       (asserts! (<= dlp max-dlp) ERR_MAXIMUM_LP_AMOUNT)
 
-      ;; Assert that dlp is less than or equal to total-shares
-      (asserts! (<= dlp total-shares) ERR_INVALID_AMOUNT)
+      ;; Assert that dlp is less than total-shares
+      (asserts! (< dlp total-shares) ERR_INVALID_AMOUNT)
 
       ;; Assert that withdraw cooldown period has passed
       (asserts! (>= burn-block-height (+ last-midpoint-update withdraw-cooldown)) ERR_WITHDRAW_COOLDOWN)
