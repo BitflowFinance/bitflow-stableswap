@@ -1483,11 +1483,17 @@
     (updated-x-balance (- x-balance x-amount))
     (updated-y-balance (- y-balance y-amount))
 
-    ;; Scale up balances and calculate updated-d
-    (updated-pool-balances-scaled (scale-up-amounts updated-x-balance updated-y-balance x-token-trait y-token-trait))
-    (updated-x-balance-scaled (get x-amount updated-pool-balances-scaled))
-    (updated-y-balance-scaled (get y-amount updated-pool-balances-scaled))
-    (updated-d (get-d updated-x-balance-scaled updated-y-balance-scaled amplification-coefficient convergence-threshold))
+    ;; Calculate offset pool balances and then get d
+    (updated-x-balance-offset (if midpoint-offset-reversed u0 (/ (* updated-x-balance midpoint-offset-value) midpoint-scale-value)))
+    (updated-x-balance-post-offset (- updated-x-balance updated-x-balance-offset))
+    (updated-y-balance-offset (if midpoint-offset-reversed (/ (* updated-y-balance midpoint-offset-value) midpoint-scale-value) u0))
+    (updated-y-balance-post-offset (- updated-y-balance updated-y-balance-offset))
+
+    ;; Scale up updated offset pool balances and calculate updated-d
+    (updated-pool-balances-post-offset-scaled (scale-up-amounts updated-x-balance-post-offset updated-y-balance-post-offset x-token-trait y-token-trait))
+    (updated-x-balance-post-offset-scaled (get x-amount updated-pool-balances-post-offset-scaled))
+    (updated-y-balance-post-offset-scaled (get y-amount updated-pool-balances-post-offset-scaled))
+    (updated-d (get-d updated-x-balance-post-offset-scaled updated-y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
     (caller tx-sender)
   )
     (begin
@@ -1601,25 +1607,19 @@
     (updated-x-balance-post-offset (- x-balance-post-offset x-amount))
     (updated-y-balance-post-offset (- y-balance-post-offset y-amount))
 
-    ;; Scale up updated offset pool balances and calculate d-b
+    ;; Scale up updated offset pool balances and calculate updated-d
     (updated-pool-balances-post-offset-scaled (scale-up-amounts updated-x-balance-post-offset updated-y-balance-post-offset x-token-trait y-token-trait))
     (updated-x-balance-post-offset-scaled (get x-amount updated-pool-balances-post-offset-scaled))
     (updated-y-balance-post-offset-scaled (get y-amount updated-pool-balances-post-offset-scaled))
-    (d-b (get-d updated-x-balance-post-offset-scaled updated-y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
+    (updated-d (get-d updated-x-balance-post-offset-scaled updated-y-balance-post-offset-scaled amplification-coefficient convergence-threshold))
 
     ;; Calculate updated pool balances
     (updated-x-balance (- x-balance x-amount))
     (updated-y-balance (- y-balance y-amount))
 
-    ;; Scale up updated pool balances and calculate updated-d
-    (updated-pool-balances-scaled (scale-up-amounts updated-x-balance updated-y-balance x-token-trait y-token-trait))
-    (updated-x-balance-scaled (get x-amount updated-pool-balances-scaled))
-    (updated-y-balance-scaled (get y-amount updated-pool-balances-scaled))
-    (updated-d (get-d updated-x-balance-scaled updated-y-balance-scaled amplification-coefficient convergence-threshold))
-
-    ;; Check that d-a is greater than d-b and calculate number of LP tokens to burn
-    (minimum-d-check (asserts! (> d-a d-b) ERR_MINIMUM_D_VALUE))
-    (dlp (/ (* total-shares (- d-a d-b)) d-a))
+    ;; Check that d-a is greater than updated-d and calculate number of LP tokens to burn
+    (minimum-d-check (asserts! (> d-a updated-d) ERR_MINIMUM_D_VALUE))
+    (dlp (/ (* total-shares (- d-a updated-d)) d-a))
     (caller tx-sender)
   )
     (begin
