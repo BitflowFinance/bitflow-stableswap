@@ -1687,7 +1687,7 @@
         false
       )
       
-      ;; Transferu updated-y-amount y tokens from pool contract to caller
+      ;; Transfer updated-y-amount y tokens from pool contract to caller
       (if (> updated-y-amount u0)
         (try! (contract-call? pool-trait pool-transfer y-token-trait updated-y-amount caller))
         false
