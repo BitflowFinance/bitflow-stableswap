@@ -1635,8 +1635,8 @@
     (ideal-y-amount-fee-liquidity-scaled (/ (* y-difference liquidity-fee) BPS))
     (x-amount-fee-liquidity-scaled (if (> x-amount-scaled ideal-x-amount-fee-liquidity-scaled) ideal-x-amount-fee-liquidity-scaled x-amount-scaled))
     (y-amount-fee-liquidity-scaled (if (> y-amount-scaled ideal-y-amount-fee-liquidity-scaled) ideal-y-amount-fee-liquidity-scaled y-amount-scaled))
-    (updated-x-amount-scaled (- x-amount x-amount-fee-liquidity-scaled))
-    (updated-y-amount-scaled (- y-amount y-amount-fee-liquidity-scaled))
+    (updated-x-amount-scaled (- x-amount-scaled x-amount-fee-liquidity-scaled))
+    (updated-y-amount-scaled (- y-amount-scaled y-amount-fee-liquidity-scaled))
     (updated-balance-x-post-fee-scaled (- x-balance-scaled updated-x-amount-scaled))
     (updated-balance-y-post-fee-scaled (- y-balance-scaled updated-y-amount-scaled))
 
