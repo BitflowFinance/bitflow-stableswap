@@ -857,6 +857,7 @@
   (let (
     ;; Gather all pool data
     (pool-data (unwrap! (contract-call? pool-trait get-pool) ERR_NO_POOL_DATA))
+    (freeze-midpoint-manager (get freeze-midpoint-manager pool-data))
     (caller tx-sender)
   )
     (begin
@@ -865,6 +866,9 @@
       (asserts! (is-valid-pool (get pool-id pool-data) (contract-of pool-trait)) ERR_INVALID_POOL)
       (asserts! (is-eq (get pool-created pool-data) true) ERR_POOL_NOT_CREATED)
       
+      ;; Assert that midpoint manager is not frozen
+      (asserts! (not freeze-midpoint-manager) ERR_MIDPOINT_MANAGER_FROZEN)
+
       ;; Set freeze midpoint manager for pool
       (try! (contract-call? pool-trait set-freeze-midpoint-manager))
       
