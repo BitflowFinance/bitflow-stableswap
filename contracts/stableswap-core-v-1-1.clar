@@ -68,7 +68,7 @@
 ;; Data var used to enable or disable pool creation by anyone
 (define-data-var public-pool-creation bool false)
 
-;; Data var used to enable or disable imabalanced withdraws for all pools
+;; Data var used to enable or disable imbalanced withdraws for all pools
 (define-data-var global-imbalanced-withdraws bool false)
 
 ;; Define pools map
