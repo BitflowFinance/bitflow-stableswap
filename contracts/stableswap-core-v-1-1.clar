@@ -1533,7 +1533,7 @@
       (asserts! (>= y-amount min-y-amount) ERR_MINIMUM_Y_AMOUNT)
 
       ;; Assert that withdraw cooldown period has passed
-      (asserts! (>= block-height (+ last-midpoint-update withdraw-cooldown)) ERR_WITHDRAW_COOLDOWN)
+      (asserts! (>= stacks-block-height (+ last-midpoint-update withdraw-cooldown)) ERR_WITHDRAW_COOLDOWN)
 
       ;; Transfer x-amount x tokens from pool contract to caller
       (if (> x-amount u0)
@@ -1696,7 +1696,7 @@
       (asserts! (< dlp total-shares) ERR_INVALID_AMOUNT)
 
       ;; Assert that withdraw cooldown period has passed
-      (asserts! (>= block-height (+ last-midpoint-update withdraw-cooldown)) ERR_WITHDRAW_COOLDOWN)
+      (asserts! (>= stacks-block-height (+ last-midpoint-update withdraw-cooldown)) ERR_WITHDRAW_COOLDOWN)
 
       ;; Transfer updated-x-amount x tokens from pool contract to caller
       (if (> updated-x-amount u0)

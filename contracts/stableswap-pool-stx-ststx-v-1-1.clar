@@ -207,7 +207,7 @@
       (var-set midpoint-primary-denominator primary-denominator)
       (var-set midpoint-withdraw-numerator withdraw-numerator)
       (var-set midpoint-withdraw-denominator withdraw-denominator)
-      (var-set last-midpoint-update block-height)
+      (var-set last-midpoint-update stacks-block-height)
       (ok true)
     )
   )
