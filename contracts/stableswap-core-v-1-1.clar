@@ -1740,7 +1740,7 @@
           midpoint-offset-value: midpoint-offset-value
         }
       })
-      (ok {x-amount: updated-x-amount-scaled, y-amount: updated-y-amount-scaled, dlp: dlp})
+      (ok {x-amount: updated-x-amount, y-amount: updated-y-amount, dlp: dlp})
     )
   )
 )
