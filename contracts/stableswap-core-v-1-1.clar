@@ -1599,9 +1599,9 @@
     (updated-y-balance (- y-balance y-amount))
 
     ;; Scale up for AMM calculations depending on decimal places assigned to tokens
-    (amounts-added-scaled (scale-up-amounts x-amount y-amount x-token-trait y-token-trait))
-    (x-amount-scaled (get x-amount amounts-added-scaled))
-    (y-amount-scaled (get y-amount amounts-added-scaled))
+    (amounts-withdrawn-scaled (scale-up-amounts x-amount y-amount x-token-trait y-token-trait))
+    (x-amount-scaled (get x-amount amounts-withdrawn-scaled))
+    (y-amount-scaled (get y-amount amounts-withdrawn-scaled))
     (pool-balances-scaled (scale-up-amounts x-balance y-balance x-token-trait y-token-trait))
     (x-balance-scaled (get x-amount pool-balances-scaled))
     (y-balance-scaled (get y-amount pool-balances-scaled))
