@@ -1645,8 +1645,8 @@
     (y-amount-fee-liquidity-scaled (if (> y-amount-scaled ideal-y-amount-fee-liquidity-scaled) ideal-y-amount-fee-liquidity-scaled y-amount-scaled))
     (updated-x-amount-scaled (- x-amount-scaled x-amount-fee-liquidity-scaled))
     (updated-y-amount-scaled (- y-amount-scaled y-amount-fee-liquidity-scaled))
-    (updated-balance-x-post-fee-scaled (- x-balance-scaled updated-x-amount-scaled))
-    (updated-balance-y-post-fee-scaled (- y-balance-scaled updated-y-amount-scaled))
+    (updated-balance-x-post-fee-scaled (- x-balance-scaled x-amount-scaled))
+    (updated-balance-y-post-fee-scaled (- y-balance-scaled y-amount-scaled))
 
     ;; Calculate offset pool balances post fees and then get d
     (updated-balance-x-post-fee-offset-scaled (if midpoint-offset-reversed u0 (/ (* updated-balance-x-post-fee-scaled midpoint-offset-value) midpoint-scale-value)))
