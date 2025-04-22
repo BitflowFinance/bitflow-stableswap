@@ -315,6 +315,10 @@
     ;; Assert that x-amount + y-amount is greater than 0
     (asserts! (> (+ x-amount y-amount) u0) ERR_INVALID_AMOUNT)
     
+    ;; Assert that x-amount and y-amount are less than x10 of x-balance and y-balance
+    (asserts! (< x-amount (* x-balance MAX_AMOUNT_PER_BALANCE_MULTIPLIER)) ERR_INVALID_AMOUNT)
+    (asserts! (< y-amount (* y-balance MAX_AMOUNT_PER_BALANCE_MULTIPLIER)) ERR_INVALID_AMOUNT)
+
     ;; Return number of LP tokens caller would receive
     (ok dlp)
   )
@@ -1384,7 +1388,7 @@
       ;; Assert that x-amount + y-amount is greater than 0
       (asserts! (> (+ x-amount y-amount) u0) ERR_INVALID_AMOUNT)
 
-      ;; Assert that x-amount and y-amount is less than x10 of x-balance and y-balance
+      ;; Assert that x-amount and y-amount are less than x10 of x-balance and y-balance
       (asserts! (< x-amount (* x-balance MAX_AMOUNT_PER_BALANCE_MULTIPLIER)) ERR_INVALID_AMOUNT)
       (asserts! (< y-amount (* y-balance MAX_AMOUNT_PER_BALANCE_MULTIPLIER)) ERR_INVALID_AMOUNT)
 
