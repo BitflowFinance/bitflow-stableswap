@@ -36,6 +36,7 @@
 (define-constant ERR_IMBALANCED_WITHDRAWS_DISABLED (err u1029))
 (define-constant ERR_WITHDRAW_COOLDOWN (err u1030))
 (define-constant ERR_MIDPOINT_MANAGER_FROZEN (err u1031))
+(define-constant ERR_UNEQUAL_POOL_BALANCES (err u1032))
 
 ;; Contract deployer address
 (define-constant CONTRACT_DEPLOYER tx-sender)
@@ -956,6 +957,14 @@
       
       ;; Assert that x and y amount is greater than 0
       (asserts! (and (> x-amount u0) (> y-amount u0)) ERR_INVALID_AMOUNT)
+
+      ;; Assert that balances are equal if midpoint is not used
+      (if (and
+            (is-eq midpoint-primary-numerator midpoint-primary-denominator)
+            (is-eq midpoint-withdraw-numerator midpoint-withdraw-denominator))
+        (asserts! (is-eq x-balance-scaled y-balance-scaled) ERR_UNEQUAL_POOL_BALANCES)
+        false
+      )
 
       ;; Assert that total shares minted meets minimum total shares required
       (asserts! (>= total-shares (var-get minimum-total-shares)) ERR_MINIMUM_LP_AMOUNT)
