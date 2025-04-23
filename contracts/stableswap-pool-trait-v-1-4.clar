@@ -1,4 +1,4 @@
-;; stableswap-pool-trait-v-1-1
+;; stableswap-pool-trait-v-1-4
 
 ;; Use SIP 010 trait
 (use-trait sip-010-trait .sip-010-trait-ft-standard-v-1-1.sip-010-trait)

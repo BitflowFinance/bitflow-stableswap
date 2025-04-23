@@ -1,4 +1,4 @@
-;; stableswap-staking-stx-ststx-v-1-1
+;; stableswap-staking-stx-ststx-v-1-4
 
 (define-constant ERR_NOT_AUTHORIZED (err u4001))
 (define-constant ERR_INVALID_AMOUNT (err u4002))
@@ -491,7 +491,7 @@
 (define-private (transfer-lp-token (amount uint) (sender principal) (recipient principal))
   (let (
     (call-a (unwrap! (contract-call?
-                     .stableswap-pool-stx-ststx-v-1-1 transfer
+                     .stableswap-pool-stx-ststx-v-1-4 transfer
                      amount sender recipient none) ERR_TOKEN_TRANSFER_FAILED))
   )
     (ok call-a)

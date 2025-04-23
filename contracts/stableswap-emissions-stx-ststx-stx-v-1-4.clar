@@ -1,4 +1,4 @@
-;; stableswap-emissions-stx-ststx-stx-v-1-1
+;; stableswap-emissions-stx-ststx-stx-v-1-4
 
 (define-constant ERR_NOT_AUTHORIZED (err u2001))
 (define-constant ERR_INVALID_AMOUNT (err u2002))
@@ -335,7 +335,7 @@
 (define-private (get-external-user-data (user principal) (cycle uint))
   (let (
     (call-a (unwrap! (contract-call?
-                     .stableswap-staking-stx-ststx-v-1-1 get-user-at-cycle
+                     .stableswap-staking-stx-ststx-v-1-4 get-user-at-cycle
                      user cycle) ERR_NO_EXTERNAL_USER_DATA))
   )
     (ok call-a)
@@ -345,7 +345,7 @@
 (define-private (get-external-cycle-data (cycle uint))
   (let (
     (call-a (unwrap! (contract-call?
-                     .stableswap-staking-stx-ststx-v-1-1 get-lp-staked-at-cycle
+                     .stableswap-staking-stx-ststx-v-1-4 get-lp-staked-at-cycle
                      cycle) ERR_NO_EXTERNAL_CYCLE_DATA))
   )
     (ok call-a)

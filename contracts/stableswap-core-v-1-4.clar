@@ -1,7 +1,7 @@
-;; stableswap-core-v-1-1
+;; stableswap-core-v-1-4
 
 ;; Use Stableswap pool trait and SIP 010 trait
-(use-trait stableswap-pool-trait .stableswap-pool-trait-v-1-1.stableswap-pool-trait)
+(use-trait stableswap-pool-trait .stableswap-pool-trait-v-1-4.stableswap-pool-trait)
 (use-trait sip-010-trait .sip-010-trait-ft-standard-v-1-1.sip-010-trait)
 
 ;; Error constants

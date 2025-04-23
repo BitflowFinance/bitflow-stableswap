@@ -1,7 +1,7 @@
-;; stableswap-pool-stx-ststx-v-1-1
+;; stableswap-pool-stx-ststx-v-1-4
 
 ;; Implement Stableswap pool trait and use SIP 010 trait
-(impl-trait .stableswap-pool-trait-v-1-1.stableswap-pool-trait)
+(impl-trait .stableswap-pool-trait-v-1-4.stableswap-pool-trait)
 (use-trait sip-010-trait .sip-010-trait-ft-standard-v-1-1.sip-010-trait)
 
 ;; Define fungible pool token
@@ -18,7 +18,7 @@
 (define-constant ERR_NOT_POOL_CONTRACT_DEPLOYER (err u3006))
 
 ;; Stableswap Core address and contract deployer address
-(define-constant CORE_ADDRESS .stableswap-core-v-1-1)
+(define-constant CORE_ADDRESS .stableswap-core-v-1-4)
 (define-constant CONTRACT_DEPLOYER tx-sender)
 
 ;; Define all pool data vars
