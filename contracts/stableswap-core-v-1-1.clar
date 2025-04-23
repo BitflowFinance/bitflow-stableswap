@@ -1677,7 +1677,7 @@
 
     ;; Check that d-a is greater than updated-d and calculate number of LP tokens to burn
     (minimum-d-check (asserts! (> d-a updated-d) ERR_MINIMUM_D_VALUE))
-    (dlp (/ (* total-shares (- d-a updated-d)) d-a))
+    (dlp (/ (+ (* total-shares (- d-a updated-d)) (- d-a u1)) d-a))
     (caller tx-sender)
   )
     (begin
