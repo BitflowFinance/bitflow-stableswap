@@ -7,43 +7,43 @@ cache_dir = "./.cache"
 
 [contracts.sip-010-trait-ft-standard-v-1-1]
 path = "contracts/sip-010-trait-ft-standard-v-1-1.clar"
-clarity_version = 2
-epoch = "2.1"
+clarity_version = 3
+epoch = "3"
 
 [contracts.stableswap-pool-trait-v-1-1]
 path = "contracts/stableswap-pool-trait-v-1-1.clar"
-clarity_version = 2
-epoch = "2.1"
+clarity_version = 3
+epoch = "3"
 
 [contracts.stableswap-core-v-1-1]
 path = "contracts/stableswap-core-v-1-1.clar"
-clarity_version = 2
-epoch = "2.1"
+clarity_version = 3
+epoch = "3"
 
 [contracts.stableswap-pool-stx-ststx-v-1-1]
 path = "contracts/stableswap-pool-stx-ststx-v-1-1.clar"
-clarity_version = 2
-epoch = "2.1"
+clarity_version = 3
+epoch = "3"
 
 [contracts.stableswap-staking-stx-ststx-v-1-1]
 path = "contracts/stableswap-staking-stx-ststx-v-1-1.clar"
-clarity_version = 2
-epoch = "2.1"
+clarity_version = 3
+epoch = "3"
 
 [contracts.stableswap-emissions-stx-ststx-stx-v-1-1]
 path = "contracts/stableswap-emissions-stx-ststx-stx-v-1-1.clar"
-clarity_version = 2
-epoch = "2.1"
+clarity_version = 3
+epoch = "3"
 
 [contracts.token-stx-v-1-1]
 path = "contracts/token-stx-v-1-1.clar"
-clarity_version = 2
-epoch = "2.1"
+clarity_version = 3
+epoch = "3"
 
 [contracts.token-ststx]
 path = "contracts/external/token-ststx.clar"
-clarity_version = 2
-epoch = "2.1"
+clarity_version = 3
+epoch = "3"
 
 [repl.analysis]
 passes = ["check_checker"]

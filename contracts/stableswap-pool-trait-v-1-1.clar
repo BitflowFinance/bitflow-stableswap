@@ -40,7 +40,11 @@
       y-provider-fee: uint,
       liquidity-fee: uint,
       amplification-coefficient: uint,
-      convergence-threshold: uint
+      convergence-threshold: uint,
+      imbalanced-withdraws: bool,
+      last-midpoint-update: uint,
+      withdraw-cooldown: uint,
+      freeze-midpoint-manager: bool
     } uint))
     (set-pool-uri ((string-utf8 256)) (response bool uint))
     (set-pool-status (bool) (response bool uint))
@@ -52,6 +56,9 @@
     (set-liquidity-fee (uint) (response bool uint))
     (set-amplification-coefficient (uint) (response bool uint))
     (set-convergence-threshold (uint) (response bool uint))
+    (set-imbalanced-withdraws (bool) (response bool uint))
+    (set-withdraw-cooldown (uint) (response bool uint))
+    (set-freeze-midpoint-manager () (response bool uint))
     (update-pool-balances (uint uint uint) (response bool uint))
     (transfer (uint principal principal (optional (buff 34))) (response bool uint))
     (pool-transfer (<sip-010-trait> uint principal) (response bool uint))
